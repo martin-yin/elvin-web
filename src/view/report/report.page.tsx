@@ -1,68 +1,193 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 
-import { Card, Row, Col, Table, Space, Tag, Tooltip } from 'antd'
-import { Bar } from '@ant-design/charts'
+import { Card, Table, Space, Tag, Tooltip } from 'antd'
 import './index.less'
 import { webPageReportData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 
-interface BarData {
-  data: Array<Bar>
-}
-
-interface Bar {
-  name?: string
-  value: number | string
-  type: string
-}
-
-const DemoBar: React.FC<BarData> = ({ data }) => {
-  // const data =
-  const config = {
-    data: data,
-    height: 140,
-    isStack: true,
-    autoFit: true,
-    xField: 'value',
-    yField: 'name',
-    padding: [10, 60, 60, 60],
-    seriesField: 'type',
-    tooltip: {
-      formatter: (datum: any) => {
-        return { name: datum.type, value: `${datum.value}ms` }
-      }
-    },
-    yAxis: {
-      label: null,
-      line: null
-    },
-    xAxis: {
-      grid: {
-        line: {
-          style: {
-            stroke: '#c0c0c0',
-            lineDash: [2, 2]
-          }
-        }
-      },
-      label: {
-        autoHide: true,
-        autoRotate: false,
-        formatter: (value: string) => {
-          return value + 'ms'
-        }
-      }
-    },
-    legend: {
-      position: 'bottom'
-    }
-  }
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  return <Bar {...config} />
-}
+import * as echarts from 'echarts'
 
 const ReportPage: FC = () => {
+  const renderStackBarChart = (stack: any) => {
+    const stackBar = document.getElementById('stackBar')
+    const myChart = echarts.init(stackBar as any)
+
+    const option = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      legend: {
+        data: [
+          '重定向耗时(redirect)',
+          '缓存查询耗时(appcache)',
+          'DNS查询耗时(lookup_domain)',
+          'TCP耗时(tcp)',
+          '首字节(TTFB)',
+          '请求耗时(request)',
+          'dom处理耗时(dom_parse)',
+          'dom事件(load_event)'
+        ]
+      },
+      xAxis: {
+        type: 'value'
+      },
+      height: '70px',
+      yAxis: {
+        type: 'category',
+        data: ['']
+      },
+      series: [
+        {
+          name: '重定向耗时(redirect)',
+          type: 'bar',
+          stack: 'total',
+          data: [stack.redirect]
+        },
+        {
+          name: '缓存查询耗时(appcache)',
+          type: 'bar',
+          stack: 'total',
+          data: [stack.appcache]
+        },
+        {
+          name: 'DNS查询耗时(lookup_domain)',
+          type: 'bar',
+          stack: 'total',
+          data: [stack.lookup_domain]
+        },
+        {
+          name: 'TCP耗时(tcp)',
+          type: 'bar',
+          stack: 'total',
+          data: [stack.tcp]
+        },
+        {
+          name: '首字节(TTFB)',
+          type: 'bar',
+          stack: 'total',
+          data: [stack.ttfb]
+        },
+        {
+          name: '请求耗时(request)',
+          type: 'bar',
+          stack: 'total',
+          data: [stack.request]
+        },
+        {
+          name: 'dom处理耗时(dom_parse)',
+          type: 'bar',
+          stack: 'total',
+          data: [stack.dom_parse]
+        },
+        {
+          name: 'dom事件(load_event)',
+          type: 'bar',
+          stack: 'total',
+          data: [stack.load_event]
+        }
+      ]
+    }
+    myChart.setOption(option)
+  }
+
+  const renderStageTimeChart = (stage_time: any) => {
+    const stageTime = document.getElementById('stageTime')
+    const myChart = echarts.init(stageTime as any)
+    const option = {
+      title: {
+        text: ''
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      legend: {
+        data: ['采样pv', '首字节', '请求耗时', 'SSL连接', '页面加载']
+      },
+      xAxis: {
+        data: stage_time.map(function (item: any) {
+          console.log(item.time_key)
+          return item.time_key
+        })
+      },
+      yAxis: [
+        {
+          type: 'value',
+          name: '',
+          position: 'left',
+          axisLabel: {
+            formatter: '{value} ms'
+          }
+        },
+        {
+          type: 'value',
+          name: '采样pv',
+          min: 0
+        }
+      ],
+      toolbox: {
+        right: 10,
+        feature: {
+          dataZoom: {
+            yAxisIndex: 'none'
+          },
+          restore: {},
+          saveAsImage: {}
+        }
+      },
+      dataZoom: [
+        // {
+        //   startValue: '2011-04-30',
+        //   endValue: '2011-05-10'
+        // },
+        {
+          type: 'inside'
+        }
+      ],
+      series: [
+        {
+          name: '采样pv',
+          type: 'bar',
+          data: stage_time.map(function (item: any) {
+            return item.pv
+          }),
+          yAxisIndex: 1
+        },
+        {
+          name: '首字节',
+          type: 'line',
+          data: stage_time.map(function (item: any) {
+            return item.ttfb
+          })
+        },
+        {
+          name: '请求耗时',
+          type: 'line',
+          data: stage_time.map(function (item: any) {
+            return item.request
+          })
+        },
+        {
+          name: 'SSL连接',
+          type: 'line',
+          data: stage_time.map(function (item: any) {
+            return item.ssl_t
+          })
+        },
+        {
+          name: '页面加载',
+          type: 'line',
+          data: stage_time.map(function (item: any) {
+            return item.load_page
+          })
+        }
+      ]
+    }
+    myChart.setOption(option)
+  }
+
   const [data, setData] = useState({
     quota: {
       ttfb: 0,
@@ -82,12 +207,15 @@ const ReportPage: FC = () => {
       load_page: 0,
       load_event: 0
     },
-    load_page_info_list: []
+    load_page_info_list: [],
+    stage_time: []
   })
 
   const initData = useCallback(async () => {
     const result = await webPageReportData()
     setData(result.data)
+    renderStackBarChart(result.data.stack)
+    renderStageTimeChart(result.data.stage_time)
   }, [])
 
   useEffect(() => {
@@ -193,9 +321,14 @@ const ReportPage: FC = () => {
             <div className="text-title">2s 快开占比</div>
           </div>
         </Card>
+
         <Card style={{ margin: '20px 0px' }}>
-          <p>各阶段耗时</p>
-          <DemoBar
+          <div id="stageTime" style={{ height: 400 }}></div>
+        </Card>
+        <Card style={{ margin: '20px 0px' }}>
+          <div id="stackBar" style={{ height: 150 }}></div>
+
+          {/* <DemoBar
             data={[
               {
                 name: '性能',
@@ -238,7 +371,7 @@ const ReportPage: FC = () => {
                 type: '重定向耗时(redirect)'
               }
             ]}
-          />
+          /> */}
         </Card>
         <Card>
           <Table dataSource={data.load_page_info_list} columns={columns} />
