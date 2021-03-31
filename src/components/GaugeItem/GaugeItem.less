@@ -1,0 +1,57 @@
+.ant-collapse {
+  background-color: #fff !important;
+  border: none;
+  font-size: #333 !important;
+}
+
+.collapse-title {
+  font-size: 16px;
+  margin: 20px 20px 20px 20px;
+  position: relative;
+  &:first-child {
+    margin-top: 0px;
+  }
+}
+
+.collapse-title-passed::after,
+.collapse-title-failed::after,
+.collapse-title-warring::after {
+  content: ' ';
+  width: 4px;
+  height: 14px;
+  position: absolute;
+  top: 6px;
+  left: -10px;
+}
+
+.collapse-title-passed::after {
+  background: #32cd32;
+}
+
+.collapse-title-failed::after {
+  background: #ff4d4f;
+}
+
+.collapse-title-warring::after {
+  background: #ffa500;
+}
+
+table {
+  margin-top: 20px;
+  img {
+    width: 48px;
+    height: 48px;
+  }
+  thead {
+    tr {
+      height: 40px;
+      line-height: 40px;
+    }
+  }
+  tbody {
+    tr {
+      height: 60px;
+      line-height: 60px;
+    }
+  }
+}
