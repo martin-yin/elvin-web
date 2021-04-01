@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 
 import { Card, Table, Space, Tag, Tooltip } from 'antd'
 import './index.less'
@@ -6,18 +6,17 @@ import { webPageReportData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 
 import * as echarts from 'echarts'
+import 'echarts/theme/macarons'
 
 const ReportPage: FC = () => {
   const renderStackBarChart = (stack: any) => {
     const stackBar = document.getElementById('stackBar')
-    const myChart = echarts.init(stackBar as any)
+    const myChart = echarts.init(stackBar as any, 'macarons')
 
-    const option = {
+    const option: any = {
       tooltip: {
         trigger: 'axis',
-        axisPointer: {
-          type: 'shadow'
-        }
+        backgroundColor: '#fff'
       },
       legend: {
         data: [
@@ -95,16 +94,30 @@ const ReportPage: FC = () => {
 
   const renderStageTimeChart = (stage_time: any) => {
     const stageTime = document.getElementById('stageTime')
-    const myChart = echarts.init(stageTime as any)
-    const option = {
+    const myChart = echarts.init(stageTime as any, 'macarons')
+    const option: any = {
       title: {
         text: ''
       },
+
       tooltip: {
-        trigger: 'axis'
+        trigger: 'axis',
+        backgroundColor: '#fff'
       },
       legend: {
-        data: ['采样pv', '首字节', '请求耗时', 'SSL连接', '页面加载']
+        data: [
+          '采样pv',
+          '重定向',
+          '缓存查询耗时',
+          'DNS查询耗时',
+          'TCP耗时',
+          'SSL连接耗时',
+          '首字节',
+          '请求耗时',
+          'DOM处理',
+          'Event耗时',
+          '完全加载'
+        ]
       },
       xAxis: {
         data: stage_time.map(function (item: any) {
@@ -127,21 +140,10 @@ const ReportPage: FC = () => {
           min: 0
         }
       ],
-      toolbox: {
-        right: 10,
-        feature: {
-          dataZoom: {
-            yAxisIndex: 'none'
-          },
-          restore: {},
-          saveAsImage: {}
-        }
-      },
       dataZoom: [
-        // {
-        //   startValue: '2011-04-30',
-        //   endValue: '2011-05-10'
-        // },
+        {
+          startValue: '18:00'
+        },
         {
           type: 'inside'
         }
@@ -154,6 +156,41 @@ const ReportPage: FC = () => {
             return item.pv
           }),
           yAxisIndex: 1
+        },
+        {
+          name: '重定向',
+          type: 'line',
+          data: stage_time.map(function (item: any) {
+            return item.redirect
+          })
+        },
+        {
+          name: 'DNS查询耗时',
+          type: 'line',
+          data: stage_time.map(function (item: any) {
+            return item.lookup_domain
+          })
+        },
+        {
+          name: '缓存查询耗时',
+          type: 'line',
+          data: stage_time.map(function (item: any) {
+            return item.appcache
+          })
+        },
+        {
+          name: 'TCP耗时',
+          type: 'line',
+          data: stage_time.map(function (item: any) {
+            return item.tcp
+          })
+        },
+        {
+          name: 'SSL连接耗时',
+          type: 'line',
+          data: stage_time.map(function (item: any) {
+            return item.ssl_t
+          })
         },
         {
           name: '首字节',
@@ -170,14 +207,21 @@ const ReportPage: FC = () => {
           })
         },
         {
-          name: 'SSL连接',
+          name: 'DOM处理',
           type: 'line',
           data: stage_time.map(function (item: any) {
-            return item.ssl_t
+            return item.dom_parse
           })
         },
         {
-          name: '页面加载',
+          name: 'Event耗时',
+          type: 'line',
+          data: stage_time.map(function (item: any) {
+            return item.load_event
+          })
+        },
+        {
+          name: '完全加载',
           type: 'line',
           data: stage_time.map(function (item: any) {
             return item.load_page
@@ -224,12 +268,7 @@ const ReportPage: FC = () => {
 
   const columns = [
     {
-      title: 'id',
-      dataIndex: 'id',
-      key: 'id'
-    },
-    {
-      title: 'page_url',
+      title: '页面url',
       dataIndex: 'page_url',
       key: 'page_url'
     },
