@@ -43,11 +43,10 @@ function App() {
                 <Link to="/">性能</Link>
               </span>
               <span className="menu-right menu-short">
-                <Dropdown overlay={menu}>
-                  <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                    错误 <DownOutlined />
-                  </a>
-                </Dropdown>
+                <Link to="/http">APi请求</Link>
+              </span>
+              <span className="menu-right menu-short">
+                <Link to="/error">资源错误</Link>
               </span>
             </div>
           </Header>

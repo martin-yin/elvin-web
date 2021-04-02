@@ -1,17 +1,16 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Table, Space, Tag, Tooltip } from 'antd'
+import { Card, Table, Space, Tooltip } from 'antd'
 import './index.less'
 import { webPageHttpData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
-import Item from 'antd/lib/list/Item'
 
 const HttpPage: FC = () => {
   const [data, setData] = useState({
     http_quota: {
-      error_user: 1,
-      load_time: 8,
-      request_total: 26,
-      success_rate: '57.69%'
+      error_user: 0,
+      load_time: 0,
+      success_total: 1611,
+      total: 1611
     },
     http_info_list: []
   })
@@ -27,14 +26,15 @@ const HttpPage: FC = () => {
 
   const columns = [
     {
-      title: 'request_url',
-      dataIndex: 'request_url',
-      key: 'request_url'
+      title: 'http_url',
+      dataIndex: 'http_url',
+      key: 'http_url'
     },
     {
       title: '成功率',
       dataIndex: 'success_rate',
-      key: 'success_rate'
+      key: 'success_rate',
+      render: (text: string, record: any) => <>{(record.success_total / record.total) * 100}%</>
     },
     {
       title: 'load_time',
@@ -43,9 +43,9 @@ const HttpPage: FC = () => {
       render: (text: string) => <span>{text}ms</span>
     },
     {
-      title: 'request_total',
-      dataIndex: 'request_total',
-      key: 'request_total'
+      title: 'total',
+      dataIndex: 'total',
+      key: 'total'
     },
     {
       title: '操作',
@@ -69,14 +69,14 @@ const HttpPage: FC = () => {
           </p>
           <div className="item">
             <div>
-              <span className="item-label">{data.http_quota.error_user} </span>ms
+              <span className="item-label">{data.http_quota.total} </span>ms
             </div>
 
             <div className="text-title">请求次数</div>
           </div>
           <div className="item">
             <div>
-              <span className="item-label">{data.http_quota.success_rate} </span>ms
+              <span className="item-label">{(data.http_quota.success_total / data.http_quota.total) * 100} %</span>ms
             </div>
             <div className="text-title">成功率</div>
           </div>

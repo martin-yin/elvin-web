@@ -95,11 +95,13 @@ const ReportPage: FC = () => {
   const renderStageTimeChart = (stage_time: any) => {
     const stageTime = document.getElementById('stageTime')
     const myChart = echarts.init(stageTime as any, 'macarons')
+    const dateTime = new Date()
+    const startTime = ('0' + (dateTime.getHours() - 1)).slice(-2) + ':00'
+
     const option: any = {
       title: {
         text: ''
       },
-
       tooltip: {
         trigger: 'axis',
         backgroundColor: '#fff'
@@ -121,7 +123,6 @@ const ReportPage: FC = () => {
       },
       xAxis: {
         data: stage_time.map(function (item: any) {
-          console.log(item.time_key)
           return item.time_key
         })
       },
@@ -142,7 +143,7 @@ const ReportPage: FC = () => {
       ],
       dataZoom: [
         {
-          startValue: '18:00'
+          startValue: startTime
         },
         {
           type: 'inside'
