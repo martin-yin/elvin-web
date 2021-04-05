@@ -1,6 +1,5 @@
 import React from 'react'
-import { Layout, Menu, Tabs, Dropdown } from 'antd'
-import { DownOutlined } from '@ant-design/icons'
+import { Layout, Menu } from 'antd'
 import { HashRouter as Router, Switch, Route, Redirect, Link } from 'react-router-dom'
 
 const { Header, Content } = Layout
@@ -9,6 +8,8 @@ import './index.less'
 import ReportPage from './view/report/report.page'
 import HttpPage from './view/report/http.page'
 import ErrorPage from './view/report/error.page'
+import UserBehaviorsPage from './view/report/use.behavior.page'
+import UserBehaviorDetailPage from './view/report/use.behavior.detail.page'
 
 const menu = (
   <Menu>
@@ -24,7 +25,9 @@ const menu = (
 const Routers = [
   { path: '/', name: 'ReportPage', component: ReportPage },
   { path: '/http', name: 'HttpPage', component: HttpPage },
-  { path: '/error', name: 'ErrorPage', component: ErrorPage }
+  { path: '/error', name: 'ErrorPage', component: ErrorPage },
+  { path: '/user-behaviors', name: 'UserPage', component: UserBehaviorsPage },
+  { path: '/user-behavior-detail', name: 'UserBehaviorDetailPage', component: UserBehaviorDetailPage }
 ]
 
 function App() {
@@ -38,7 +41,9 @@ function App() {
               <span className="menu-right menu-short">
                 <Link to="/">首页</Link>
               </span>
-              <span className="menu-right menu-short">用户</span>
+              <span className="menu-right menu-short">
+                <Link to="/user-behaviors">用户</Link>
+              </span>
               <span className="menu-right menu-short">
                 <Link to="/">性能</Link>
               </span>
