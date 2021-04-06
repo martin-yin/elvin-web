@@ -5,11 +5,12 @@ import { HashRouter as Router, Switch, Route, Redirect, Link } from 'react-route
 const { Header, Content } = Layout
 import './index.less'
 
-import ReportPage from './view/report/report.page'
+import PerformancePage from './view/report/performance.page'
 import HttpPage from './view/report/http.page'
 import ErrorPage from './view/report/error.page'
-import UserBehaviorsPage from './view/report/use.behavior.page'
+import UserPage from './view/report/use.page'
 import UserBehaviorDetailPage from './view/report/use.behavior.detail.page'
+import HomePage from './view/report/home.page'
 
 const menu = (
   <Menu>
@@ -23,11 +24,12 @@ const menu = (
 )
 
 const Routers = [
-  { path: '/', name: 'ReportPage', component: ReportPage },
+  { path: '/', name: 'HomePage', component: HomePage },
+  { path: '/performance', name: 'PerformancePage', component: PerformancePage },
   { path: '/http', name: 'HttpPage', component: HttpPage },
   { path: '/error', name: 'ErrorPage', component: ErrorPage },
-  { path: '/user-behaviors', name: 'UserPage', component: UserBehaviorsPage },
-  { path: '/user-behavior-detail', name: 'UserBehaviorDetailPage', component: UserBehaviorDetailPage }
+  { path: '/user', name: 'UserPage', component: UserPage },
+  { path: '/user-detail/:userId', name: 'UserBehaviorDetailPage', component: UserBehaviorDetailPage }
 ]
 
 function App() {
@@ -42,10 +44,10 @@ function App() {
                 <Link to="/">首页</Link>
               </span>
               <span className="menu-right menu-short">
-                <Link to="/user-behaviors">用户</Link>
+                <Link to="/user">用户</Link>
               </span>
               <span className="menu-right menu-short">
-                <Link to="/">性能</Link>
+                <Link to="/performance">性能</Link>
               </span>
               <span className="menu-right menu-short">
                 <Link to="/http">APi请求</Link>
@@ -56,7 +58,7 @@ function App() {
             </div>
           </Header>
         </Router>
-        <Content style={{ margin: '50px 0px ', padding: '0 50px' }}>
+        <Content style={{ margin: '20px 0px ', padding: '0 60px' }}>
           <Router>
             <Switch>
               {Routers.map((item, index) => {

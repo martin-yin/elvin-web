@@ -8,7 +8,7 @@ import { InfoCircleFilled } from '@ant-design/icons'
 import * as echarts from 'echarts'
 import 'echarts/theme/macarons'
 
-const ReportPage: FC = () => {
+const PerformancePage: FC = () => {
   const renderStackBarChart = (stack: any) => {
     const stackBar = document.getElementById('stackBar')
     const myChart = echarts.init(stackBar as any, 'macarons')
@@ -308,15 +308,6 @@ const ReportPage: FC = () => {
       title: '采样pv',
       dataIndex: 'pv',
       key: 'pv'
-    },
-    {
-      title: '操作',
-      key: 'action',
-      render: () => (
-        <Space size="middle">
-          <a>查看日志</a>
-        </Space>
-      )
     }
   ]
   return (
@@ -421,4 +412,4 @@ const ReportPage: FC = () => {
   )
 }
 
-export default ReportPage
+export default PerformancePage

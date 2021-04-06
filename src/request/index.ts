@@ -6,6 +6,8 @@ export const webPageHttpData = () => request<any>('get', '/communal/http')
 
 export const webPageErrorData = () => request<any>('get', '/communal/error')
 
+export const GetUsers = () => request<any>('get', '/communal/users')
+
 export const GetUserBehaviors = () => request<any>('get', '/communal/userBehaviors')
 
 export const GetUserBehavior = (behavior_id: string, behavior_type: string) =>

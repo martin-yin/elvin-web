@@ -11,7 +11,7 @@ const ErrorPage: FC = () => {
       error_page: 13,
       error_user: 1
     },
-    resources_info_list: []
+    resources_list: []
   })
 
   const initData = useCallback(async () => {
@@ -48,22 +48,13 @@ const ErrorPage: FC = () => {
       title: '资源类型',
       dataIndex: 'element_type',
       key: 'element_type'
-    },
-    {
-      title: '操作',
-      key: 'action',
-      render: () => (
-        <Space size="middle">
-          <a>查看日志</a>
-        </Space>
-      )
     }
   ]
 
   return (
     <>
       <div className="site-layout-content">
-        <Card className="header-quota">
+        <Card className="header-quota" style={{ marginBottom: '20px' }}>
           <p className="quota-tips">
             <Tooltip title="今日数据指标">
               <InfoCircleFilled style={{ fontSize: '16px', color: '#3399FF' }} />
@@ -91,7 +82,7 @@ const ErrorPage: FC = () => {
           </div>
         </Card>
         <Card>
-          <Table dataSource={data.resources_info_list} columns={columns} />
+          <Table dataSource={data.resources_list} columns={columns} />
         </Card>
       </div>
     </>

@@ -6,6 +6,8 @@ import webIcon from '../../assets/web_icon.png'
 import requestIcon from '../../assets/request_icon.png'
 import clickIcon from '../../assets/click_icon.png'
 
+import errorIcon from '../../assets/error_icon.png'
+
 import './index.less'
 const UserBehaviorDetailPage: FC = () => {
   const [data, setData] = useState([])
@@ -60,6 +62,18 @@ const UserBehaviorDetailPage: FC = () => {
               <div className="flex-grow-0 flex-item">{getTimeHM(item.happen_time)}</div>
             </div>
             <div>点击内容: {item.innter_text}</div>
+          </div>
+        </Timeline.Item>
+      )
+    } else if (item.behavior_type == 'RESOURCE_ERROR') {
+      return (
+        <Timeline.Item key={key} dot={<img src={errorIcon} className="click_icon" />}>
+          <div className="footprint-des">
+            <div className="flex">
+              <div className="flex-grow-1">资源加载错误({item.element_type})</div>
+              <div className="flex-grow-0 flex-item">{getTimeHM(item.happen_time)}</div>
+            </div>
+            <div>资源URL: {item.source_url}</div>
           </div>
         </Timeline.Item>
       )
