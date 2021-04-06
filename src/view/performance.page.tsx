@@ -1,8 +1,8 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 
-import { Card, Table, Space, Tag, Tooltip } from 'antd'
+import { Card, Table, Tag, Tooltip } from 'antd'
 import './index.less'
-import { webPageReportData } from '../../request'
+import { webPageReportData } from '../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 
 import * as echarts from 'echarts'

@@ -1,12 +1,11 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Table, Space, Timeline } from 'antd'
+import { Card, Timeline } from 'antd'
 import 'echarts/theme/macarons'
-import { GetUserBehavior, GetUserBehaviors } from '../../request'
-import webIcon from '../../assets/web_icon.png'
-import requestIcon from '../../assets/request_icon.png'
-import clickIcon from '../../assets/click_icon.png'
-
-import errorIcon from '../../assets/error_icon.png'
+import { GetUserBehavior, GetUserBehaviors } from '../request'
+import webIcon from '../assets/web_icon.png'
+import requestIcon from '../assets/request_icon.png'
+import clickIcon from '../assets/click_icon.png'
+import errorIcon from '../assets/error_icon.png'
 
 import './index.less'
 const UserBehaviorDetailPage: FC = () => {

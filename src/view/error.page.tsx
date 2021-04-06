@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Table, Space, Tooltip } from 'antd'
+import { Card, Table, Tooltip } from 'antd'
 import './index.less'
-import { webPageErrorData } from '../../request'
+import { webPageErrorData } from '../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 
 const ErrorPage: FC = () => {
@@ -30,7 +30,7 @@ const ErrorPage: FC = () => {
       key: 'page_source_url'
     },
     {
-      title: '发生在几个页面',
+      title: '发生页面',
       dataIndex: 'page_url_count',
       key: 'page_url_count'
     },
@@ -40,7 +40,7 @@ const ErrorPage: FC = () => {
       key: 'user_count'
     },
     {
-      title: '共计发生错误次数',
+      title: '总共次数',
       dataIndex: 'source_count',
       key: 'source_count'
     },

@@ -12,3 +12,5 @@ export const GetUserBehaviors = () => request<any>('get', '/communal/userBehavio
 
 export const GetUserBehavior = (behavior_id: string, behavior_type: string) =>
   request<any>('get', `/communal/userBehavior?behavior_id=${behavior_id}&behavior_type=${behavior_type}`)
+
+export const GetJsError = () => request<any>('get', '/communal/jsError')

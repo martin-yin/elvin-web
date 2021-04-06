@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Table, Space } from 'antd'
 import './index.less'
 import 'echarts/theme/macarons'
-import { GetUsers } from '../../request'
+import { GetUsers } from '../request'
 import { Link } from 'react-router-dom'
 
 const UserPage: FC = () => {

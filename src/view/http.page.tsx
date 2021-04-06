@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Table, Space, Tooltip } from 'antd'
+import { Card, Table, Tooltip } from 'antd'
 import './index.less'
-import { webPageHttpData } from '../../request'
+import { webPageHttpData } from '../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 
 const HttpPage: FC = () => {
