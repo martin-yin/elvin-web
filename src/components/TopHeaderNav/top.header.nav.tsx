@@ -1,8 +1,8 @@
 import { Header } from 'antd/lib/layout/layout'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-
-const TopHeader: FC = () => {
+import './index.less'
+const TopHeaderNav: FC = () => {
   const [activeMenu, setActiveMenu] = useState('/')
   const history = useHistory()
   history.listen(location => {
@@ -44,4 +44,4 @@ const TopHeader: FC = () => {
   )
 }
 
-export default TopHeader
+export default TopHeaderNav

@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Table } from 'antd'
 import './index.less'
-import { GetJsError } from '../request'
+import { GetJsError } from '../../request'
 
 const JsErrorPage: FC = () => {
   const [jsErrorList, setJsErrorList] = useState([])

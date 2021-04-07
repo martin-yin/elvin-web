@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Table, Tooltip } from 'antd'
 import './index.less'
-import { webPageErrorData } from '../request'
+import { webPageErrorData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 
 const ErrorPage: FC = () => {

@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Table, Tooltip } from 'antd'
 import './index.less'
-import { webPageHttpData } from '../request'
+import { webPageHttpData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 
 const HttpPage: FC = () => {
@@ -60,14 +60,14 @@ const HttpPage: FC = () => {
           </p>
           <div className="item">
             <div>
-              <span className="item-label">{data.http_quota.total} </span>ms
+              <span className="item-label">{data.http_quota.total} </span>
             </div>
 
             <div className="text-title">请求次数</div>
           </div>
           <div className="item">
             <div>
-              <span className="item-label">{(data.http_quota.success_total / data.http_quota.total) * 100} %</span>ms
+              <span className="item-label">{(data.http_quota.success_total / data.http_quota.total) * 100} %</span>
             </div>
             <div className="text-title">成功率</div>
           </div>
@@ -75,7 +75,6 @@ const HttpPage: FC = () => {
             <div>
               <span className="item-label">{data.http_quota.load_time} </span>ms
             </div>
-
             <div className="text-title">请求耗时</div>
           </div>
           <div className="item">

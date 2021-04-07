@@ -1,10 +1,8 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-
 import { Card, Table, Tag, Tooltip } from 'antd'
 import './index.less'
-import { webPageReportData } from '../request'
+import { webPageReportData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
-
 import * as echarts from 'echarts'
 import 'echarts/theme/macarons'
 
@@ -312,54 +310,53 @@ const PerformancePage: FC = () => {
   ]
   return (
     <>
-      <div className="site-layout-content">
-        <Card className="header-quota">
-          <p className="quota-tips">
-            <Tooltip title="今日数据指标">
-              <InfoCircleFilled style={{ fontSize: '16px', color: '#3399FF' }} />
-            </Tooltip>
-          </p>
-          <div className="item">
-            <div>
-              <span className="item-label">{data.quota.ttfb} </span>ms
-            </div>
+      <Card className="header-quota">
+        <p className="quota-tips">
+          <Tooltip title="今日数据指标">
+            <InfoCircleFilled style={{ fontSize: '16px', color: '#3399FF' }} />
+          </Tooltip>
+        </p>
+        <div className="item">
+          <div>
+            <span className="item-label">{data.quota.ttfb} </span>ms
+          </div>
 
-            <div className="text-title">首字节</div>
+          <div className="text-title">首字节</div>
+        </div>
+        <div className="item">
+          <div>
+            <span className="item-label">{data.quota.dom_parse} </span>ms
           </div>
-          <div className="item">
-            <div>
-              <span className="item-label">{data.quota.dom_parse} </span>ms
-            </div>
-            <div className="text-title">DOM Ready</div>
+          <div className="text-title">DOM Ready</div>
+        </div>
+        <div className="item">
+          <div>
+            <span className="item-label">{data.quota.load_page} </span>ms
           </div>
-          <div className="item">
-            <div>
-              <span className="item-label">{data.quota.load_page} </span>ms
-            </div>
 
-            <div className="text-title">页面完全加载</div>
+          <div className="text-title">页面完全加载</div>
+        </div>
+        <div className="item">
+          <div>
+            <span className="item-label">{data.quota.pv} </span>
           </div>
-          <div className="item">
-            <div>
-              <span className="item-label">{data.quota.pv} </span>
-            </div>
-            <div className="text-title">采样PV</div>
+          <div className="text-title">采样PV</div>
+        </div>
+        <div className="item">
+          <div>
+            <span className="item-label">{data.quota.fast} </span>ms
           </div>
-          <div className="item">
-            <div>
-              <span className="item-label">{data.quota.fast} </span>ms
-            </div>
-            <div className="text-title">2s 快开占比</div>
-          </div>
-        </Card>
+          <div className="text-title">2s 快开占比</div>
+        </div>
+      </Card>
 
-        <Card style={{ margin: '20px 0px' }}>
-          <div id="stageTime" style={{ height: 400 }}></div>
-        </Card>
-        <Card style={{ margin: '20px 0px' }}>
-          <div id="stackBar" style={{ height: 150 }}></div>
+      <Card style={{ margin: '20px 0px' }}>
+        <div id="stageTime" style={{ height: 400 }}></div>
+      </Card>
+      <Card style={{ margin: '20px 0px' }}>
+        <div id="stackBar" style={{ height: 150 }}></div>
 
-          {/* <DemoBar
+        {/* <DemoBar
             data={[
               {
                 name: '性能',
@@ -403,11 +400,10 @@ const PerformancePage: FC = () => {
               }
             ]}
           /> */}
-        </Card>
-        <Card>
-          <Table dataSource={data.load_page_info_list} columns={columns} />
-        </Card>
-      </div>
+      </Card>
+      <Card>
+        <Table dataSource={data.load_page_info_list} columns={columns} />
+      </Card>
     </>
   )
 }

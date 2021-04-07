@@ -3,14 +3,14 @@ import { Layout } from 'antd'
 import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 const { Content } = Layout
 import './index.less'
-import PerformancePage from './view/performance.page'
-import HttpPage from './view/http.page'
-import ErrorPage from './view/error.page'
-import UserPage from './view/use.page'
-import UserBehaviorDetailPage from './view/use.behavior.detail.page'
-import HomePage from './view/home.page'
-import JsErrorPage from './view/js.error.page'
-import TopHeader from './components/header'
+import PerformancePage from './view/PerformancePage/performance.page'
+import HttpPage from './view/HttpPage/http.page'
+import ErrorPage from './view/ErrorPage/error.page'
+import UserPage from './view/User/use.page'
+import HomePage from './view/HomePage/home.page'
+import JsErrorPage from './view/JsErrorPage/js.error.page'
+import TopHeaderNav from './components/TopHeaderNav/top.header.nav'
+import UserBehaviorDetailPage from './view/User/use.behavior.detail.page'
 
 const Routers = [
   { path: '/', name: 'HomePage', component: HomePage },
@@ -27,8 +27,8 @@ function App() {
     <>
       <Router>
         <Layout className="layout">
-          <TopHeader />
-          <Content style={{ margin: '20px 0px ', padding: '0 60px' }}>
+          <TopHeaderNav />
+          <Content className="site-layout-content">
             <Switch>
               {Routers.map((item, index) => {
                 return <Route key={index} path={item.path} exact render={() => <item.component />} />
