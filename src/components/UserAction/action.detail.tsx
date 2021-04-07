@@ -1,4 +1,3 @@
-import { ChromeFilled } from '@ant-design/icons'
 import { Tag } from 'antd'
 import React, { FC } from 'react'
 
@@ -7,7 +6,6 @@ interface ActionDetailProps {
 }
 
 const ActionDetail: FC<ActionDetailProps> = ({ detail }) => {
-  console.log(detail)
   const transformationActionDetail = (detail: any) => {
     if (detail?.upload_type == 'PAGE_LOAD') {
       return (
@@ -62,6 +60,23 @@ const ActionDetail: FC<ActionDetailProps> = ({ detail }) => {
           </li>
         </>
       )
+    } else if (detail?.upload_type == 'RESOURCE_ERROR') {
+      return (
+        <>
+          <li>
+            <label>页面URL：</label>
+            <p>{detail.page_url}</p>
+          </li>
+          <li>
+            <label>错误类型：</label>
+            <p>{detail.element_type}</p>
+          </li>
+          <li>
+            <label>错误资源：</label>
+            <p>{detail.source_url}</p>
+          </li>
+        </>
+      )
     }
   }
   return (
@@ -73,7 +88,11 @@ const ActionDetail: FC<ActionDetailProps> = ({ detail }) => {
           {transformationActionDetail(detail)}
           <li>
             <label>操作系统：</label>
-            <p>{`${detail.os} ${detail.os_version}`}</p>
+            <p>
+              {` ${detail.device}/ ${detail.device_type}`}
+              &nbsp;&nbsp;&nbsp;
+              {`${detail.os} ${detail.os_version}`}
+            </p>
           </li>
           <li>
             <label>浏览器：</label>

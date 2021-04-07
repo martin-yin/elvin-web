@@ -26,7 +26,7 @@ const HttpPage: FC = () => {
 
   const columns = [
     {
-      title: 'http_url',
+      title: '请求URL',
       dataIndex: 'http_url',
       key: 'http_url'
     },

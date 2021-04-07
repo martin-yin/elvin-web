@@ -10,6 +10,8 @@ export const GetUsers = () => request<any>('get', '/communal/users')
 
 export const GetUserActions = () => request<any>('get', '/communal/userActions')
 
+export const GetUse = (id: string) => request<any>('get', `/communal/user?id=${id}`)
+
 export const GetUserAction = (action_id: string, action_type: string) =>
   request<any>('get', `/communal/userAction?action_id=${action_id}&action_type=${action_type}`)
 

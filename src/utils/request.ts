@@ -26,7 +26,6 @@ axios.interceptors.response.use(
     if (error?.message?.includes('Network Error')) {
       errorMessage = '网络错误，请检查您的网络'
     }
-    console.dir(error)
     error.message && message.error(errorMessage)
     return {
       code: false,
@@ -52,7 +51,7 @@ export const request = <T = any>(
   data?: any,
   config?: AxiosRequestConfig
 ): MyResponse<T> => {
-  const prefix = 'http://42.193.160.190:8889'
+  const prefix = 'http://127.0.0.1:8889'
   if (url.indexOf('https') !== 0) {
     url = prefix + url
   }
