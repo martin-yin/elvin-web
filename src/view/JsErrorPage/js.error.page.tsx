@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Table } from 'antd'
-import './index.less'
 import { GetJsError } from '../../request'
 
 const JsErrorPage: FC = () => {
@@ -32,7 +31,7 @@ const JsErrorPage: FC = () => {
     <>
       <div className="site-layout-content">
         <Card>
-          <Table dataSource={jsErrorList} columns={columns} />
+          <Table dataSource={jsErrorList} columns={columns} rowKey="message" />
         </Card>
       </div>
     </>

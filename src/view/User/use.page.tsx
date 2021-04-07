@@ -71,7 +71,7 @@ const UserPage: FC = () => {
     <>
       <div className="site-layout-content">
         <Card>
-          <Table dataSource={userLst} columns={columns} />
+          <Table dataSource={userLst} columns={columns} rowKey="user_id" />
         </Card>
       </div>
     </>

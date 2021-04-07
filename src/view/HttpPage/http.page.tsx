@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Table, Tooltip } from 'antd'
+import { Card, Statistic, Table, Tooltip } from 'antd'
 import './index.less'
 import { webPageHttpData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
@@ -59,33 +59,20 @@ const HttpPage: FC = () => {
             </Tooltip>
           </p>
           <div className="item">
-            <div>
-              <span className="item-label">{data.http_quota.total} </span>
-            </div>
-
-            <div className="text-title">请求次数</div>
+            <Statistic title="请求次数" value={data.http_quota.total} />
           </div>
           <div className="item">
-            <div>
-              <span className="item-label">{(data.http_quota.success_total / data.http_quota.total) * 100} %</span>
-            </div>
-            <div className="text-title">成功率</div>
+            <Statistic title="成功率" value={(data.http_quota.success_total / data.http_quota.total) * 100} />
           </div>
           <div className="item">
-            <div>
-              <span className="item-label">{data.http_quota.load_time} </span>ms
-            </div>
-            <div className="text-title">请求耗时</div>
+            <Statistic title="请求耗时" value={data.http_quota.load_time} />
           </div>
           <div className="item">
-            <div>
-              <span className="item-label">{data.http_quota.error_user} </span>
-            </div>
-            <div className="text-title">失败影响用户</div>
+            <Statistic title="失败影响用户" value={data.http_quota.error_user} />
           </div>
         </Card>
         <Card>
-          <Table dataSource={data.http_info_list} columns={columns} />
+          <Table dataSource={data.http_info_list} columns={columns} rowKey="http_url" />
         </Card>
       </div>
     </>

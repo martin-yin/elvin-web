@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Table, Tooltip } from 'antd'
-import './index.less'
+import { Card, Statistic, Table, Tooltip } from 'antd'
 import { webPageErrorData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 
@@ -61,28 +60,17 @@ const ErrorPage: FC = () => {
             </Tooltip>
           </p>
           <div className="item">
-            <div>
-              <span className="item-label">{data.resources_quota.error_count} </span>ms
-            </div>
-
-            <div className="text-title">请求次数</div>
+            <Statistic title="失败次数" value={data.resources_quota.error_count} />
           </div>
           <div className="item">
-            <div>
-              <span className="item-label">{data.resources_quota.error_page} </span>ms
-            </div>
-            <div className="text-title">成功率</div>
+            <Statistic title="成功率" value={data.resources_quota.error_page} />
           </div>
           <div className="item">
-            <div>
-              <span className="item-label">{data.resources_quota.error_user} </span>ms
-            </div>
-
-            <div className="text-title">请求耗时</div>
+            <Statistic title="影响用户" value={data.resources_quota.error_user} />
           </div>
         </Card>
         <Card>
-          <Table dataSource={data.resources_list} columns={columns} />
+          <Table dataSource={data.resources_list} columns={columns} rowKey="page_source_url" />
         </Card>
       </div>
     </>

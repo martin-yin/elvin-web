@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Table, Tag, Tooltip } from 'antd'
+import { Card, Statistic, Table, Tag, Tooltip } from 'antd'
 import './index.less'
 import { webPageReportData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
@@ -317,92 +317,29 @@ const PerformancePage: FC = () => {
           </Tooltip>
         </p>
         <div className="item">
-          <div>
-            <span className="item-label">{data.quota.ttfb} </span>ms
-          </div>
-
-          <div className="text-title">首字节</div>
+          <Statistic title="首字节" value={data.quota.ttfb} />
         </div>
         <div className="item">
-          <div>
-            <span className="item-label">{data.quota.dom_parse} </span>ms
-          </div>
-          <div className="text-title">DOM Ready</div>
+          <Statistic title="DOM Ready" value={data.quota.dom_parse} />
         </div>
         <div className="item">
-          <div>
-            <span className="item-label">{data.quota.load_page} </span>ms
-          </div>
-
-          <div className="text-title">页面完全加载</div>
+          <Statistic title="页面完全加载" value={data.quota.load_page} />
         </div>
         <div className="item">
-          <div>
-            <span className="item-label">{data.quota.pv} </span>
-          </div>
-          <div className="text-title">采样PV</div>
+          <Statistic title="采样PV" value={data.quota.pv} />
         </div>
         <div className="item">
-          <div>
-            <span className="item-label">{data.quota.fast} </span>ms
-          </div>
-          <div className="text-title">2s 快开占比</div>
+          <Statistic title="2s 快开占比" value={data.quota.fast} />
         </div>
       </Card>
-
       <Card style={{ margin: '20px 0px' }}>
         <div id="stageTime" style={{ height: 400 }}></div>
       </Card>
       <Card style={{ margin: '20px 0px' }}>
         <div id="stackBar" style={{ height: 150 }}></div>
-
-        {/* <DemoBar
-            data={[
-              {
-                name: '性能',
-                value: data.stack.load_event,
-                type: 'dom事件(load_event)'
-              },
-              {
-                name: '性能',
-                value: data.stack.dom_parse,
-                type: 'dom处理耗时(dom_parse)'
-              },
-              {
-                name: '性能',
-                value: data.stack.request,
-                type: '请求耗时(request)'
-              },
-              {
-                name: '性能',
-                value: data.stack.ttfb,
-                type: '首字节(TTFB)'
-              },
-              {
-                name: '性能',
-                value: data.stack.tcp,
-                type: 'TCP耗时(tcp)'
-              },
-              {
-                name: '性能',
-                value: data.stack.lookup_domain,
-                type: 'DNS查询耗时(lookup_domain)'
-              },
-              {
-                name: '性能',
-                value: data.stack.appcache,
-                type: '缓存查询耗时(appcache)'
-              },
-              {
-                name: '性能',
-                value: data.stack.redirect,
-                type: '重定向耗时(redirect)'
-              }
-            ]}
-          /> */}
       </Card>
       <Card>
-        <Table dataSource={data.load_page_info_list} columns={columns} />
+        <Table dataSource={data.load_page_info_list} columns={columns} rowKey="page_url" />
       </Card>
     </>
   )

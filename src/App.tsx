@@ -3,6 +3,7 @@ import { Layout } from 'antd'
 import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 const { Content } = Layout
 import './index.less'
+import './assets/icofont.min.css'
 import PerformancePage from './view/PerformancePage/performance.page'
 import HttpPage from './view/HttpPage/http.page'
 import ErrorPage from './view/ErrorPage/error.page'
