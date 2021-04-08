@@ -257,8 +257,9 @@ const PerformancePage: FC = () => {
   const initData = useCallback(async () => {
     const result = await webPageReportData()
     setData(result.data)
+    const stage_time = result.data.stage_time ? result.data.stage_time : []
     renderStackBarChart(result.data.stack)
-    renderStageTimeChart(result.data.stage_time)
+    renderStageTimeChart(stage_time)
   }, [])
 
   useEffect(() => {

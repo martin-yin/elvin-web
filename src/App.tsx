@@ -12,7 +12,7 @@ import HomePage from './view/HomePage/home.page'
 import JsErrorPage from './view/JsErrorPage/js.error.page'
 import TopHeaderNav from './components/TopHeaderNav/top.header.nav'
 import UserActionDetailPage from './view/User/use.action.detail.page'
-
+import ErrorBoundary from './ErrorBoundary'
 const Routers = [
   { path: '/', name: 'HomePage', component: HomePage },
   { path: '/performance', name: 'PerformancePage', component: PerformancePage },
@@ -29,14 +29,16 @@ function App() {
       <Router>
         <Layout className="layout">
           <TopHeaderNav />
-          <Content className="site-layout-content">
-            <Switch>
-              {Routers.map((item, index) => {
-                return <Route key={index} path={item.path} exact render={() => <item.component />} />
-              })}
-              <Redirect from={'*'} to={'/'} />
-            </Switch>
-          </Content>
+          <ErrorBoundary>
+            <Content className="site-layout-content">
+              <Switch>
+                {Routers.map((item, index) => {
+                  return <Route key={index} path={item.path} exact render={() => <item.component />} />
+                })}
+                <Redirect from={'*'} to={'/'} />
+              </Switch>
+            </Content>
+          </ErrorBoundary>
         </Layout>
       </Router>
     </>

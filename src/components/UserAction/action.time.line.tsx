@@ -74,6 +74,14 @@ const ActionTimeLineItem: FC<ActionTimeLineProps> = ({ key, item, activeTimeLine
         title: '页面浏览',
         content: `页面URL: ${item.page_url}`
       }
+    } else if (item.action_type == 'PAGE_VIEW') {
+      return {
+        icon: (): React.ReactNode => {
+          return <i className="icofont-ui-browser"></i>
+        },
+        title: '页面浏览',
+        content: `页面URL: ${item.page_url}`
+      }
     }
   }
   return (

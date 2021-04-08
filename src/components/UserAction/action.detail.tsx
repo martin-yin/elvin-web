@@ -95,6 +95,15 @@ const ActionDetail: FC<ActionDetailProps> = ({ detail }) => {
           </li>
         </>
       )
+    } else if (detail?.action_type == 'PAGE_VIEW') {
+      return (
+        <>
+          <li>
+            <label>页面URL：</label>
+            <p>{detail.page_url}</p>
+          </li>
+        </>
+      )
     }
   }
   return (

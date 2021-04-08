@@ -51,7 +51,7 @@ export const request = <T = any>(
   data?: any,
   config?: AxiosRequestConfig
 ): MyResponse<T> => {
-  const prefix = 'http://127.0.0.1:8889'
+  const prefix = 'http://42.193.160.190:8889'
   if (url.indexOf('https') !== 0) {
     url = prefix + url
   }
