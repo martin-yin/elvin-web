@@ -1,9 +1,10 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Table, Space } from 'antd'
+import { Card, Table, Space, Tag } from 'antd'
 import './index.less'
 import 'echarts/theme/macarons'
 import { GetUsers } from '../../request'
 import { Link } from 'react-router-dom'
+import { getTimeYYMMDDHM } from '../../utils'
 
 const UserPage: FC = () => {
   const [userLst, setUserList] = useState([])
@@ -28,7 +29,31 @@ const UserPage: FC = () => {
       dataIndex: 'device',
       key: 'device',
       render: (text: string, recode: any) => {
-        return <div>{`${recode.device}/${recode.device_type}`}</div>
+        return (
+          <div>
+            {recode.device_type == 'Pc' ? (
+              <Tag color="#2db7f5">
+                {recode.device}/ {recode.device_type}
+              </Tag>
+            ) : (
+              ''
+            )}
+            {recode.os == 'Android' ? (
+              <Tag color="#87d068">
+                {recode.device}/ {recode.device_type}
+              </Tag>
+            ) : (
+              ''
+            )}
+            {recode.os == 'iOS' ? (
+              <Tag color="#f50">
+                {recode.device}/ {recode.device_type}
+              </Tag>
+            ) : (
+              ''
+            )}
+          </div>
+        )
       }
     },
     {
@@ -36,7 +61,11 @@ const UserPage: FC = () => {
       dataIndex: '操作系统',
       key: 'system',
       render: (text: string, recode: any) => {
-        return <div>{`${recode.os} ${recode.os_version}`}</div>
+        return (
+          <div>
+            <Tag color="green">{`${recode.os} ${recode.os_version}`}</Tag>
+          </div>
+        )
       }
     },
     {
@@ -58,6 +87,14 @@ const UserPage: FC = () => {
       key: 'address'
     },
     {
+      title: '创建时间',
+      dataIndex: 'happen_time',
+      key: 'happen_time',
+      render: (text: string) => {
+        return getTimeYYMMDDHM(text)
+      }
+    },
+    {
       title: '操作',
       key: 'action',
       render: (text: string, recode: any) => (
@@ -71,7 +108,7 @@ const UserPage: FC = () => {
     <>
       <div className="site-layout-content">
         <Card>
-          <Table dataSource={userLst} columns={columns} rowKey="user_id" />
+          <Table dataSource={userLst} columns={columns} rowKey="id" />
         </Card>
       </div>
     </>

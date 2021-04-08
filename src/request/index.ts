@@ -8,7 +8,7 @@ export const webPageErrorData = () => request<any>('get', '/communal/error')
 
 export const GetUsers = () => request<any>('get', '/communal/users')
 
-export const GetUserActions = () => request<any>('get', '/communal/userActions')
+export const GetUserActions = (event_id: string) => request<any>('get', `/communal/userActions?event_id=${event_id}`)
 
 export const GetUse = (id: string) => request<any>('get', `/communal/user?id=${id}`)
 

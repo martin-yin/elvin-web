@@ -1,5 +1,6 @@
 import { Tag } from 'antd'
 import React, { FC } from 'react'
+import { getTimeYYMMDDHM } from '../../utils'
 
 interface ActionDetailProps {
   detail: any
@@ -7,7 +8,7 @@ interface ActionDetailProps {
 
 const ActionDetail: FC<ActionDetailProps> = ({ detail }) => {
   const transformationActionDetail = (detail: any) => {
-    if (detail?.upload_type == 'PAGE_LOAD') {
+    if (detail?.action_type == 'PAGE_LOAD') {
       return (
         <>
           <li>
@@ -20,7 +21,7 @@ const ActionDetail: FC<ActionDetailProps> = ({ detail }) => {
           </li>
         </>
       )
-    } else if (detail?.upload_type == 'HTTP_LOG') {
+    } else if (detail?.action_type == 'HTTP_LOG') {
       return (
         <>
           <li>
@@ -47,7 +48,7 @@ const ActionDetail: FC<ActionDetailProps> = ({ detail }) => {
           </li>
         </>
       )
-    } else if (detail?.upload_type == 'JS_ERROR') {
+    } else if (detail?.action_type == 'JS_ERROR') {
       return (
         <>
           <li>
@@ -60,7 +61,7 @@ const ActionDetail: FC<ActionDetailProps> = ({ detail }) => {
           </li>
         </>
       )
-    } else if (detail?.upload_type == 'RESOURCE_ERROR') {
+    } else if (detail?.action_type == 'RESOURCE_ERROR') {
       return (
         <>
           <li>
@@ -77,6 +78,23 @@ const ActionDetail: FC<ActionDetailProps> = ({ detail }) => {
           </li>
         </>
       )
+    } else if (detail?.action_type == 'BEHAVIOR_INFO') {
+      return (
+        <>
+          <li>
+            <label>点击Tag：</label>
+            <p>{detail.tag_name}</p>
+          </li>
+          <li>
+            <label>点击正文：</label>
+            <p>{detail.innter_text}</p>
+          </li>
+          <li>
+            <label>ClassName：</label>
+            <p>{detail.class_name}</p>
+          </li>
+        </>
+      )
     }
   }
   return (
@@ -89,7 +107,7 @@ const ActionDetail: FC<ActionDetailProps> = ({ detail }) => {
           <li>
             <label>操作系统：</label>
             <p>
-              {` ${detail.device}/ ${detail.device_type}`}
+              {`${detail.device}/ ${detail.device_type}`}
               &nbsp;&nbsp;&nbsp;
               {`${detail.os} ${detail.os_version}`}
             </p>
@@ -100,7 +118,7 @@ const ActionDetail: FC<ActionDetailProps> = ({ detail }) => {
           </li>
           <li>
             <label>时间：</label>
-            <p>{detail.happen_time}</p>
+            <p>{getTimeYYMMDDHM(detail.happen_time)}</p>
           </li>
           <li>
             <label>UA：</label>

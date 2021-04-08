@@ -1,5 +1,6 @@
 import { Timeline } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
+import { getTimeHHMM } from '../../utils'
 
 interface ActionTimeLineProps {
   key: string
@@ -84,7 +85,7 @@ const ActionTimeLineItem: FC<ActionTimeLineProps> = ({ key, item, activeTimeLine
         >
           <div className="flex">
             <div className="flex-grow-1">{itemData.itemTitle}</div>
-            <div className="flex-grow-0 flex-item">{getTimeHM(item.happen_time)}</div>
+            <div className="flex-grow-0 flex-item">{getTimeHHMM(item.happen_time)}</div>
           </div>
           <div>{itemData.itemContent}</div>
         </div>
@@ -94,8 +95,3 @@ const ActionTimeLineItem: FC<ActionTimeLineProps> = ({ key, item, activeTimeLine
 }
 
 export default ActionTimeLineItem
-
-function getTimeHM(time: string) {
-  const nowDate = new Date(time)
-  return nowDate.getHours() + ':' + nowDate.getMinutes()
-}

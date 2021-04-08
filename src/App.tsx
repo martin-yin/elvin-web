@@ -11,7 +11,7 @@ import UserPage from './view/User/use.page'
 import HomePage from './view/HomePage/home.page'
 import JsErrorPage from './view/JsErrorPage/js.error.page'
 import TopHeaderNav from './components/TopHeaderNav/top.header.nav'
-import UserBehaviorDetailPage from './view/User/use.behavior.detail.page'
+import UserActionDetailPage from './view/User/use.action.detail.page'
 
 const Routers = [
   { path: '/', name: 'HomePage', component: HomePage },
@@ -20,7 +20,7 @@ const Routers = [
   { path: '/error', name: 'ErrorPage', component: ErrorPage },
   { path: '/js-error', name: 'jsError', component: JsErrorPage },
   { path: '/user', name: 'UserPage', component: UserPage },
-  { path: '/user-detail/:userId', name: 'UserBehaviorDetailPage', component: UserBehaviorDetailPage }
+  { path: '/user-detail/:userId', name: 'UserBehaviorDetailPage', component: UserActionDetailPage }
 ]
 
 function App() {
