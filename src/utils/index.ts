@@ -14,3 +14,11 @@ export const getTimeHHMM = (time: string) => {
     minutes = ('0' + datetime.getMinutes()).slice(-2)
   return ` ${hours}:${minutes}`
 }
+
+export const getTimeYYMMDD = () => {
+  const datetime = new Date()
+  const year = datetime.getFullYear(),
+    month = ('0' + (datetime.getMonth() + 1)).slice(-2),
+    date = ('0' + datetime.getDate()).slice(-2)
+  return `${year}-${month}-${date}`
+}

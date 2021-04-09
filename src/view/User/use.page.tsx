@@ -1,13 +1,20 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Table, Space, Tag } from 'antd'
+import { Card, Table, Space, Tag, DatePicker, TimePicker, Input } from 'antd'
 import './index.less'
 import 'echarts/theme/macarons'
 import { GetUsers } from '../../request'
 import { Link } from 'react-router-dom'
-import { getTimeYYMMDDHM } from '../../utils'
+import { getTimeYYMMDD, getTimeYYMMDDHM } from '../../utils'
+import moment from 'moment'
+const { Search } = Input
 
 const UserPage: FC = () => {
   const [userLst, setUserList] = useState([])
+  const [userParams] = useState({
+    searchDate: getTimeYYMMDD(),
+    searchHour: '',
+    ip: ''
+  })
 
   const initData = useCallback(async () => {
     const result = await GetUsers()
@@ -17,6 +24,10 @@ const UserPage: FC = () => {
   useEffect(() => {
     initData()
   }, [initData])
+
+  const onChange = (date: any, dateString: string) => {
+    console.log(date, dateString)
+  }
 
   const columns = [
     {
@@ -107,6 +118,16 @@ const UserPage: FC = () => {
   return (
     <>
       <div className="site-layout-content">
+        <Card style={{ textAlign: 'right' }}>
+          <Space>
+            <DatePicker
+              defaultValue={moment(userParams.searchDate, 'YYYY-MM-DD')}
+              onChange={onChange}
+              style={{ width: 160 }}
+            />
+            <Search placeholder="user_id" style={{ width: 300 }} />
+          </Space>
+        </Card>
         <Card>
           <Table dataSource={userLst} columns={columns} rowKey="id" />
         </Card>
