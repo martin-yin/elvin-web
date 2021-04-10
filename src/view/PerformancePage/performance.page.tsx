@@ -11,8 +11,8 @@ const { RangePicker } = DatePicker
 const PerformancePage: FC = () => {
   const [performanceParam, setPerformanceParam] = useState({
     time_grain: 'minute',
-    start_time: '',
-    end_time: ''
+    start_time: moment().format('YYYY-MM-DD'),
+    end_time: moment().format('YYYY-MM-DD')
   })
   const [data, setData] = useState({
     quota: {
@@ -38,7 +38,11 @@ const PerformancePage: FC = () => {
   })
 
   const initData = useCallback(async () => {
-    const result = await webPageReportData()
+    const result = await webPageReportData({
+      time_grain: performanceParam.time_grain,
+      start_time: `${performanceParam.start_time} 00:00:00`,
+      end_time: `${performanceParam.end_time} 23:59:59`
+    })
     setData(result.data)
     const stage_time = result.data.stage_time ? result.data.stage_time : []
     stackBarChart(result.data.stack)
@@ -97,18 +101,29 @@ const PerformancePage: FC = () => {
     return current && current >= moment()
   }
 
+  const search = async () => {
+    const result = await webPageReportData({
+      time_grain: performanceParam.time_grain,
+      start_time: `${performanceParam.start_time} 00:00:00`,
+      end_time: `${performanceParam.end_time} 23:59:59`
+    })
+    setData(result.data)
+    const stage_time = result.data.stage_time ? result.data.stage_time : []
+    stackBarChart(result.data.stack)
+    stageTimeChart(stage_time)
+  }
+
   const timeGrainChange = (e: any) => {
     setPerformanceParam({
       time_grain: e.target.value,
-      start_time: performanceParam.start_time,
-      end_time: performanceParam.end_time
+      start_time: `${performanceParam.start_time} 00:00:00`,
+      end_time: `${performanceParam.end_time} 23:59:59`
     })
   }
 
   const onTimeChange = (dates: any, dateStrings: [string, string]) => {
     const time = dates[1].diff(dates[0], 'days')
     let time_grain = performanceParam.time_grain
-
     if (time > 0 && time <= 6) {
       time_grain = 'hour'
     } else if (time > 6) {
@@ -151,7 +166,10 @@ const PerformancePage: FC = () => {
           <div className="timePicker">
             <RangePicker
               disabledDate={disabledDate}
-              defaultValue={[moment(), moment()]}
+              defaultValue={[
+                moment(performanceParam.start_time, 'YYYY-MM-DD'),
+                moment(performanceParam.end_time, 'YYYY-MM-DD')
+              ]}
               ranges={{
                 今天: [moment(), moment()],
                 昨天: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -168,7 +186,7 @@ const PerformancePage: FC = () => {
               <Radio value={'hour'}>小时</Radio>
               <Radio value={'day'}>天</Radio>
             </Radio.Group>
-            <Button type="primary" size="small">
+            <Button type="primary" size="small" onClick={search}>
               搜索
             </Button>
           </div>

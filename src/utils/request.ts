@@ -43,13 +43,8 @@ type Method = 'get' | 'post' | 'put' | 'delete'
 
 export type MyResponse<T = any> = Promise<Response<T>>
 
-export const request = <T = any>(
-  method: Method,
-  url: string,
-  data?: any,
-  config?: AxiosRequestConfig
-): MyResponse<T> => {
-  const prefix = 'http://42.193.160.190:8889'
+export const request = <T = any>(method: Method, url: string, data?: any, config?: AxiosRequestConfig): any => {
+  const prefix = 'http://api.dancin.cn'
   if (url.indexOf('https') !== 0) {
     url = prefix + url
   }

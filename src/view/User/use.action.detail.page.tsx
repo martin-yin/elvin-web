@@ -54,7 +54,7 @@ const UserActionDetailPage: FC = () => {
               </li>
               <li>
                 <label>所在地区: </label>
-                <span></span>
+                <span>{`${userInfo.nation}${userInfo.province}${userInfo.city}${userInfo.district}`}</span>
               </li>
             </ul>
           </Card>

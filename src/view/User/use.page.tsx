@@ -1,32 +1,60 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Table, Space, Tag, DatePicker, TimePicker, Input } from 'antd'
+import { Card, Table, Space, Tag, DatePicker, TimePicker, Input, Select } from 'antd'
 import './index.less'
 import 'echarts/theme/macarons'
 import { GetUsers } from '../../request'
 import { Link } from 'react-router-dom'
-import { getTimeYYMMDD, getTimeYYMMDDHM } from '../../utils'
+import { getTimeYYMMDDHM } from '../../utils'
 import moment from 'moment'
 const { Search } = Input
-
+const { Option } = Select
 const UserPage: FC = () => {
   const [userLst, setUserList] = useState([])
-  const [userParams] = useState({
-    searchDate: getTimeYYMMDD(),
-    searchHour: '',
-    ip: ''
+  const [timeLine, setTimeline] = useState([])
+  const [userParams, setUserParams] = useState({
+    search_date: moment().format('YYYY-MM-DD'),
+    search_hour: '00:00'
   })
 
   const initData = useCallback(async () => {
-    const result = await GetUsers()
+    const result = await GetUsers(userParams)
     setUserList(result.data)
+    const timeLine: any = []
+    for (let i = 0; i < 24; i++) {
+      if (i < 10) {
+        timeLine.push(`0${i}:00`)
+      } else {
+        timeLine.push(`${i}:00`)
+      }
+    }
+    setTimeline(timeLine)
   }, [])
 
   useEffect(() => {
     initData()
   }, [initData])
 
-  const onChange = (date: any, dateString: string) => {
-    console.log(date, dateString)
+  const timeChange = (date: any, dateString: string) => {
+    setUserParams({
+      search_date: dateString,
+      search_hour: userParams.search_hour
+    })
+  }
+
+  const timeLineChange = (value: string) => {
+    setUserParams({
+      search_date: userParams.search_date,
+      search_hour: value
+    })
+  }
+
+  const onSearch = async (value: any) => {
+    const result = await GetUsers({
+      search_date: userParams.search_date,
+      search_hour: userParams.search_hour,
+      user_id: value
+    })
+    setUserList(result.data)
   }
 
   const columns = [
@@ -95,7 +123,10 @@ const UserPage: FC = () => {
     {
       title: '位置',
       dataIndex: '位置',
-      key: 'address'
+      key: 'address',
+      render: (text: string, recode: any) => {
+        return <div>{`${recode.nation}${recode.province}${recode.city}${recode.district}`}</div>
+      }
     },
     {
       title: '创建时间',
@@ -121,11 +152,18 @@ const UserPage: FC = () => {
         <Card style={{ textAlign: 'right' }}>
           <Space>
             <DatePicker
-              defaultValue={moment(userParams.searchDate, 'YYYY-MM-DD')}
-              onChange={onChange}
+              defaultValue={moment(userParams.search_date, 'YYYY-MM-DD')}
+              onChange={timeChange}
               style={{ width: 160 }}
             />
-            <Search placeholder="user_id" style={{ width: 300 }} />
+            <Select defaultValue="00:00" style={{ width: 80 }} onChange={timeLineChange}>
+              {timeLine.map((item: any, key) => (
+                <Option value={item} key={key}>
+                  {item}
+                </Option>
+              ))}
+            </Select>
+            <Search placeholder="user_id" style={{ width: 300 }} onSearch={onSearch} />
           </Space>
         </Card>
         <Card>
