@@ -1,4 +1,3 @@
-import React, { FC, useEffect } from 'react'
 import * as echarts from 'echarts'
 import 'echarts/theme/macarons'
 

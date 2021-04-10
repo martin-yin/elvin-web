@@ -40,13 +40,14 @@ const PerformancePage: FC = () => {
   const initData = useCallback(async () => {
     const result = await webPageReportData({
       time_grain: performanceParam.time_grain,
-      start_time: `${performanceParam.start_time} 00:00:00`,
-      end_time: `${performanceParam.end_time} 23:59:59`
+      start_time: `${performanceParam.start_time}`,
+      end_time: `${performanceParam.end_time}`
     })
     setData(result.data)
     const stage_time = result.data.stage_time ? result.data.stage_time : []
     stackBarChart(result.data.stack)
     stageTimeChart(stage_time)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -104,8 +105,8 @@ const PerformancePage: FC = () => {
   const search = async () => {
     const result = await webPageReportData({
       time_grain: performanceParam.time_grain,
-      start_time: `${performanceParam.start_time} 00:00:00`,
-      end_time: `${performanceParam.end_time} 23:59:59`
+      start_time: `${performanceParam.start_time}`,
+      end_time: `${performanceParam.end_time}`
     })
     setData(result.data)
     const stage_time = result.data.stage_time ? result.data.stage_time : []
@@ -116,8 +117,8 @@ const PerformancePage: FC = () => {
   const timeGrainChange = (e: any) => {
     setPerformanceParam({
       time_grain: e.target.value,
-      start_time: `${performanceParam.start_time} 00:00:00`,
-      end_time: `${performanceParam.end_time} 23:59:59`
+      start_time: `${performanceParam.start_time}`,
+      end_time: `${performanceParam.end_time}`
     })
   }
 
