@@ -28,6 +28,7 @@ const UserPage: FC = () => {
       }
     }
     setTimeline(timeLine)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

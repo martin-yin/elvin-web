@@ -4,6 +4,8 @@ export const webPageReportData = (params: any) => request<any>('get', '/communal
 
 export const httpData = (params: any) => request<any>('get', '/communal/http', params)
 
+export const httpStageData = (params: any) => request<any>('get', '/communal/httpStage', params)
+
 export const webPageErrorData = () => request<any>('get', '/communal/error')
 
 export const GetUsers = (params: any) => request<any>('get', '/communal/users', params)

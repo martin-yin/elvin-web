@@ -4,6 +4,7 @@ import * as echarts from 'echarts/core'
 import { BarChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent, TitleComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
+
 echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer])
 const StageTimeChart: FC<any> = ({ stage_time }) => {
   const dateTime = new Date()
@@ -17,7 +18,19 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
       backgroundColor: '#fff'
     },
     legend: {
-      data: ['成功率', '请求数量']
+      data: [
+        '采样pv',
+        '重定向',
+        'DNS查询耗时',
+        '缓存查询耗时',
+        'TCP耗时',
+        'SSL连接耗时',
+        '首字节',
+        '请求耗时',
+        'DOM处理',
+        'Event耗时',
+        '完全加载'
+      ]
     },
     xAxis: {
       data: stage_time.map(function (item: any) {
@@ -59,12 +72,14 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
       {
         name: '重定向',
         type: 'line',
+        smooth: true,
         data: stage_time.map(function (item: any) {
           return item.redirect
         })
       },
       {
         name: 'DNS查询耗时',
+        smooth: true,
         type: 'line',
         data: stage_time.map(function (item: any) {
           return item.lookup_domain
@@ -72,6 +87,7 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
       },
       {
         name: '缓存查询耗时',
+        smooth: true,
         type: 'line',
         data: stage_time.map(function (item: any) {
           return item.appcache
@@ -79,6 +95,7 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
       },
       {
         name: 'TCP耗时',
+        smooth: true,
         type: 'line',
         data: stage_time.map(function (item: any) {
           return item.tcp
@@ -86,6 +103,7 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
       },
       {
         name: 'SSL连接耗时',
+        smooth: true,
         type: 'line',
         data: stage_time.map(function (item: any) {
           return item.ssl_t
@@ -93,6 +111,7 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
       },
       {
         name: '首字节',
+        smooth: true,
         type: 'line',
         data: stage_time.map(function (item: any) {
           return item.ttfb
@@ -100,6 +119,7 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
       },
       {
         name: '请求耗时',
+        smooth: true,
         type: 'line',
         data: stage_time.map(function (item: any) {
           return item.request
@@ -107,6 +127,7 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
       },
       {
         name: 'DOM处理',
+        smooth: true,
         type: 'line',
         data: stage_time.map(function (item: any) {
           return item.dom_parse
@@ -114,6 +135,7 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
       },
       {
         name: 'Event耗时',
+        smooth: true,
         type: 'line',
         data: stage_time.map(function (item: any) {
           return item.load_event
@@ -121,6 +143,7 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
       },
       {
         name: '完全加载',
+        smooth: true,
         type: 'line',
         data: stage_time.map(function (item: any) {
           return item.load_page
@@ -130,7 +153,13 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
   }
   return (
     <div>
-      <ReactEChartsCore echarts={echarts} option={option} notMerge={true} lazyUpdate={true} theme={'theme_name'} />
+      <ReactEChartsCore
+        style={{ height: '460px' }}
+        echarts={echarts}
+        option={option}
+        notMerge={true}
+        lazyUpdate={true}
+      />
     </div>
   )
 }

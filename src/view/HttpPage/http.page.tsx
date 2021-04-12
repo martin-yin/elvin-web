@@ -1,10 +1,10 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Button, Card, DatePicker, Radio, Statistic, Table, Tabs, Tooltip } from 'antd'
 import './index.less'
-import { httpData } from '../../request'
+import { httpData, httpStageData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
-import StageTimeChart from '../../components/HttpChart/stage.time.chart'
+import HttpStageTimeChart from '../../components/HttpChart/stage.time.chart'
 const { TabPane } = Tabs
 const { RangePicker } = DatePicker
 const HttpPage: FC = () => {
@@ -16,23 +16,32 @@ const HttpPage: FC = () => {
       total: 0,
       success_rate: 0
     },
-    http_info_list: [],
-    http_stagetime: []
+    http_info_list: []
   })
-
+  const [httpStagetime, setHttpStagetime] = useState([])
   const [httpParam, setHttpParam] = useState({
     time_grain: 'minute',
     start_time: moment().format('YYYY-MM-DD'),
-    end_time: moment().format('YYYY-MM-DD')
+    end_time: moment().format('YYYY-MM-DD'),
+    stage_type: 'success'
   })
 
   const initData = useCallback(async () => {
     const result = await httpData({
       time_grain: httpParam.time_grain,
       start_time: httpParam.start_time,
-      end_time: httpParam.end_time
+      end_time: httpParam.end_time,
+      stage_type: httpParam.stage_type
     })
+    const httpStageDataResult = await httpStageData({
+      time_grain: httpParam.time_grain,
+      start_time: httpParam.start_time,
+      end_time: httpParam.end_time,
+      stage_type: httpParam.stage_type
+    })
+    setHttpStagetime(httpStageDataResult.data.http_stagetime)
     setData(result.data)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onTimeChange = (dates: any, dateStrings: [string, string]) => {
@@ -48,7 +57,8 @@ const HttpPage: FC = () => {
     setHttpParam({
       start_time: dateStrings[0],
       end_time: dateStrings[1],
-      time_grain: time_grain
+      time_grain: time_grain,
+      stage_type: httpParam.stage_type
     })
   }
 
@@ -56,14 +66,16 @@ const HttpPage: FC = () => {
     setHttpParam({
       time_grain: e.target.value,
       start_time: httpParam.start_time,
-      end_time: httpParam.end_time
+      end_time: httpParam.end_time,
+      stage_type: httpParam.stage_type
     })
   }
   const search = async () => {
     const result = await httpData({
       time_grain: httpParam.time_grain,
       start_time: httpParam.start_time,
-      end_time: httpParam.end_time
+      end_time: httpParam.end_time,
+      stage_type: httpParam.stage_type
     })
     setData(result.data)
   }
@@ -102,22 +114,25 @@ const HttpPage: FC = () => {
   }
 
   const tabChange = async (activeKey: string) => {
-    // console.log(activeKey)
-    // if (activeKey == '1') {
-    //   const result = await httpData({
-    //     time_grain: httpParam.time_grain,
-    //     start_time: httpParam.start_time,
-    //     end_time: httpParam.end_time
-    //   })
-    //   setData(result.data)
-    // } else {
-    //   const result = await httpData({
-    //     time_grain: httpParam.time_grain,
-    //     start_time: httpParam.start_time,
-    //     end_time: httpParam.end_time
-    //   })
-    //   setData(result.data)
-    // }
+    let stage_type = ''
+    if (activeKey === '1') {
+      stage_type = 'success'
+    } else {
+      stage_type = 'fail'
+    }
+    setHttpParam({
+      time_grain: httpParam.time_grain,
+      start_time: httpParam.start_time,
+      end_time: httpParam.end_time,
+      stage_type: stage_type
+    })
+    const httpStageDataResult = await httpStageData({
+      time_grain: httpParam.time_grain,
+      start_time: httpParam.start_time,
+      end_time: httpParam.end_time,
+      stage_type: stage_type
+    })
+    setHttpStagetime(httpStageDataResult.data.http_stagetime)
   }
   return (
     <>
@@ -143,7 +158,7 @@ const HttpPage: FC = () => {
         </Card>
         <Card style={{ marginBottom: '20px' }}>
           <Tabs defaultActiveKey="1" onChange={tabChange}>
-            <TabPane tab="请求成功" key="1">
+            <TabPane tab="成功请求" key="1">
               <div className="performanceTimePicker">
                 <div className="timePicker">
                   <RangePicker
@@ -206,7 +221,7 @@ const HttpPage: FC = () => {
               </div>
             </TabPane>
           </Tabs>
-          <StageTimeChart stage_time={data.http_stagetime} />
+          <HttpStageTimeChart stageTime={httpStagetime} stageType={httpParam.stage_type} />
         </Card>
         <Card>
           <Table dataSource={data.http_info_list} columns={columns} rowKey="http_url" />

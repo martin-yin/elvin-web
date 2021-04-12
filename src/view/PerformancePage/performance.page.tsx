@@ -45,6 +45,7 @@ const PerformancePage: FC = () => {
       end_time: `${performanceParam.end_time}`
     })
     setData(result.data)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

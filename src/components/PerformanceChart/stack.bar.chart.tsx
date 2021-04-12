@@ -4,8 +4,8 @@ import * as echarts from 'echarts/core'
 import { BarChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent, TitleComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer])
 
+echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer])
 const StackBarChar: FC<any> = ({ stack }) => {
   const option: any = {
     tooltip: {
@@ -27,7 +27,7 @@ const StackBarChar: FC<any> = ({ stack }) => {
     xAxis: {
       type: 'value'
     },
-    height: '100px',
+    height: '100',
     yAxis: {
       type: 'category',
       data: ['']
@@ -86,7 +86,13 @@ const StackBarChar: FC<any> = ({ stack }) => {
 
   return (
     <div>
-      <ReactEChartsCore echarts={echarts} option={option} notMerge={true} lazyUpdate={true} theme={'theme_name'} />
+      <ReactEChartsCore
+        style={{ height: '200px' }}
+        echarts={echarts}
+        option={option}
+        notMerge={true}
+        lazyUpdate={true}
+      />
     </div>
   )
 }
