@@ -1,10 +1,12 @@
-import * as echarts from 'echarts'
-import 'echarts/theme/macarons'
+import React, { FC } from 'react'
+import ReactEChartsCore from 'echarts-for-react/lib/core'
+import * as echarts from 'echarts/core'
+import { BarChart } from 'echarts/charts'
+import { GridComponent, TooltipComponent, TitleComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer])
 
-const stackBarChart = (stack: any) => {
-  const stackBar = document.getElementById('stackBar')
-  const myChart = echarts.init(stackBar as any, 'macarons')
-
+const StackBarChar: FC<any> = ({ stack }) => {
   const option: any = {
     tooltip: {
       trigger: 'axis',
@@ -25,7 +27,7 @@ const stackBarChart = (stack: any) => {
     xAxis: {
       type: 'value'
     },
-    height: '70px',
+    height: '100px',
     yAxis: {
       type: 'category',
       data: ['']
@@ -81,7 +83,12 @@ const stackBarChart = (stack: any) => {
       }
     ]
   }
-  myChart.setOption(option)
+
+  return (
+    <div>
+      <ReactEChartsCore echarts={echarts} option={option} notMerge={true} lazyUpdate={true} theme={'theme_name'} />
+    </div>
+  )
 }
 
-export default stackBarChart
+export default StackBarChar

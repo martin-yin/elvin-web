@@ -4,8 +4,9 @@ import './index.less'
 import { webPageReportData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
-import stageTimeChart from '../../components/PerformanceChart/stage.time.chart'
-import stackBarChart from '../../components/PerformanceChart/stack.bar.chart'
+import StageTimeChart from '../../components/PerformanceChart/stage.time.chart'
+import StackBarChar from '../../components/PerformanceChart/stack.bar.chart'
+
 const { RangePicker } = DatePicker
 
 const PerformancePage: FC = () => {
@@ -44,10 +45,6 @@ const PerformancePage: FC = () => {
       end_time: `${performanceParam.end_time}`
     })
     setData(result.data)
-    const stage_time = result.data.stage_time ? result.data.stage_time : []
-    stackBarChart(result.data.stack)
-    stageTimeChart(stage_time)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -109,9 +106,6 @@ const PerformancePage: FC = () => {
       end_time: `${performanceParam.end_time}`
     })
     setData(result.data)
-    const stage_time = result.data.stage_time ? result.data.stage_time : []
-    stackBarChart(result.data.stack)
-    stageTimeChart(stage_time)
   }
 
   const timeGrainChange = (e: any) => {
@@ -138,6 +132,7 @@ const PerformancePage: FC = () => {
       time_grain: time_grain
     })
   }
+
   return (
     <>
       <Card className="header-quota">
@@ -159,7 +154,7 @@ const PerformancePage: FC = () => {
           <Statistic title="采样PV" value={data.quota.pv} />
         </div>
         <div className="item">
-          <Statistic title="2s 快开占比" value={data.quota.fast} suffix="" />
+          <Statistic title="2s 快开占比" value={data.quota.fast} suffix="%" />
         </div>
       </Card>
       <Card style={{ margin: '20px 0px' }}>
@@ -192,10 +187,10 @@ const PerformancePage: FC = () => {
             </Button>
           </div>
         </div>
-        <div id="stageTime" style={{ height: 400 }}></div>
+        <StageTimeChart stage_time={data.stage_time} />
       </Card>
       <Card style={{ margin: '20px 0px' }}>
-        <div id="stackBar" style={{ height: 150 }}></div>
+        <StackBarChar stack={data.stack}></StackBarChar>
       </Card>
       <Card>
         <Table dataSource={data.load_page_info_list} columns={columns} rowKey="page_url" />

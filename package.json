@@ -18,6 +18,7 @@
     "axios": "^0.21.1",
     "babel-plugin-import": "^1.13.3",
     "echarts": "^5.0.2",
+    "echarts-for-react": "^3.0.1",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",

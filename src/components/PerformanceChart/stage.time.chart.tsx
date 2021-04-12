@@ -1,12 +1,13 @@
-import * as echarts from 'echarts'
-import 'echarts/theme/macarons'
-
-const stageTimeChart = (stage_time: any) => {
-  const stageTime = document.getElementById('stageTime')
-  const myChart = echarts.init(stageTime as any, 'macarons')
+import React, { FC } from 'react'
+import ReactEChartsCore from 'echarts-for-react/lib/core'
+import * as echarts from 'echarts/core'
+import { BarChart } from 'echarts/charts'
+import { GridComponent, TooltipComponent, TitleComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer])
+const StageTimeChart: FC<any> = ({ stage_time }) => {
   const dateTime = new Date()
   const startTime = ('0' + (dateTime.getHours() - 1)).slice(-2) + ':00'
-
   const option: any = {
     title: {
       text: ''
@@ -16,19 +17,7 @@ const stageTimeChart = (stage_time: any) => {
       backgroundColor: '#fff'
     },
     legend: {
-      data: [
-        '采样pv',
-        '重定向',
-        '缓存查询耗时',
-        'DNS查询耗时',
-        'TCP耗时',
-        'SSL连接耗时',
-        '首字节',
-        '请求耗时',
-        'DOM处理',
-        'Event耗时',
-        '完全加载'
-      ]
+      data: ['成功率', '请求数量']
     },
     xAxis: {
       data: stage_time.map(function (item: any) {
@@ -139,7 +128,11 @@ const stageTimeChart = (stage_time: any) => {
       }
     ]
   }
-  myChart.setOption(option)
+  return (
+    <div>
+      <ReactEChartsCore echarts={echarts} option={option} notMerge={true} lazyUpdate={true} theme={'theme_name'} />
+    </div>
+  )
 }
 
-export default stageTimeChart
+export default StageTimeChart

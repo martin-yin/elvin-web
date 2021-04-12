@@ -2,7 +2,7 @@ import { request } from '../utils/request'
 
 export const webPageReportData = (params: any) => request<any>('get', '/communal/performance', params)
 
-export const webPageHttpData = () => request<any>('get', '/communal/http')
+export const httpData = (params: any) => request<any>('get', '/communal/http', params)
 
 export const webPageErrorData = () => request<any>('get', '/communal/error')
 

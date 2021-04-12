@@ -14,7 +14,6 @@ import TopHeaderNav from './components/TopHeaderNav/top.header.nav'
 import UserActionDetailPage from './view/User/use.action.detail.page'
 import ErrorBoundary from './ErrorBoundary'
 
-import moment from 'moment'
 import 'moment/locale/zh-cn'
 import locale from 'antd/lib/locale/zh_CN'
 
