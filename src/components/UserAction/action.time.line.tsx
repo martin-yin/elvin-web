@@ -71,7 +71,7 @@ const ActionTimeLineItem: FC<ActionTimeLineProps> = ({ key, item, activeTimeLine
         icon: (): React.ReactNode => {
           return <i className="icofont-ui-browser"></i>
         },
-        title: '页面浏览',
+        title: '打开页面',
         content: `页面URL: ${item.page_url}`
       }
     } else if (item.action_type == 'PAGE_VIEW') {

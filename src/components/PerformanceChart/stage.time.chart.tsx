@@ -1,11 +1,6 @@
 import React, { FC } from 'react'
-import ReactEChartsCore from 'echarts-for-react/lib/core'
-import * as echarts from 'echarts/core'
-import { BarChart, LineChart } from 'echarts/charts'
-import { GridComponent, TooltipComponent, TitleComponent, DataZoomComponent } from 'echarts/components'
-import { CanvasRenderer } from 'echarts/renderers'
+import PublicChart from '../PublicChart/public.chart'
 
-echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, LineChart, CanvasRenderer, DataZoomComponent])
 const StageTimeChart: FC<any> = ({ stage_time }) => {
   const dateTime = new Date()
   const startTime = ('0' + (dateTime.getHours() - 1)).slice(-2) + ':00'
@@ -153,13 +148,7 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
   }
   return (
     <div>
-      <ReactEChartsCore
-        style={{ height: '460px' }}
-        echarts={echarts}
-        option={option}
-        notMerge={true}
-        lazyUpdate={true}
-      />
+      <PublicChart option={option} height="460px" />
     </div>
   )
 }

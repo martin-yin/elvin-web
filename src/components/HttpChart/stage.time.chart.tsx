@@ -4,6 +4,7 @@ import * as echarts from 'echarts/core'
 import { BarChart, LineChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent, TitleComponent, LegendComponent, DataZoomComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
+import PublicChart from '../PublicChart/public.chart'
 echarts.use([
   TitleComponent,
   TooltipComponent,
@@ -26,20 +27,29 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [], stageType = 'success' }) 
       trigger: 'axis',
       backgroundColor: '#fff'
     },
+    // yAxis: [
+    //   {
+    //     type: 'value',
+    //     name: '',
+    //     position: 'left',
+    //     axisLabel: {
+    //       formatter: '{value}'
+    //     },
+    //     max: 100
+    //   },
+    //   {
+    //     type: 'value',
+    //     name: '请求数量'
+    //   }
+    // ],
     yAxis: [
       {
         type: 'value',
-        name: '',
+        name: '成功率',
         position: 'left',
         axisLabel: {
           formatter: '{value} %'
-        },
-        max: 100
-      },
-      {
-        type: 'value',
-        name: '请求数量',
-        min: 0
+        }
       }
     ],
     dataZoom: [
@@ -67,12 +77,11 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [], stageType = 'success' }) 
     series: [
       {
         name: '请求数量',
-        type: 'bar',
+        type: 'line',
         smooth: true,
         data: stageTime.map(function (item: any) {
           return item.total
-        }),
-        yAxisIndex: 1
+        })
       },
       {
         name: '失败次数',
@@ -84,7 +93,7 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [], stageType = 'success' }) 
       },
       {
         name: '请求耗时',
-        type: 'line',
+        type: 'bar',
         smooth: true,
         data: stageTime.map(function (item: any) {
           return item.load_time
@@ -96,8 +105,25 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [], stageType = 'success' }) 
   const successOption = {
     ...option,
     legend: {
-      data: ['请求数量', '成功率', '请求耗时']
+      data: ['请求数量', '成功率']
     },
+    yAxis: [
+      {
+        type: 'value',
+        name: '',
+        position: 'left',
+        axisLabel: {
+          formatter: '{value}'
+        }
+      },
+      {
+        type: 'value',
+        name: '成功率',
+        axisLabel: {
+          formatter: '{value}'
+        }
+      }
+    ],
     xAxis: {
       data:
         stageTime.length == 0
@@ -114,7 +140,7 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [], stageType = 'success' }) 
         data: stageTime.map(function (item: any) {
           return item.total
         }),
-        yAxisIndex: 1
+        yAxisIndex: 0
       },
       {
         name: '成功率',
@@ -123,28 +149,13 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [], stageType = 'success' }) 
         data: stageTime.map(function (item: any) {
           return item.success_rate
         })
-      },
-      {
-        name: '请求耗时',
-        type: 'line',
-        smooth: true,
-        data: stageTime.map(function (item: any) {
-          return item.load_time
-        })
       }
     ]
   }
 
   return (
     <div>
-      <ReactEChartsCore
-        style={{ height: '450px' }}
-        echarts={echarts}
-        option={stageType === 'success' ? successOption : errorOption}
-        notMerge={true}
-        lazyUpdate={true}
-        theme={'theme_name'}
-      />
+      <PublicChart option={stageType === 'success' ? successOption : errorOption} height="450px" />
     </div>
   )
 }

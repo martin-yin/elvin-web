@@ -1,11 +1,6 @@
 import React, { FC } from 'react'
-import ReactEChartsCore from 'echarts-for-react/lib/core'
-import * as echarts from 'echarts/core'
-import { BarChart, LineChart } from 'echarts/charts'
-import { GridComponent, TooltipComponent, TitleComponent } from 'echarts/components'
-import { CanvasRenderer } from 'echarts/renderers'
+import PublicChart from '../PublicChart/public.chart'
 
-echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, LineChart, CanvasRenderer])
 const StackBarChar: FC<any> = ({ stack }) => {
   const option: any = {
     tooltip: {
@@ -86,13 +81,7 @@ const StackBarChar: FC<any> = ({ stack }) => {
 
   return (
     <div>
-      <ReactEChartsCore
-        style={{ height: '200px' }}
-        echarts={echarts}
-        option={option}
-        notMerge={true}
-        lazyUpdate={true}
-      />
+      <PublicChart option={option} height="200px" />
     </div>
   )
 }

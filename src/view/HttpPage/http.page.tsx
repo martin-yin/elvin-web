@@ -71,13 +71,13 @@ const HttpPage: FC = () => {
     })
   }
   const search = async () => {
-    const result = await httpData({
+    const result = await httpStageData({
       time_grain: httpParam.time_grain,
       start_time: httpParam.start_time,
       end_time: httpParam.end_time,
       stage_type: httpParam.stage_type
     })
-    setData(result.data)
+    setHttpStagetime(result.data.http_stagetime)
   }
 
   useEffect(() => {
