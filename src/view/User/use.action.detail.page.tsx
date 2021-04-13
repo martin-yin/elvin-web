@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Timeline } from 'antd'
-import 'echarts/theme/macarons'
 import { GetUse, GetUserAction, GetUserActions } from '../../request'
 import './index.less'
 import ActionTimeLineItem from '../../components/UserAction/action.time.line'

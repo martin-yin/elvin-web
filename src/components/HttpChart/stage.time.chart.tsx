@@ -1,11 +1,10 @@
 import React, { FC } from 'react'
 import ReactEChartsCore from 'echarts-for-react/lib/core'
 import * as echarts from 'echarts/core'
-import { BarChart } from 'echarts/charts'
+import { BarChart, LineChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent, TitleComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer])
-
+echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer, LineChart])
 const HttpStageTimeChart: FC<any> = ({ stageTime = [], stageType = 'success' }) => {
   const dateTime = new Date()
   const startTime = ('0' + (dateTime.getHours() - 1)).slice(-2) + ':00'

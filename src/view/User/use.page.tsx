@@ -1,7 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Table, Space, Tag, DatePicker, Input, Select } from 'antd'
 import './index.less'
-import 'echarts/theme/macarons'
 import { GetUsers } from '../../request'
 import { Link } from 'react-router-dom'
 import { getTimeYYMMDDHM } from '../../utils'
