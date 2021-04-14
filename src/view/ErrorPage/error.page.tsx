@@ -63,7 +63,7 @@ const ErrorPage: FC = () => {
             <Statistic title="失败次数" value={data.resources_quota.error_count} />
           </div>
           <div className="item">
-            <Statistic title="成功率" value={data.resources_quota.error_page} />
+            <Statistic title="异常页面" value={data.resources_quota.error_page} />
           </div>
           <div className="item">
             <Statistic title="影响用户" value={data.resources_quota.error_user} />
