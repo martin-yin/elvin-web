@@ -1,0 +1,62 @@
+.project-item {
+  background: #fff;
+  padding: 20px;
+  .item-title {
+    font-size: 18px;
+    display: flex;
+    margin-bottom: 20px;
+    .project-title-operation {
+      font-size: 16px;
+      display: flex; /*flex布局*/
+      flex-direction: column; /*垂直排列*/
+      align-items: flex-end; /*右对齐*/
+    }
+  }
+}
+
+.project-quota {
+  text-align: center;
+  display: flex;
+  margin-bottom: 20px;
+  .quota-item {
+    width: 33%;
+    font-size: 24px;
+    line-height: 24px;
+    .quota-item-title {
+      font-size: 12px;
+      line-height: 0;
+      color: #a3a5b0;
+    }
+  }
+}
+
+.project-list {
+  display: flex;
+  flex-wrap: wrap;
+  .project-item {
+    width: 32%;
+    height: 280px;
+    margin-bottom: 20px;
+  }
+  .project-item:nth-child(2) {
+    margin: 0 2%;
+  }
+}
+
+.health {
+  height: 100px;
+  .flex-grow-0 {
+    flex-basis: 140px;
+  }
+  .health-rate {
+    span {
+      height: 50px;
+      line-height: 50px;
+      display: block;
+      float: left;
+      width: 50%;
+      font-size: 14px;
+      color: #a3a5b0;
+    }
+  }
+}

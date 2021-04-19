@@ -29,7 +29,7 @@ const JsErrorPage: FC = () => {
 
   return (
     <>
-      <div className="site-layout-content">
+      <div>
         <Card>
           <Table dataSource={jsErrorList} columns={columns} rowKey="message" />
         </Card>

@@ -136,7 +136,7 @@ const HttpPage: FC = () => {
   }
   return (
     <>
-      <div className="site-layout-content">
+      <div>
         <Card className="header-quota" style={{ marginBottom: '20px' }}>
           <p className="quota-tips">
             <Tooltip title="今日数据指标">
@@ -221,7 +221,8 @@ const HttpPage: FC = () => {
               </div>
             </TabPane>
           </Tabs>
-          <HttpStageTimeChart stageTime={httpStagetime} stageType={httpParam.stage_type} />
+          <p>有bug暂时不展示！</p>
+          {/* <HttpStageTimeChart stageTime={httpStagetime} stageType={httpParam.stage_type} /> */}
         </Card>
         <Card>
           <Table dataSource={data.http_info_list} columns={columns} rowKey="http_url" />

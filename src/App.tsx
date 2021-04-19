@@ -16,6 +16,7 @@ import ErrorBoundary from './ErrorBoundary'
 
 import 'moment/locale/zh-cn'
 import locale from 'antd/lib/locale/zh_CN'
+import LoginPage from './view/Login/login.page'
 
 const Routers = [
   { path: '/', name: 'HomePage', component: HomePage },
@@ -34,16 +35,24 @@ function App() {
         <Router>
           <Layout className="layout">
             <TopHeaderNav />
-            <ErrorBoundary>
-              <Content className="site-layout-content">
-                <Switch>
-                  {Routers.map((item, index) => {
-                    return <Route key={index} path={item.path} exact render={() => <item.component />} />
-                  })}
-                  <Redirect from={'*'} to={'/'} />
-                </Switch>
-              </Content>
-            </ErrorBoundary>
+            <Switch>
+              {Routers.map((item, index) => {
+                return (
+                  <Route
+                    key={index}
+                    path={item.path}
+                    exact
+                    render={() => (
+                      <Content className="site-layout-content">
+                        <item.component />
+                      </Content>
+                    )}
+                  />
+                )
+              })}
+              <Route path="/login" component={LoginPage} />
+              <Redirect from={'*'} to={'/'} />
+            </Switch>
           </Layout>
         </Router>
       </ConfigProvider>

@@ -1,17 +1,31 @@
-.menu-container {
-  float: right;
-  height: 64px;
-  line-height: 0.6rem;
-  color: #333;
-}
+.top-header {
+  min-width: 1500px;
+  .header-logo {
+    margin-right: 20px;
+    img {
+      width: 42px;
+      height: 42px;
+    }
+  }
+  .flex-grow-1 {
+    display: flex;
 
-.menu-right {
-  float: left;
-  width: 90px;
-  height: 64px;
-  line-height: 64px;
-  margin-top: 0rem;
-  text-align: center;
-  cursor: pointer;
-  font-size: 14px;
+    flex-direction: column; /*垂直排列*/
+    align-items: flex-end; /*右对齐*/
+    .menu-container {
+      height: 64px;
+      line-height: 0.6rem;
+      display: flex;
+      color: #333;
+      .menu-item {
+        width: 90px;
+        height: 64px;
+        line-height: 64px;
+        margin-top: 0rem;
+        text-align: center;
+        cursor: pointer;
+        font-size: 14px;
+      }
+    }
+  }
 }

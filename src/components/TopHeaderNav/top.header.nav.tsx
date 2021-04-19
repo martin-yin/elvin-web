@@ -1,16 +1,68 @@
+import { Select } from 'antd'
 import { Header } from 'antd/lib/layout/layout'
-import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import React, { FC, useCallback, useEffect } from 'react'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import './index.less'
+import logo from '../../assets/logo.png'
+import { useDispatch } from 'react-redux'
+import { useAppState } from '../../stores'
+import { setActiveMenu } from '../../stores/menu.store'
+
+const { Option } = Select
 const TopHeaderNav: FC = () => {
-  const [activeMenu, setActiveMenu] = useState('/')
+  const { activeMenuId } = useAppState(state => state.menu)
   const history = useHistory()
+
+  const location = useLocation()
+  const dispatch = useDispatch()
+
+  const menuList = [
+    {
+      title: '首页',
+      path: '/'
+    },
+    {
+      title: '用户',
+      path: '/user'
+    },
+    {
+      title: '性能',
+      path: '/performance'
+    },
+    {
+      title: 'API接口',
+      path: '/http'
+    },
+    {
+      title: 'JS错误',
+      path: '/js-error'
+    },
+    {
+      title: '资源错误',
+      path: '/error'
+    }
+  ]
+
   history.listen(location => {
-    setActiveMenu(location.pathname)
+    setMenuInfo(location.pathname)
   })
 
+  const setMenuInfo = (path: string) => {
+    menuList.map((item, index) => {
+      if (item.path === path) {
+        dispatch(
+          setActiveMenu({
+            path: path,
+            title: item.title,
+            activeMenuId: index
+          })
+        )
+      }
+    })
+  }
+
   const initData = useCallback(async () => {
-    setActiveMenu('/')
+    setMenuInfo(location.pathname)
   }, [])
 
   useEffect(() => {
@@ -19,26 +71,36 @@ const TopHeaderNav: FC = () => {
 
   return (
     <Header>
-      <div className="logo" />
-      <div className="menu-container">
-        <Link to="/">
-          <span className={`menu-right menu-short ${activeMenu === '/' ? 'active' : ''}`}>首页</span>
-        </Link>
-        <Link to="/user">
-          <span className={`menu-right menu-short ${activeMenu === '/user' ? 'active' : ''}`}>用户</span>
-        </Link>
-        <Link to="/performance">
-          <span className={`menu-right menu-short ${activeMenu === '/performance' ? 'active' : ''}`}>性能</span>
-        </Link>
-        <Link to="/http">
-          <span className={`menu-right menu-short ${activeMenu === '/http' ? 'active' : ''}`}>APi请求</span>
-        </Link>
-        <Link to="/js-error">
-          <span className={`menu-right menu-short ${activeMenu === '/js-error' ? 'active' : ''}`}>JS错误</span>
-        </Link>
-        <Link to="/error">
-          <span className={`menu-right menu-short ${activeMenu === '/error' ? 'active' : ''}`}>资源错误</span>
-        </Link>
+      <div className="top-header flex">
+        <div className="flex-grow-0 flex">
+          <div className="header-logo">
+            <img src={logo} alt="" />
+          </div>
+          <div className="">
+            {activeMenuId === 0 ? (
+              ''
+            ) : (
+              <>
+                <Select defaultValue="🐕" style={{ width: 120 }}>
+                  <Option value="🐕">🐕鸡巴前端项目</Option>
+                  <Option value="🤖">🤖鸡巴前端项目</Option>
+                  <Option value="💩">💩鸡巴前端项目</Option>
+                </Select>
+              </>
+            )}
+          </div>
+        </div>
+        <div className="flex-grow-1">
+          <div className="menu-container">
+            {menuList.map((item: any, index) => {
+              return (
+                <Link key={index} to={item.path}>
+                  <div className={`menu-item menu-short ${activeMenuId === index ? ' active' : ''}`}>{item.title}</div>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
       </div>
     </Header>
   )

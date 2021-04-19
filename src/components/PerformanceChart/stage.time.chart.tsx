@@ -37,6 +37,7 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
         type: 'value',
         name: '',
         position: 'left',
+        minInterval: 1,
         axisLabel: {
           formatter: '{value} ms'
         }
@@ -44,7 +45,9 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
       {
         type: 'value',
         name: '采样pv',
-        min: 0
+        min: 0,
+        scale: true,
+        minInterval: 1
       }
     ],
     dataZoom: [

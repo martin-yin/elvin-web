@@ -148,7 +148,7 @@ const UserPage: FC = () => {
   ]
   return (
     <>
-      <div className="site-layout-content">
+      <div>
         <Card style={{ textAlign: 'right' }}>
           <Space>
             <DatePicker

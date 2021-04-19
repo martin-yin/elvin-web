@@ -52,7 +52,7 @@ const ErrorPage: FC = () => {
 
   return (
     <>
-      <div className="site-layout-content">
+      <div>
         <Card className="header-quota" style={{ marginBottom: '20px' }}>
           <p className="quota-tips">
             <Tooltip title="今日数据指标">
