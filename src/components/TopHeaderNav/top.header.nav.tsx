@@ -6,11 +6,11 @@ import './index.less'
 import logo from '../../assets/logo.png'
 import { useDispatch } from 'react-redux'
 import { useAppState } from '../../stores'
-import { setActiveMenu } from '../../stores/menu.store'
+import { setActiveMenu, setActiePorjectId } from '../../stores/app.store'
 
 const { Option } = Select
 const TopHeaderNav: FC = () => {
-  const { activeMenuId } = useAppState(state => state.menu)
+  const { activeMenuIndex } = useAppState(state => state.appsotre)
   const history = useHistory()
 
   const location = useLocation()
@@ -47,16 +47,14 @@ const TopHeaderNav: FC = () => {
     setMenuInfo(location.pathname)
   })
 
+  const setActiePorject = (id: number) => {
+    setActiePorjectId(id)
+  }
+
   const setMenuInfo = (path: string) => {
     menuList.map((item, index) => {
       if (item.path === path) {
-        dispatch(
-          setActiveMenu({
-            path: path,
-            title: item.title,
-            activeMenuId: index
-          })
-        )
+        dispatch(setActiveMenu(index))
       }
     })
   }
@@ -77,14 +75,14 @@ const TopHeaderNav: FC = () => {
             <img src={logo} alt="" />
           </div>
           <div className="">
-            {activeMenuId === 0 ? (
+            {activeMenuIndex === 0 ? (
               ''
             ) : (
               <>
-                <Select defaultValue="🐕" style={{ width: 120 }}>
-                  <Option value="🐕">🐕鸡巴前端项目</Option>
-                  <Option value="🤖">🤖鸡巴前端项目</Option>
-                  <Option value="💩">💩鸡巴前端项目</Option>
+                <Select defaultValue="🐕" style={{ width: 120 }} onChange={setActiePorjectId}>
+                  <Option value={0}>🐕鸡巴前端项目</Option>
+                  <Option value={1}>🤖鸡巴前端项目</Option>
+                  <Option value={2}>💩鸡巴前端项目</Option>
                 </Select>
               </>
             )}
@@ -95,7 +93,9 @@ const TopHeaderNav: FC = () => {
             {menuList.map((item: any, index) => {
               return (
                 <Link key={index} to={item.path}>
-                  <div className={`menu-item menu-short ${activeMenuId === index ? ' active' : ''}`}>{item.title}</div>
+                  <div className={`menu-item menu-short ${activeMenuIndex === index ? ' active' : ''}`}>
+                    {item.title}
+                  </div>
                 </Link>
               )
             })}

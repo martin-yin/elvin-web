@@ -1,8 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit'
-import menuReducer from './menu.store'
+import appStore from './app.store'
 
 const rootReducer = combineReducers({
-  menu: menuReducer
+  appsotre: appStore
 })
 
 export default rootReducer
