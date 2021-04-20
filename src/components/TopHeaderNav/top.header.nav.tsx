@@ -1,16 +1,17 @@
 import { Select } from 'antd'
 import { Header } from 'antd/lib/layout/layout'
-import React, { FC, useCallback, useEffect } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import './index.less'
 import logo from '../../assets/logo.png'
 import { useDispatch } from 'react-redux'
 import { useAppState } from '../../stores'
-import { setActiveMenu, setActiePorjectId } from '../../stores/app.store'
+import { setActiveMenu, setActiePorjectId, setProjectList } from '../../stores/app.store'
+import { GetProject } from '../../request'
 
 const { Option } = Select
 const TopHeaderNav: FC = () => {
-  const { activeMenuIndex } = useAppState(state => state.appsotre)
+  const { activeMenuIndex, projectList } = useAppState(state => state.appsotre)
   const history = useHistory()
 
   const location = useLocation()
@@ -20,6 +21,10 @@ const TopHeaderNav: FC = () => {
     {
       title: '首页',
       path: '/'
+    },
+    {
+      title: '概况',
+      path: '/survey'
     },
     {
       title: '用户',
@@ -47,10 +52,6 @@ const TopHeaderNav: FC = () => {
     setMenuInfo(location.pathname)
   })
 
-  const setActiePorject = (id: number) => {
-    setActiePorjectId(id)
-  }
-
   const setMenuInfo = (path: string) => {
     menuList.map((item, index) => {
       if (item.path === path) {
@@ -61,11 +62,21 @@ const TopHeaderNav: FC = () => {
 
   const initData = useCallback(async () => {
     setMenuInfo(location.pathname)
+    const { data, code } = await GetProject()
+    if (code === 0) {
+      localStorage.setItem('last_app_id', data[0].id)
+      dispatch(setProjectList(data))
+    }
   }, [])
 
   useEffect(() => {
     initData()
   }, [initData])
+
+  const setProjectId = (value: string) => {
+    localStorage.setItem('last_app_id', value)
+    dispatch(setActiePorjectId(value))
+  }
 
   return (
     <Header>
@@ -79,10 +90,14 @@ const TopHeaderNav: FC = () => {
               ''
             ) : (
               <>
-                <Select defaultValue="🐕" style={{ width: 120 }} onChange={setActiePorjectId}>
-                  <Option value={0}>🐕鸡巴前端项目</Option>
-                  <Option value={1}>🤖鸡巴前端项目</Option>
-                  <Option value={2}>💩鸡巴前端项目</Option>
+                <Select defaultValue={'1'} style={{ width: 120 }} onChange={setProjectId}>
+                  {projectList.map((item: any, index) => {
+                    return (
+                      <Option value={item.id} key={index}>
+                        {item.project_name}
+                      </Option>
+                    )
+                  })}
                 </Select>
               </>
             )}

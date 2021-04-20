@@ -5,11 +5,13 @@ import { GetUsers } from '../../request'
 import { Link } from 'react-router-dom'
 import { getTimeYYMMDDHM } from '../../utils'
 import moment from 'moment'
+import { useAppState } from '../../stores'
 const { Search } = Input
 const { Option } = Select
 const UserPage: FC = () => {
   const [userLst, setUserList] = useState([])
   const [timeLine, setTimeline] = useState([])
+  const { activeProjectId } = useAppState(state => state.appsotre)
   const [userParams, setUserParams] = useState({
     search_date: moment().format('YYYY-MM-DD'),
     search_hour: '00:00'
@@ -32,7 +34,7 @@ const UserPage: FC = () => {
 
   useEffect(() => {
     initData()
-  }, [initData])
+  }, [activeProjectId, initData])
 
   const timeChange = (date: any, dateString: string) => {
     setUserParams({

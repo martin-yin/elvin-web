@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { message } from 'antd'
+import store, { useAppState } from '../stores'
 
 axios.defaults.timeout = 10000
 
@@ -43,8 +44,15 @@ type Method = 'get' | 'post' | 'put' | 'delete'
 
 export type MyResponse<T = any> = Promise<Response<T>>
 
-export const request = <T = any>(method: Method, url: string, data?: any, config?: AxiosRequestConfig): any => {
+export const request = <T = any>(method: Method, url: string, data = {}, config?: AxiosRequestConfig): any => {
   const prefix = 'http://127.0.0.1:8889'
+
+  if (url !== '/communal/projects') {
+    const app_id = localStorage.getItem('last_app_id')
+    console.log(app_id)
+    Object.assign(data, { app_id })
+  }
+
   if (url.indexOf('https') !== 0) {
     url = prefix + url
   }

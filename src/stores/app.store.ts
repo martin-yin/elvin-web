@@ -15,10 +15,13 @@ const appStore = createSlice({
     },
     setActiePorjectId(state, action: PayloadAction<any>) {
       state.activeProjectId = action.payload
+    },
+    setProjectList(state, action: PayloadAction<any>) {
+      state.projectList = action.payload
     }
   }
 })
 
-export const { setActiveMenu, setActiePorjectId } = appStore.actions
+export const { setActiveMenu, setActiePorjectId, setProjectList } = appStore.actions
 
 export default appStore.reducer
