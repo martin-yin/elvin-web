@@ -2,8 +2,10 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Statistic, Table, Tooltip } from 'antd'
 import { webPageErrorData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
+import { useAppState } from '../../stores'
 
 const ErrorPage: FC = () => {
+  const { monitorId } = useAppState(state => state.appsotre)
   const [data, setData] = useState({
     resources_quota: {
       error_count: 13,
@@ -20,7 +22,7 @@ const ErrorPage: FC = () => {
 
   useEffect(() => {
     initData()
-  }, [initData])
+  }, [initData, monitorId])
 
   const columns = [
     {

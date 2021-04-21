@@ -6,10 +6,12 @@ import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
 import StageTimeChart from '../../components/PerformanceChart/stage.time.chart'
 import StackBarChar from '../../components/PerformanceChart/stack.bar.chart'
+import { useAppState } from '../../stores'
 
 const { RangePicker } = DatePicker
 
 const PerformancePage: FC = () => {
+  const { monitorId } = useAppState(state => state.appsotre)
   const [performanceParam, setPerformanceParam] = useState({
     time_grain: 'minute',
     start_time: moment().format('YYYY-MM-DD'),
@@ -45,12 +47,12 @@ const PerformancePage: FC = () => {
       end_time: `${performanceParam.end_time}`
     })
     setData(result.data)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     initData()
-  }, [initData])
+    console.log(111)
+  }, [initData, monitorId])
 
   const columns = [
     {

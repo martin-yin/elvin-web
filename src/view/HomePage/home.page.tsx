@@ -1,11 +1,20 @@
 import { AppstoreOutlined, EditOutlined } from '@ant-design/icons'
 import { Space, Tooltip } from 'antd'
 import React, { FC } from 'react'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { useAppState } from '../../stores'
+import { setMonitorId } from '../../stores/app.store'
 
 import './index.less'
 const HomePage: FC = () => {
   const { projectList } = useAppState(state => state.appsotre)
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const projectSurvey = (monitor_id: string) => {
+    dispatch(setMonitorId(monitor_id))
+    history.push('/survey')
+  }
   return (
     <>
       <div>
@@ -21,9 +30,11 @@ const HomePage: FC = () => {
                         <Tooltip placement="topLeft" title="修改配置">
                           <EditOutlined style={{ color: '#a3a5b0' }} />
                         </Tooltip>
-                        <Tooltip placement="topLeft" title="查看概况">
-                          <AppstoreOutlined style={{ color: '#a3a5b0' }} />
-                        </Tooltip>
+                        <p onClick={() => projectSurvey(item.monitor_id)}>
+                          <Tooltip placement="topLeft" title="查看概况">
+                            <AppstoreOutlined style={{ color: '#a3a5b0' }} />
+                          </Tooltip>
+                        </p>
                       </Space>
                     </div>
                   </div>

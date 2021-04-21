@@ -12,14 +12,14 @@ import HomePage from './view/HomePage/home.page'
 import JsErrorPage from './view/JsErrorPage/js.error.page'
 import TopHeaderNav from './components/TopHeaderNav/top.header.nav'
 import UserActionDetailPage from './view/User/use.action.detail.page'
-import ErrorBoundary from './ErrorBoundary'
-
 import 'moment/locale/zh-cn'
 import locale from 'antd/lib/locale/zh_CN'
 import LoginPage from './view/Login/login.page'
+import SurveyPage from './view/SurveyPage/survey.page'
 
 const Routers = [
   { path: '/', name: 'HomePage', component: HomePage },
+  { path: '/survey', name: 'SurveyPage', component: SurveyPage },
   { path: '/performance', name: 'PerformancePage', component: PerformancePage },
   { path: '/http', name: 'HttpPage', component: HttpPage },
   { path: '/error', name: 'ErrorPage', component: ErrorPage },

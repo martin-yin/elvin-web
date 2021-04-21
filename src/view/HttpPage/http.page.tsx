@@ -5,9 +5,11 @@ import { httpData, httpStageData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
 import HttpStageTimeChart from '../../components/HttpChart/stage.time.chart'
+import { useAppState } from '../../stores'
 const { TabPane } = Tabs
 const { RangePicker } = DatePicker
 const HttpPage: FC = () => {
+  const { monitorId } = useAppState(state => state.appsotre)
   const [data, setData] = useState({
     http_quota: {
       error_user: 0,
@@ -82,7 +84,7 @@ const HttpPage: FC = () => {
 
   useEffect(() => {
     initData()
-  }, [initData])
+  }, [initData, monitorId])
 
   const columns = [
     {

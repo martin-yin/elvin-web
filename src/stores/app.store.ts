@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 const initialState = {
   activeMenuIndex: 0,
   projectList: [],
-  monitorId: 0
+  monitorId: ''
 }
 
 const appStore = createSlice({

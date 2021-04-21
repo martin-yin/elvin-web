@@ -12,6 +12,7 @@ import { GetProject } from '../../request'
 const { Option } = Select
 const TopHeaderNav: FC = () => {
   const { activeMenuIndex, projectList } = useAppState(state => state.appsotre)
+  const [defaultMonitorId, setDefaultMonitorId] = useState('')
   const history = useHistory()
 
   const location = useLocation()
@@ -65,6 +66,7 @@ const TopHeaderNav: FC = () => {
     const { data, code } = await GetProject()
     if (code === 0) {
       localStorage.setItem('monitor_id', data[0].monitor_id)
+      setDefaultMonitorId(data[0].monitor_id)
       dispatch(setProjectList(data))
     }
   }, [])
@@ -89,17 +91,20 @@ const TopHeaderNav: FC = () => {
             {activeMenuIndex === 0 ? (
               ''
             ) : (
-              <>
-                <Select style={{ width: 120 }} onChange={setProjectId}>
-                  {projectList.map((item: any, index) => {
-                    return (
-                      <Option value={item.monitor_id} key={index}>
-                        {item.project_name}
-                      </Option>
-                    )
-                  })}
-                </Select>
-              </>
+              <Select
+                key={defaultMonitorId}
+                defaultValue={defaultMonitorId}
+                style={{ width: 120 }}
+                onChange={setProjectId}
+              >
+                {projectList.map((item: any, index) => {
+                  return (
+                    <Option value={item.monitor_id} key={index}>
+                      {item.project_name}
+                    </Option>
+                  )
+                })}
+              </Select>
             )}
           </div>
         </div>
