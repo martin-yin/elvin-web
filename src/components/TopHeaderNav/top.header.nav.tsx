@@ -6,7 +6,7 @@ import './index.less'
 import logo from '../../assets/logo.png'
 import { useDispatch } from 'react-redux'
 import { useAppState } from '../../stores'
-import { setActiveMenu, setActiePorjectId, setProjectList } from '../../stores/app.store'
+import { setActiveMenu, setMonitorId, setProjectList } from '../../stores/app.store'
 import { GetProject } from '../../request'
 
 const { Option } = Select
@@ -64,7 +64,7 @@ const TopHeaderNav: FC = () => {
     setMenuInfo(location.pathname)
     const { data, code } = await GetProject()
     if (code === 0) {
-      localStorage.setItem('last_app_id', data[0].id)
+      localStorage.setItem('monitor_id', data[0].monitor_id)
       dispatch(setProjectList(data))
     }
   }, [])
@@ -74,8 +74,8 @@ const TopHeaderNav: FC = () => {
   }, [initData])
 
   const setProjectId = (value: string) => {
-    localStorage.setItem('last_app_id', value)
-    dispatch(setActiePorjectId(value))
+    localStorage.setItem('monitor_id', value)
+    dispatch(setMonitorId(value))
   }
 
   return (
@@ -90,10 +90,10 @@ const TopHeaderNav: FC = () => {
               ''
             ) : (
               <>
-                <Select defaultValue={'1'} style={{ width: 120 }} onChange={setProjectId}>
+                <Select style={{ width: 120 }} onChange={setProjectId}>
                   {projectList.map((item: any, index) => {
                     return (
-                      <Option value={item.id} key={index}>
+                      <Option value={item.monitor_id} key={index}>
                         {item.project_name}
                       </Option>
                     )

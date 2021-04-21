@@ -11,7 +11,7 @@ const { Option } = Select
 const UserPage: FC = () => {
   const [userLst, setUserList] = useState([])
   const [timeLine, setTimeline] = useState([])
-  const { activeProjectId } = useAppState(state => state.appsotre)
+  const { monitorId } = useAppState(state => state.appsotre)
   const [userParams, setUserParams] = useState({
     search_date: moment().format('YYYY-MM-DD'),
     search_hour: '00:00'
@@ -34,7 +34,7 @@ const UserPage: FC = () => {
 
   useEffect(() => {
     initData()
-  }, [activeProjectId, initData])
+  }, [monitorId, initData])
 
   const timeChange = (date: any, dateString: string) => {
     setUserParams({

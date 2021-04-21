@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 const initialState = {
   activeMenuIndex: 0,
   projectList: [],
-  activeProjectId: 0
+  monitorId: 0
 }
 
 const appStore = createSlice({
@@ -13,8 +13,8 @@ const appStore = createSlice({
     setActiveMenu(state, action: PayloadAction<any>) {
       state.activeMenuIndex = action.payload
     },
-    setActiePorjectId(state, action: PayloadAction<any>) {
-      state.activeProjectId = action.payload
+    setMonitorId(state, action: PayloadAction<any>) {
+      state.monitorId = action.payload
     },
     setProjectList(state, action: PayloadAction<any>) {
       state.projectList = action.payload
@@ -22,6 +22,6 @@ const appStore = createSlice({
   }
 })
 
-export const { setActiveMenu, setActiePorjectId, setProjectList } = appStore.actions
+export const { setActiveMenu, setMonitorId, setProjectList } = appStore.actions
 
 export default appStore.reducer

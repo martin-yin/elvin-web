@@ -46,13 +46,10 @@ export type MyResponse<T = any> = Promise<Response<T>>
 
 export const request = <T = any>(method: Method, url: string, data = {}, config?: AxiosRequestConfig): any => {
   const prefix = 'http://127.0.0.1:8889'
-
   if (url !== '/communal/projects') {
-    const app_id = localStorage.getItem('last_app_id')
-    console.log(app_id)
-    Object.assign(data, { app_id })
+    const monitor_id = localStorage.getItem('monitor_id')
+    Object.assign(data, { monitor_id })
   }
-
   if (url.indexOf('https') !== 0) {
     url = prefix + url
   }
