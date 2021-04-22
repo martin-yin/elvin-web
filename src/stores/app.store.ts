@@ -14,6 +14,7 @@ const appStore = createSlice({
       state.activeMenuIndex = action.payload
     },
     setMonitorId(state, action: PayloadAction<any>) {
+      localStorage.setItem('monitor_id', action.payload)
       state.monitorId = action.payload
     },
     setProjectList(state, action: PayloadAction<any>) {

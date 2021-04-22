@@ -1,31 +1,58 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import { ConfigProvider, Layout } from 'antd'
 import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 const { Content } = Layout
 import './index.less'
 import './assets/icofont.min.css'
-import PerformancePage from './view/PerformancePage/performance.page'
-import HttpPage from './view/HttpPage/http.page'
-import ErrorPage from './view/ErrorPage/error.page'
-import UserPage from './view/User/use.page'
 import HomePage from './view/HomePage/home.page'
-import JsErrorPage from './view/JsErrorPage/js.error.page'
 import TopHeaderNav from './components/TopHeaderNav/top.header.nav'
-import UserActionDetailPage from './view/User/use.action.detail.page'
 import 'moment/locale/zh-cn'
 import locale from 'antd/lib/locale/zh_CN'
 import LoginPage from './view/Login/login.page'
-import SurveyPage from './view/SurveyPage/survey.page'
+import { Suspense } from 'react'
 
 const Routers = [
   { path: '/', name: 'HomePage', component: HomePage },
-  { path: '/survey', name: 'SurveyPage', component: SurveyPage },
-  { path: '/performance', name: 'PerformancePage', component: PerformancePage },
-  { path: '/http', name: 'HttpPage', component: HttpPage },
-  { path: '/error', name: 'ErrorPage', component: ErrorPage },
-  { path: '/js-error', name: 'jsError', component: JsErrorPage },
-  { path: '/user', name: 'UserPage', component: UserPage },
-  { path: '/user-detail/:userId', name: 'UserBehaviorDetailPage', component: UserActionDetailPage }
+  {
+    path: '/survey',
+    name: 'SurveyPage',
+    component: lazy(() => import(/* webpackChunkName: "survey'"*/ './view/SurveyPage/survey.page'))
+  },
+  {
+    path: '/performance',
+    name: 'PerformancePage',
+    component: lazy(() => import(/* webpackChunkName: "performance'"*/ './view/PerformancePage/performance.page'))
+  },
+  {
+    path: '/http',
+    name: 'HttpPage',
+    component: lazy(() => import(/* webpackChunkName: "http'"*/ './view/HttpPage/http.page'))
+  },
+  {
+    path: '/http-error',
+    name: 'HttpPage',
+    component: lazy(() => import(/* webpackChunkName: "http'"*/ './view/HttpErrorPage/http.error.page'))
+  },
+  {
+    path: '/resource-error',
+    name: 'ErrorPage',
+    component: lazy(() => import(/* webpackChunkName: "error'"*/ './view/ErrorPage/error.page'))
+  },
+  {
+    path: '/js-error',
+    name: 'jsError',
+    component: lazy(() => import(/* webpackChunkName: "js-error'"*/ './view/JsErrorPage/js.error.page'))
+  },
+  {
+    path: '/user',
+    name: 'UserPage',
+    component: lazy(() => import(/* webpackChunkName: "use'"*/ './view/User/use.page'))
+  },
+  {
+    path: '/user-detail/:userId',
+    name: 'UserBehaviorDetailPage',
+    component: lazy(() => import(/* webpackChunkName: "user-action-detail'"*/ './view/User/use.action.detail.page'))
+  }
 ]
 
 function App() {
@@ -36,20 +63,22 @@ function App() {
           <Layout className="layout">
             <TopHeaderNav />
             <Switch>
-              {Routers.map((item, index) => {
-                return (
-                  <Route
-                    key={index}
-                    path={item.path}
-                    exact
-                    render={() => (
-                      <Content className="site-layout-content">
-                        <item.component />
-                      </Content>
-                    )}
-                  />
-                )
-              })}
+              <Suspense fallback={<div>Loading</div>}>
+                {Routers.map((item, index) => {
+                  return (
+                    <Route
+                      key={index}
+                      path={item.path}
+                      exact
+                      render={() => (
+                        <Content className="site-layout-content">
+                          <item.component />
+                        </Content>
+                      )}
+                    />
+                  )
+                })}
+              </Suspense>
               <Route path="/login" component={LoginPage} />
               <Redirect from={'*'} to={'/'} />
             </Switch>

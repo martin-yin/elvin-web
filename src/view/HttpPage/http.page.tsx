@@ -41,6 +41,8 @@ const HttpPage: FC = () => {
       end_time: httpParam.end_time,
       stage_type: httpParam.stage_type
     })
+
+    console.log(httpStageDataResult.data.http_stagetime)
     setHttpStagetime(httpStageDataResult.data.http_stagetime)
     setData(result.data)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -79,6 +81,7 @@ const HttpPage: FC = () => {
       end_time: httpParam.end_time,
       stage_type: httpParam.stage_type
     })
+
     setHttpStagetime(result.data.http_stagetime)
   }
 
@@ -93,10 +96,9 @@ const HttpPage: FC = () => {
       key: 'http_url'
     },
     {
-      title: '成功率',
-      dataIndex: 'success_rate',
-      key: 'success_rate',
-      render: (text: string, record: any) => <>{(record.success_total / record.total) * 100}%</>
+      title: '请求用户',
+      dataIndex: 'user_total',
+      key: 'user_total'
     },
     {
       title: '平均耗时',
@@ -115,27 +117,6 @@ const HttpPage: FC = () => {
     return current && current >= moment()
   }
 
-  const tabChange = async (activeKey: string) => {
-    let stage_type = ''
-    if (activeKey === '1') {
-      stage_type = 'success'
-    } else {
-      stage_type = 'fail'
-    }
-    setHttpParam({
-      time_grain: httpParam.time_grain,
-      start_time: httpParam.start_time,
-      end_time: httpParam.end_time,
-      stage_type: stage_type
-    })
-    const httpStageDataResult = await httpStageData({
-      time_grain: httpParam.time_grain,
-      start_time: httpParam.start_time,
-      end_time: httpParam.end_time,
-      stage_type: stage_type
-    })
-    setHttpStagetime(httpStageDataResult.data.http_stagetime)
-  }
   return (
     <>
       <div>
@@ -149,82 +130,37 @@ const HttpPage: FC = () => {
             <Statistic title="请求次数" value={data.http_quota.total} suffix="" />
           </div>
           <div className="item">
-            <Statistic title="成功率" value={data.http_quota.success_rate} suffix="%" />
-          </div>
-          <div className="item">
             <Statistic title="请求耗时" value={data.http_quota.load_time} suffix="ms" />
-          </div>
-          <div className="item">
-            <Statistic title="失败影响用户" value={data.http_quota.error_user} />
           </div>
         </Card>
         <Card style={{ marginBottom: '20px' }}>
-          <Tabs defaultActiveKey="1" onChange={tabChange}>
-            <TabPane tab="成功请求" key="1">
-              <div className="performanceTimePicker">
-                <div className="timePicker">
-                  <RangePicker
-                    disabledDate={disabledDate}
-                    defaultValue={[
-                      moment(httpParam.start_time, 'YYYY-MM-DD'),
-                      moment(httpParam.end_time, 'YYYY-MM-DD')
-                    ]}
-                    ranges={{
-                      今天: [moment(), moment()],
-                      昨天: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                      最近七天: [moment().subtract(6, 'days'), moment()],
-                      近一个月: [moment().subtract(1, 'month'), moment()]
-                    }}
-                    onChange={onTimeChange}
-                  />
-                </div>
-                <div className="timeGrain">
-                  <p>时间粒度：</p>
-                  <Radio.Group onChange={timeGrainChange} value={httpParam.time_grain}>
-                    <Radio value={'minute'}>分钟</Radio>
-                    <Radio value={'hour'}>小时</Radio>
-                    <Radio value={'day'}>天</Radio>
-                  </Radio.Group>
-                  <Button type="primary" size="small" onClick={search}>
-                    搜索
-                  </Button>
-                </div>
-              </div>
-            </TabPane>
-            <TabPane tab="失败请求" key="2">
-              <div className="performanceTimePicker">
-                <div className="timePicker">
-                  <RangePicker
-                    disabledDate={disabledDate}
-                    defaultValue={[
-                      moment(httpParam.start_time, 'YYYY-MM-DD'),
-                      moment(httpParam.end_time, 'YYYY-MM-DD')
-                    ]}
-                    ranges={{
-                      今天: [moment(), moment()],
-                      昨天: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                      最近七天: [moment().subtract(6, 'days'), moment()],
-                      近一个月: [moment().subtract(1, 'month'), moment()]
-                    }}
-                    onChange={onTimeChange}
-                  />
-                </div>
-                <div className="timeGrain">
-                  <p>时间粒度：</p>
-                  <Radio.Group onChange={timeGrainChange} value={httpParam.time_grain}>
-                    <Radio value={'minute'}>分钟</Radio>
-                    <Radio value={'hour'}>小时</Radio>
-                    <Radio value={'day'}>天</Radio>
-                  </Radio.Group>
-                  <Button type="primary" size="small" onClick={search}>
-                    搜索
-                  </Button>
-                </div>
-              </div>
-            </TabPane>
-          </Tabs>
-          <p>有bug暂时不展示！</p>
-          {/* <HttpStageTimeChart stageTime={httpStagetime} stageType={httpParam.stage_type} /> */}
+          <div className="timePickerContainer">
+            <div className="timePicker">
+              <RangePicker
+                disabledDate={disabledDate}
+                defaultValue={[moment(httpParam.start_time, 'YYYY-MM-DD'), moment(httpParam.end_time, 'YYYY-MM-DD')]}
+                ranges={{
+                  今天: [moment(), moment()],
+                  昨天: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                  最近七天: [moment().subtract(6, 'days'), moment()],
+                  近一个月: [moment().subtract(1, 'month'), moment()]
+                }}
+                onChange={onTimeChange}
+              />
+            </div>
+            <div className="timeGrain">
+              <p>时间粒度：</p>
+              <Radio.Group onChange={timeGrainChange} value={httpParam.time_grain}>
+                <Radio value={'minute'}>分钟</Radio>
+                <Radio value={'hour'}>小时</Radio>
+                <Radio value={'day'}>天</Radio>
+              </Radio.Group>
+              <Button type="primary" size="small" onClick={search}>
+                搜索
+              </Button>
+            </div>
+          </div>
+          <HttpStageTimeChart stageTime={httpStagetime} />
         </Card>
         <Card>
           <Table dataSource={data.http_info_list} columns={columns} rowKey="http_url" />

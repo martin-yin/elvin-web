@@ -11,7 +11,6 @@ const { Option } = Select
 const UserPage: FC = () => {
   const [userLst, setUserList] = useState([])
   const [timeLine, setTimeline] = useState([])
-  const { monitorId } = useAppState(state => state.appsotre)
   const [userParams, setUserParams] = useState({
     search_date: moment().format('YYYY-MM-DD'),
     search_hour: '00:00'
@@ -29,14 +28,15 @@ const UserPage: FC = () => {
       }
     }
     setTimeline(timeLine)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    console.log(userParams)
+  }, [userParams])
 
   useEffect(() => {
     initData()
-  }, [monitorId, initData])
+  }, [initData, userParams])
 
   const timeChange = (date: any, dateString: string) => {
+    console.log(dateString)
     setUserParams({
       search_date: dateString,
       search_hour: userParams.search_hour

@@ -35,9 +35,9 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
     yAxis: [
       {
         type: 'value',
-        name: '',
+        name: '耗时',
         position: 'left',
-        minInterval: 1,
+        interval: 6000,
         axisLabel: {
           formatter: '{value} ms'
         }
@@ -45,9 +45,9 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
       {
         type: 'value',
         name: '采样pv',
-        min: 0,
-        scale: true,
-        minInterval: 1
+        splitLine: {
+          show: false
+        }
       }
     ],
     dataZoom: [
@@ -62,6 +62,7 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
       {
         name: '采样pv',
         type: 'bar',
+        barMaxWidth: 16,
         data: stage_time.map(function (item: any) {
           return item.pv
         }),

@@ -161,7 +161,7 @@ const PerformancePage: FC = () => {
         </div>
       </Card>
       <Card style={{ margin: '20px 0px' }}>
-        <div className="performanceTimePicker">
+        <div className="timePickerContainer">
           <div className="timePicker">
             <RangePicker
               disabledDate={disabledDate}
@@ -196,6 +196,7 @@ const PerformancePage: FC = () => {
         <StackBarChar stack={data.stack}></StackBarChar>
       </Card>
       <Card>
+        <p>这里需要增加一个查看单条URL 加载得信息 参考：http://www.webfunny.cn/demo/pagePerformance.html</p>
         <Table dataSource={data.load_page_info_list} columns={columns} rowKey="page_url" />
       </Card>
     </>

@@ -15,11 +15,11 @@ echarts.use([
   DataZoomComponent,
   LegendComponent
 ])
-const HttpStageTimeChart: FC<any> = ({ stageTime = [], stageType = 'success' }) => {
+const HttpStageTimeChart: FC<any> = ({ stageTime = [] }) => {
   const dateTime = new Date()
   const startTime = ('0' + (dateTime.getHours() - 1)).slice(-2) + ':00'
-  console.log(startTime)
-  const option: any = {
+
+  const successOption = {
     title: {
       text: ''
     },
@@ -27,31 +27,6 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [], stageType = 'success' }) 
       trigger: 'axis',
       backgroundColor: '#fff'
     },
-    // yAxis: [
-    //   {
-    //     type: 'value',
-    //     name: '',
-    //     position: 'left',
-    //     axisLabel: {
-    //       formatter: '{value}'
-    //     },
-    //     max: 100
-    //   },
-    //   {
-    //     type: 'value',
-    //     name: '请求数量'
-    //   }
-    // ],
-    yAxis: [
-      {
-        type: 'value',
-        name: '成功率',
-        position: 'left',
-        axisLabel: {
-          formatter: '{value} %'
-        }
-      }
-    ],
     dataZoom: [
       {
         startValue: startTime
@@ -59,103 +34,58 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [], stageType = 'success' }) 
       {
         type: 'inside'
       }
-    ]
-  }
-  const errorOption = {
-    ...option,
+    ],
     legend: {
-      data: ['请求数量', '失败次数', '请求耗时']
-    },
-    xAxis: {
-      data:
-        stageTime.length == 0
-          ? []
-          : stageTime.map(function (item: any) {
-              return item.time_key
-            })
-    },
-    series: [
-      {
-        name: '请求数量',
-        type: 'line',
-        smooth: true,
-        data: stageTime.map(function (item: any) {
-          return item.total
-        })
-      },
-      {
-        name: '失败次数',
-        type: 'line',
-        smooth: true,
-        data: stageTime.map(function (item: any) {
-          return item.fail_total
-        })
-      },
-      {
-        name: '请求耗时',
-        type: 'bar',
-        smooth: true,
-        data: stageTime.map(function (item: any) {
-          return item.load_time
-        })
-      }
-    ]
-  }
-
-  const successOption = {
-    ...option,
-    legend: {
-      data: ['请求数量', '成功率']
+      data: ['请求耗时', '请求数量']
     },
     yAxis: [
       {
         type: 'value',
-        name: '',
+        name: '耗时',
         position: 'left',
+        interval: 1000,
         axisLabel: {
-          formatter: '{value}'
+          formatter: '{value} ms'
         }
       },
       {
         type: 'value',
-        name: '成功率',
-        axisLabel: {
-          formatter: '{value}'
+        name: '请求数量',
+        splitLine: {
+          show: false
         }
       }
     ],
     xAxis: {
-      data:
-        stageTime.length == 0
-          ? []
-          : stageTime.map(function (item: any) {
-              return item.time_key
-            })
+      data: stageTime.map(function (item: any) {
+        return item.time_key
+      })
     },
     series: [
+      {
+        name: '请求耗时',
+        type: 'line',
+        smooth: true,
+        data: stageTime.map(function (item: any) {
+          return item.load_time
+        })
+      },
       {
         name: '请求数量',
         type: 'bar',
         smooth: true,
+        barMaxWidth: 16,
         data: stageTime.map(function (item: any) {
           return item.total
         }),
-        yAxisIndex: 0
-      },
-      {
-        name: '成功率',
-        type: 'line',
-        smooth: true,
-        data: stageTime.map(function (item: any) {
-          return item.success_rate
-        })
+        yAxisIndex: 1
       }
     ]
   }
 
   return (
     <div>
-      <PublicChart option={stageType === 'success' ? successOption : errorOption} height="450px" />
+      <PublicChart option={successOption} height="450px" />
     </div>
   )
 }
