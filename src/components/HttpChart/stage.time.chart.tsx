@@ -16,9 +16,6 @@ echarts.use([
   LegendComponent
 ])
 const HttpStageTimeChart: FC<any> = ({ stageTime = [] }) => {
-  const dateTime = new Date()
-  const startTime = ('0' + (dateTime.getHours() - 1)).slice(-2) + ':00'
-
   const successOption = {
     title: {
       text: ''
@@ -29,7 +26,7 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [] }) => {
     },
     dataZoom: [
       {
-        startValue: startTime
+        startValue: ''
       },
       {
         type: 'inside'
@@ -57,27 +54,36 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [] }) => {
       }
     ],
     xAxis: {
-      data: stageTime.map(function (item: any) {
-        return item.time_key
-      })
+      data:
+        stageTime.length !== 0
+          ? stageTime.map(function (item: any) {
+              return item.time_key
+            })
+          : []
     },
     series: [
       {
         name: '请求耗时',
         type: 'line',
         smooth: true,
-        data: stageTime.map(function (item: any) {
-          return item.load_time
-        })
+        data:
+          stageTime.length !== 0
+            ? stageTime.map(function (item: any) {
+                return item.load_time
+              })
+            : []
       },
       {
         name: '请求数量',
         type: 'bar',
         smooth: true,
         barMaxWidth: 16,
-        data: stageTime.map(function (item: any) {
-          return item.total
-        }),
+        data:
+          stageTime.length !== 0
+            ? stageTime.map(function (item: any) {
+                return item.total
+              })
+            : [],
         yAxisIndex: 1
       }
     ]

@@ -2,8 +2,6 @@ import React, { FC } from 'react'
 import PublicChart from '../PublicChart/public.chart'
 
 const StageTimeChart: FC<any> = ({ stage_time }) => {
-  const dateTime = new Date()
-  const startTime = ('0' + (dateTime.getHours() - 1)).slice(-2) + ':00'
   const option: any = {
     title: {
       text: ''
@@ -52,7 +50,7 @@ const StageTimeChart: FC<any> = ({ stage_time }) => {
     ],
     dataZoom: [
       {
-        startValue: startTime
+        startValue: ''
       },
       {
         type: 'inside'

@@ -81,13 +81,12 @@ const HttpPage: FC = () => {
       end_time: httpParam.end_time,
       stage_type: httpParam.stage_type
     })
-
     setHttpStagetime(result.data.http_stagetime)
   }
 
   useEffect(() => {
     initData()
-  }, [initData, monitorId])
+  }, [initData])
 
   const columns = [
     {

@@ -20,3 +20,5 @@ export const GetUserAction = (action_id: string, action_type: string) =>
 export const GetJsError = () => request<any>('get', '/communal/jsError')
 
 export const GetProject = () => request<any>('get', '/communal/projects')
+
+export const GetHttpError = (params: any) => request<any>('get', '/communal/http-error', params)

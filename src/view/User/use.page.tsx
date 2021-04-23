@@ -5,7 +5,7 @@ import { GetUsers } from '../../request'
 import { Link } from 'react-router-dom'
 import { getTimeYYMMDDHM } from '../../utils'
 import moment from 'moment'
-import { useAppState } from '../../stores'
+
 const { Search } = Input
 const { Option } = Select
 const UserPage: FC = () => {
