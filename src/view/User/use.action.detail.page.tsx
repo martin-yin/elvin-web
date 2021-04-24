@@ -1,24 +1,38 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Divider, Space, Timeline, Typography } from 'antd'
+import { Card, Divider, Space, Timeline } from 'antd'
 import { GetUse, GetUserAction, GetUserActions } from '../../request'
 import './index.less'
 import ActionTimeLineItem from '../../components/UserAction/action.time.line'
 import ActionDetail from '../../components/UserAction/action.detail'
 import { useParams } from 'react-router-dom'
+import { User } from '../../interface/user.interface'
 const UserActionDetailPage: FC = () => {
   const [userActionsList, setUserActionsList] = useState([])
-
   const [userActionStatistics, setUserActionStatistics] = useState([])
-
   const [detail, setDetail] = useState({} as any)
   const [activeId, setActiveId] = useState('')
-
-  const [userInfo, setUserInfo] = useState({} as any)
+  const [userInfo, setUserInfo] = useState<User>({
+    user_id: '',
+    device: '',
+    system: '',
+    browser: '',
+    browser_version: '',
+    ip: '',
+    address: '',
+    happen_time: '',
+    device_type: '',
+    os: '',
+    os_version: '',
+    nation: '',
+    province: '',
+    city: '',
+    district: '',
+    event_id: ''
+  })
   const params: any = useParams()
   const initData = useCallback(async () => {
-    const userInfo: any = await GetUse(params.userId)
+    const userInfo = await GetUse(params.userId)
     const { data } = await GetUserActions(userInfo.data.event_id)
-
     setUserInfo(userInfo.data)
     setUserActionsList(data.user_actions_list)
     setUserActionStatistics(data.user_action_statistics)

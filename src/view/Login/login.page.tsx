@@ -9,11 +9,7 @@ const LoginPage: FC = () => {
 
   const handleUserLogin = async (form: any) => {
     console.log(form)
-    // const { data, status } = await login(form)
-    // if (status) {
-    //   localStorage.setItem('token', data.token)
     history.push('/')
-    // }
   }
 
   return (

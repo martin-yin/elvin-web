@@ -51,10 +51,6 @@ const TopHeaderNav: FC = () => {
           path: '/js-error'
         },
         {
-          title: 'API异常',
-          path: '/http-error'
-        },
-        {
           title: '资源异常',
           path: '/resource-error'
         }

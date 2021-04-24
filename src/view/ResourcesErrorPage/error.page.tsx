@@ -2,12 +2,14 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Statistic, Table, Tooltip } from 'antd'
 import { webPageErrorData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
-import { useAppState } from '../../stores'
+import { ResourcesErrorList, ResourcesErrorQuota } from '../../interface/error.interface'
 
-const ErrorPage: FC = () => {
-  const { monitorId } = useAppState(state => state.appsotre)
-  const [data, setData] = useState({
-    resources_quota: {
+const ResourcesErrorPage: FC = () => {
+  const [resourcesData, setErrorPageData] = useState<{
+    quota: ResourcesErrorQuota
+    resources_list: ResourcesErrorList
+  }>({
+    quota: {
       error_count: 13,
       error_page: 13,
       error_user: 1
@@ -15,14 +17,14 @@ const ErrorPage: FC = () => {
     resources_list: []
   })
 
-  const initData = useCallback(async () => {
-    const result = await webPageErrorData()
-    setData(result.data)
+  const initErrorPageData = useCallback(async () => {
+    const { data } = await webPageErrorData()
+    setErrorPageData(data)
   }, [])
 
   useEffect(() => {
-    initData()
-  }, [initData, monitorId])
+    initErrorPageData()
+  }, [initErrorPageData])
 
   const columns = [
     {
@@ -62,21 +64,21 @@ const ErrorPage: FC = () => {
             </Tooltip>
           </p>
           <div className="item">
-            <Statistic title="异常次数" value={data.resources_quota.error_count} />
+            <Statistic title="异常次数" value={resourcesData.quota.error_count} />
           </div>
           <div className="item">
-            <Statistic title="异常页面" value={data.resources_quota.error_page} />
+            <Statistic title="异常页面" value={resourcesData.quota.error_page} />
           </div>
           <div className="item">
-            <Statistic title="影响用户" value={data.resources_quota.error_user} />
+            <Statistic title="影响用户" value={resourcesData.quota.error_user} />
           </div>
         </Card>
         <Card>
-          <Table dataSource={data.resources_list} columns={columns} rowKey="page_source_url" />
+          <Table dataSource={resourcesData.resources_list} columns={columns} rowKey="page_source_url" />
         </Card>
       </div>
     </>
   )
 }
 
-export default ErrorPage
+export default ResourcesErrorPage

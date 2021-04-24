@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { message } from 'antd'
-import store, { useAppState } from '../stores'
 
 axios.defaults.timeout = 10000
 
@@ -35,7 +34,7 @@ axios.interceptors.response.use(
 )
 
 export type Response<T = any> = {
-  status: number
+  code: number
   error: string
   data: T
 }
@@ -44,7 +43,7 @@ type Method = 'get' | 'post' | 'put' | 'delete'
 
 export type MyResponse<T = any> = Promise<Response<T>>
 
-export const request = <T = any>(method: Method, url: string, data = {}, config?: AxiosRequestConfig): any => {
+export const request = <T>(method: Method, url: string, data = {}, config?: AxiosRequestConfig): MyResponse<T> => {
   const prefix = 'http://127.0.0.1:8889'
   if (url !== '/communal/projects') {
     const monitor_id = localStorage.getItem('monitor_id')

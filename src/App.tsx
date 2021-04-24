@@ -29,11 +29,6 @@ const Routers = [
     component: lazy(() => import(/* webpackChunkName: "http'"*/ './view/HttpPage/http.page'))
   },
   {
-    path: '/http-error',
-    name: 'HttpPage',
-    component: lazy(() => import(/* webpackChunkName: "http'"*/ './view/HttpErrorPage/http.error.page'))
-  },
-  {
     path: '/resource-error',
     name: 'ErrorPage',
     component: lazy(() => import(/* webpackChunkName: "error'"*/ './view/ErrorPage/error.page'))

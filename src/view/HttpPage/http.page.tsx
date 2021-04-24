@@ -1,26 +1,26 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Button, Card, DatePicker, Radio, Statistic, Table, Tabs, Tooltip } from 'antd'
+import { Button, Card, DatePicker, Radio, Space, Statistic, Table, Tabs, Tooltip } from 'antd'
 import './index.less'
 import { httpData, httpStageData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
 import HttpStageTimeChart from '../../components/HttpChart/stage.time.chart'
-import { useAppState } from '../../stores'
+import { HttpQuotaAndList, HttpStageTimeList } from '../../interface/http.interface'
 const { TabPane } = Tabs
 const { RangePicker } = DatePicker
+
 const HttpPage: FC = () => {
-  const { monitorId } = useAppState(state => state.appsotre)
-  const [data, setData] = useState({
+  const [httpQuotaAndList, setHttpQuotaAndList] = useState<HttpQuotaAndList>({
     http_quota: {
       error_user: 0,
       load_time: 0,
       success_total: 0,
       total: 0,
-      success_rate: 0
+      success_rate: ''
     },
-    http_info_list: []
+    http_url_list: []
   })
-  const [httpStagetime, setHttpStagetime] = useState([])
+  const [httpStageTimeList, setHttpStageTimeList] = useState<HttpStageTimeList>([])
   const [httpParam, setHttpParam] = useState({
     time_grain: 'minute',
     start_time: moment().format('YYYY-MM-DD'),
@@ -28,25 +28,33 @@ const HttpPage: FC = () => {
     stage_type: 'success'
   })
 
-  const initData = useCallback(async () => {
-    const result = await httpData({
-      time_grain: httpParam.time_grain,
-      start_time: httpParam.start_time,
-      end_time: httpParam.end_time,
-      stage_type: httpParam.stage_type
+  const initHttpQuotaAndList = useCallback(async () => {
+    const {
+      code,
+      data: { http_quota, http_url_list }
+    } = await httpData({
+      ...httpParam
     })
-    const httpStageDataResult = await httpStageData({
-      time_grain: httpParam.time_grain,
-      start_time: httpParam.start_time,
-      end_time: httpParam.end_time,
-      stage_type: httpParam.stage_type
-    })
+    if (code == 0) {
+      http_quota.success_rate = ((http_quota.success_total / http_quota.total) * 100).toFixed(2)
+      setHttpQuotaAndList({
+        http_quota,
+        http_url_list
+      })
+    }
+  }, [httpParam])
 
-    console.log(httpStageDataResult.data.http_stagetime)
-    setHttpStagetime(httpStageDataResult.data.http_stagetime)
-    setData(result.data)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const initHttpStageTimeList = useCallback(async () => {
+    const {
+      code,
+      data: { http_stagetime }
+    } = await httpStageData({
+      ...httpParam
+    })
+    if (code == 0) {
+      setHttpStageTimeList(http_stagetime)
+    }
+  }, [httpParam])
 
   const onTimeChange = (dates: any, dateStrings: [string, string]) => {
     const time = dates[1].diff(dates[0], 'days')
@@ -68,25 +76,21 @@ const HttpPage: FC = () => {
 
   const timeGrainChange = (e: any) => {
     setHttpParam({
-      time_grain: e.target.value,
-      start_time: httpParam.start_time,
-      end_time: httpParam.end_time,
-      stage_type: httpParam.stage_type
+      ...httpParam,
+      time_grain: e.target.value
     })
   }
   const search = async () => {
     const result = await httpStageData({
-      time_grain: httpParam.time_grain,
-      start_time: httpParam.start_time,
-      end_time: httpParam.end_time,
-      stage_type: httpParam.stage_type
+      ...httpParam
     })
-    setHttpStagetime(result.data.http_stagetime)
+    setHttpStageTimeList(result.data.http_stagetime)
   }
 
   useEffect(() => {
-    initData()
-  }, [initData])
+    initHttpQuotaAndList()
+    initHttpStageTimeList()
+  }, [initHttpQuotaAndList, initHttpStageTimeList])
 
   const columns = [
     {
@@ -119,55 +123,68 @@ const HttpPage: FC = () => {
   return (
     <>
       <div>
-        <Card className="header-quota" style={{ marginBottom: '20px' }}>
+        <Card className="header-quota">
           <p className="quota-tips">
             <Tooltip title="今日数据指标">
               <InfoCircleFilled style={{ fontSize: '16px', color: '#3399FF' }} />
             </Tooltip>
           </p>
           <div className="item">
-            <Statistic title="请求次数" value={data.http_quota.total} suffix="" />
+            <Statistic title="请求次数" value={httpQuotaAndList.http_quota.total} suffix="" />
           </div>
           <div className="item">
-            <Statistic title="请求耗时" value={data.http_quota.load_time} suffix="ms" />
+            <Statistic title="请求耗时" value={httpQuotaAndList.http_quota.load_time} suffix="ms" />
+          </div>
+          <div className="item">
+            <Statistic title="成功率" value={httpQuotaAndList.http_quota.success_rate} suffix="%" />
+          </div>
+          <div className="item">
+            <Statistic title="异常影响用户" value={httpQuotaAndList.http_quota.error_user} />
           </div>
         </Card>
-        <Card style={{ marginBottom: '20px' }}>
-          <p className="quota-tips">
-            <Tooltip title="Http请求性能只计算正常请求, 400 404 500等不列入计算范围！">
-              <InfoCircleFilled style={{ fontSize: '16px', color: '#3399FF' }} />
-            </Tooltip>
-          </p>
-          <div className="timePickerContainer">
-            <div className="timePicker">
-              <RangePicker
-                disabledDate={disabledDate}
-                defaultValue={[moment(httpParam.start_time, 'YYYY-MM-DD'), moment(httpParam.end_time, 'YYYY-MM-DD')]}
-                ranges={{
-                  今天: [moment(), moment()],
-                  昨天: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                  最近七天: [moment().subtract(6, 'days'), moment()],
-                  近一个月: [moment().subtract(1, 'month'), moment()]
-                }}
-                onChange={onTimeChange}
-              />
+
+        <Space className="httpTime" size={20}>
+          <Card className="httpRanking">
+            <p>Http请求速度排行榜</p>
+            <div>-------------这里放Http请求耗时长得url---------------</div>
+          </Card>
+          <Card className="timeCharts">
+            <Tabs defaultActiveKey="1">
+              <TabPane tab="成功率" key="1"></TabPane>
+              <TabPane tab="成功耗时" key="2"></TabPane>
+              <TabPane tab="失败耗时" key="3"></TabPane>
+            </Tabs>
+            <div className="timePickerContainer">
+              <div className="timePicker">
+                <RangePicker
+                  disabledDate={disabledDate}
+                  defaultValue={[moment(httpParam.start_time, 'YYYY-MM-DD'), moment(httpParam.end_time, 'YYYY-MM-DD')]}
+                  ranges={{
+                    今天: [moment(), moment()],
+                    昨天: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    最近七天: [moment().subtract(6, 'days'), moment()],
+                    近一个月: [moment().subtract(1, 'month'), moment()]
+                  }}
+                  onChange={onTimeChange}
+                />
+              </div>
+              <div className="timeGrain">
+                <p>时间粒度：</p>
+                <Radio.Group onChange={timeGrainChange} value={httpParam.time_grain}>
+                  <Radio value={'minute'}>分钟</Radio>
+                  <Radio value={'hour'}>小时</Radio>
+                  <Radio value={'day'}>天</Radio>
+                </Radio.Group>
+                <Button type="primary" size="small" onClick={search}>
+                  搜索
+                </Button>
+              </div>
             </div>
-            <div className="timeGrain">
-              <p>时间粒度：</p>
-              <Radio.Group onChange={timeGrainChange} value={httpParam.time_grain}>
-                <Radio value={'minute'}>分钟</Radio>
-                <Radio value={'hour'}>小时</Radio>
-                <Radio value={'day'}>天</Radio>
-              </Radio.Group>
-              <Button type="primary" size="small" onClick={search}>
-                搜索
-              </Button>
-            </div>
-          </div>
-          <HttpStageTimeChart stageTime={httpStagetime} />
-        </Card>
+            <HttpStageTimeChart stageTime={httpStageTimeList} />
+          </Card>
+        </Space>
         <Card>
-          <Table dataSource={data.http_info_list} columns={columns} rowKey="http_url" />
+          <Table dataSource={httpQuotaAndList.http_url_list} columns={columns} rowKey="http_url" />
         </Card>
       </div>
     </>

@@ -1,18 +1,11 @@
+import { ResourcesErrorList, ResourcesErrorQuota } from '../interface/error.interface'
+import { HttpQuotaAndList } from '../interface/http.interface'
+import { User, UserList, UserParams } from '../interface/user.interface'
 import { request } from '../utils/request'
 
 export const webPageReportData = (params: any) => request<any>('get', '/communal/performance', params)
 
-export const httpData = (params: any) => request<any>('get', '/communal/http', params)
-
-export const httpStageData = (params: any) => request<any>('get', '/communal/httpStage', params)
-
-export const webPageErrorData = () => request<any>('get', '/communal/error')
-
-export const GetUsers = (params: any) => request<any>('get', '/communal/users', params)
-
-export const GetUserActions = (event_id: string) => request<any>('get', `/communal/userActions?event_id=${event_id}`)
-
-export const GetUse = (id: string) => request<any>('get', `/communal/user?id=${id}`)
+export const GetUse = (id: string) => request<User>('get', `/communal/user?id=${id}`)
 
 export const GetUserAction = (action_id: string, action_type: string) =>
   request<any>('get', `/communal/userAction?action_id=${action_id}&action_type=${action_type}`)
@@ -22,3 +15,18 @@ export const GetJsError = () => request<any>('get', '/communal/jsError')
 export const GetProject = () => request<any>('get', '/communal/projects')
 
 export const GetHttpError = (params: any) => request<any>('get', '/communal/http-error', params)
+
+// httpPage页面接口
+export const httpData = (params: any) => request<HttpQuotaAndList>('get', '/communal/http', params)
+export const httpStageData = (params: any) => request<any>('get', '/communal/httpStage', params)
+
+// 用户页面接口
+export const GetUserList = (params: UserParams) => request<UserList>('get', '/communal/users', params)
+export const GetUserActions = (event_id: string) => request<any>('get', `/communal/userActions?event_id=${event_id}`)
+
+// 资源错误的页面接口
+export const webPageErrorData = () =>
+  request<{
+    quota: ResourcesErrorQuota
+    resources_list: ResourcesErrorList
+  }>('get', '/communal/error')
