@@ -3,9 +3,9 @@ import { Card, Divider, Space, Timeline } from 'antd'
 import { GetUse, GetUserAction, GetUserActions } from '../../request'
 import './index.less'
 import ActionTimeLineItem from '../../components/UserAction/action.time.line'
-import ActionDetail from '../../components/UserAction/action.detail'
 import { useParams } from 'react-router-dom'
 import { User } from '../../interface/user.interface'
+import UserActionDetail from '../../components/UserAction/action.detail'
 const UserActionDetailPage: FC = () => {
   const [userActionsList, setUserActionsList] = useState([])
   const [userActionStatistics, setUserActionStatistics] = useState([])
@@ -172,7 +172,7 @@ const UserActionDetailPage: FC = () => {
               </Timeline>
             </div>
             <div className="flex-grow-1">
-              <ActionDetail detail={detail} />
+              <UserActionDetail detail={detail} />
             </div>
           </div>
         </Card>

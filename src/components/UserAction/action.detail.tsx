@@ -1,13 +1,14 @@
 import { Tag } from 'antd'
 import React, { FC } from 'react'
+import { UserActionDetail } from '../../interface/user.interface'
 import { getTimeYYMMDDHM } from '../../utils'
 
-interface ActionDetailProps {
-  detail: any
+interface UserActionDetailProps {
+  detail: UserActionDetail
 }
 
-const ActionDetail: FC<ActionDetailProps> = ({ detail }) => {
-  const transformationActionDetail = (detail: any) => {
+const UserActionDetail: FC<UserActionDetailProps> = ({ detail }) => {
+  const transformationActionDetail = (detail: UserActionDetail) => {
     if (detail?.action_type == 'PAGE_LOAD') {
       return (
         <>
@@ -139,4 +140,4 @@ const ActionDetail: FC<ActionDetailProps> = ({ detail }) => {
   )
 }
 
-export default ActionDetail
+export default UserActionDetail

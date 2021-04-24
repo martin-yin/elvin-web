@@ -1,11 +1,12 @@
 import { Timeline } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
+import { UserAction } from '../../interface/user.interface'
 import { getTimeHHMM } from '../../utils'
 
 interface ActionTimeLineProps {
   key: string
-  item: any
-  activeTimeLine: (item: any) => void
+  item: UserAction
+  activeTimeLine: (item: UserAction) => void
   activeId: string
 }
 
@@ -33,7 +34,7 @@ const ActionTimeLineItem: FC<ActionTimeLineProps> = ({ key, item, activeTimeLine
     initItemData()
   }, [initItemData])
 
-  const transformationAction = (item: any): any => {
+  const transformationAction = (item: UserAction): any => {
     if (item.action_type == 'JS_ERROR') {
       return {
         icon: (): React.ReactNode => {

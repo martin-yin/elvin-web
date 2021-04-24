@@ -11,9 +11,9 @@ const HomePage: FC = () => {
   const { projectList } = useAppState(state => state.appsotre)
   const dispatch = useDispatch()
   const history = useHistory()
+
   const projectSurvey = (monitor_id: string) => {
     dispatch(setMonitorId(monitor_id))
-    console.log(monitor_id)
     history.push('/survey')
   }
   return (

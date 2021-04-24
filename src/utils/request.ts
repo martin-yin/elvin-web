@@ -41,9 +41,12 @@ export type Response<T = any> = {
 
 type Method = 'get' | 'post' | 'put' | 'delete'
 
-export type MyResponse<T = any> = Promise<Response<T>>
-
-export const request = <T>(method: Method, url: string, data = {}, config?: AxiosRequestConfig): MyResponse<T> => {
+export const request = <T>(
+  method: Method,
+  url: string,
+  data = {},
+  config?: AxiosRequestConfig
+): Promise<Response<T>> => {
   const prefix = 'http://127.0.0.1:8889'
   if (url !== '/communal/projects') {
     const monitor_id = localStorage.getItem('monitor_id')
