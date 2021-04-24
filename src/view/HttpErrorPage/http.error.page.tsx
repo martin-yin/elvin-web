@@ -39,9 +39,9 @@ const HttpPageError: FC = () => {
       key: 'http_url'
     },
     {
-      title: '请求用户',
-      dataIndex: 'user_total',
-      key: 'user_total'
+      title: '失败用户',
+      dataIndex: 'error_user',
+      key: 'error_user'
     },
     {
       title: '平均耗时',

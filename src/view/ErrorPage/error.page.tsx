@@ -62,7 +62,7 @@ const ErrorPage: FC = () => {
             </Tooltip>
           </p>
           <div className="item">
-            <Statistic title="失败次数" value={data.resources_quota.error_count} />
+            <Statistic title="异常次数" value={data.resources_quota.error_count} />
           </div>
           <div className="item">
             <Statistic title="异常页面" value={data.resources_quota.error_page} />

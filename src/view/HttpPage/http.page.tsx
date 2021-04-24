@@ -133,6 +133,11 @@ const HttpPage: FC = () => {
           </div>
         </Card>
         <Card style={{ marginBottom: '20px' }}>
+          <p className="quota-tips">
+            <Tooltip title="Http请求性能只计算正常请求, 400 404 500等不列入计算范围！">
+              <InfoCircleFilled style={{ fontSize: '16px', color: '#3399FF' }} />
+            </Tooltip>
+          </p>
           <div className="timePickerContainer">
             <div className="timePicker">
               <RangePicker
