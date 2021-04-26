@@ -2,10 +2,19 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Divider, Space, Timeline } from 'antd'
 import { GetUse, GetUserAction, GetUserActions } from '../../request'
 import './index.less'
-import ActionTimeLineItem from '../../components/UserAction/action.time.line'
+import ActionTimeLineItem from '../../components/userAction/action.time.line'
 import { useParams } from 'react-router-dom'
-import { User } from '../../interface/user.interface'
-import UserActionDetail from '../../components/UserAction/action.detail'
+import { User, UserAction } from '../../interface/user.interface'
+import UserActionDetailInfo from '../../components/userAction/actionDetailInfo'
+
+import {
+  PageClickIcon,
+  PageJsErrorIcon,
+  PageLoadIcon,
+  PageNetworkIcon,
+  PageViewIcon,
+  PageResoucesErrorIcon
+} from '../../assets'
 const UserActionDetailPage: FC = () => {
   const [userActionsList, setUserActionsList] = useState([])
   const [userActionStatistics, setUserActionStatistics] = useState([])
@@ -89,7 +98,7 @@ const UserActionDetailPage: FC = () => {
                     return (
                       <div key={key} className="info-statistics-item">
                         <div className="statistics-item-icon">
-                          <i className="icofont-ui-browser"></i>
+                          <img className="userActionIcon" src={PageLoadIcon} />
                         </div>
                         <p>{item.total} 次打开页面</p>
                       </div>
@@ -99,7 +108,7 @@ const UserActionDetailPage: FC = () => {
                     return (
                       <div key={key} className="info-statistics-item">
                         <div className="statistics-item-icon">
-                          <i className="icofont-ui-network"></i>
+                          <img className="userActionIcon" src={PageNetworkIcon} />
                         </div>
                         <p>{item.total} 网络请求</p>
                       </div>
@@ -109,7 +118,7 @@ const UserActionDetailPage: FC = () => {
                     return (
                       <div key={key} className="info-statistics-item">
                         <div className="statistics-item-icon">
-                          <i className="icofont-ui-browser"></i>
+                          <img className="userActionIcon" src={PageViewIcon} />
                         </div>
                         <p>{item.total} 次浏览页面</p>
                       </div>
@@ -119,9 +128,29 @@ const UserActionDetailPage: FC = () => {
                     return (
                       <div key={key} className="info-statistics-item">
                         <div className="statistics-item-icon">
-                          <i className="icofont-touch"></i>
+                          <img className="userActionIcon" src={PageClickIcon} />
                         </div>
                         <p>{item.total} 次点击事件</p>
+                      </div>
+                    )
+                  }
+                  if (item.action_type == 'RESOURCE_ERROR') {
+                    return (
+                      <div key={key} className="info-statistics-item">
+                        <div className="statistics-item-icon">
+                          <img className="userActionIcon" src={PageResoucesErrorIcon} />
+                        </div>
+                        <p>{item.total} 次资源异常</p>
+                      </div>
+                    )
+                  }
+                  if (item.action_type == 'JS_ERROR') {
+                    return (
+                      <div key={key} className="info-statistics-item">
+                        <div className="statistics-item-icon">
+                          <img className="userActionIcon" src={PageJsErrorIcon} />
+                        </div>
+                        <p>{item.total} 次JS异常</p>
                       </div>
                     )
                   }
@@ -159,7 +188,7 @@ const UserActionDetailPage: FC = () => {
           <div className=" flex">
             <div className="flex-grow-1 time-line-list-box ">
               <Timeline>
-                {userActionsList.map((item: any, key: any) => {
+                {userActionsList.map((item: UserAction, key: number) => {
                   return (
                     <ActionTimeLineItem
                       activeId={activeId}
@@ -172,7 +201,7 @@ const UserActionDetailPage: FC = () => {
               </Timeline>
             </div>
             <div className="flex-grow-1">
-              <UserActionDetail detail={detail} />
+              <UserActionDetailInfo detail={detail} />
             </div>
           </div>
         </Card>

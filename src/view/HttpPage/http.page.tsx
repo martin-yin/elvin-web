@@ -4,7 +4,7 @@ import './index.less'
 import { httpData, httpStageData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
-import HttpStageTimeChart from '../../components/HttpChart/stage.time.chart'
+import HttpStageTimeChart from '../../components/httpChart/stage.time.chart'
 import { HttpQuotaAndList, HttpStageTimeList } from '../../interface/http.interface'
 const { TabPane } = Tabs
 const { RangePicker } = DatePicker
@@ -18,7 +18,7 @@ const HttpPage: FC = () => {
       total: 0,
       success_rate: ''
     },
-    http_url_list: []
+    http_list: []
   })
   const [httpStageTimeList, setHttpStageTimeList] = useState<HttpStageTimeList>([])
   const [httpParam, setHttpParam] = useState({
@@ -31,7 +31,7 @@ const HttpPage: FC = () => {
   const initHttpQuotaAndList = useCallback(async () => {
     const {
       code,
-      data: { http_quota, http_url_list }
+      data: { http_quota, http_list }
     } = await httpData({
       ...httpParam
     })
@@ -39,7 +39,7 @@ const HttpPage: FC = () => {
       http_quota.success_rate = ((http_quota.success_total / http_quota.total) * 100).toFixed(2)
       setHttpQuotaAndList({
         http_quota,
-        http_url_list
+        http_list
       })
     }
   }, [httpParam])
@@ -145,8 +145,16 @@ const HttpPage: FC = () => {
 
         <Space className="httpTime" size={20}>
           <Card className="httpRanking">
-            <p>Http请求速度排行榜</p>
-            <div>-------------这里放Http请求耗时长得url---------------</div>
+            <div className="performanceTimeList">
+              {httpQuotaAndList.http_list.map((item: any, key: number) => {
+                return (
+                  <div key={key} className="performanceTimeItem flex">
+                    <div className="flex-grow-1">{item.http_url}</div>
+                    <div className="flex-grow-0">耗时{item.load_time}ms</div>
+                  </div>
+                )
+              })}
+            </div>
           </Card>
           <Card className="timeCharts">
             <Tabs defaultActiveKey="1">
@@ -184,7 +192,7 @@ const HttpPage: FC = () => {
           </Card>
         </Space>
         <Card>
-          <Table dataSource={httpQuotaAndList.http_url_list} columns={columns} rowKey="http_url" />
+          <Table dataSource={httpQuotaAndList.http_list} columns={columns} rowKey="http_url" />
         </Card>
       </div>
     </>

@@ -4,8 +4,8 @@ import './index.less'
 import { webPageReportData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
-import StageTimeChart from '../../components/PerformanceChart/stage.time.chart'
-import StackBarChar from '../../components/PerformanceChart/stack.bar.chart'
+import StageTimeChart from '../../components/performanceChart/stage.time.chart'
+import StackBarChar from '../../components/performanceChart/stack.bar.chart'
 import {
   PerformancePageList,
   PerformanceParam,
@@ -13,6 +13,7 @@ import {
   PerformanceStack,
   PerformanceStageTime
 } from '../../interface/performance.interface'
+import LoadTimePieChar from '../../components/performanceChart/loadTiem.chart'
 
 const { RangePicker } = DatePicker
 
@@ -27,6 +28,7 @@ const PerformancePage: FC = () => {
     stack: PerformanceStack
     page_list: Array<PerformancePageList>
     stage_time: Array<PerformanceStageTime>
+    ranking_http: any
   }>({
     quota: {
       ttfb: 0,
@@ -47,7 +49,8 @@ const PerformancePage: FC = () => {
       load_event: 0
     },
     page_list: [],
-    stage_time: []
+    stage_time: [],
+    ranking_http: []
   })
 
   const initPerformancePageData = useCallback(async () => {
@@ -166,8 +169,16 @@ const PerformancePage: FC = () => {
       </Card>
       <Space className="performanceTime" size={20}>
         <Card className="performanceRanking">
-          <p>页面访问速度排行榜</p>
-          <div>-------------这里放加载耗时长得页面---------------</div>
+          <div className="performanceTimeList">
+            {data.ranking_http.map((item: any, key: number) => {
+              return (
+                <div key={key} className="performanceTimeItem flex">
+                  <div className="flex-grow-1">{item.page_url}</div>
+                  <div className="flex-grow-0">耗时{item.load_page}ms</div>
+                </div>
+              )
+            })}
+          </div>
         </Card>
         <div>
           <Card className="timeCharts">
@@ -209,7 +220,7 @@ const PerformancePage: FC = () => {
       </Space>
 
       <Card>
-        <p>这里需要增加一个查看单条URL 加载得信息 参考：http://www.webfunny.cn/demo/pagePerformance.html</p>
+        {/* <p>这里需要增加一个查看单条URL 加载得信息 参考：http://www.webfunny.cn/demo/pagePerformance.html</p> */}
         <Table dataSource={data.page_list} columns={columns} rowKey="page_url" />
       </Card>
     </>

@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import ReactEChartsCore from 'echarts-for-react/lib/core'
 
 import * as echarts from 'echarts/core'
-import { BarChart, LineChart } from 'echarts/charts'
+import { BarChart, LineChart, PieChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent, TitleComponent, DataZoomComponent, LegendComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 echarts.use([
@@ -11,6 +11,7 @@ echarts.use([
   GridComponent,
   BarChart,
   LineChart,
+  PieChart,
   CanvasRenderer,
   DataZoomComponent,
   LegendComponent

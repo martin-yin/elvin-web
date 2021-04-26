@@ -3,12 +3,11 @@ import { ConfigProvider, Layout } from 'antd'
 import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 const { Content } = Layout
 import './index.less'
-import './assets/icofont.min.css'
-import HomePage from './view/HomePage/home.page'
-import TopHeaderNav from './components/TopHeaderNav/top.header.nav'
+import HomePage from './view/homePage/home.page'
+import TopHeaderNav from './components/topHeaderNav/top.header.nav'
 import 'moment/locale/zh-cn'
 import locale from 'antd/lib/locale/zh_CN'
-import LoginPage from './view/Login/login.page'
+import LoginPage from './view/login/login.page'
 import { Suspense } from 'react'
 
 const Routers = [
@@ -16,37 +15,37 @@ const Routers = [
   {
     path: '/survey',
     name: 'SurveyPage',
-    component: lazy(() => import(/* webpackChunkName: "survey'"*/ './view/SurveyPage/survey.page'))
+    component: lazy(() => import(/* webpackChunkName: "survey'"*/ './view/surveyPage/survey.page'))
   },
   {
     path: '/performance',
     name: 'PerformancePage',
-    component: lazy(() => import(/* webpackChunkName: "performance'"*/ './view/PerformancePage/performance.page'))
+    component: lazy(() => import(/* webpackChunkName: "performance'"*/ './view/performancePage/performance.page'))
   },
   {
     path: '/http',
     name: 'HttpPage',
-    component: lazy(() => import(/* webpackChunkName: "http'"*/ './view/HttpPage/http.page'))
+    component: lazy(() => import(/* webpackChunkName: "http'"*/ './view/httpPage/http.page'))
   },
   {
     path: '/resource-error',
     name: 'ErrorPage',
-    component: lazy(() => import(/* webpackChunkName: "error'"*/ './view/ErrorPage/error.page'))
+    component: lazy(() => import(/* webpackChunkName: "error'"*/ './view/resourcesErrorPage/error.page'))
   },
   {
     path: '/js-error',
     name: 'jsError',
-    component: lazy(() => import(/* webpackChunkName: "js-error'"*/ './view/JsErrorPage/js.error.page'))
+    component: lazy(() => import(/* webpackChunkName: "js-error'"*/ './view/jsErrorPage/js.error.page'))
   },
   {
     path: '/user',
     name: 'UserPage',
-    component: lazy(() => import(/* webpackChunkName: "use'"*/ './view/User/use.page'))
+    component: lazy(() => import(/* webpackChunkName: "use'"*/ './view/user/userPage'))
   },
   {
     path: '/user-detail/:userId',
     name: 'UserBehaviorDetailPage',
-    component: lazy(() => import(/* webpackChunkName: "user-action-detail'"*/ './view/User/use.action.detail.page'))
+    component: lazy(() => import(/* webpackChunkName: "user-action-detail'"*/ './view/user/useActionDetailPage'))
   }
 ]
 

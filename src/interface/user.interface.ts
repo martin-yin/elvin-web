@@ -15,6 +15,7 @@ export interface User {
   city: string
   district: string
   event_id: string
+  id?: string
 }
 
 export type UserList = Array<User>
@@ -40,7 +41,7 @@ export interface UserActionDetail {
   browser_version: string
   happen_time: string
   ua: string
-  page_url: string
+  page_url?: string
   // 点击事件
   tag_name?: string
   innter_text?: string

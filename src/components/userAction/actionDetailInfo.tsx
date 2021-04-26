@@ -3,11 +3,11 @@ import React, { FC } from 'react'
 import { UserActionDetail } from '../../interface/user.interface'
 import { getTimeYYMMDDHM } from '../../utils'
 
-interface UserActionDetailProps {
+interface UserActionDetailInfoProps {
   detail: UserActionDetail
 }
 
-const UserActionDetail: FC<UserActionDetailProps> = ({ detail }) => {
+const UserActionDetailInfo: FC<UserActionDetailInfoProps> = ({ detail }) => {
   const transformationActionDetail = (detail: UserActionDetail) => {
     if (detail?.action_type == 'PAGE_LOAD') {
       return (
@@ -140,4 +140,4 @@ const UserActionDetail: FC<UserActionDetailProps> = ({ detail }) => {
   )
 }
 
-export default UserActionDetail
+export default UserActionDetailInfo

@@ -15,7 +15,7 @@ export interface HttpUrlList {
 
 export interface HttpQuotaAndList {
   http_quota: HttpQuota
-  http_url_list: Array<HttpUrlList>
+  http_list: Array<HttpUrlList>
 }
 
 export interface HttpStageTime {

@@ -140,9 +140,9 @@ const UserPage: FC = () => {
     {
       title: '操作',
       key: 'action',
-      render: (text: string) => (
+      render: (text: string, recode: User) => (
         <Space size="middle">
-          <Link to={`/user-detail/${text}`}>查看详情</Link>
+          <Link to={`/user-detail/${recode.id}`}>查看详情</Link>
         </Space>
       )
     }
