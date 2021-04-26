@@ -13,6 +13,8 @@
 
 .detail-box {
   padding-left: 30px;
+  height: 392px;
+  overflow-y: scroll;
   li {
     label {
       font-size: 14px;
@@ -43,9 +45,11 @@ li {
 }
 
 .time-line-list-box {
-  height: 500px;
+  height: 392px;
   padding-left: 30px;
-  overflow-y: scroll;
+  .ant-timeline-item {
+    padding-bottom: 16px !important;
+  }
 }
 
 .icofont-ui-browser,

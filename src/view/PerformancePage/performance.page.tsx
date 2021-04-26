@@ -13,7 +13,6 @@ import {
   PerformanceStack,
   PerformanceStageTime
 } from '../../interface/performance.interface'
-import LoadTimePieChar from '../../components/performanceChart/loadTiem.chart'
 
 const { RangePicker } = DatePicker
 

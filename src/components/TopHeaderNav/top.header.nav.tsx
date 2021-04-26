@@ -72,9 +72,13 @@ const TopHeaderNav: FC = () => {
       index = 2
     } else if (path == '/performance' || path == '/http') {
       index = 3
+    } else if (path.includes('/user-detail')) {
+      index = 2
     } else {
       index = 4
     }
+
+    console.log(path)
     dispatch(setActiveMenu(index))
   }
 

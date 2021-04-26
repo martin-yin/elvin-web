@@ -35,8 +35,7 @@ const ActionTimeLineItem: FC<ActionTimeLineProps> = ({ key, item, activeTimeLine
       itemTitle: content,
       itemContent: title
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [item])
 
   useEffect(() => {
     initItemData()

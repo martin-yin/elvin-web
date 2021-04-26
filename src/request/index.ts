@@ -22,7 +22,7 @@ export const httpStageData = (params: any) => request<any>('get', '/communal/htt
 
 // 用户页面接口
 export const GetUserList = (params: UserParams) => request<UserList>('get', '/communal/users', params)
-export const GetUserActions = (event_id: string) => request<any>('get', `/communal/userActions?event_id=${event_id}`)
+export const GetUserActions = (params: any) => request<any>('get', `/communal/userActions`, params)
 
 // 资源错误的页面接口
 export const webPageErrorData = () =>
@@ -30,3 +30,8 @@ export const webPageErrorData = () =>
     quota: ResourcesErrorQuota
     resources_list: ResourcesErrorList
   }>('get', '/communal/error')
+
+export const GetUserActionList = (params: any) => request<any>('get', '/communal/usersActionList', params)
+
+export const GetUsersActionsStatistics = (params: any) =>
+  request<any>('get', '/communal/usersActionsStatistics', params)

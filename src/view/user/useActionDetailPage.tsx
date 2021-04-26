@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Divider, Space, Timeline } from 'antd'
-import { GetUse, GetUserAction, GetUserActions } from '../../request'
+import { Card, Divider, Pagination, Space, Timeline } from 'antd'
+import { GetUse, GetUserAction, GetUserActionList, GetUserActions, GetUsersActionsStatistics } from '../../request'
 import './index.less'
 import ActionTimeLineItem from '../../components/userAction/action.time.line'
 import { useParams } from 'react-router-dom'
@@ -15,11 +15,17 @@ import {
   PageViewIcon,
   PageResoucesErrorIcon
 } from '../../assets'
+
 const UserActionDetailPage: FC = () => {
   const [userActionsList, setUserActionsList] = useState([])
   const [userActionStatistics, setUserActionStatistics] = useState([])
   const [detail, setDetail] = useState({} as any)
   const [activeId, setActiveId] = useState('')
+  const [userAactionParams, setUserAactionParams] = useState({
+    page: 1,
+    limit: 3,
+    total: 0
+  })
   const [userInfo, setUserInfo] = useState<User>({
     user_id: '',
     device: '',
@@ -39,23 +45,69 @@ const UserActionDetailPage: FC = () => {
     event_id: ''
   })
   const params: any = useParams()
-  const initData = useCallback(async () => {
+  const initUserInfoData = useCallback(async () => {
     const userInfo = await GetUse(params.userId)
-    const { data } = await GetUserActions(userInfo.data.event_id)
+    const usersActionsStatistics = await GetUsersActionsStatistics({
+      event_id: userInfo.data.event_id
+    })
     setUserInfo(userInfo.data)
-    setUserActionsList(data.user_actions_list)
-    setUserActionStatistics(data.user_action_statistics)
+    setUserActionStatistics(usersActionsStatistics.data)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const initUserActionList = useCallback(async () => {
+    const userActionList: any = await GetUserActionList({
+      event_id: userInfo.event_id,
+      page: userAactionParams.page,
+      limit: userAactionParams.limit
+    })
+    setUserActionsList(userActionList.data.user_actions_list)
+    setUserAactionParams({
+      page: userActionList.data.page,
+      limit: 3,
+      total: userActionList.data.total
+    })
+  }, [userAactionParams.limit, userAactionParams.page, userInfo.event_id])
+
   useEffect(() => {
-    initData()
-  }, [initData])
+    initUserInfoData()
+  }, [initUserInfoData])
+
+  useEffect(() => {
+    initUserActionList()
+  }, [initUserActionList])
 
   const activeTimeLine = async (item: any) => {
     const data = await GetUserAction(item.action_id, item.action_type)
     setActiveId(`${item.action_id}${item.action_type}`)
     setDetail(data.data)
+  }
+
+  const onPageChange = (page: any) => {
+    setActiveId('')
+    setDetail({
+      user_id: '',
+      device: '',
+      system: '',
+      browser: '',
+      browser_version: '',
+      ip: '',
+      address: '',
+      happen_time: '',
+      device_type: '',
+      os: '',
+      os_version: '',
+      nation: '',
+      province: '',
+      city: '',
+      district: '',
+      event_id: ''
+    })
+    setUserAactionParams({
+      page: page,
+      total: userAactionParams.total,
+      limit: userAactionParams.limit
+    })
   }
 
   return (
@@ -155,31 +207,6 @@ const UserActionDetailPage: FC = () => {
                     )
                   }
                 })}
-                {/* 
-                <div className="info-statistics-item">
-                  <div className="statistics-item-icon">
-                    <i className="icofont-ui-network"></i>
-                  </div>
-                  <p>0 次网络请求</p>
-                </div>
-                <div className="info-statistics-item">
-                  <div className="statistics-item-icon">
-                    <i className="icofont-warning"></i>
-                  </div>
-                  <p>0 次资源错误</p>
-                </div>
-                <div className="info-statistics-item">
-                  <div className="statistics-item-icon">
-                    <i className="icofont-warning"></i>
-                  </div>
-                  <p>0 js错误</p>
-                </div>
-                <div className="info-statistics-item">
-                  <div className="statistics-item-icon">
-                    <i className="icofont-touch"></i>
-                  </div>
-                  <p>0 次点击事件</p>
-                </div> */}
               </Space>
             </div>
           </Card>
@@ -190,6 +217,7 @@ const UserActionDetailPage: FC = () => {
               <Timeline>
                 {userActionsList.map((item: UserAction, key: number) => {
                   return (
+                    // <p key={key}>{item.action_type}</p>
                     <ActionTimeLineItem
                       activeId={activeId}
                       activeTimeLine={activeTimeLine}
@@ -203,6 +231,14 @@ const UserActionDetailPage: FC = () => {
             <div className="flex-grow-1">
               <UserActionDetailInfo detail={detail} />
             </div>
+          </div>
+          <div style={{ marginTop: '10px', textAlign: 'right' }}>
+            <Pagination
+              onChange={onPageChange}
+              current={userAactionParams.page}
+              pageSize={3}
+              total={userAactionParams.total}
+            />
           </div>
         </Card>
       </div>
