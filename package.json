@@ -79,7 +79,7 @@
     ]
   },
   "devDependencies": {
-    "@types/echarts": "^4.9.6",
+    "@types/echarts": "^4.9.7",
     "customize-cra": "^1.0.0",
     "react-app-rewired": "^2.1.8"
   }

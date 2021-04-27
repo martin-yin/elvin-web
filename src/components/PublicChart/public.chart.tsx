@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 import ReactEChartsCore from 'echarts-for-react/lib/core'
-
 import * as echarts from 'echarts/core'
 import { BarChart, LineChart, PieChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent, TitleComponent, DataZoomComponent, LegendComponent } from 'echarts/components'
@@ -18,6 +17,23 @@ echarts.use([
 ])
 
 const PublicChart: FC<any> = ({ option, height }) => {
+  if (!option.color) {
+    Object.assign(option, {
+      color: [
+        '#4395ff',
+        '#91cc75',
+        '#fac858',
+        '#ee6666',
+        '#73c0de',
+        '#3ba272',
+        '#fc8452',
+        '#9a60b4',
+        '#ea7ccc',
+        '#ff8c00',
+        '#F5DEB3'
+      ]
+    })
+  }
   return (
     <div>
       <ReactEChartsCore

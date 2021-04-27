@@ -1757,10 +1757,10 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/echarts@^4.9.6":
-  version "4.9.6"
-  resolved "https://registry.npm.taobao.org/@types/echarts/download/@types/echarts-4.9.6.tgz#20c9875bf6911dc077728d800b15f2496131c904"
-  integrity sha1-IMmHW/aRHcB3co2ACxXySWExyQQ=
+"@types/echarts@^4.9.7":
+  version "4.9.7"
+  resolved "https://registry.npm.taobao.org/@types/echarts/download/@types/echarts-4.9.7.tgz?cache=0&sync_timestamp=1617451840811&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fecharts%2Fdownload%2F%40types%2Fecharts-4.9.7.tgz#4437fb503111f5b1ed7961e7b95c7ed09a4844a3"
+  integrity sha1-RDf7UDER9bHteWHnuVx+0JpIRKM=
   dependencies:
     "@types/zrender" "*"
 

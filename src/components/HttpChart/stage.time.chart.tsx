@@ -16,6 +16,7 @@ echarts.use([
 ])
 const HttpStageTimeChart: FC<any> = ({ stageTime = [] }) => {
   const successOption = {
+    color: ['#4395ff', '#91CB75'],
     title: {
       text: ''
     },
@@ -32,14 +33,14 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [] }) => {
       }
     ],
     legend: {
-      data: ['请求耗时', '请求数量']
+      data: ['请求数量', '请求耗时']
     },
     yAxis: [
       {
         type: 'value',
         name: '耗时',
         position: 'left',
-        interval: 1000,
+        interval: 3000,
         axisLabel: {
           formatter: '{value} ms'
         }
@@ -47,6 +48,7 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [] }) => {
       {
         type: 'value',
         name: '请求数量',
+        interval: 1000,
         splitLine: {
           show: false
         }
@@ -62,17 +64,6 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [] }) => {
     },
     series: [
       {
-        name: '请求耗时',
-        type: 'line',
-        smooth: true,
-        data:
-          stageTime.length !== 0
-            ? stageTime.map(function (item: any) {
-                return item.load_time
-              })
-            : []
-      },
-      {
         name: '请求数量',
         type: 'bar',
         smooth: true,
@@ -84,6 +75,17 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [] }) => {
               })
             : [],
         yAxisIndex: 1
+      },
+      {
+        name: '请求耗时',
+        type: 'line',
+        smooth: true,
+        data:
+          stageTime.length !== 0
+            ? stageTime.map(function (item: any) {
+                return item.load_time
+              })
+            : []
       }
     ]
   }

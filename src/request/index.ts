@@ -35,3 +35,8 @@ export const GetUserActionList = (params: any) => request<any>('get', '/communal
 
 export const GetUsersActionsStatistics = (params: any) =>
   request<any>('get', '/communal/usersActionsStatistics', params)
+
+// 获取概况页面的数据
+export const GetSurveyStatistics = () => request<any>('get', '/communal/surveyStatistics')
+
+export const GetSurveyPerformance = () => request<any>('get', '/communal/surveyPerformance')
