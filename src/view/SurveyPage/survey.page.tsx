@@ -58,17 +58,17 @@ const SurveyPage: FC = () => {
       </Card>
       <div className="chart">
         <Row gutter={[16, 16]}>
-          <Col span={8}>
+          {/* <Col span={8}>
             <Card>
               <JsErrorBarChar />
             </Card>
-          </Col>
-          <Col span={8}>
+          </Col> */}
+          <Col span={12}>
             <Card>
               <HttpBarChar />
             </Card>
           </Col>
-          <Col span={8}>
+          <Col span={12}>
             <Card>
               {surveyPerformance.length !== 0 ? <PerfprmanceBarChar perfprmance={surveyPerformance} /> : <></>}
             </Card>
