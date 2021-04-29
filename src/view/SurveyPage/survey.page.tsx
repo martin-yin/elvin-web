@@ -24,7 +24,6 @@ const SurveyPage: FC = () => {
   const initSurveyPerformance = useCallback(async () => {
     const result = await GetSurveyPerformance()
     setSurveyPerformance(result.data)
-    console.log(surveyPerformance)
   }, [])
 
   useEffect(() => {
@@ -34,6 +33,10 @@ const SurveyPage: FC = () => {
 
   return (
     <div>
+      概况页面参考这个{' '}
+      <a href="https://unpkg.com/@alifd/fusion-design-pro-js@0.2.6/build/index.html#/dashboard/monitor">
+        https://unpkg.com/@alifd/fusion-design-pro-js@0.2.6/build/index.html#/dashboard/monitor
+      </a>
       <Card className="header-quota">
         <p className="quota-tips">
           <Tooltip title="今日数据指标">
@@ -58,17 +61,17 @@ const SurveyPage: FC = () => {
       </Card>
       <div className="chart">
         <Row gutter={[16, 16]}>
-          {/* <Col span={8}>
+          <Col span={8}>
             <Card>
               <JsErrorBarChar />
             </Card>
-          </Col> */}
-          <Col span={12}>
+          </Col>
+          <Col span={8}>
             <Card>
               <HttpBarChar />
             </Card>
           </Col>
-          <Col span={12}>
+          <Col span={8}>
             <Card>
               {surveyPerformance.length !== 0 ? <PerfprmanceBarChar perfprmance={surveyPerformance} /> : <></>}
             </Card>
