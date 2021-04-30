@@ -3,9 +3,6 @@ import PublicChart from '../publicChart/public.chart'
 
 const HttpBarChar: FC<any> = () => {
   const option: any = {
-    title: {
-      text: 'http请求成功率'
-    },
     tooltip: {
       trigger: 'axis',
       backgroundColor: '#fff'

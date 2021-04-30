@@ -3,9 +3,6 @@ import PublicChart from '../publicChart/public.chart'
 
 const PerfprmanceBarChar: FC<any> = ({ perfprmance }) => {
   const option: any = {
-    title: {
-      text: '页面性能'
-    },
     tooltip: {
       trigger: 'axis',
       backgroundColor: '#fff'

@@ -1,9 +1,10 @@
 import { InfoCircleFilled } from '@ant-design/icons/lib/icons'
-import { Card, Col, Row, Statistic, Tooltip } from 'antd'
+import { Card, Col, Row, Space, Statistic, Tooltip } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import HttpBarChar from '../../components/surveyChart/httpChart'
 import JsErrorBarChar from '../../components/surveyChart/jsErrorChart'
 import PerfprmanceBarChar from '../../components/surveyChart/performanceChart'
+import PvAndUvChartBarChar from '../../components/surveyChart/pvAndUvChart'
 import { GetSurveyStatistics, GetSurveyPerformance } from '../../request'
 import './index.less'
 const SurveyPage: FC = () => {
@@ -33,51 +34,58 @@ const SurveyPage: FC = () => {
 
   return (
     <div>
-      概况页面参考这个{' '}
+      {/* 概况页面参考这个{' '}
       <a href="https://unpkg.com/@alifd/fusion-design-pro-js@0.2.6/build/index.html#/dashboard/monitor">
         https://unpkg.com/@alifd/fusion-design-pro-js@0.2.6/build/index.html#/dashboard/monitor
-      </a>
-      <Card className="header-quota">
-        <p className="quota-tips">
-          <Tooltip title="今日数据指标">
-            <InfoCircleFilled style={{ fontSize: '16px', color: '#3399FF' }} />
-          </Tooltip>
-        </p>
-        <div className="item">
-          <Statistic title="访客数" value={surveyStatistics.uv} suffix="" />
-        </div>
-        <div className="item">
-          <Statistic title="浏览量(PV)" value={surveyStatistics.pv} suffix="" />
-        </div>
-        <div className="item">
-          <Statistic title="IP数" value={surveyStatistics.ip} suffix="" />
-        </div>
-        <div className="item">
-          <Statistic title="Js异常" value={surveyStatistics.jsError} suffix="" />
-        </div>
-        <div className="item">
-          <Statistic title="资源异常" value={surveyStatistics.resources} suffix="" />
-        </div>
-      </Card>
-      <div className="chart">
-        <Row gutter={[16, 16]}>
-          <Col span={8}>
-            <Card>
-              <JsErrorBarChar />
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card>
-              <HttpBarChar />
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card>
-              {surveyPerformance.length !== 0 ? <PerfprmanceBarChar perfprmance={surveyPerformance} /> : <></>}
-            </Card>
-          </Col>
-        </Row>
-      </div>
+      </a> */}
+      {/* https://github.com/alibaba-fusion/materials/blob/d65c5bdf92af917009993d95e95c2f9473476081/blocks/MonitorBlock/src/components/VisitBlock/index.tsx#L55 */}
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Card className="surveyCardStatistics" style={{ marginBottom: '20px' }}>
+            <div className="value">2556</div>
+            <div className="name">Js错误</div>
+            <div className="desc">2556</div>
+          </Card>
+          <Card className="surveyCardStatistics">
+            <div className="value">2556ms</div>
+            <div className="name">首次渲染时间</div>
+            <div className="desc">2556</div>
+          </Card>
+        </Col>
+        <Col span={16}>
+          <Card className="surveyCardStatisticsChart">
+            <Space size={40}>
+              <p></p>
+            </Space>
+            <p>123</p>
+            <p>123</p>
+            <PvAndUvChartBarChar />
+          </Card>
+        </Col>
+        <Col span={4}>
+          <Card className="surveyCardStatistics" style={{ marginBottom: '20px' }}>
+            <div className="value">2556</div>
+            <div className="name">API异常</div>
+            <div className="desc">2556</div>
+          </Card>
+          <Card className="surveyCardStatistics">
+            <div className="value">2556</div>
+            <div className="name">资源异常</div>
+            <div className="desc">2556</div>
+          </Card>
+        </Col>
+      </Row>
+      <div className="chart"></div>
+      <Card>12312</Card>
+
+      <Row gutter={[16, 16]} style={{ marginTop: '20px' }}>
+        <Col span={16}>
+          <Card>地图</Card>
+        </Col>
+        <Col span={8}>
+          <Card>然后是浏览器</Card>
+        </Col>
+      </Row>
     </div>
   )
 }

@@ -3,9 +3,6 @@ import PublicChart from '../publicChart/public.chart'
 
 const JsErrorBarChar: FC<any> = () => {
   const option = {
-    title: {
-      text: 'js 异常'
-    },
     tooltip: {
       trigger: 'axis',
       backgroundColor: '#fff'
