@@ -1,6 +1,7 @@
 import { InfoCircleFilled } from '@ant-design/icons/lib/icons'
 import { Card, Col, Row, Space, Statistic, Tooltip } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
+import PublicChart from '../../components/publicChart/public.chart'
 import HttpBarChar from '../../components/surveyChart/httpChart'
 import JsErrorBarChar from '../../components/surveyChart/jsErrorChart'
 import PerfprmanceBarChar from '../../components/surveyChart/performanceChart'
@@ -31,7 +32,47 @@ const SurveyPage: FC = () => {
     initSurveyStatistics()
     initSurveyPerformance()
   }, [initSurveyStatistics, initSurveyPerformance])
-
+  const option = {
+    xAxis: {
+      type: 'category',
+      data: [
+        'Mon',
+        'Tue',
+        'Wed',
+        'Thu',
+        'Fri',
+        'Sat',
+        'Sun',
+        'Mon',
+        'Tue',
+        'Wed',
+        'Thu',
+        'Fri',
+        'Sat',
+        'Sun',
+        'Mon',
+        'Tue',
+        'Wed',
+        'Thu',
+        'Fri',
+        'Sat',
+        'Sun'
+      ]
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        data: [120, 200, 150, 80, 70, 110, 130, 120, 200, 150, 80, 70, 110, 130, 120, 200, 150, 80, 70, 110, 130],
+        type: 'bar',
+        barMaxWidth: 20,
+        itemStyle: {
+          color: '#00C1DE'
+        }
+      }
+    ]
+  }
   return (
     <div>
       {/* 概况页面参考这个{' '}
@@ -76,14 +117,16 @@ const SurveyPage: FC = () => {
         </Col>
       </Row>
       <div className="chart"></div>
-      <Card>12312</Card>
+      <Card title="JS报错">
+        <PublicChart option={option} height="400px" />
+      </Card>
 
       <Row gutter={[16, 16]} style={{ marginTop: '20px' }}>
         <Col span={16}>
           <Card>地图</Card>
         </Col>
         <Col span={8}>
-          <Card>然后是浏览器</Card>
+          <Card>然后是浏览器饼图</Card>
         </Col>
       </Row>
     </div>
