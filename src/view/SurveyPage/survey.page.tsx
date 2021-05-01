@@ -1,37 +1,33 @@
 import { InfoCircleFilled } from '@ant-design/icons/lib/icons'
-import { Card, Col, Row, Space, Statistic, Tooltip } from 'antd'
+import { Card, Col, Row, Space } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import PublicChart from '../../components/publicChart/public.chart'
-import HttpBarChar from '../../components/surveyChart/httpChart'
-import JsErrorBarChar from '../../components/surveyChart/jsErrorChart'
-import PerfprmanceBarChar from '../../components/surveyChart/performanceChart'
 import PvAndUvChartBarChar from '../../components/surveyChart/pvAndUvChart'
-import { GetSurveyStatistics, GetSurveyPerformance } from '../../request'
+import { GetSurveyStatistics, GetSurveyPUvData } from '../../request'
 import './index.less'
 const SurveyPage: FC = () => {
   const [surveyStatistics, setSurveyStatistics] = useState({
-    pv: 0,
-    uv: 0,
-    ip: 0,
-    resources: 0,
-    jsError: 0
+    http_error: 0,
+    js_error: 0,
+    load_page: 1413.4,
+    resources: 0
   })
 
-  const [surveyPerformance, setSurveyPerformance] = useState([])
+  const [surveyPUvData, setSurveyPUvData] = useState([])
   const initSurveyStatistics = useCallback(async () => {
     const result = await GetSurveyStatistics()
     setSurveyStatistics(result.data)
   }, [])
 
-  const initSurveyPerformance = useCallback(async () => {
-    const result = await GetSurveyPerformance()
-    setSurveyPerformance(result.data)
+  const initSurveyPUvData = useCallback(async () => {
+    const result = await GetSurveyPUvData()
+    setSurveyPUvData(result.data)
   }, [])
 
   useEffect(() => {
     initSurveyStatistics()
-    initSurveyPerformance()
-  }, [initSurveyStatistics, initSurveyPerformance])
+    initSurveyPUvData()
+  }, [initSurveyStatistics, initSurveyPUvData])
   const option = {
     xAxis: {
       type: 'category',
@@ -83,14 +79,15 @@ const SurveyPage: FC = () => {
       <Row gutter={[16, 16]}>
         <Col span={4}>
           <Card className="surveyCardStatistics" style={{ marginBottom: '20px' }}>
-            <div className="value">2556</div>
+            <div className="value">{surveyStatistics.js_error}</div>
             <div className="name">Js错误</div>
-            <div className="desc">2556</div>
+            <div className="desc"></div>
+            {/** 这里当然要做同比日增加或者减少。*/}
           </Card>
           <Card className="surveyCardStatistics">
-            <div className="value">2556ms</div>
+            <div className="value">{surveyStatistics.load_page}ms</div>
             <div className="name">首次渲染时间</div>
-            <div className="desc">2556</div>
+            <div className="desc"></div>
           </Card>
         </Col>
         <Col span={16}>
@@ -98,26 +95,25 @@ const SurveyPage: FC = () => {
             <Space size={40}>
               <p></p>
             </Space>
-            <p>123</p>
-            <p>123</p>
-            <PvAndUvChartBarChar />
+            {surveyPUvData.length > 0 ? <PvAndUvChartBarChar surveyPUvData={surveyPUvData} /> : <></>}
           </Card>
         </Col>
         <Col span={4}>
           <Card className="surveyCardStatistics" style={{ marginBottom: '20px' }}>
-            <div className="value">2556</div>
+            <div className="value">{surveyStatistics.http_error}</div>
             <div className="name">API异常</div>
-            <div className="desc">2556</div>
+            <div className="desc"></div>
           </Card>
           <Card className="surveyCardStatistics">
-            <div className="value">2556</div>
+            <div className="value">{surveyStatistics.resources}</div>
             <div className="name">资源异常</div>
-            <div className="desc">2556</div>
+            <div className="desc"></div>
           </Card>
         </Col>
       </Row>
       <div className="chart"></div>
       <Card title="JS报错">
+        {/** 每小时的JS报错，可以跟昨日做对比*/}
         <PublicChart option={option} height="400px" />
       </Card>
 

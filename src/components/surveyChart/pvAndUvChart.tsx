@@ -1,12 +1,14 @@
 import React, { FC } from 'react'
 import PublicChart from '../publicChart/public.chart'
 import * as echarts from 'echarts/core'
-const PvAndUvChartBarChar: FC<any> = () => {
+const PvAndUvChartBarChar: FC<any> = ({ surveyPUvData }) => {
   const option = {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['20:00', '21:00', '22:00', '23:00', '24:00']
+      data: surveyPUvData.map((item: any) => {
+        return item.time_key
+      })
     },
     tooltip: {
       trigger: 'axis',
@@ -23,7 +25,9 @@ const PvAndUvChartBarChar: FC<any> = () => {
     series: [
       {
         name: 'UV',
-        data: [120, 60, 132, 101, 134, 90, 230, 210],
+        data: surveyPUvData.map((item: any) => {
+          return item.uv
+        }),
         type: 'line',
         itemStyle: {
           color: '#FFCE03'
@@ -45,7 +49,9 @@ const PvAndUvChartBarChar: FC<any> = () => {
       {
         name: 'PV',
         type: 'line',
-        data: [120, 132, 101, 134, 90, 230, 210],
+        data: surveyPUvData.map((item: any) => {
+          return item.pv
+        }),
         smooth: true,
         itemStyle: {
           color: '#00C1DE'
