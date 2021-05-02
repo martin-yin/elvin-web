@@ -40,3 +40,5 @@ export const GetUsersActionsStatistics = (params: any) =>
 export const GetSurveyStatistics = () => request<any>('get', '/communal/surveyStatistics')
 
 export const GetSurveyPUvData = () => request<any>('get', '/communal/surveyPUv')
+
+export const GetSurveyJsErrorData = () => request<any>('get', '/communal/surveyJsError')

@@ -3,7 +3,7 @@ import { Card, Col, Row, Space } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import PublicChart from '../../components/publicChart/public.chart'
 import PvAndUvChartBarChar from '../../components/surveyChart/pvAndUvChart'
-import { GetSurveyStatistics, GetSurveyPUvData } from '../../request'
+import { GetSurveyStatistics, GetSurveyPUvData, GetSurveyJsErrorData } from '../../request'
 import './index.less'
 const SurveyPage: FC = () => {
   const [surveyStatistics, setSurveyStatistics] = useState({
@@ -24,43 +24,42 @@ const SurveyPage: FC = () => {
     setSurveyPUvData(result.data)
   }, [])
 
+  const [surveyJsErrorData, setSurveyJsErrorData] = useState([])
+
+  const initSurveyJsErrorData = useCallback(async () => {
+    const result = await GetSurveyJsErrorData()
+    setSurveyJsErrorData(result.data)
+    console.log(surveyJsErrorData)
+  }, [])
+
+  // GetSurveyJsErrorData
+
   useEffect(() => {
     initSurveyStatistics()
     initSurveyPUvData()
-  }, [initSurveyStatistics, initSurveyPUvData])
+    initSurveyJsErrorData()
+  }, [initSurveyStatistics, initSurveyPUvData, initSurveyJsErrorData])
   const option = {
     xAxis: {
       type: 'category',
-      data: [
-        'Mon',
-        'Tue',
-        'Wed',
-        'Thu',
-        'Fri',
-        'Sat',
-        'Sun',
-        'Mon',
-        'Tue',
-        'Wed',
-        'Thu',
-        'Fri',
-        'Sat',
-        'Sun',
-        'Mon',
-        'Tue',
-        'Wed',
-        'Thu',
-        'Fri',
-        'Sat',
-        'Sun'
-      ]
+      data:
+        surveyJsErrorData.length > 0
+          ? surveyJsErrorData.map((item: any) => {
+              return item.time_key
+            })
+          : []
     },
     yAxis: {
       type: 'value'
     },
     series: [
       {
-        data: [120, 200, 150, 80, 70, 110, 130, 120, 200, 150, 80, 70, 110, 130, 120, 200, 150, 80, 70, 110, 130],
+        data:
+          surveyJsErrorData.length > 0
+            ? surveyJsErrorData.map((item: any) => {
+                return item.time_key
+              })
+            : [],
         type: 'bar',
         barMaxWidth: 20,
         itemStyle: {
@@ -112,10 +111,10 @@ const SurveyPage: FC = () => {
         </Col>
       </Row>
       <div className="chart"></div>
-      <Card title="JS报错">
-        {/** 每小时的JS报错，可以跟昨日做对比*/}
-        <PublicChart option={option} height="400px" />
-      </Card>
+      {/* <Card title="JS报错"> */}
+      {/** 每小时的JS报错，可以跟昨日做对比*/}
+      {/* <PublicChart option={option} height="400px" />
+      </Card> */}
 
       <Row gutter={[16, 16]} style={{ marginTop: '20px' }}>
         <Col span={16}>

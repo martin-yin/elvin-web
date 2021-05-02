@@ -145,10 +145,10 @@ const HttpPage: FC = () => {
 
         <Space className="httpTime" size={20}>
           <Card className="httpRanking">
-            <div className="performanceTimeList">
+            <div className="">
               {httpQuotaAndList.http_list.map((item: any, key: number) => {
                 return (
-                  <div key={key} className="performanceTimeItem flex">
+                  <div key={key} className="httpRankingItem flex">
                     <div className="flex-grow-1">{item.http_url}</div>
                     <div className="flex-grow-0">耗时{item.load_time}ms</div>
                   </div>
