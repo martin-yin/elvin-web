@@ -7,7 +7,6 @@ import HomePage from './view/homePage/home.page'
 import TopHeaderNav from './components/topHeaderNav/top.header.nav'
 import 'moment/locale/zh-cn'
 import locale from 'antd/lib/locale/zh_CN'
-import LoginPage from './view/login/login.page'
 import { Suspense } from 'react'
 
 const Routers = [
@@ -15,37 +14,37 @@ const Routers = [
   {
     path: '/survey',
     name: 'SurveyPage',
-    component: lazy(() => import(/* webpackChunkName: "survey'"*/ './view/surveyPage/survey.page'))
+    component: lazy(() => import(/* webpackChunkName: "survey"*/ './view/surveyPage/survey.page'))
   },
   {
     path: '/performance',
     name: 'PerformancePage',
-    component: lazy(() => import(/* webpackChunkName: "performance'"*/ './view/performancePage/performance.page'))
+    component: lazy(() => import(/* webpackChunkName: "performance"*/ './view/performancePage/performance.page'))
   },
   {
     path: '/http',
     name: 'HttpPage',
-    component: lazy(() => import(/* webpackChunkName: "http'"*/ './view/httpPage/http.page'))
+    component: lazy(() => import(/* webpackChunkName: "http"*/ './view/httpPage/http.page'))
   },
   {
     path: '/resource-error',
     name: 'ErrorPage',
-    component: lazy(() => import(/* webpackChunkName: "error'"*/ './view/resourcesErrorPage/error.page'))
+    component: lazy(() => import(/* webpackChunkName: "error"*/ './view/resourcesErrorPage/error.page'))
   },
   {
     path: '/js-error',
     name: 'jsError',
-    component: lazy(() => import(/* webpackChunkName: "js-error'"*/ './view/jsErrorPage/js.error.page'))
+    component: lazy(() => import(/* webpackChunkName: "js-error"*/ './view/jsErrorPage/js.error.page'))
   },
   {
     path: '/user',
     name: 'UserPage',
-    component: lazy(() => import(/* webpackChunkName: "use'"*/ './view/user/userPage'))
+    component: lazy(() => import(/* webpackChunkName: "use"*/ './view/user/userPage'))
   },
   {
     path: '/user-detail/:userId',
     name: 'UserBehaviorDetailPage',
-    component: lazy(() => import(/* webpackChunkName: "user-action-detail'"*/ './view/user/useActionDetailPage'))
+    component: lazy(() => import(/* webpackChunkName: "user-action-detail"*/ './view/user/useActionDetailPage'))
   }
 ]
 
@@ -55,7 +54,6 @@ function App() {
       <ConfigProvider locale={locale}>
         <Router>
           <Layout className="layout">
-            <TopHeaderNav />
             <Switch>
               <Suspense fallback={<div>Loading</div>}>
                 {Routers.map((item, index) => {
@@ -65,15 +63,21 @@ function App() {
                       path={item.path}
                       exact
                       render={() => (
-                        <Content className="site-layout-content">
-                          <item.component />
-                        </Content>
+                        <div>
+                          <TopHeaderNav />
+                          <Content className="site-layout-content">
+                            <item.component />
+                          </Content>
+                        </div>
                       )}
                     />
                   )
                 })}
+                <Route
+                  path="/login"
+                  component={lazy(() => import(/* webpackChunkName: "login-page"*/ './view/login/login.page'))}
+                />
               </Suspense>
-              <Route path="/login" component={LoginPage} />
               <Redirect from={'*'} to={'/'} />
             </Switch>
           </Layout>

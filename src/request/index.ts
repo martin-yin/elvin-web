@@ -42,3 +42,5 @@ export const GetSurveyStatistics = () => request<any>('get', '/communal/surveySt
 export const GetSurveyPUvData = () => request<any>('get', '/communal/surveyPUv')
 
 export const GetSurveyJsErrorData = () => request<any>('get', '/communal/surveyJsError')
+
+export const AdminLogin = (data: any) => request<any>('post', '/admin/adminLogin', data)

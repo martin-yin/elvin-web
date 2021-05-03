@@ -77,8 +77,6 @@ const TopHeaderNav: FC = () => {
     } else {
       index = 4
     }
-
-    console.log(path)
     dispatch(setActiveMenu(index))
   }
 

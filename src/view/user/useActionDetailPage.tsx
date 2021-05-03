@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Divider, Pagination, Space, Timeline } from 'antd'
-import { GetUse, GetUserAction, GetUserActionList, GetUserActions, GetUsersActionsStatistics } from '../../request'
+import { GetUse, GetUserAction, GetUserActionList, GetUsersActionsStatistics } from '../../request'
 import './index.less'
 import ActionTimeLineItem from '../../components/userAction/action.time.line'
 import { useParams } from 'react-router-dom'

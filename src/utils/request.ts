@@ -1,10 +1,11 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { message } from 'antd'
-
+import { createHashHistory } from 'history'
 axios.defaults.timeout = 10000
 
 axios.interceptors.request.use(
   config => {
+    config.headers['token'] = localStorage.getItem('token')
     return config
   },
   error => {
@@ -13,8 +14,11 @@ axios.interceptors.request.use(
 )
 
 axios.interceptors.response.use(
-  config => {
-    return config.data
+  response => {
+    if (response.data.code == 7) {
+      createHashHistory().push('/login')
+    }
+    return response.data
   },
   error => {
     let errorMessage = '系统异常'

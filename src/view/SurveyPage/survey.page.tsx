@@ -1,9 +1,7 @@
-import { InfoCircleFilled } from '@ant-design/icons/lib/icons'
 import { Card, Col, Row, Space } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import PublicChart from '../../components/publicChart/public.chart'
 import PvAndUvChartBarChar from '../../components/surveyChart/pvAndUvChart'
-import { GetSurveyStatistics, GetSurveyPUvData, GetSurveyJsErrorData } from '../../request'
+import { GetSurveyStatistics, GetSurveyPUvData } from '../../request'
 import './index.less'
 const SurveyPage: FC = () => {
   const [surveyStatistics, setSurveyStatistics] = useState({
@@ -24,50 +22,19 @@ const SurveyPage: FC = () => {
     setSurveyPUvData(result.data)
   }, [])
 
-  const [surveyJsErrorData, setSurveyJsErrorData] = useState([])
+  // const [surveyJsErrorData, setSurveyJsErrorData] = useState([])
 
-  const initSurveyJsErrorData = useCallback(async () => {
-    const result = await GetSurveyJsErrorData()
-    setSurveyJsErrorData(result.data)
-    console.log(surveyJsErrorData)
-  }, [])
-
-  // GetSurveyJsErrorData
+  // const initSurveyJsErrorData = useCallback(async () => {
+  //   const result = await GetSurveyJsErrorData()
+  //   setSurveyJsErrorData(result.data)
+  // }, [])
 
   useEffect(() => {
     initSurveyStatistics()
     initSurveyPUvData()
-    initSurveyJsErrorData()
-  }, [initSurveyStatistics, initSurveyPUvData, initSurveyJsErrorData])
-  const option = {
-    xAxis: {
-      type: 'category',
-      data:
-        surveyJsErrorData.length > 0
-          ? surveyJsErrorData.map((item: any) => {
-              return item.time_key
-            })
-          : []
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: [
-      {
-        data:
-          surveyJsErrorData.length > 0
-            ? surveyJsErrorData.map((item: any) => {
-                return item.time_key
-              })
-            : [],
-        type: 'bar',
-        barMaxWidth: 20,
-        itemStyle: {
-          color: '#00C1DE'
-        }
-      }
-    ]
-  }
+    // initSurveyJsErrorData()
+  }, [initSurveyStatistics, initSurveyPUvData])
+
   return (
     <div>
       {/* 概况页面参考这个{' '}

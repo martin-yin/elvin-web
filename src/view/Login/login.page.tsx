@@ -3,19 +3,21 @@ import { Input, Form, Button } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './index.less'
+import { AdminLogin } from '../../request'
 
 const LoginPage: FC = () => {
   const history = useHistory()
 
-  const handleUserLogin = async (form: any) => {
-    console.log(form)
+  const userLogin = async (form: any) => {
+    const data: any = await AdminLogin(form)
+    localStorage.setItem('token', data.data.token)
     history.push('/')
   }
 
   return (
     <div className={'login-content'}>
       <strong>大家好，我是登录标题</strong>
-      <Form name="basic" initialValues={{ username: 'admin', password: '123456' }} onFinish={handleUserLogin}>
+      <Form name="basic" initialValues={{ username: 'admin', password: '123456' }} onFinish={userLogin}>
         <Form.Item name="username" rules={[{ required: true, message: '请输入用户名!' }]}>
           <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="请输入用户名" />
         </Form.Item>
