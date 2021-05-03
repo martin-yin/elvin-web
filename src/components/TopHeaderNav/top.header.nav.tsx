@@ -8,7 +8,47 @@ import { useDispatch } from 'react-redux'
 import { useAppState } from '../../stores'
 import { setActiveMenu, setMonitorId, setProjectList } from '../../stores/app.store'
 import { GetProject } from '../../request'
-import { UserOutlined } from '@ant-design/icons'
+
+const menuList = [
+  {
+    title: '首页',
+    path: '/'
+  },
+  {
+    title: '概况',
+    path: '/survey'
+  },
+  {
+    title: '用户',
+    path: '/user'
+  },
+  {
+    title: '性能',
+    children: [
+      {
+        title: '页面性能',
+        path: '/performance'
+      },
+      {
+        title: 'API接口',
+        path: '/http'
+      }
+    ]
+  },
+  {
+    title: '资源错误',
+    children: [
+      {
+        title: 'JS错误',
+        path: '/js-error'
+      },
+      {
+        title: '资源异常',
+        path: '/resource-error'
+      }
+    ]
+  }
+]
 
 const { Option } = Select
 const TopHeaderNav: FC = () => {
@@ -17,46 +57,6 @@ const TopHeaderNav: FC = () => {
   const history = useHistory()
   const location = useLocation()
   const dispatch = useDispatch()
-  const menuList = [
-    {
-      title: '首页',
-      path: '/'
-    },
-    {
-      title: '概况',
-      path: '/survey'
-    },
-    {
-      title: '用户',
-      path: '/user'
-    },
-    {
-      title: '性能',
-      children: [
-        {
-          title: '页面性能',
-          path: '/performance'
-        },
-        {
-          title: 'API接口',
-          path: '/http'
-        }
-      ]
-    },
-    {
-      title: '资源错误',
-      children: [
-        {
-          title: 'JS错误',
-          path: '/js-error'
-        },
-        {
-          title: '资源异常',
-          path: '/resource-error'
-        }
-      ]
-    }
-  ]
 
   history.listen(location => {
     setMenuInfo(location.pathname)
@@ -125,72 +125,86 @@ const TopHeaderNav: FC = () => {
     )
   }
 
-  const login = () => {
-    history.push('/login')
+  const historyPush = (url: string) => {
+    history.push(url)
   }
 
   const avatarMenu = (
     <Menu>
       <Menu.Item>修改信息</Menu.Item>
-      <Menu.Item>团队管理</Menu.Item>
       <Menu.Item>
-        <div onClick={() => login()}>重新登录</div>
+        <div onClick={() => historyPush('/team')}>团队管理</div>
+      </Menu.Item>
+      <Menu.Item>
+        <div onClick={() => historyPush('/login')}>重新登录</div>
       </Menu.Item>
     </Menu>
   )
+
+  const projectSelectRender = (projectList: any) => {
+    if (projectList.length == 0) {
+      return <></>
+    } else {
+      return (
+        <Select style={{ width: 220 }} defaultValue={defaultMonitorId} key={defaultMonitorId} onChange={setProjectId}>
+          {projectList.map((item: any, index: number) => {
+            return (
+              <Option value={item.monitor_id} key={index}>
+                {item.project_name}
+              </Option>
+            )
+          })}
+        </Select>
+      )
+    }
+  }
+
+  // 菜单渲染
+  const menuRender = (menuList: any) => {
+    if (projectList.length == 0) {
+      return <></>
+    } else {
+      return menuList.map((item: any, index: number) => {
+        return (
+          <Link key={index} to={item.path}>
+            <div className={`menu-item menu-short ${activeMenuIndex === index ? ' active' : ''}`}>
+              {item?.children ? (
+                <Space>
+                  <Dropdown overlay={menuChildren(item.children)} placement="bottomCenter">
+                    <p>{item.title}</p>
+                  </Dropdown>
+                </Space>
+              ) : (
+                <>{item.title}</>
+              )}
+            </div>
+          </Link>
+        )
+      })
+    }
+  }
 
   return (
     <Header>
       <div className="top-header flex">
         <div className="flex-grow-0 flex">
           <div className="header-logo">
-            <img src={logo} alt="" />
+            <a href="/">
+              <img src={logo} alt="" />
+            </a>
           </div>
-          <div className="">
-            {activeMenuIndex === 0 ? (
-              ''
-            ) : (
-              <Select
-                style={{ width: 220 }}
-                defaultValue={defaultMonitorId}
-                key={defaultMonitorId}
-                onChange={setProjectId}
-              >
-                {projectList.map((item: any, index) => {
-                  return (
-                    <Option value={item.monitor_id} key={index}>
-                      {item.project_name}
-                    </Option>
-                  )
-                })}
-              </Select>
-            )}
-          </div>
+          <div className="">{activeMenuIndex === 0 ? '' : projectSelectRender(projectList)}</div>
         </div>
         <div className="flex-grow-1">
-          <div className="menu-container">
-            {menuList.map((item: any, index) => {
-              return (
-                <Link key={index} to={item.path}>
-                  <div className={`menu-item menu-short ${activeMenuIndex === index ? ' active' : ''}`}>
-                    {item?.children ? (
-                      <Space>
-                        <Dropdown overlay={menuChildren(item.children)} placement="bottomCenter">
-                          <p>{item.title}</p>
-                        </Dropdown>
-                      </Space>
-                    ) : (
-                      <>{item.title}</>
-                    )}
-                  </div>
-                </Link>
-              )
-            })}
-          </div>
+          <div className="menu-container">{menuRender(menuList)}</div>
         </div>
         <div className="flex-grow-0" style={{ marginLeft: '20px' }}>
           <Dropdown overlay={avatarMenu} placement="bottomCenter">
-            <Avatar size={36} icon={<UserOutlined />} />
+            <div>
+              <Space>
+                <Avatar size={36} src="https://z3.ax1x.com/2021/05/03/gmusKO.jpg" />
+              </Space>
+            </div>
           </Dropdown>
         </div>
       </div>

@@ -4,11 +4,15 @@ import { useHistory } from 'react-router-dom'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './index.less'
 import { AdminLogin } from '../../request'
+import { setUserInfo } from '../../stores/app.store'
+import { useDispatch } from 'react-redux'
 
 const LoginPage: FC = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
   const userLogin = async (form: any) => {
     const data: any = await AdminLogin(form)
+    dispatch(setUserInfo(data.data.user))
     localStorage.setItem('token', data.data.token)
     history.push('/')
   }
@@ -33,3 +37,6 @@ const LoginPage: FC = () => {
   )
 }
 export default LoginPage
+function dispatch(arg0: { payload: any; type: string }) {
+  throw new Error('Function not implemented.')
+}
