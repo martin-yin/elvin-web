@@ -7,7 +7,6 @@ import { AdminLogin } from '../../request'
 
 const LoginPage: FC = () => {
   const history = useHistory()
-
   const userLogin = async (form: any) => {
     const data: any = await AdminLogin(form)
     localStorage.setItem('token', data.data.token)

@@ -1,4 +1,4 @@
-import { Dropdown, Menu, Select, Space } from 'antd'
+import { Dropdown, Menu, Select, Space, Avatar } from 'antd'
 import { Header } from 'antd/lib/layout/layout'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import { useAppState } from '../../stores'
 import { setActiveMenu, setMonitorId, setProjectList } from '../../stores/app.store'
 import { GetProject } from '../../request'
+import { UserOutlined } from '@ant-design/icons'
 
 const { Option } = Select
 const TopHeaderNav: FC = () => {
@@ -16,7 +17,6 @@ const TopHeaderNav: FC = () => {
   const history = useHistory()
   const location = useLocation()
   const dispatch = useDispatch()
-
   const menuList = [
     {
       title: '首页',
@@ -125,6 +125,20 @@ const TopHeaderNav: FC = () => {
     )
   }
 
+  const login = () => {
+    history.push('/login')
+  }
+
+  const avatarMenu = (
+    <Menu>
+      <Menu.Item>修改信息</Menu.Item>
+      <Menu.Item>团队管理</Menu.Item>
+      <Menu.Item>
+        <div onClick={() => login()}>重新登录</div>
+      </Menu.Item>
+    </Menu>
+  )
+
   return (
     <Header>
       <div className="top-header flex">
@@ -161,7 +175,7 @@ const TopHeaderNav: FC = () => {
                   <div className={`menu-item menu-short ${activeMenuIndex === index ? ' active' : ''}`}>
                     {item?.children ? (
                       <Space>
-                        <Dropdown overlay={menuChildren(item.children)}>
+                        <Dropdown overlay={menuChildren(item.children)} placement="bottomCenter">
                           <p>{item.title}</p>
                         </Dropdown>
                       </Space>
@@ -173,6 +187,11 @@ const TopHeaderNav: FC = () => {
               )
             })}
           </div>
+        </div>
+        <div className="flex-grow-0" style={{ marginLeft: '20px' }}>
+          <Dropdown overlay={avatarMenu} placement="bottomCenter">
+            <Avatar size={36} icon={<UserOutlined />} />
+          </Dropdown>
         </div>
       </div>
     </Header>

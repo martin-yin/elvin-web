@@ -1,4 +1,4 @@
-import { Card, Col, Row, Space } from 'antd'
+import { Card, Col, Empty, Row, Space } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import PvAndUvChartBarChar from '../../components/surveyChart/pvAndUvChart'
 import { GetSurveyStatistics, GetSurveyPUvData } from '../../request'
@@ -61,7 +61,13 @@ const SurveyPage: FC = () => {
             <Space size={40}>
               <p></p>
             </Space>
-            {surveyPUvData.length > 0 ? <PvAndUvChartBarChar surveyPUvData={surveyPUvData} /> : <></>}
+            {surveyPUvData.length > 0 ? (
+              <PvAndUvChartBarChar surveyPUvData={surveyPUvData} />
+            ) : (
+              <>
+                <Empty />
+              </>
+            )}
           </Card>
         </Col>
         <Col span={4}>
@@ -85,10 +91,14 @@ const SurveyPage: FC = () => {
 
       <Row gutter={[16, 16]} style={{ marginTop: '20px' }}>
         <Col span={16}>
-          <Card>地图</Card>
+          <Card>
+            <Empty />
+          </Card>
         </Col>
         <Col span={8}>
-          <Card>然后是浏览器饼图</Card>
+          <Card>
+            <Empty />
+          </Card>
         </Col>
       </Row>
     </div>

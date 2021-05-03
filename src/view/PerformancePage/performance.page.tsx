@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Statistic, Table, Tag, Tooltip, DatePicker, Radio, Button, Space } from 'antd'
+import { Card, Statistic, Table, Tag, Tooltip, DatePicker, Radio, Button, Space, Empty } from 'antd'
 import './index.less'
 import { webPageReportData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
@@ -177,6 +177,7 @@ const PerformancePage: FC = () => {
                 </div>
               )
             })}
+            <Empty />
           </div>
         </Card>
         <div>
