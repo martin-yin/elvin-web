@@ -4,7 +4,7 @@ import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 const { Content } = Layout
 import './index.less'
 import HomePage from './view/homePage/home.page'
-import TopHeaderNav from './components/topHeaderNav/top.header.nav'
+import TopHeaderNav from './components/headerNav/topHeaderNav'
 import 'moment/locale/zh-cn'
 import locale from 'antd/lib/locale/zh_CN'
 import { Suspense } from 'react'

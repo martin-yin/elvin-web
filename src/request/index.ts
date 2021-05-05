@@ -44,3 +44,9 @@ export const GetSurveyPUvData = () => request<any>('get', '/communal/surveyPUv')
 export const GetSurveyJsErrorData = () => request<any>('get', '/communal/surveyJsError')
 
 export const AdminLogin = (data: any) => request<any>('post', '/admin/adminLogin', data)
+
+export const RegisterAdmin = (data: any) => request<any>('post', '/admin/registerAdmin', data)
+
+export const GetTeamList = () => request<any>('get', '/communal/teamList')
+
+export const CreateTeam = (data: any) => request<any>('post', '/communal/addTeamProject', data)

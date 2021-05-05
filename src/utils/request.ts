@@ -37,6 +37,8 @@ axios.interceptors.response.use(
   }
 )
 
+const notMonitorId = ['/communal/projects', '/communal/addTeamProject']
+
 export type Response<T = any> = {
   code: number
   error: string
@@ -52,7 +54,7 @@ export const request = <T>(
   config?: AxiosRequestConfig
 ): Promise<Response<T>> => {
   const prefix = 'http://127.0.0.1:8889'
-  if (url !== '/communal/projects') {
+  if (!notMonitorId.includes(url)) {
     const monitor_id = localStorage.getItem('monitor_id')
     Object.assign(data, { monitor_id })
   }

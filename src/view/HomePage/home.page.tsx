@@ -3,6 +3,7 @@ import { Card, Col, Row, Space, Tooltip } from 'antd'
 import React, { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import CreateProject from '../../components/project/createProject'
 import { useAppState } from '../../stores'
 import { setMonitorId } from '../../stores/app.store'
 
@@ -11,6 +12,8 @@ const HomePage: FC = () => {
   const { projectList } = useAppState(state => state.appsotre)
   const dispatch = useDispatch()
   const history = useHistory()
+
+  console.log(projectList)
 
   const projectSurvey = (monitor_id: string) => {
     dispatch(setMonitorId(monitor_id))
@@ -77,7 +80,7 @@ const HomePage: FC = () => {
               })
             ) : (
               <>
-                <p>创建新项目？</p>
+                <CreateProject />
               </>
             )}
           </Row>

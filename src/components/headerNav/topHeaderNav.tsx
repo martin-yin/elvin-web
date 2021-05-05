@@ -84,14 +84,16 @@ const TopHeaderNav: FC = () => {
     setMenuInfo(location.pathname)
     const { data, code } = await GetProject()
     if (code === 0) {
-      const monitor_id = localStorage.getItem('monitor_id')
-      if (monitor_id) {
-        setDefaultMonitorId(monitor_id)
-      } else {
-        localStorage.setItem('monitor_id', data[0].monitor_id)
-        setDefaultMonitorId(data[0].monitor_id)
+      if (data.length > 0) {
+        const monitor_id = localStorage.getItem('monitor_id')
+        if (monitor_id) {
+          setDefaultMonitorId(monitor_id)
+        } else {
+          localStorage.setItem('monitor_id', data[0].monitor_id)
+          setDefaultMonitorId(data[0].monitor_id)
+        }
+        dispatch(setProjectList(data))
       }
-      dispatch(setProjectList(data))
     }
   }, [])
 
