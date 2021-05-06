@@ -14,27 +14,27 @@ const Routers = [
   {
     path: '/survey',
     name: 'SurveyPage',
-    component: lazy(() => import(/* webpackChunkName: "survey"*/ './view/surveyPage/survey.page'))
+    component: lazy(() => import(/* webpackChunkName: "survey"*/ './view/survey/survey.page'))
   },
   {
     path: '/performance',
     name: 'PerformancePage',
-    component: lazy(() => import(/* webpackChunkName: "performance"*/ './view/performancePage/performance.page'))
+    component: lazy(() => import(/* webpackChunkName: "performance"*/ './view/performance/performancePage'))
   },
   {
     path: '/http',
     name: 'HttpPage',
-    component: lazy(() => import(/* webpackChunkName: "http"*/ './view/httpPage/http.page'))
+    component: lazy(() => import(/* webpackChunkName: "http"*/ './view/http/httpPage'))
   },
   {
     path: '/resource-error',
     name: 'ErrorPage',
-    component: lazy(() => import(/* webpackChunkName: "error"*/ './view/resourcesErrorPage/error.page'))
+    component: lazy(() => import(/* webpackChunkName: "error"*/ './view/resourcesError/error.page'))
   },
   {
     path: '/js-error',
     name: 'jsError',
-    component: lazy(() => import(/* webpackChunkName: "js-error"*/ './view/jsErrorPage/js.error.page'))
+    component: lazy(() => import(/* webpackChunkName: "js-error"*/ './view/jsError/js.error.page'))
   },
   {
     path: '/user',
@@ -44,12 +44,17 @@ const Routers = [
   {
     path: '/user-detail/:userId',
     name: 'UserBehaviorDetailPage',
-    component: lazy(() => import(/* webpackChunkName: "user-action-detail"*/ './view/user/useActionDetailPage'))
+    component: lazy(() => import(/* webpackChunkName: "user-action-detail"*/ './view/user/useActionPage'))
   },
   {
     path: '/team',
     name: 'team',
     component: lazy(() => import(/* webpackChunkName: "team"*/ './view/team/teamPage'))
+  },
+  {
+    path: '/project',
+    name: 'project',
+    component: lazy(() => import(/* webpackChunkName: "team"*/ './view/project/projectPage'))
   }
 ]
 
@@ -80,7 +85,7 @@ function App() {
                 })}
                 <Route
                   path="/login"
-                  component={lazy(() => import(/* webpackChunkName: "login-page"*/ './view/login/login.page'))}
+                  component={lazy(() => import(/* webpackChunkName: "login-page"*/ './view/login/loginPage'))}
                 />
               </Suspense>
               <Redirect from={'*'} to={'/'} />

@@ -4,8 +4,6 @@ import './index.less'
 import { webPageReportData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
-import StageTimeChart from '../../components/performanceChart/stage.time.chart'
-import StackBarChar from '../../components/performanceChart/stack.bar.chart'
 import {
   PerformancePageList,
   PerformanceParam,
@@ -13,6 +11,8 @@ import {
   PerformanceStack,
   PerformanceStageTime
 } from '../../interface/performance.interface'
+import StageTimeChart from '../../components/charts/performanceChart/stageTimeChart'
+import StackBarChar from '../../components/charts/performanceChart/stackBarChart'
 
 const { RangePicker } = DatePicker
 

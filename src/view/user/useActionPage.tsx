@@ -2,11 +2,10 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Divider, Pagination, Space, Timeline } from 'antd'
 import { GetUse, GetUserAction, GetUserActionList, GetUsersActionsStatistics } from '../../request'
 import './index.less'
-import ActionTimeLineItem from '../../components/userAction/action.time.line'
 import { useParams } from 'react-router-dom'
 import { User, UserAction } from '../../interface/user.interface'
+import ActionTimeLineItem from '../../components/userAction/actionTimeLine'
 import UserActionDetailInfo from '../../components/userAction/actionDetailInfo'
-
 import {
   PageClickIcon,
   PageJsErrorIcon,
@@ -16,7 +15,7 @@ import {
   PageResoucesErrorIcon
 } from '../../assets'
 
-const UserActionDetailPage: FC = () => {
+const UserActionPage: FC = () => {
   const [userActionsList, setUserActionsList] = useState([])
   const [userActionStatistics, setUserActionStatistics] = useState([])
   const [detail, setDetail] = useState({} as any)
@@ -246,4 +245,4 @@ const UserActionDetailPage: FC = () => {
   )
 }
 
-export default UserActionDetailPage
+export default UserActionPage

@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import PublicChart from '../publicChart/public.chart'
+import PublicChart from '../publicChart/publicChart'
 import * as echarts from 'echarts/core'
 const PvAndUvChartBarChar: FC<any> = ({ surveyPUvData }) => {
   const option = {

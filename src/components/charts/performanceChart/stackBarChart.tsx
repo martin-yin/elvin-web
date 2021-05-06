@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import PublicChart from '../publicChart/public.chart'
+import PublicChart from '../publicChart/publicChart'
 
 const StackBarChar: FC<any> = ({ stack }) => {
   const option: any = {

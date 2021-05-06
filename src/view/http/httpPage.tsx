@@ -4,8 +4,9 @@ import './index.less'
 import { httpData, httpStageData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
-import HttpStageTimeChart from '../../components/httpChart/stage.time.chart'
 import { HttpQuotaAndList, HttpStageTimeList } from '../../interface/http.interface'
+import HttpStageTimeChart from '../../components/charts/httpChart/stageTimeChart'
+
 const { TabPane } = Tabs
 const { RangePicker } = DatePicker
 

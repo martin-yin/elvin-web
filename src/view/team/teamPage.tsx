@@ -10,7 +10,6 @@ const TeamPage: FC = () => {
   const [teamList, setTeamList] = useState([])
   const initTeamList = useCallback(async () => {
     const result = await GetTeamList()
-    console.log(result)
     setTeamList(result.data)
   }, [])
 
@@ -88,8 +87,15 @@ const TeamPage: FC = () => {
     },
     {
       title: '项目列表',
-      dataIndex: 'frequency',
-      key: 'frequency'
+      dataIndex: 'team_projects',
+      key: 'team_projects',
+      render: (team_projects: any) => (
+        <>
+          {team_projects.map((item: any, index: number) => {
+            return <div key={index}>{item.project_name}</div>
+          })}
+        </>
+      )
     },
     {
       title: '操作',

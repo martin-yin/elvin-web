@@ -65,13 +65,13 @@ const LoginPage: FC = () => {
         <TabPane tab="注 册" key="2">
           <Form
             name="basic"
-            initialValues={{ user_name: 'admin', password: '123456', nickname: '' }}
+            initialValues={{ user_name: 'admin', password: '123456', nick_name: '' }}
             onFinish={register}
           >
             <Form.Item name="user_name" rules={[{ required: true, message: '请输入用户名!' }]}>
               <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="请输入用户名" />
             </Form.Item>
-            <Form.Item name="nickname">
+            <Form.Item name="nick_name">
               <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="请输入昵称" />
             </Form.Item>
             <Form.Item name="password" rules={[{ required: true, message: '请输入密码!' }]}>

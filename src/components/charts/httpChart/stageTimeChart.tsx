@@ -3,7 +3,7 @@ import * as echarts from 'echarts/core'
 import { BarChart, LineChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent, TitleComponent, LegendComponent, DataZoomComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-import PublicChart from '../publicChart/public.chart'
+import PublicChart from '../publicChart/publicChart'
 echarts.use([
   TitleComponent,
   TooltipComponent,
