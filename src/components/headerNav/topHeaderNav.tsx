@@ -95,11 +95,11 @@ const TopHeaderNav: FC = () => {
         dispatch(setProjectList(data))
       }
     }
-  }, [])
+  }, [dispatch, location.pathname, setMenuInfo])
 
-  useEffect(() => {
-    initData()
-  }, [initData])
+  // useEffect(() => {
+  //   initData()
+  // }, [initData])
 
   useEffect(() => {
     setDefaultMonitorId(monitorId)
@@ -147,6 +147,7 @@ const TopHeaderNav: FC = () => {
     if (projectList.length == 0) {
       return <></>
     } else {
+      initData()
       return (
         <Select style={{ width: 220 }} defaultValue={defaultMonitorId} key={defaultMonitorId} onChange={setProjectId}>
           {projectList.map((item: any, index: number) => {
@@ -198,7 +199,7 @@ const TopHeaderNav: FC = () => {
           <div className="">{activeMenuIndex === 0 ? '' : projectSelectRender(projectList)}</div>
         </div>
         <div className="flex-grow-1">
-          <div className="menu-container">{menuRender(menuList)}</div>
+          <div className="menu-container">{activeMenuIndex === 0 ? '' : menuRender(menuList)}</div>
         </div>
         <div className="flex-grow-0" style={{ marginLeft: '20px' }}>
           <Dropdown overlay={avatarMenu} placement="bottomCenter">

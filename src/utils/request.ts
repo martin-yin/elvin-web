@@ -15,7 +15,7 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   response => {
-    if (response.data.code == 7) {
+    if (response.data.code == 10) {
       createHashHistory().push('/login')
     }
     return response.data
