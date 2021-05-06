@@ -39,7 +39,7 @@ const ProjectPage: FC = () => {
 
   return (
     <div>
-      <Card>
+      <Card style={{ width: '100%' }}>
         <Form
           {...formItemLayout}
           name="basic"
