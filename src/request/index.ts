@@ -47,6 +47,11 @@ export const AdminLogin = (data: any) => request<any>('post', '/admin/adminLogin
 
 export const RegisterAdmin = (data: any) => request<any>('post', '/admin/registerAdmin', data)
 
+// 获取团队列表
 export const GetTeamList = () => request<any>('get', '/communal/teamList')
 
-export const CreateTeam = (data: any) => request<any>('post', '/communal/addTeamProject', data)
+// 创建团队
+export const CreateTeam = (data: any) => request<any>('post', '/communal/createTeam', data)
+
+// 根据团队创建项目
+export const AddTeamProject = (data: any) => request<any>('post', '/communal/addTeamProject', data)

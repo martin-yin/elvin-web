@@ -22,13 +22,6 @@ const SurveyPage: FC = () => {
     setSurveyPUvData(result.data)
   }, [])
 
-  // const [surveyJsErrorData, setSurveyJsErrorData] = useState([])
-
-  // const initSurveyJsErrorData = useCallback(async () => {
-  //   const result = await GetSurveyJsErrorData()
-  //   setSurveyJsErrorData(result.data)
-  // }, [])
-
   useEffect(() => {
     initSurveyStatistics()
     initSurveyPUvData()

@@ -3,7 +3,7 @@ import { ConfigProvider, Layout } from 'antd'
 import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 const { Content } = Layout
 import './index.less'
-import HomePage from './view/homePage/home.page'
+import HomePage from './view/home/homePage'
 import TopHeaderNav from './components/headerNav/topHeaderNav'
 import 'moment/locale/zh-cn'
 import locale from 'antd/lib/locale/zh_CN'

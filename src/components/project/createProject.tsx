@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Button, Form, Input, Select } from 'antd'
-import { CreateTeam, GetTeamList } from '../../request'
+import { AddTeamProject, GetTeamList } from '../../request'
 const { Option } = Select
 
 const CreateProject: FC = () => {
@@ -16,7 +16,7 @@ const CreateProject: FC = () => {
   }, [initTeamListData])
 
   const createProject = async (form: any) => {
-    await CreateTeam({
+    await AddTeamProject({
       monitor_id: form.monitor_id,
       project_name: form.project_name,
       team_id: form.team_id
@@ -24,9 +24,19 @@ const CreateProject: FC = () => {
     // console.log(data, 'data')
   }
 
+  const formItemLayout = {
+    labelCol: { span: 6 },
+    wrapperCol: { span: 14 }
+  }
+
   return (
     <div>
-      <Form name="basic" initialValues={{ project_name: '', monitor_id: '', team_id: '' }} onFinish={createProject}>
+      <Form
+        {...formItemLayout}
+        name="basic"
+        initialValues={{ project_name: '', monitor_id: '', team_id: '' }}
+        onFinish={createProject}
+      >
         <Form.Item name="project_name" label="项目名称" rules={[{ required: true, message: '请输入项目名称!' }]}>
           <Input placeholder="请输入项目名称" />
         </Form.Item>
