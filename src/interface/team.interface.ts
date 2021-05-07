@@ -31,3 +31,6 @@ export interface Project {
 }
 
 export type TeamLit = Array<Team>
+
+export type ProjectList = Array<Project>
+

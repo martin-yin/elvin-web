@@ -3,25 +3,24 @@ import { Button, Card, DatePicker, Radio, Space, Statistic, Table, Tabs, Tooltip
 import './index.less'
 import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
-import { HttpQuotaAndList, HttpStageTimeList } from '../../interface/http.interface'
+import { HttpQuota, HttpStageTimeList, HttpUrlList } from '../../interface/http.interface'
 import HttpStageTimeChart from '../../components/charts/httpChart/stageTimeChart'
-import { httpData, httpStageData } from '../../request/http'
+import { GetHttpList, GetHttpQuota, GetHttpStage } from '../../request/http'
 
 const { TabPane } = Tabs
 const { RangePicker } = DatePicker
 
 const HttpPage: FC = () => {
-  const [httpQuotaAndList, setHttpQuotaAndList] = useState<HttpQuotaAndList>({
-    http_quota: {
-      error_user: 0,
-      load_time: 0,
-      success_total: 0,
-      total: 0,
-      success_rate: ''
-    },
-    http_list: []
+  const [quota, setQUota] = useState<HttpQuota>({
+    error_user: 0,
+    load_time: 0,
+    success_total: 0,
+    total: 0,
+    success_rate: ''
   })
-  const [httpStageTimeList, setHttpStageTimeList] = useState<HttpStageTimeList>([])
+  const [httpList, setHttpList] = useState<HttpUrlList>([])
+  const [stageTime, setStageTime] = useState<HttpStageTimeList>([])
+
   const [httpParam, setHttpParam] = useState({
     time_grain: 'minute',
     start_time: moment().format('YYYY-MM-DD'),
@@ -29,33 +28,32 @@ const HttpPage: FC = () => {
     stage_type: 'success'
   })
 
-  const initHttpQuotaAndList = useCallback(async () => {
-    const {
-      code,
-      data: { http_quota, http_list }
-    } = await httpData({
+  const initQuotaData = useCallback(async () => {
+    const { code, data } = await GetHttpQuota({
       ...httpParam
     })
-    if (code == 0) {
-      http_quota.success_rate = ((http_quota.success_total / http_quota.total) * 100).toFixed(2)
-      setHttpQuotaAndList({
-        http_quota,
-        http_list
-      })
+    if (code == 200) {
+      setQUota(data)
     }
-  }, [httpParam])
+  }, [httpParam]) 
 
-  const initHttpStageTimeList = useCallback(async () => {
-    const {
-      code,
-      data: { http_stagetime }
-    } = await httpStageData({
+  const initHttpListData = useCallback(async () => {
+    const { code, data } = await GetHttpList({
       ...httpParam
     })
-    if (code == 0) {
-      setHttpStageTimeList(http_stagetime)
+    if (code == 200) {
+      setHttpList(data)
     }
-  }, [httpParam])
+  }, [httpParam]) 
+
+  const initStageTimeData = useCallback(async () => {
+    const { code, data } = await GetHttpStage({
+      ...httpParam
+    })
+    if (code == 200) {
+      setStageTime(data)
+    }
+  }, [httpParam]) 
 
   const onTimeChange = (dates: any, dateStrings: [string, string]) => {
     const time = dates[1].diff(dates[0], 'days')
@@ -81,17 +79,12 @@ const HttpPage: FC = () => {
       time_grain: e.target.value
     })
   }
-  const search = async () => {
-    const result = await httpStageData({
-      ...httpParam
-    })
-    setHttpStageTimeList(result.data.http_stagetime)
-  }
 
   useEffect(() => {
-    initHttpQuotaAndList()
-    initHttpStageTimeList()
-  }, [initHttpQuotaAndList, initHttpStageTimeList])
+    initQuotaData()
+    initHttpListData()
+    initStageTimeData()
+  }, [])
 
   const columns = [
     {
@@ -131,23 +124,23 @@ const HttpPage: FC = () => {
             </Tooltip>
           </p>
           <div className="item">
-            <Statistic title="请求次数" value={httpQuotaAndList.http_quota.total} suffix="" />
+            <Statistic title="请求次数" value={quota.total} suffix="" />
           </div>
           <div className="item">
-            <Statistic title="请求耗时" value={httpQuotaAndList.http_quota.load_time} suffix="ms" />
+            <Statistic title="请求耗时" value={quota.load_time} suffix="ms" />
           </div>
           <div className="item">
-            <Statistic title="成功率" value={httpQuotaAndList.http_quota.success_rate} suffix="%" />
+            <Statistic title="成功率" value={quota.success_rate} suffix="%" />
           </div>
           <div className="item">
-            <Statistic title="异常影响用户" value={httpQuotaAndList.http_quota.error_user} />
+            <Statistic title="异常影响用户" value={quota.error_user} />
           </div>
         </Card>
 
         <Space className="httpTime" size={20}>
           <Card className="httpRanking">
             <div className="">
-              {httpQuotaAndList.http_list.map((item: any, key: number) => {
+              {httpList.map((item: any, key: number) => {
                 return (
                   <div key={key} className="httpRankingItem flex">
                     <div className="flex-grow-1">{item.http_url}</div>
@@ -184,16 +177,16 @@ const HttpPage: FC = () => {
                   <Radio value={'hour'}>小时</Radio>
                   <Radio value={'day'}>天</Radio>
                 </Radio.Group>
-                <Button type="primary" size="small" onClick={search}>
+                <Button type="primary" size="small" >
                   搜索
                 </Button>
               </div>
             </div>
-            <HttpStageTimeChart stageTime={httpStageTimeList} />
+            <HttpStageTimeChart stageTime={stageTime} />
           </Card>
         </Space>
         <Card>
-          <Table dataSource={httpQuotaAndList.http_list} columns={columns} rowKey="http_url" />
+          <Table dataSource={httpList} columns={columns} rowKey="http_url" />
         </Card>
       </div>
     </>

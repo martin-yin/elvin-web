@@ -6,17 +6,14 @@ export interface HttpQuota {
   success_rate: string
 }
 
-export interface HttpUrlList {
+export interface HttpUrl {
   http_url: string
   user_total: number
   load_time: number
   total: number
 }
 
-export interface HttpQuotaAndList {
-  http_quota: HttpQuota
-  http_list: Array<HttpUrlList>
-}
+export type HttpUrlList = Array<HttpUrl>
 
 export interface HttpStageTime {
   time_key: string

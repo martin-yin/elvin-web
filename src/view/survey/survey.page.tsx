@@ -1,8 +1,8 @@
 import { Card, Col, Empty, Row, Space } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import PvAndUvChartBarChar from '../../components/charts/surveyChart/pvAndUvChart'
+import { GetSurveyStatistics, GetSurveyPUvData } from '../../request/survey'
 
-import { GetSurveyStatistics, GetSurveyPUvData } from '../../request'
 import './index.less'
 const SurveyPage: FC = () => {
   const [surveyStatistics, setSurveyStatistics] = useState({
@@ -27,7 +27,7 @@ const SurveyPage: FC = () => {
     initSurveyStatistics()
     initSurveyPUvData()
     // initSurveyJsErrorData()
-  }, [initSurveyStatistics, initSurveyPUvData])
+  }, [])
 
   return (
     <div>

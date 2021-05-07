@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Button, Col, Form, Input, Modal, Row, Select } from 'antd'
+import { Button, Col, Form, Input, Row, Select } from 'antd'
 
 import { useHistory } from 'react-router-dom'
 import { ModalFrom } from '../modalForm/modalForm'

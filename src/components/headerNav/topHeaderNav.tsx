@@ -7,7 +7,8 @@ import logo from '../../assets/logo.png'
 import { useDispatch } from 'react-redux'
 import { useAppState } from '../../stores'
 import { setActiveMenu, setMonitorId, setProjectList } from '../../stores/app.store'
-import { GetProject } from '../../request'
+import { GetProjectList } from '../../request/admin'
+
 
 const menuList = [
   {
@@ -82,7 +83,7 @@ const TopHeaderNav: FC = () => {
 
   const initData = useCallback(async () => {
     setMenuInfo(location.pathname)
-    const { data, code } = await GetProject()
+    const { data, code } = await GetProjectList()
     if (code === 0) {
       if (data.length > 0) {
         const monitor_id = localStorage.getItem('monitor_id')

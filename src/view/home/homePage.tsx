@@ -3,12 +3,11 @@ import { useAppState } from '../../stores'
 import { Card, Col, Form, message, Row } from 'antd'
 import './index.less'
 import CreateProjectModal from '../../components/project/createProjectModal'
-import { GetProject } from '../../request'
 import ProjectItem from '../../components/project/projectItem'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { setProjectList } from '../../stores/app.store'
 import { useDispatch } from 'react-redux'
-import { AddTeamProject } from '../../request/admin'
+import { AddTeamProject, GetProjectList } from '../../request/admin'
 
 const HomePage: FC = () => {
   const { projectList } = useAppState(state => state.appsotre)
@@ -17,7 +16,7 @@ const HomePage: FC = () => {
   const dispatch = useDispatch()
 
   const initProjectData = useCallback(async () => {
-    const { data, code } = await GetProject()
+    const { data, code } = await GetProjectList()
     if (code === 200) {
       dispatch(setProjectList(data))
     }

@@ -13,7 +13,7 @@ import {
 } from '../../interface/performance.interface'
 import StageTimeChart from '../../components/charts/performanceChart/stageTimeChart'
 import StackBarChar from '../../components/charts/performanceChart/stackBarChart'
-import { webPageReportData } from '../../request/performance'
+import { GetPerformancePageList, GetPerformanceRankingList, GetPerformanceStack, GetPerformanceStageTime, GetQuotaData, webPageReportData } from '../../request/performance'
 
 const { RangePicker } = DatePicker
 
@@ -23,46 +23,61 @@ const PerformancePage: FC = () => {
     start_time: moment().format('YYYY-MM-DD'),
     end_time: moment().format('YYYY-MM-DD')
   })
-  const [data, setData] = useState<{
-    quota: PerformanceQuota
-    stack: PerformanceStack
-    page_list: Array<PerformancePageList>
-    stage_time: Array<PerformanceStageTime>
-    ranking_http: any
-  }>({
-    quota: {
-      ttfb: 0,
-      dom_parse: 0,
-      load_page: 0,
-      pv: 0,
-      fast: ''
-    },
-    stack: {
-      redirect: 0,
-      appcache: 0,
-      lookup_domain: 0,
-      tcp: 0,
-      ttfb: 0,
-      request: 0,
-      dom_parse: 0,
-      load_page: 0,
-      load_event: 0
-    },
-    page_list: [],
-    stage_time: [],
-    ranking_http: []
-  })
 
-  const initPerformancePageData = useCallback(async () => {
-    const result = await webPageReportData({
-      ...performanceParam
-    })
-    setData(result.data)
+  const [quota, setQuota] = useState<PerformanceQuota>({
+    ttfb: 0,
+    dom_parse: 0,
+    load_page: 0,
+    pv: 0,
+    fast: ''
+  })
+  const [stack, setStack] = useState<PerformanceStack>({
+    redirect: 0,
+    appcache: 0,
+    lookup_domain: 0,
+    tcp: 0,
+    ttfb: 0,
+    request: 0,
+    dom_parse: 0,
+    load_page: 0,
+    load_event: 0
+  })
+  const [pageList, setPageList] = useState<Array<PerformancePageList>>([])
+  const [stageTime, setStageTime] = useState<Array<PerformanceStageTime>>([])
+  const [rankingList, setRankeList] = useState([])
+  
+  const initQuotaData = useCallback(async () => {
+    const result = await GetQuotaData(performanceParam)
+    setQuota(result.data)
+  }, [performanceParam])
+
+  const initStackData = useCallback(async () => {
+    const result = await GetPerformanceStack(performanceParam)
+    setStack(result.data)
+  }, [performanceParam])
+
+  const initPageListData = useCallback(async () => {
+    const result = await GetPerformancePageList(performanceParam)
+    setPageList(result.data)
+  }, [performanceParam])
+
+  const initStageTimeData = useCallback(async () => {
+    const result = await GetPerformanceStageTime(performanceParam)
+    setStageTime(result.data)
+  }, [performanceParam])
+
+  const initRankingList = useCallback(async () => {
+    const result = await GetPerformanceRankingList(performanceParam)
+    setRankeList(result.data)
   }, [performanceParam])
 
   useEffect(() => {
-    initPerformancePageData()
-  }, [initPerformancePageData])
+    initQuotaData()
+    initStackData()
+    initPageListData()
+    initStageTimeData()
+    initRankingList()
+  }, [initQuotaData, initStackData, initPageListData, initStageTimeData, initRankingList])
 
   const columns = [
     {
@@ -112,12 +127,12 @@ const PerformancePage: FC = () => {
     return current && current >= moment()
   }
 
-  const search = async () => {
-    const result = await webPageReportData({
-      ...performanceParam
-    })
-    setData(result.data)
-  }
+  // const search = async () => {
+  // const result = await webPageReportData({
+  //   ...performanceParam
+  // })
+  // setData(result.data)
+  // }
 
   const timeGrainChange = (e: any) => {
     setPerformanceParam({
@@ -152,25 +167,25 @@ const PerformancePage: FC = () => {
           </Tooltip>
         </p>
         <div className="item">
-          <Statistic title="首字节" value={data.quota.ttfb} suffix="ms" />
+          <Statistic title="首字节" value={quota.ttfb} suffix="ms" />
         </div>
         <div className="item">
-          <Statistic title="DOM Ready" value={data.quota.dom_parse} suffix="ms" />
+          <Statistic title="DOM Ready" value={quota.dom_parse} suffix="ms" />
         </div>
         <div className="item">
-          <Statistic title="页面完全加载" value={data.quota.load_page} suffix="ms" />
+          <Statistic title="页面完全加载" value={quota.load_page} suffix="ms" />
         </div>
         <div className="item">
-          <Statistic title="采样PV" value={data.quota.pv} />
+          <Statistic title="采样PV" value={quota.pv} />
         </div>
         <div className="item">
-          <Statistic title="2s 快开占比" value={data.quota.fast} suffix="%" />
+          <Statistic title="2s 快开占比" value={quota.fast} suffix="%" />
         </div>
       </Card>
       <Space className="performanceTime" size={20}>
         <Card className="performanceRanking">
           <div className="performanceTimeList">
-            {data.ranking_http.map((item: any, key: number) => {
+            {rankingList.map((item: any, key: number) => {
               return (
                 <div key={key} className="performanceTimeItem flex">
                   <div className="flex-grow-1">{item.page_url}</div>
@@ -207,22 +222,22 @@ const PerformancePage: FC = () => {
                   <Radio value={'hour'}>小时</Radio>
                   <Radio value={'day'}>天</Radio>
                 </Radio.Group>
-                <Button type="primary" size="small" onClick={search}>
+                {/* <Button type="primary" size="small" onClick={search}>
                   搜索
-                </Button>
+                </Button> */}
               </div>
             </div>
-            <StageTimeChart stage_time={data.stage_time} />
+            <StageTimeChart stage_time={stageTime} />
           </Card>
           <Card style={{ marginTop: '20px' }} className="timeCharts">
-            <StackBarChar stack={data.stack}></StackBarChar>
+            <StackBarChar stack={stack}></StackBarChar>
           </Card>
         </div>
       </Space>
 
       <Card>
         {/* <p>这里需要增加一个查看单条URL 加载得信息 参考：http://www.webfunny.cn/demo/pagePerformance.html</p> */}
-        <Table dataSource={data.page_list} columns={columns} rowKey="page_url" />
+        <Table dataSource={pageList} columns={columns} rowKey="page_url" />
       </Card>
     </>
   )
