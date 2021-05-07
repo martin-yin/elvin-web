@@ -35,7 +35,7 @@ const HttpPage: FC = () => {
     if (code == 200) {
       setQUota(data)
     }
-  }, [httpParam]) 
+  }, [httpParam])
 
   const initHttpListData = useCallback(async () => {
     const { code, data } = await GetHttpList({
@@ -44,7 +44,7 @@ const HttpPage: FC = () => {
     if (code == 200) {
       setHttpList(data)
     }
-  }, [httpParam]) 
+  }, [httpParam])
 
   const initStageTimeData = useCallback(async () => {
     const { code, data } = await GetHttpStage({
@@ -53,7 +53,7 @@ const HttpPage: FC = () => {
     if (code == 200) {
       setStageTime(data)
     }
-  }, [httpParam]) 
+  }, [httpParam])
 
   const onTimeChange = (dates: any, dateStrings: [string, string]) => {
     const time = dates[1].diff(dates[0], 'days')
@@ -177,7 +177,7 @@ const HttpPage: FC = () => {
                   <Radio value={'hour'}>小时</Radio>
                   <Radio value={'day'}>天</Radio>
                 </Radio.Group>
-                <Button type="primary" size="small" >
+                <Button type="primary" size="small">
                   搜索
                 </Button>
               </div>

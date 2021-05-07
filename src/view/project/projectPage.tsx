@@ -3,14 +3,17 @@ import { Button, Card, Form, Input, Select } from 'antd'
 
 import { useHistory } from 'react-router-dom'
 import { AddTeamProject, GetTeamList } from '../../request/admin'
+import { TeamLit } from '../../interface/team.interface'
 const { Option } = Select
 
 const ProjectPage: FC = () => {
-  const [teamList, setTeamList] = useState([])
+  const [teamList, setTeamList] = useState<TeamLit>([])
   const history = useHistory()
   const initTeamListData = useCallback(async () => {
-    const result = await GetTeamList()
-    setTeamList([])
+    const { code, data } = await GetTeamList()
+    if (code == 200) {
+      setTeamList(data)
+    }
   }, [])
 
   useEffect(() => {

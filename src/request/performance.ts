@@ -10,4 +10,5 @@ export const GetPerformancePageList = (params: any) => request<any>('get', '/com
 
 export const GetPerformanceStageTime = (params: any) => request<any>('get', '/communal/performanceStageTime', params)
 
-export const GetPerformanceRankingList = (params: any) => request<any>('get', '/communal/performanceStack', params)
+export const GetPerformanceRankingList = (params: any) =>
+  request<any>('get', '/communal/performanceRankingList', params)

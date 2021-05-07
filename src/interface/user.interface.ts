@@ -64,6 +64,9 @@ export interface UserAction {
   action_type: string
   // js 错误
   message?: string
+
+  action_detail: string | any
+
   // 资源错误
   element_type?: string
   source_url?: string

@@ -13,7 +13,13 @@ import {
 } from '../../interface/performance.interface'
 import StageTimeChart from '../../components/charts/performanceChart/stageTimeChart'
 import StackBarChar from '../../components/charts/performanceChart/stackBarChart'
-import { GetPerformancePageList, GetPerformanceRankingList, GetPerformanceStack, GetPerformanceStageTime, GetQuotaData, webPageReportData } from '../../request/performance'
+import {
+  GetPerformancePageList,
+  GetPerformanceRankingList,
+  GetPerformanceStack,
+  GetPerformanceStageTime,
+  GetQuotaData
+} from '../../request/performance'
 
 const { RangePicker } = DatePicker
 
@@ -45,7 +51,7 @@ const PerformancePage: FC = () => {
   const [pageList, setPageList] = useState<Array<PerformancePageList>>([])
   const [stageTime, setStageTime] = useState<Array<PerformanceStageTime>>([])
   const [rankingList, setRankeList] = useState([])
-  
+
   const initQuotaData = useCallback(async () => {
     const result = await GetQuotaData(performanceParam)
     setQuota(result.data)
@@ -126,13 +132,6 @@ const PerformancePage: FC = () => {
   const disabledDate = (current: any) => {
     return current && current >= moment()
   }
-
-  // const search = async () => {
-  // const result = await webPageReportData({
-  //   ...performanceParam
-  // })
-  // setData(result.data)
-  // }
 
   const timeGrainChange = (e: any) => {
     setPerformanceParam({

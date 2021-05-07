@@ -78,9 +78,8 @@ const UserActionPage: FC = () => {
   }, [initUserActionList])
 
   const activeTimeLine = async (item: any) => {
-    const data = await GetUserAction(item.action_id, item.action_type)
     setActiveId(`${item.action_id}${item.action_type}`)
-    setDetail(data.data)
+    setDetail(item.action_detail)
   }
 
   const onPageChange = (page: any) => {
@@ -217,7 +216,6 @@ const UserActionPage: FC = () => {
               <Timeline>
                 {userActionsList.map((item: UserAction, key: number) => {
                   return (
-                    // <p key={key}>{item.action_type}</p>
                     <ActionTimeLineItem
                       activeId={activeId}
                       activeTimeLine={activeTimeLine}
