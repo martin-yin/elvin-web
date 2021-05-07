@@ -1,9 +1,10 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Button, Col, Form, Input, Modal, Row, Select } from 'antd'
-import { GetTeamList } from '../../request'
+
 import { useHistory } from 'react-router-dom'
 import { ModalFrom } from '../modalForm/modalForm'
 import { PlusOutlined } from '@ant-design/icons'
+import { GetTeamList } from '../../request/admin'
 const { Option } = Select
 
 const CreateProjectModal: FC<any> = ({ form, visible, onCreate, onClose }) => {

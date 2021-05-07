@@ -1,9 +1,9 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Card, Form, Input, message, Modal, Space, Table } from 'antd'
+import { Button, Card, Form, Input, message, Space, Table } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { ModalFrom } from '../../components/modalForm/modalForm'
 import { Admin, Project, TeamAdmins, TeamLit, TeamProjects } from '../../interface/team.interface'
-import { GetTeamList, CreateTeam } from '../../request'
+import { CreateTeam, GetTeamList } from '../../request/admin'
 
 const TeamPage: FC = () => {
   const [visible, setVisible] = useState(false)

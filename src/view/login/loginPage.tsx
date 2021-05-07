@@ -3,10 +3,10 @@ import { Input, Form, Button, notification } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './index.less'
-import { AdminLogin, RegisterAdmin } from '../../request'
 import { setUserInfo } from '../../stores/app.store'
 import { useDispatch } from 'react-redux'
 import { Tabs } from 'antd'
+import { AdminLogin, RegisterAdmin } from '../../request/admin'
 
 const { TabPane } = Tabs
 const LoginPage: FC = () => {

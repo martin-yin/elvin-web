@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Statistic, Table, Tag, Tooltip, DatePicker, Radio, Button, Space, Empty } from 'antd'
 import './index.less'
-import { webPageReportData } from '../../request'
+
 import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
 import {
@@ -13,6 +13,7 @@ import {
 } from '../../interface/performance.interface'
 import StageTimeChart from '../../components/charts/performanceChart/stageTimeChart'
 import StackBarChar from '../../components/charts/performanceChart/stackBarChart'
+import { webPageReportData } from '../../request/performance'
 
 const { RangePicker } = DatePicker
 

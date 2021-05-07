@@ -1,11 +1,11 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Button, Card, DatePicker, Radio, Space, Statistic, Table, Tabs, Tooltip } from 'antd'
 import './index.less'
-import { httpData, httpStageData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
 import { HttpQuotaAndList, HttpStageTimeList } from '../../interface/http.interface'
 import HttpStageTimeChart from '../../components/charts/httpChart/stageTimeChart'
+import { httpData, httpStageData } from '../../request/http'
 
 const { TabPane } = Tabs
 const { RangePicker } = DatePicker

@@ -1,7 +1,8 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Button, Card, Form, Input, Select } from 'antd'
-import { AddTeamProject, GetTeamList } from '../../request'
+
 import { useHistory } from 'react-router-dom'
+import { AddTeamProject, GetTeamList } from '../../request/admin'
 const { Option } = Select
 
 const ProjectPage: FC = () => {

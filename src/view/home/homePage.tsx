@@ -3,11 +3,13 @@ import { useAppState } from '../../stores'
 import { Card, Col, Form, message, Row } from 'antd'
 import './index.less'
 import CreateProjectModal from '../../components/project/createProjectModal'
-import { AddTeamProject, GetProject } from '../../request'
+import { GetProject } from '../../request'
 import ProjectItem from '../../components/project/projectItem'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { setProjectList } from '../../stores/app.store'
 import { useDispatch } from 'react-redux'
+import { AddTeamProject } from '../../request/admin'
+
 const HomePage: FC = () => {
   const { projectList } = useAppState(state => state.appsotre)
   const [visible, setVisible] = useState(false)
