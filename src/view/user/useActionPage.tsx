@@ -17,15 +17,15 @@ import {
 import { GetUse, GetUserAction, GetUserActionList, GetUsersActionsStatistics } from '../../request/user'
 
 const UserActionPage: FC = () => {
-  const [userActionsList, setUserActionsList] = useState([])
-  const [userActionStatistics, setUserActionStatistics] = useState([])
-  const [detail, setDetail] = useState({} as any)
-  const [activeId, setActiveId] = useState('')
   const [userAactionParams, setUserAactionParams] = useState({
     page: 1,
     limit: 3,
     total: 0
   })
+  const [userActionsList, setUserActionsList] = useState([])
+  const [userActionStatistics, setUserActionStatistics] = useState([])
+  const [detail, setDetail] = useState({} as any)
+  const [activeId, setActiveId] = useState('')
   const [userInfo, setUserInfo] = useState<User>({
     user_id: '',
     device: '',

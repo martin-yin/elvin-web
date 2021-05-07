@@ -1,7 +1,7 @@
 import { User, UserList, UserParams } from '../interface/user.interface'
 import { request } from '../utils/request'
 
-export const GetUserList = (params: UserParams) => request<UserList>('get', '/communal/users', params)
+export const GetUserList = (params: UserParams) => request<UserList>('get', '/communal/userList', params)
 
 export const GetUserActions = (params: any) => request<any>('get', `/communal/userActions`, params)
 
