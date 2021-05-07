@@ -14,7 +14,7 @@ const LoginPage: FC = () => {
   const history = useHistory()
   const userLogin = async (form: any) => {
     const data: any = await AdminLogin(form)
-    if (data.code == 0) {
+    if (data.code == 200) {
       dispatch(setUserInfo(data.data.user))
       localStorage.setItem('token', data.data.token)
       history.push('/')
@@ -28,7 +28,7 @@ const LoginPage: FC = () => {
   const register = async (form: any) => {
     console.log(form, 'register')
     const data: any = await RegisterAdmin(form)
-    if (data.code == 0) {
+    if (data.code == 200) {
       dispatch(setUserInfo(data.data.user))
       localStorage.setItem('token', data.data.token)
       history.push('/')

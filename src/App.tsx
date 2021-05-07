@@ -29,7 +29,7 @@ const Routers = [
   {
     path: '/resource-error',
     name: 'ErrorPage',
-    component: lazy(() => import(/* webpackChunkName: "error"*/ './view/resourcesError/error.page'))
+    component: lazy(() => import(/* webpackChunkName: "error"*/ './view/resourcesError/errorPage'))
   },
   {
     path: '/js-error',

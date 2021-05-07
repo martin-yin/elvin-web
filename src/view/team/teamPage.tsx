@@ -1,16 +1,19 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Card, Form, Input, Modal, Space, Table } from 'antd'
+import { Button, Card, Form, Input, message, Modal, Space, Table } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
+import { ModalFrom } from '../../components/modalForm/modalForm'
+import { Admin, Project, TeamAdmins, TeamLit, TeamProjects } from '../../interface/team.interface'
 import { GetTeamList, CreateTeam } from '../../request'
 
 const TeamPage: FC = () => {
-  const [isVisible, setisVisible] = useState(false)
-  const [confirmLoading, setConfirmLoading] = React.useState(false)
+  const [visible, setVisible] = useState(false)
   const [form] = Form.useForm()
-  const [teamList, setTeamList] = useState([])
+  const [teamList, setTeamList] = useState<TeamLit>()
   const initTeamList = useCallback(async () => {
-    const result = await GetTeamList()
-    setTeamList(result.data)
+    const { code, data } = await GetTeamList()
+    if (code == 200) {
+      setTeamList(data)
+    }
   }, [])
 
   useEffect(() => {
@@ -20,38 +23,32 @@ const TeamPage: FC = () => {
   const teamModal = () => {
     return (
       <div>
-        <Modal
-          title="创建团队"
-          visible={isVisible}
-          onOk={addTeam}
-          confirmLoading={confirmLoading}
-          onCancel={cancelTeamModal}
-        >
-          <Form form={form} preserve={false} name="basic" initialValues={{ remember: true }}>
+        <ModalFrom title="创建团队" visible={visible} onCreate={addTeam} onClose={cancelTeamModal}>
+          <Form form={form} preserve={false} name="basic">
             <Form.Item name="name" rules={[{ required: true, message: '请输入项目名称' }]}>
               <Input placeholder="请输入项目名称" />
             </Form.Item>
           </Form>
-        </Modal>
+        </ModalFrom>
       </div>
     )
   }
 
   const openTeamModal = () => {
-    setisVisible(true)
+    setVisible(true)
   }
 
   const addTeam = async () => {
-    setConfirmLoading(true)
     form
       .validateFields()
       .then(async (values: any) => {
-        const data = await CreateTeam(values)
-        if (data.code == 0) {
-          setConfirmLoading(false)
+        const data: any = await CreateTeam(values)
+        if (data.code == 200) {
           form.resetFields()
           cancelTeamModal()
           initTeamList()
+        } else {
+          message.error(data.msg)
         }
       })
       .catch(info => {
@@ -60,7 +57,7 @@ const TeamPage: FC = () => {
   }
 
   const cancelTeamModal = () => {
-    setisVisible(false)
+    setVisible(false)
   }
   const columns = [
     {
@@ -69,17 +66,12 @@ const TeamPage: FC = () => {
       key: 'name'
     },
     {
-      title: '团队创建人',
-      dataIndex: 'nick_name',
-      key: 'nick_name'
-    },
-    {
       title: '团队成员',
       dataIndex: 'team_admins',
       key: 'team_admin',
-      render: (team_admins: any) => (
+      render: (team_admins: TeamAdmins) => (
         <>
-          {team_admins.map((item: any, index: number) => {
+          {team_admins.map((item: Admin, index: number) => {
             return <div key={index}>{item.nick_name}</div>
           })}
         </>
@@ -89,9 +81,9 @@ const TeamPage: FC = () => {
       title: '项目列表',
       dataIndex: 'team_projects',
       key: 'team_projects',
-      render: (team_projects: any) => (
+      render: (team_projects: TeamProjects) => (
         <>
-          {team_projects.map((item: any, index: number) => {
+          {team_projects.map((item: Project, index: number) => {
             return <div key={index}>{item.project_name}</div>
           })}
         </>

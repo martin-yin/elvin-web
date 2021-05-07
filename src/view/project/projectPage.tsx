@@ -9,7 +9,7 @@ const ProjectPage: FC = () => {
   const history = useHistory()
   const initTeamListData = useCallback(async () => {
     const result = await GetTeamList()
-    setTeamList(result.data)
+    setTeamList([])
   }, [])
 
   useEffect(() => {

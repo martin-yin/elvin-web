@@ -1,5 +1,7 @@
 import { ResourcesErrorList, ResourcesErrorQuota } from '../interface/error.interface'
 import { HttpQuotaAndList } from '../interface/http.interface'
+import { Project, ProjectList } from '../interface/projectInterface'
+import { Team, TeamLit } from '../interface/team.interface'
 import { User, UserList, UserParams } from '../interface/user.interface'
 import { request } from '../utils/request'
 
@@ -12,7 +14,7 @@ export const GetUserAction = (action_id: string, action_type: string) =>
 
 export const GetJsError = () => request<any>('get', '/communal/jsError')
 
-export const GetProject = () => request<any>('get', '/communal/projects')
+export const GetProject = () => request<ProjectList>('get', '/communal/projects')
 
 export const GetHttpError = (params: any) => request<any>('get', '/communal/http-error', params)
 
@@ -48,10 +50,10 @@ export const AdminLogin = (data: any) => request<any>('post', '/admin/adminLogin
 export const RegisterAdmin = (data: any) => request<any>('post', '/admin/registerAdmin', data)
 
 // 获取团队列表
-export const GetTeamList = () => request<any>('get', '/communal/teamList')
+export const GetTeamList = () => request<TeamLit>('get', '/communal/teamList')
 
 // 创建团队
 export const CreateTeam = (data: any) => request<any>('post', '/communal/createTeam', data)
 
 // 根据团队创建项目
-export const AddTeamProject = (data: any) => request<any>('post', '/communal/addTeamProject', data)
+export const AddTeamProject = (data: any) => request<Project>('post', '/communal/addTeamProject', data)

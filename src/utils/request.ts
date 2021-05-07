@@ -15,20 +15,21 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   response => {
-    if (response.data.code == 10) {
+    if (response.data.code == 401) {
+      message.error(response.data.msg)
       createHashHistory().push('/login')
     }
     return response.data
   },
   error => {
     let errorMessage = '系统异常'
-    if (error?.response?.data?.error) {
-      errorMessage = error?.response?.data.error
+    if (error?.response?.data?.msg) {
+      errorMessage = error?.response?.data.msg
     }
-    if (error?.message?.includes('Network Error')) {
+    if (error?.msg?.includes('Network Error')) {
       errorMessage = '网络错误，请检查您的网络'
     }
-    error.message && message.error(errorMessage)
+    error.msg && message.error(errorMessage)
     return {
       code: false,
       message: errorMessage,
@@ -41,7 +42,7 @@ const notMonitorId = ['/communal/projects', '/communal/addTeamProject']
 
 export type Response<T = any> = {
   code: number
-  error: string
+  msg: string
   data: T
 }
 
