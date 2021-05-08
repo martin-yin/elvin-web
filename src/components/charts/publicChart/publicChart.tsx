@@ -39,8 +39,6 @@ const PublicChart: FC<any> = ({ option, height }) => {
     grid: {
       left: '2%',
       right: '2%',
-      top: '10%',
-      bottom: '2%',
       containLabel: true
     }
   })

@@ -38,7 +38,7 @@ axios.interceptors.response.use(
   }
 )
 
-const notMonitorId = ['/communal/projects', '/communal/addTeamProject']
+const notMonitorId = ['/communal/projects', '/communal/addTeamProject', '/communal/projectHealthy']
 
 export type Response<T = any> = {
   code: number

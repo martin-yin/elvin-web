@@ -7,10 +7,12 @@ import ProjectItem from '../../components/project/projectItem'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { setProjectList } from '../../stores/app.store'
 import { useDispatch } from 'react-redux'
-import { AddTeamProject, GetProjectList } from '../../request/admin'
+import { AddTeamProject, GetProjectList, GetProjectHealthy } from '../../request/admin'
+import { Project, ProjectHealthyList } from '../../interface/team.interface'
 
 const HomePage: FC = () => {
   const { projectList } = useAppState(state => state.appsotre)
+  const [healthyList, setHealthyList] = useState<ProjectHealthyList>([])
   const [visible, setVisible] = useState(false)
   const [form] = Form.useForm()
   const dispatch = useDispatch()
@@ -19,8 +21,19 @@ const HomePage: FC = () => {
     const { data, code } = await GetProjectList()
     if (code === 200) {
       dispatch(setProjectList(data))
+      const monitorIds: Array<string> = [];
+      data.map( (project) => {
+        monitorIds.push(project.monitor_id)
+      })
+      await projectHealthy(monitorIds.join(","));
     }
   }, [])
+
+
+  const projectHealthy = async (monitorIds: string) => {
+    const data = await GetProjectHealthy({monitor_id: monitorIds})
+    setHealthyList(data.data)
+  }
 
   useEffect(() => {
     initProjectData()
@@ -70,8 +83,8 @@ const HomePage: FC = () => {
       <div className="project-list">
         <Row gutter={[16, 16]}>
           {projectList.length > 0 ? (
-            projectList.map((item: any, index: number) => {
-              return <ProjectItem key={index} item={item} index={index} />
+            projectList.map((item: Project, index: number) => {
+              return <ProjectItem health={healthyList[index]} key={index} item={item} index={index} />
             })
           ) : (
             <></>

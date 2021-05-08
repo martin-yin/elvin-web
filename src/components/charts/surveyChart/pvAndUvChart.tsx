@@ -19,7 +19,8 @@ const PvAndUvChartBarChar: FC<any> = ({ surveyPUvData }) => {
     },
     yAxis: [
       {
-        type: 'value'
+        type: 'value',
+        scale: true
       }
     ],
     series: [
@@ -74,7 +75,7 @@ const PvAndUvChartBarChar: FC<any> = ({ surveyPUvData }) => {
 
   return (
     <div>
-      <PublicChart option={option} height="290px" />
+      <PublicChart option={option} height="390px" />
     </div>
   )
 }

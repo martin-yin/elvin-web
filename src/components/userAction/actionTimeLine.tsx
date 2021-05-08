@@ -97,7 +97,7 @@ const ActionTimeLineItem: FC<ActionTimeLineProps> = ({ key, item, activeTimeLine
     <>
       <Timeline.Item key={key} dot={itemData.itemIcon()}>
         <div
-          className={`footprint-des ${activeId == item.action_id + item.action_type ? 'active-footprint-des' : ''}`}
+          className={`footprint-des ${activeId == item.happen_time + item.action_type ? 'active-footprint-des' : ''}`}
           onClick={() => activeTimeLine(item)}
         >
           <div className="flex">

@@ -65,6 +65,8 @@ export interface UserAction {
   // js 错误
   message?: string
 
+  event_id?: string
+
   action_detail: string | any
 
   // 资源错误

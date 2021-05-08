@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Divider, Pagination, Space, Timeline } from 'antd'
-
 import './index.less'
 import { useParams } from 'react-router-dom'
 import { User, UserAction } from '../../interface/user.interface'
@@ -14,7 +13,7 @@ import {
   PageViewIcon,
   PageResoucesErrorIcon
 } from '../../assets'
-import { GetUse, GetUserAction, GetUserActionList, GetUsersActionsStatistics } from '../../request/user'
+import { GetUse, GetUserActionList, GetUsersActionsStatistics } from '../../request/user'
 
 const UserActionPage: FC = () => {
   const [userAactionParams, setUserAactionParams] = useState({
@@ -78,7 +77,8 @@ const UserActionPage: FC = () => {
   }, [initUserActionList])
 
   const activeTimeLine = async (item: any) => {
-    setActiveId(`${item.action_id}${item.action_type}`)
+    console.log(item, 'activeId')
+    setActiveId(`${item.happen_time}${item.action_type}`)
     setDetail(item.action_detail)
   }
 

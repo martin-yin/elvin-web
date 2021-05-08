@@ -33,3 +33,13 @@ export interface Project {
 export type TeamLit = Array<Team>
 
 export type ProjectList = Array<Project>
+
+export type ProjectHealthyList = Array<ProjectHealthy>
+
+export interface ProjectHealthy {
+  http_error: number
+  js_error: number
+  pv: number
+  resources_error: number
+  uv: number
+}

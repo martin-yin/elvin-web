@@ -1,7 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Statistic, Table, Tag, Tooltip, DatePicker, Radio, Button, Space, Empty } from 'antd'
+import { Card, Statistic, Table, Tag, Tooltip, DatePicker, Radio, Space, Empty } from 'antd'
 import './index.less'
-
 import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
 import {
@@ -75,6 +74,7 @@ const PerformancePage: FC = () => {
   const initRankingList = useCallback(async () => {
     const result = await GetPerformanceRankingList(performanceParam)
     setRankeList(result.data)
+    console.log(result.data, 'rankingList')
   }, [performanceParam])
 
   useEffect(() => {
@@ -184,15 +184,18 @@ const PerformancePage: FC = () => {
       <Space className="performanceTime" size={20}>
         <Card className="performanceRanking">
           <div className="performanceTimeList">
-            {rankingList.map((item: any, key: number) => {
-              return (
-                <div key={key} className="performanceTimeItem flex">
-                  <div className="flex-grow-1">{item.page_url}</div>
-                  <div className="flex-grow-0">耗时{item.load_page}ms</div>
-                </div>
-              )
-            })}
-            <Empty />
+            {rankingList.length != 0 ? (
+              rankingList.map((item: any, key: number) => {
+                return (
+                  <div key={key} className="performanceTimeItem flex">
+                    <div className="flex-grow-1">{item.page_url}</div>
+                    <div className="flex-grow-0">耗时{item.load_page}ms</div>
+                  </div>
+                )
+              })
+            ) : (
+              <Empty />
+            )}
           </div>
         </Card>
         <div>
@@ -221,9 +224,6 @@ const PerformancePage: FC = () => {
                   <Radio value={'hour'}>小时</Radio>
                   <Radio value={'day'}>天</Radio>
                 </Radio.Group>
-                {/* <Button type="primary" size="small" onClick={search}>
-                  搜索
-                </Button> */}
               </div>
             </div>
             <StageTimeChart stage_time={stageTime} />

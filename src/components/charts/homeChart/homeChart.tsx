@@ -86,7 +86,7 @@ const HomeChart: FC<any> = () => {
 
   return (
     <div>
-      <PublicChart option={option} height="200px" />
+      <PublicChart option={option} height="300px" />
     </div>
   )
 }

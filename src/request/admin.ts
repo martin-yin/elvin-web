@@ -1,4 +1,4 @@
-import { Project, ProjectList, TeamLit } from '../interface/team.interface'
+import { Project, ProjectHealthyList, ProjectList, TeamLit } from '../interface/team.interface'
 import { request } from '../utils/request'
 
 export const AdminLogin = (data: any) => request<any>('post', '/admin/adminLogin', data)
@@ -15,3 +15,6 @@ export const CreateTeam = (data: any) => request<any>('post', '/admin/createTeam
 export const AddTeamProject = (data: any) => request<Project>('post', '/admin/addTeamProject', data)
 
 export const GetProjectList = () => request<ProjectList>('get', '/admin/projectList')
+
+
+export const GetProjectHealthy = (param: {monitor_id: string}) => request<ProjectHealthyList>('get', '/communal/projectHealthy', param)
