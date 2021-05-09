@@ -16,5 +16,5 @@ export const AddTeamProject = (data: any) => request<Project>('post', '/admin/ad
 
 export const GetProjectList = () => request<ProjectList>('get', '/admin/projectList')
 
-
-export const GetProjectHealthy = (param: {monitor_id: string}) => request<ProjectHealthyList>('get', '/communal/projectHealthy', param)
+export const GetProjectHealthy = (param: { monitor_id: string }) =>
+  request<ProjectHealthyList>('get', '/communal/projectHealthy', param)

@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom'
 import { setMonitorId } from '../../stores/app.store'
 import { ProjectHealthy } from '../../interface/team.interface'
 
-const ProjectItem: FC<any> = ({ item, index, health}) => {
+const ProjectItem: FC<any> = ({ item, index, health }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const projectSurvey = (monitor_id: string) => {
@@ -15,18 +15,14 @@ const ProjectItem: FC<any> = ({ item, index, health}) => {
   }
 
   const getHealthyRate = (health: ProjectHealthy) => {
-    let number = 0
-    if (health?.http_error != 0) {
-      number ++;
+    if (health) {
+      if (health.pv == 0) {
+        return 0
+      }
+      const { http_error, resources_error, js_error } = health
+      return +(100 - http_error / 3 - resources_error / 3 - js_error / 3).toFixed(2)
     }
-    if (health?.resources_error != 0) {
-      number ++;
-    }
-    if (health?.js_error != 0) {
-      number ++;
-    }
-    console.log(number);
-    return Number((100 - (health?.http_error / number) - (health?.resources_error / number) - (health?.js_error / number)).toFixed(2))
+    return 0
   }
 
   return (

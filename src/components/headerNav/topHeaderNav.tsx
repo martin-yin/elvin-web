@@ -423,7 +423,7 @@ const TopHeaderNav: FC = () => {
           <Dropdown overlay={avatarMenu} placement="bottomCenter">
             <div>
               <Space>
-                <Avatar size={36} src="https://z3.ax1x.com/2021/05/03/gmusKO.jpg" />
+                <Avatar size={36} src="https://qq.yh31.com/tp/zjbq/202011171044101948.jpg" />
               </Space>
             </div>
           </Dropdown>

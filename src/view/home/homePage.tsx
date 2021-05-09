@@ -21,23 +21,22 @@ const HomePage: FC = () => {
     const { data, code } = await GetProjectList()
     if (code === 200) {
       dispatch(setProjectList(data))
-      const monitorIds: Array<string> = [];
-      data.map( (project) => {
+      const monitorIds: Array<string> = []
+      data.map(project => {
         monitorIds.push(project.monitor_id)
       })
-      await projectHealthy(monitorIds.join(","));
+      await projectHealthy(monitorIds.join(','))
     }
   }, [])
 
-
   const projectHealthy = async (monitorIds: string) => {
-    const data = await GetProjectHealthy({monitor_id: monitorIds})
+    const data = await GetProjectHealthy({ monitor_id: monitorIds })
     setHealthyList(data.data)
   }
 
   useEffect(() => {
     initProjectData()
-  }, [visible])
+  }, [initProjectData, visible])
 
   const createProject = async () => {
     form.validateFields().then(async (value: any) => {
