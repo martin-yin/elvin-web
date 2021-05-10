@@ -1,84 +1,124 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Button, Card, Form, Input, Select } from 'antd'
-
+import { Button, Card, Col, Input, message, Popconfirm, Row, Select } from 'antd'
 import { useHistory } from 'react-router-dom'
-import { AddTeamProject, GetTeamList } from '../../request/admin'
-import { TeamLit } from '../../interface/team.interface'
-const { Option } = Select
+import { Project } from '../../interface/team.interface'
+import { DelProject, GetProject } from '../../request/admin'
+import "./index.less"
+require('codemirror/lib/codemirror.css');
+require('codemirror/theme/material.css');
+require('codemirror/theme/neat.css');
+require('codemirror/mode/xml/xml.js');
+require('codemirror/mode/javascript/javascript.js');
+import {UnControlled as CodeMirror} from 'react-codemirror2'
+import moment from 'moment'
 
 const ProjectPage: FC = () => {
-  const [teamList, setTeamList] = useState<TeamLit>([])
+  const [project, setProject] = useState<Project>({
+    id:0,
+    monitor_id: "",
+    project_name:  "",
+    team_id: "",
+    created_at:"string",
+  })
   const history = useHistory()
-  const initTeamListData = useCallback(async () => {
-    const { code, data } = await GetTeamList()
+
+  const initProject = useCallback(async () => {
+    const { code, data } = await GetProject()
     if (code == 200) {
-      setTeamList(data)
+      setProject(data)
     }
   }, [])
-
+  
   useEffect(() => {
-    initTeamListData()
-  }, [initTeamListData])
+    initProject()
+  }, [initProject])
 
-  const createProject = async (form: any) => {
-    const data = await AddTeamProject({
-      monitor_id: form.monitor_id,
-      project_name: form.project_name,
-      team_id: form.team_id
-    })
-    if (data.code == 0) {
-      history.push('/')
+  const code = `<script>
+    !(function(sdk, monitorId) {
+      var head = document.getElementsByTagName('head')[0]; 
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = sdk
+      script.onload = function() {
+        window[hawkReport] || window[hawkReport].init({monitorId})
+      };
+      head.appendChild(script); 
+    })("https://shifulaile-admin-1258720006.cos.ap-chengdu.myqcloud.com/index.js", ${project.monitor_id});
+  </script>`
+
+  const confirm = async (id: number | any) => {
+    const { code, msg } = await DelProject(id)
+    if (code == 200) {
+      history.push("/")
+      message.success(msg)
+    } else {
+      message.success(msg)
     }
-    // console.log(data, 'data')
-  }
-
-  const formItemLayout = {
-    labelCol: { span: 2 },
-    wrapperCol: { span: 4 }
-  }
-
-  const tailLayout = {
-    wrapperCol: { offset: 2, span: 4 }
   }
 
   return (
     <div>
-      <Card style={{ width: '100%' }}>
-        <Form
-          {...formItemLayout}
-          name="basic"
-          initialValues={{ project_name: '', monitor_id: '', team_id: '' }}
-          onFinish={createProject}
-        >
-          <Form.Item name="project_name" label="项目名称" rules={[{ required: true, message: '请输入项目名称!' }]}>
-            <Input placeholder="请输入项目名称" />
-          </Form.Item>
-          <Form.Item name="monitor_id" label="monitorId" rules={[{ required: true, message: '请输 monitor_id' }]}>
-            <Input placeholder="请输 monitor_id" />
-          </Form.Item>
-          <Form.Item name="team_id" label="团队" hasFeedback rules={[{ required: true, message: '请选择团队' }]}>
-            <Select placeholder="请选择团队">
-              {teamList.length == 0 ? (
-                <></>
-              ) : (
-                teamList.map((item: any, key: number) => {
-                  return (
-                    <Option value={item.id} key={key}>
-                      {item.name}
-                    </Option>
-                  )
-                })
-              )}
-            </Select>
-          </Form.Item>
-          <Form.Item {...tailLayout}>
-            <Button type="primary" htmlType="submit">
-              创建项目
-            </Button>
-          </Form.Item>
-        </Form>
+      <Card>
+        <Row gutter={[16, 16]} className="projectItem">
+          <Col span={2}>
+            <p className="align-right">应用名称：</p>
+          </Col>
+          <Col span={14}>{project.project_name}</Col>
+          <Col span={8}></Col>
+        </Row>
+        <Row gutter={[16, 16]} className="projectItem">
+          <Col span={2}>
+            <p className="align-right">应用标识：</p>
+          </Col>
+          <Col span={14}>{project.monitor_id}</Col>
+          <Col span={8}></Col>
+        </Row>
+        <Row gutter={[16, 16]} className="projectItem">
+          <Col span={2}>
+          <p className="align-right">打点代码：</p>
+          </Col>
+          <Col span={14}>
+            <CodeMirror
+              value={code}
+              options={{
+                mode: 'javascript',
+                theme: 'material',
+                lineNumbers: true
+              }}
+            />
+          </Col>
+          <Col span={8}></Col>
+        </Row>
+        <Row gutter={[16, 16]} className="projectItem">
+          <Col span={2} >
+            <p className="align-right">创建时间：</p>
+          </Col>
+          <Col span={14}>
+         {moment(project?.created_at).format("YYYY MM-DD hh:mm:ss")}
+          </Col>
+          <Col span={8}></Col>
+        </Row>
+        <Row gutter={[16, 16]} className="projectItem">
+          <Col span={2} >
+            <p className="align-right">操作：</p>
+          </Col>
+          <Col span={14}>
+            <Popconfirm
+              title="确定要删除此项目么?删了可就真的没了！"
+              onConfirm={() => confirm(project.id)}
+              okText="确定"
+              cancelText="取消">
+              <Button type="primary" danger>
+                删除
+              </Button>
+            </Popconfirm>
+          </Col>
+          <Col span={8}></Col>
+        </Row>
       </Card>
     </div>
   )
 }
 export default ProjectPage
+
+

@@ -101,7 +101,9 @@ const ActionTimeLineItem: FC<ActionTimeLineProps> = ({ key, item, activeTimeLine
           onClick={() => activeTimeLine(item)}
         >
           <div className="flex">
-            <div className="flex-grow-1">{itemData.itemTitle}</div>
+            <div className="flex-grow-1">
+              <p className="over-hidde">{itemData.itemTitle}</p>
+            </div>
             <div className="flex-grow-0 flex-item">{getTimeHHMM(item.happen_time)}</div>
           </div>
           <div>{itemData.itemContent}</div>

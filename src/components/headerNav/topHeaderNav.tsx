@@ -254,7 +254,7 @@ const menuList = [
     ]
   },
   {
-    title: '资源错误',
+    title: '错误',
     children: [
       {
         title: 'JS错误',

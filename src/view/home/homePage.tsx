@@ -7,7 +7,7 @@ import ProjectItem from '../../components/project/projectItem'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { setProjectList } from '../../stores/app.store'
 import { useDispatch } from 'react-redux'
-import { AddTeamProject, GetProjectList, GetProjectHealthy } from '../../request/admin'
+import { CreateProject, GetProjectList, GetProjectHealthy } from '../../request/admin'
 import { Project, ProjectHealthyList } from '../../interface/team.interface'
 
 const HomePage: FC = () => {
@@ -40,7 +40,7 @@ const HomePage: FC = () => {
 
   const createProject = async () => {
     form.validateFields().then(async (value: any) => {
-      const { code, msg } = await AddTeamProject(value)
+      const { code, msg } = await CreateProject(value)
       if (code == 200) {
         message.success(msg)
         onClose()

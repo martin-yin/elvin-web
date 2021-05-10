@@ -1,4 +1,4 @@
-import { Tag } from 'antd'
+import { Tag, Tooltip } from 'antd'
 import React, { FC } from 'react'
 import { UserActionDetail } from '../../interface/user.interface'
 import { getTimeYYMMDDHM } from '../../utils'
@@ -26,8 +26,9 @@ const UserActionDetailInfo: FC<UserActionDetailInfoProps> = ({ detail }) => {
       return (
         <>
           <li>
-            <label>请求URL：</label>
-            <p>{detail.http_url}</p>
+            <label></label>
+            <p>请求URL：</p>
+            <p className="over-hidde">{detail.http_url}</p>
           </li>
           <li>
             <label>请求参数：</label>
@@ -45,7 +46,7 @@ const UserActionDetailInfo: FC<UserActionDetailInfoProps> = ({ detail }) => {
           </li>
           <li>
             <label>请求返回：</label>
-            <p>{`${detail.response_text}`}</p>
+            <span>{detail.response_text}</span>
           </li>
         </>
       )

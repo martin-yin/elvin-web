@@ -12,9 +12,14 @@ export const GetTeamList = () => request<TeamLit>('get', '/admin/teamList')
 export const CreateTeam = (data: any) => request<any>('post', '/admin/createTeam', data)
 
 // 根据团队创建项目
-export const AddTeamProject = (data: any) => request<Project>('post', '/admin/addTeamProject', data)
+export const CreateProject = (data: any) => request<Project>('post', '/admin/createProject', data)
 
 export const GetProjectList = () => request<ProjectList>('get', '/admin/projectList')
 
 export const GetProjectHealthy = (param: { monitor_id: string }) =>
   request<ProjectHealthyList>('get', '/communal/projectHealthy', param)
+
+export const GetProject = () => request<Project>('get', '/admin/project')
+
+
+export const DelProject = (id: number) => request('get', `/admin/delProject?id=${id}`)

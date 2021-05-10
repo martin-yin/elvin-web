@@ -9,9 +9,9 @@ import { ProjectHealthy } from '../../interface/team.interface'
 const ProjectItem: FC<any> = ({ item, index, health }) => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const projectSurvey = (monitor_id: string) => {
+  const projectToUrl = (url: string, monitor_id: string) => {
     dispatch(setMonitorId(monitor_id))
-    history.push('/survey')
+    history.push(url)
   }
 
   const getHealthyRate = (health: ProjectHealthy) => {
@@ -34,10 +34,12 @@ const ProjectItem: FC<any> = ({ item, index, health }) => {
             <div className="project-title-name flex-grow-1">{item.project_name}</div>
             <div className="project-title-operation flex-grow-1">
               <Space size={20}>
-                <Tooltip placement="topLeft" title="修改配置">
-                  <EditOutlined style={{ color: '#a3a5b0' }} />
-                </Tooltip>
-                <p onClick={() => projectSurvey(item.monitor_id)}>
+                <p onClick={ () => projectToUrl('/project', item.monitor_id)}>
+                  <Tooltip placement="topLeft" title="修改配置">
+                    <EditOutlined style={{ color: '#a3a5b0' }} />
+                  </Tooltip>
+                </p>
+                <p onClick={() => projectToUrl('/survey',item.monitor_id)}>
                   <Tooltip placement="topLeft" title="查看概况">
                     <AppstoreOutlined style={{ color: '#a3a5b0' }} />
                   </Tooltip>

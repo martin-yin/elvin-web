@@ -8,4 +8,4 @@ export const webPageErrorData = () =>
   request<{
     quota: ResourcesErrorQuota
     resources_list: ResourcesErrorList
-  }>('get', '/communal/error')
+  }>('get', '/communal/resourceError')
