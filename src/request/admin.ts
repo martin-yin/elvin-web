@@ -21,5 +21,4 @@ export const GetProjectHealthy = (param: { monitor_id: string }) =>
 
 export const GetProject = () => request<Project>('get', '/admin/project')
 
-
 export const DelProject = (id: number) => request('get', `/admin/delProject?id=${id}`)

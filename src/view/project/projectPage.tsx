@@ -3,22 +3,22 @@ import { Button, Card, Col, Input, message, Popconfirm, Row, Select } from 'antd
 import { useHistory } from 'react-router-dom'
 import { Project } from '../../interface/team.interface'
 import { DelProject, GetProject } from '../../request/admin'
-import "./index.less"
-require('codemirror/lib/codemirror.css');
-require('codemirror/theme/material.css');
-require('codemirror/theme/neat.css');
-require('codemirror/mode/xml/xml.js');
-require('codemirror/mode/javascript/javascript.js');
-import {UnControlled as CodeMirror} from 'react-codemirror2'
+import './index.less'
+require('codemirror/lib/codemirror.css')
+require('codemirror/theme/material.css')
+require('codemirror/theme/neat.css')
+require('codemirror/mode/xml/xml.js')
+require('codemirror/mode/javascript/javascript.js')
+import { UnControlled as CodeMirror } from 'react-codemirror2'
 import moment from 'moment'
 
 const ProjectPage: FC = () => {
   const [project, setProject] = useState<Project>({
-    id:0,
-    monitor_id: "",
-    project_name:  "",
-    team_id: "",
-    created_at:"string",
+    id: 0,
+    monitor_id: '',
+    project_name: '',
+    team_id: '',
+    created_at: 'string'
   })
   const history = useHistory()
 
@@ -28,7 +28,7 @@ const ProjectPage: FC = () => {
       setProject(data)
     }
   }, [])
-  
+
   useEffect(() => {
     initProject()
   }, [initProject])
@@ -49,7 +49,7 @@ const ProjectPage: FC = () => {
   const confirm = async (id: number | any) => {
     const { code, msg } = await DelProject(id)
     if (code == 200) {
-      history.push("/")
+      history.push('/')
       message.success(msg)
     } else {
       message.success(msg)
@@ -75,7 +75,7 @@ const ProjectPage: FC = () => {
         </Row>
         <Row gutter={[16, 16]} className="projectItem">
           <Col span={2}>
-          <p className="align-right">打点代码：</p>
+            <p className="align-right">打点代码：</p>
           </Col>
           <Col span={14}>
             <CodeMirror
@@ -90,16 +90,14 @@ const ProjectPage: FC = () => {
           <Col span={8}></Col>
         </Row>
         <Row gutter={[16, 16]} className="projectItem">
-          <Col span={2} >
+          <Col span={2}>
             <p className="align-right">创建时间：</p>
           </Col>
-          <Col span={14}>
-         {moment(project?.created_at).format("YYYY MM-DD hh:mm:ss")}
-          </Col>
+          <Col span={14}>{moment(project?.created_at).format('YYYY MM-DD hh:mm:ss')}</Col>
           <Col span={8}></Col>
         </Row>
         <Row gutter={[16, 16]} className="projectItem">
-          <Col span={2} >
+          <Col span={2}>
             <p className="align-right">操作：</p>
           </Col>
           <Col span={14}>
@@ -107,7 +105,8 @@ const ProjectPage: FC = () => {
               title="确定要删除此项目么?删了可就真的没了！"
               onConfirm={() => confirm(project.id)}
               okText="确定"
-              cancelText="取消">
+              cancelText="取消"
+            >
               <Button type="primary" danger>
                 删除
               </Button>
@@ -120,5 +119,3 @@ const ProjectPage: FC = () => {
   )
 }
 export default ProjectPage
-
-

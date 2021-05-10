@@ -34,12 +34,12 @@ const ProjectItem: FC<any> = ({ item, index, health }) => {
             <div className="project-title-name flex-grow-1">{item.project_name}</div>
             <div className="project-title-operation flex-grow-1">
               <Space size={20}>
-                <p onClick={ () => projectToUrl('/project', item.monitor_id)}>
+                <p onClick={() => projectToUrl('/project', item.monitor_id)}>
                   <Tooltip placement="topLeft" title="修改配置">
                     <EditOutlined style={{ color: '#a3a5b0' }} />
                   </Tooltip>
                 </p>
-                <p onClick={() => projectToUrl('/survey',item.monitor_id)}>
+                <p onClick={() => projectToUrl('/survey', item.monitor_id)}>
                   <Tooltip placement="topLeft" title="查看概况">
                     <AppstoreOutlined style={{ color: '#a3a5b0' }} />
                   </Tooltip>
