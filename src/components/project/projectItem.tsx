@@ -53,16 +53,16 @@ const ProjectItem: FC<any> = ({ item, index, health }) => {
               </div>
               <div className="quota-item">
                 <p>{health?.uv}</p>
-                <span className="quota-item-title">用户</span>
+                <span className="quota-item-title">今日用户</span>
               </div>
-              <div className="quota-item">
+              {/* <div className="quota-item">
                 <p>0</p>
                 <span className="quota-item-title">老用户</span>
               </div>
               <div className="quota-item">
                 <p>0</p>
                 <span className="quota-item-title">老用户</span>
-              </div>
+              </div> */}
             </div>
             <p>健康总分</p>
             <div className="flex health">

@@ -54,7 +54,7 @@ export const request = <T>(
   data = {},
   config?: AxiosRequestConfig
 ): Promise<Response<T>> => {
-  const prefix = 'http://127.0.0.1:8889'
+  const prefix = 'http://api.dancin.cn'
   if (!notMonitorId.includes(url)) {
     const monitor_id = localStorage.getItem('monitor_id')
     Object.assign(data, { monitor_id })
