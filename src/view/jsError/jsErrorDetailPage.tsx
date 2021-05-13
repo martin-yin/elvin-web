@@ -48,7 +48,6 @@ const JsErrorDetailPage: FC = () => {
 
   const loadSourceMap = () => {
     form.validateFields().then(async (value: any) => {
-      console.log(value)
       const data: any = await LoadSourceMap(value.url)
       const fileContent = data,
         fileObj = fileContent,
@@ -56,13 +55,12 @@ const JsErrorDetailPage: FC = () => {
       sources.map((item: any) => {
         sourcesPathMap[fixPath(item)] = item
       })
-
       const consumer = await new sourceMap.SourceMapConsumer(fileContent)
-      const lookup = {
-        line: 1,
-        column: 7653
-      }
-      const lookUpResult: any = consumer.originalPositionFor(lookup)
+
+      const lookUpResult: any = consumer.originalPositionFor({
+        line: stackTrack[0].lineNumber,
+        column: stackTrack[0].columnNumber
+      })
 
       const originSource = sourcesPathMap[lookUpResult.source],
         sourcesContent = fileObj.sourcesContent[sources.indexOf(originSource)]
@@ -70,10 +68,6 @@ const JsErrorDetailPage: FC = () => {
         ...lookUpResult,
         sourcesContent
       })
-      // renderPreCode({
-      //   ...lookUpResult,
-      //   sourcesContent
-      // })
       setVisible(false)
     })
   }
@@ -94,7 +88,6 @@ const JsErrorDetailPage: FC = () => {
               size={'small'}
               type="primary"
               onClick={() => {
-                console.log(stackTrack)
                 setVisible(true)
                 form.setFieldsValue({
                   url: stackTrack[0].fileName + '.map'
@@ -105,65 +98,19 @@ const JsErrorDetailPage: FC = () => {
             </Button>
           </Col>
         </Row>
+        <Row gutter={[8, 8]}>
+          <Col span={16}>
+            {
+              souceCode.sourcesContent !== "" ?  <SourceMaoItem souceCode={souceCode} /> : <></>
+            }
+          </Col>
+          <Col span={8}>
+          </Col>
+        </Row>
       </Card>
-      <div id="errdetail">
-        <div id="errHeader">
-        </div>
-        <pre id="errCode" style={{display: "none"}}></pre>
-      </div>
-      {
-        souceCode.sourcesContent !== "" ?  <SourceMaoItem sourcesContent={souceCode.sourcesContent} errLine={souceCode.line}/> : <></>
-      }
       <SourceMapLoadModal visible={visible} form={form} onCreate={loadSourceMap} onClose={onClose} />
     </div>
   )
 }
 
 export default JsErrorDetailPage
-
-function renderPreCode(data: any) {
-
-  console.log(data.sourcesContent.split('\n'));
-  const $errCode: any = document.getElementById('errCode')
-  const errdetail: any = document.getElementById('errdetail')
-
-  $errCode.innerHTML = data.sourcesContent
-  const lines = $errCode.innerText.split('\n')
-
-
-  const line = data.line;
-  const  len = lines.length - 1
-  const start = line - 3 >= 0 ? line - 3 : 0;
-  const  end = start + 5 >= len ? len : start + 5 // 最多展示6行
-
-  const newLines = []
-  for (let i = start; i <= end; i++) {
-    newLines.push(
-      '<div class="code-line ' +
-        (i + 1 == line ? 'heightlight' : '') +
-        '" title="' +
-        (i + 1 == line ? encodeHTML(data.msg) : '') +
-        '">' +
-        (i + 1) +
-        '.    ' +
-        encodeHTML(lines[i]) +
-        '</div>'
-    )
-  }
-
-  errdetail.innerHTML +=
-    '<div class="errdetail"><div class="errheader">' +
-    data.source +
-    ' at line ' +
-    data.line +
-    ':' +
-    data.column +
-    '</div>' +
-    '<pre class="errCode">' +
-    newLines.join('') +
-    '</pre></div>'
-}
-function encodeHTML(str: any) {
-  if (!str || str.length == 0) return ''
-  return str.replace(/&/g, '&#38;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\'/g, '&#39;')
-}

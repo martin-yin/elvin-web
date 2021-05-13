@@ -1,38 +1,31 @@
 import React, { FC } from "react"
 
-const SourceMaoItem: FC<any> = ({ sourcesContent, errline }) => {
-
+const SourceMaoItem: FC<any> = ({ souceCode }) => {
+    const { sourcesContent, line, column, source } = souceCode;
 
     // 计算开始和结束行数
     const preLineStartEnd = () => {
         // 先获取源码有多少行
         const transformationLine = sourcesContent.split('\n');
-        const len = transformationLine - 1;
-        const start = errline - 3 >= 0 ? errline - 3 : 0;
-        const end = start + 5 >= len ? len : start + 5 // 最多展示6行
+        const  len = transformationLine.length - 1
+        const start = line - 3 >= 0 ? line - 3 : 0;
+        const  end = start + 5 >= len ? len : start + 5 // 最多展示6行
         return {
             start,
-            end
+            end,
+            transformationLine
         }
     }
 
     // 拼接处 pre 展示代码
     const preCode = () => {
-        const { start, end } = preLineStartEnd();
+        const { start, end, transformationLine } = preLineStartEnd();
         const lines = [];
         for (let i = start; i <= end; i++) {
-            lines.push('<div class="code-line ' +
-                (i + 1 == errline ? 'heightlight' : '') +
-                '" title="' +
-                (i + 1 == errline ? encodeHTML("msg") : '') +
-                '">' +
-                (i + 1) +
-                '.    ' +
-                encodeHTML(errline[i]) +
-                '</div>'
-            )
+            const content = i + 1 + '.    ' + encodeHTML(transformationLine[i]);
+            lines.push(<div key={i} className={`code-line ${i + 1 == line ? 'heightlight' : ''}`} dangerouslySetInnerHTML={{ __html: content }}></div>)
         }
-        console.log(lines);
+        return lines;
     }
 
     const encodeHTML = (str: string) =>{
@@ -40,12 +33,12 @@ const SourceMaoItem: FC<any> = ({ sourcesContent, errline }) => {
         return str.replace(/&/g, '&#38;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\'/g, '&#39;')
     }
       
-
     return (
-      <div>1
-
-    
-          {preCode()}
+      <div className="errdetail">
+          <div className="errheader">{source} at line {line} : {column}</div>
+          <pre className="errCode">
+            {preCode()}
+          </pre>
       </div>
     )
   }

@@ -77,7 +77,6 @@ const UserActionPage: FC = () => {
   }, [initUserActionList])
 
   const activeTimeLine = async (item: any) => {
-    console.log(item, 'activeId')
     setActiveId(`${item.happen_time}${item.action_type}`)
     setDetail(item.action_detail)
   }

@@ -26,7 +26,6 @@ const LoginPage: FC = () => {
   }
 
   const register = async (form: any) => {
-    console.log(form, 'register')
     const data: any = await RegisterAdmin(form)
     if (data.code == 200) {
       dispatch(setUserInfo(data.data.user))
