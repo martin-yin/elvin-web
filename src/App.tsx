@@ -34,7 +34,12 @@ const Routers = [
   {
     path: '/js-error',
     name: 'jsError',
-    component: lazy(() => import(/* webpackChunkName: "js-error"*/ './view/jsError/js.error.page'))
+    component: lazy(() => import(/* webpackChunkName: "js-error"*/ './view/jsError/jsErrorPage'))
+  },
+  {
+    path: '/js-error-detail/:errorId',
+    name: 'jsErrorDetail',
+    component: lazy(() => import(/* webpackChunkName: "js-error-detail"*/ './view/jsError/jsErrorDetailPage'))
   },
   {
     path: '/user',
@@ -43,7 +48,7 @@ const Routers = [
   },
   {
     path: '/user-detail/:userId',
-    name: 'UserBehaviorDetailPage',
+    name: 'UserActionDetailPage',
     component: lazy(() => import(/* webpackChunkName: "user-action-detail"*/ './view/user/useActionPage'))
   },
   {
