@@ -6,6 +6,8 @@ import { Button, Card, Col, Form, Row } from 'antd'
 import SourceMapLoadModal from '../../components/jsError/sourceMap'
 import sourceMap from 'source-map-js'
 import "./index.less"
+import SourceMaoItem from '../../components/jsError/sourceMapItem'
+import { SourceCode } from 'eslint'
 const JsErrorDetailPage: FC = () => {
   const params: any = useParams()
   const [stackTrack, setStackTrack] = useState<any>([])
@@ -68,11 +70,10 @@ const JsErrorDetailPage: FC = () => {
         ...lookUpResult,
         sourcesContent
       })
-
-      renderPreCode({
-        ...lookUpResult,
-        sourcesContent
-      })
+      // renderPreCode({
+      //   ...lookUpResult,
+      //   sourcesContent
+      // })
       setVisible(false)
     })
   }
@@ -110,6 +111,9 @@ const JsErrorDetailPage: FC = () => {
         </div>
         <pre id="errCode" style={{display: "none"}}></pre>
       </div>
+      {
+        souceCode.sourcesContent !== "" ?  <SourceMaoItem sourcesContent={souceCode.sourcesContent} errLine={souceCode.line}/> : <></>
+      }
       <SourceMapLoadModal visible={visible} form={form} onCreate={loadSourceMap} onClose={onClose} />
     </div>
   )
@@ -118,16 +122,19 @@ const JsErrorDetailPage: FC = () => {
 export default JsErrorDetailPage
 
 function renderPreCode(data: any) {
+
+  console.log(data.sourcesContent.split('\n'));
   const $errCode: any = document.getElementById('errCode')
   const errdetail: any = document.getElementById('errdetail')
 
-  console.log(data);
   $errCode.innerHTML = data.sourcesContent
   const lines = $errCode.innerText.split('\n')
-  const line = data.line,
-    len = lines.length - 1
-  const start = line - 3 >= 0 ? line - 3 : 0,
-    end = start + 5 >= len ? len : start + 5 // 最多展示6行
+
+
+  const line = data.line;
+  const  len = lines.length - 1
+  const start = line - 3 >= 0 ? line - 3 : 0;
+  const  end = start + 5 >= len ? len : start + 5 // 最多展示6行
 
   const newLines = []
   for (let i = start; i <= end; i++) {
