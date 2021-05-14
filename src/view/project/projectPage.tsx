@@ -40,7 +40,9 @@ const ProjectPage: FC = () => {
       script.type = "text/javascript";
       script.src = sdk
       script.onload = function() {
-        window.hawkReport && window.hawkReport.init({monitorId})
+        window.hawkReport && window.hawkReport.init({
+          monitorId: monitorId,
+        })
       };
       head.appendChild(script); 
     })("https://shifulaile-admin-1258720006.cos.ap-chengdu.myqcloud.com/index.js", ${project.monitor_id});

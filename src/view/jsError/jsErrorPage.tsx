@@ -17,9 +17,9 @@ const JsErrorPage: FC = () => {
 
   const columns = [
     {
-      title: '异常类型',
-      dataIndex: 'err_type',
-      key: 'err_type'
+      title: '异常名称',
+      dataIndex: 'error_name',
+      key: 'error_name'
     },
     {
       title: '异常内容',
@@ -27,9 +27,9 @@ const JsErrorPage: FC = () => {
       key: 'message'
     },
     {
-      title: '发生次数',
-      dataIndex: 'frequency',
-      key: 'frequency'
+      title: '用户',
+      dataIndex: 'users',
+      key: 'users'
     },
     {
       title: '操作',
