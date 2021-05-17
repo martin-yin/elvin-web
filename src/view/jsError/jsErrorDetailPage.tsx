@@ -2,12 +2,13 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import ErrorStackParser from 'error-stack-parser'
 import { GetJsErrorDetail, LoadSourceMap } from '../../request'
-import { Button, Card, Col, Form, Row } from 'antd'
+import { Button, Card, Col, Collapse, Divider, Form, Row, Space } from 'antd'
 import SourceMapLoadModal from '../../components/jsError/sourceMap'
 import sourceMap from 'source-map-js'
-import "./index.less"
+import './index.less'
 import SourceMaoItem from '../../components/jsError/sourceMapItem'
-import { SourceCode } from 'eslint'
+import { CaretRightOutlined, StepBackwardOutlined, StepForwardOutlined } from '@ant-design/icons'
+const { Panel } = Collapse
 const JsErrorDetailPage: FC = () => {
   const params: any = useParams()
   const [stackTrack, setStackTrack] = useState<any>([])
@@ -23,8 +24,6 @@ const JsErrorDetailPage: FC = () => {
   const [jsError, setJsError] = useState<any>({})
   const [visible, setVisible] = useState(false)
 
-  const sourcesPathMap: any = {}
-
   const parseStackTrack = (error: string): Array<any> => {
     const err = new Error(error)
     const stackFrame = ErrorStackParser.parse(err)
@@ -32,9 +31,10 @@ const JsErrorDetailPage: FC = () => {
   }
 
   const initStackTrackData = useCallback(async () => {
-    const result = await GetJsErrorDetail(params.errorId)
+    const result = await GetJsErrorDetail(params.error_id)
     setJsError(result.data)
     setStackTrack(parseStackTrack(result.data.stack))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onClose = () => {
@@ -42,31 +42,18 @@ const JsErrorDetailPage: FC = () => {
     setVisible(false)
   }
 
-  function fixPath(filepath: any) {
-    return filepath.replace(/\.[\.\/]+/g, '')
-  }
-
   const loadSourceMap = () => {
     form.validateFields().then(async (value: any) => {
-      const data: any = await LoadSourceMap(value.url)
-      const fileContent = data,
-        fileObj = fileContent,
-        sources = fileObj.sources
-      sources.map((item: any) => {
-        sourcesPathMap[fixPath(item)] = item
+      const sourceMapData: any = await LoadSourceMap(value.url)
+      const consumer = await new sourceMap.SourceMapConsumer(sourceMapData)
+      const lookUpRes: any = consumer.originalPositionFor({
+        line: value.line,
+        column: value.column
       })
-      const consumer = await new sourceMap.SourceMapConsumer(fileContent)
-
-      const lookUpResult: any = consumer.originalPositionFor({
-        line: stackTrack[0].lineNumber,
-        column: stackTrack[0].columnNumber
-      })
-
-      const originSource = sourcesPathMap[lookUpResult.source],
-        sourcesContent = fileObj.sourcesContent[sources.indexOf(originSource)]
+      const originSource = consumer.sourceContentFor(lookUpRes.source)
       setSourceCode({
-        ...lookUpResult,
-        sourcesContent
+        ...lookUpRes,
+        originSource: originSource
       })
       setVisible(false)
     })
@@ -79,6 +66,96 @@ const JsErrorDetailPage: FC = () => {
   return (
     <div>
       <Card>
+        <div>
+          <Space>
+            <h2>
+              {jsError?.error_name}: {jsError?.message}
+            </h2>
+          </Space>
+        </div>
+        <div style={{ marginBottom: '14px' }}>
+          <Space size={10} direction="vertical">
+            <p>{jsError?.created_at}</p>
+            <p>{jsError?.page_url}</p>
+          </Space>
+        </div>
+        <div>
+          <Space>
+            <Button style={{ fontSize: '10px' }} size="small" icon={<StepBackwardOutlined />}>
+              上一个
+            </Button>
+            <Button style={{ fontSize: '10px' }} size="small" icon={<StepForwardOutlined />}>
+              下一个
+            </Button>
+          </Space>
+        </div>
+        <Divider />
+        <Row gutter={[16, 16]}>
+          <Col span={6}>
+            <h3>{jsError?.ip}</h3>
+          </Col>
+          <Col span={6}>
+            <h3>{jsError?.browser}</h3>
+            <p>{jsError?.browser_version}</p>
+          </Col>
+          <Col span={6}>
+            <h3>{jsError?.os}</h3>
+            <p>{jsError?.os_version}</p>
+          </Col>
+          <Col span={6}>
+            <h3>{jsError?.device}</h3>
+            <p>{jsError?.device_type}</p>
+          </Col>
+        </Row>
+        <Divider />
+        <h4>Js错误堆栈:</h4>
+        <Collapse
+          bordered={false}
+          accordion
+          expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
+          className="site-collapse-custom-collapse"
+        >
+          {stackTrack.length > 0 ? (
+            stackTrack.map((item: any, index: number) => {
+              return (
+                <Panel header={item.fileName} key={index} className="site-collapse-custom-panel">
+                  <Row gutter={[8, 8]}>
+                    <Col span={16}>
+                      {souceCode?.originSource ? (
+                        <SourceMaoItem souceCode={souceCode} />
+                      ) : (
+                        <div>
+                          <pre className="textOverhidden">{item.source}</pre>
+                        </div>
+                      )}
+                    </Col>
+                    <Col span={8}>
+                      <Button
+                        size={'small'}
+                        type="primary"
+                        onClick={() => {
+                          setVisible(true)
+                          form.setFieldsValue({
+                            url: item.fileName + '.map',
+                            line: item.lineNumber,
+                            column: item.columnNumber
+                          })
+                        }}
+                      >
+                        映射源码
+                      </Button>
+                    </Col>
+                  </Row>
+                </Panel>
+              )
+            })
+          ) : (
+            <></>
+          )}
+        </Collapse>
+      </Card>
+
+      {/* <Card>
         <Row gutter={[8, 8]}>
           <Col span={16}>
             <pre>{jsError.stack}</pre>
@@ -99,15 +176,10 @@ const JsErrorDetailPage: FC = () => {
           </Col>
         </Row>
         <Row gutter={[8, 8]}>
-          <Col span={16}>
-            {
-              souceCode.sourcesContent !== "" ?  <SourceMaoItem souceCode={souceCode} /> : <></>
-            }
-          </Col>
-          <Col span={8}>
-          </Col>
+          <Col span={16}></Col>
+          <Col span={8}></Col>
         </Row>
-      </Card>
+      </Card> */}
       <SourceMapLoadModal visible={visible} form={form} onCreate={loadSourceMap} onClose={onClose} />
     </div>
   )

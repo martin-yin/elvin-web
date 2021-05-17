@@ -37,7 +37,7 @@ const Routers = [
     component: lazy(() => import(/* webpackChunkName: "js-error"*/ './view/jsError/jsErrorPage'))
   },
   {
-    path: '/js-error-detail/:errorId',
+    path: '/js-error-detail/:error_id',
     name: 'jsErrorDetail',
     component: lazy(() => import(/* webpackChunkName: "js-error-detail"*/ './view/jsError/jsErrorDetailPage'))
   },

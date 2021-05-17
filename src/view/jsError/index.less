@@ -1,28 +1,26 @@
 li {
     padding: 10px;
-
     border-bottom: 1px solid #d6d2d2;
     background: #f1f1f3;
 }
+
 p {
     pointer-events: none;
 }
+
 pre {
     padding: 10px;
     overflow: hidden;
-
     font-family: consolas,monospace;
-
     word-wrap: normal;
 }
+
 .errdetail {
     margin-top: 10px;
-
     background-color: #fff;
 }
 .errheader {
     padding: 10px;
-
     border-bottom: 1px solid #d6d2d2;
 }
 .code-line {
@@ -31,4 +29,30 @@ pre {
 .code-line.heightlight {
     color: #fff;
     background-color: #6c5fc7;
+}
+
+.textOverhidden {
+    overflow:hidden; //超出的文本隐藏
+    text-overflow:ellipsis; //溢出用省略号显示
+    white-space:nowrap; //溢出不换行
+}
+
+.err-msg {
+    font-size: 16px;
+    display: block;
+    margin: 20px 0 !important;
+}
+
+
+[data-theme='compact'] .site-collapse-custom-collapse .site-collapse-custom-panel,
+.site-collapse-custom-collapse .site-collapse-custom-panel {
+  margin-bottom: 0px;
+  overflow: hidden;
+  background: #f9fafd;
+  border: 0px;
+  border-radius: 2px;
+}
+
+.ant-collapse-borderless > .ant-collapse-item > .ant-collapse-content {
+    background: #fff;
 }

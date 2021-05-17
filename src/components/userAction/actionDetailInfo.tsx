@@ -1,4 +1,4 @@
-import { Tag, Tooltip } from 'antd'
+import { Tag } from 'antd'
 import React, { FC } from 'react'
 import { UserActionDetail } from '../../interface/user.interface'
 import { getTimeYYMMDDHM } from '../../utils'

@@ -27,6 +27,7 @@ const SurveyPage: FC = () => {
     initSurveyStatistics()
     initSurveyPUvData()
     // initSurveyJsErrorData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

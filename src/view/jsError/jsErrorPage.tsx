@@ -27,9 +27,14 @@ const JsErrorPage: FC = () => {
       key: 'message'
     },
     {
+      title: '异常次数',
+      dataIndex: 'error_count',
+      key: 'error_count'
+    },
+    {
       title: '用户',
-      dataIndex: 'users',
-      key: 'users'
+      dataIndex: 'error_user',
+      key: 'error_user'
     },
     {
       title: '操作',

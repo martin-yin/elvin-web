@@ -27,6 +27,7 @@ const HomePage: FC = () => {
       })
       await projectHealthy(monitorIds.join(','))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const projectHealthy = async (monitorIds: string) => {
