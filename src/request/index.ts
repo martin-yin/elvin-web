@@ -4,7 +4,8 @@ import { request } from '../utils/request'
 
 export const GetJsError = () => request<any>('get', '/communal/issues')
 
-export const GetJsErrorDetail = (id: number) => request<any>('get', `/communal/jsErrorDetail?issue_id=${id}`)
+export const GetJsErrorDetail = (param: { issue_id: number; error_id: number }) =>
+  request<any>('get', `/communal/jsErrorDetail`, param)
 
 // 资源错误的页面接口
 export const webPageErrorData = () =>

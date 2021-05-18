@@ -22,7 +22,6 @@
     "compression-webpack-plugin": "5.0.1",
     "echarts": "^5.0.2",
     "echarts-for-react": "^3.0.1",
-    "error-stack-parser": "^2.0.6",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",

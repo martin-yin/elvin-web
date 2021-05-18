@@ -1,8 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import ErrorStackParser from 'error-stack-parser'
 import { GetJsErrorDetail, LoadSourceMap } from '../../request'
-import { Button, Card, Col, Collapse, Divider, Form, Row, Space } from 'antd'
+import { Button, Card, Col, Collapse, Divider, Form, message, Row, Space } from 'antd'
 import SourceMapLoadModal from '../../components/jsError/sourceMap'
 import sourceMap from 'source-map-js'
 import './index.less'
@@ -14,8 +13,8 @@ const JsErrorDetailPage: FC = () => {
   const [stackTrack, setStackTrack] = useState<any>([])
 
   const [souceCode, setSourceCode] = useState<any>({
-    column: 9,
-    line: 25,
+    column: 0,
+    line: 0,
     source: '',
     sourcesContent: ''
   })
@@ -24,22 +23,32 @@ const JsErrorDetailPage: FC = () => {
   const [jsError, setJsError] = useState<any>({})
   const [visible, setVisible] = useState(false)
 
-  const parseStackTrack = (error: string): Array<any> => {
-    const err = new Error(error)
-    const stackFrame = ErrorStackParser.parse(err)
-    return stackFrame
-  }
-
   const initStackTrackData = useCallback(async () => {
-    const result = await GetJsErrorDetail(params.error_id)
+    const result = await GetJsErrorDetail({
+      issue_id: params.error_id,
+      error_id: 0
+    })
     setJsError(result.data)
-    setStackTrack(parseStackTrack(result.data.stack))
+    setStackTrack(JSON.parse(result.data.stack_frames))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onClose = () => {
     form.resetFields()
     setVisible(false)
+  }
+
+  const changeIssue = async (id: number) => {
+    if (id == 0) {
+      message.warn('没有下一个问题了！')
+      return
+    }
+    const result = await GetJsErrorDetail({
+      error_id: id,
+      issue_id: 0
+    })
+    setJsError(result.data)
+    setStackTrack(JSON.parse(result.data.stack_frames))
   }
 
   const loadSourceMap = () => {
@@ -73,6 +82,7 @@ const JsErrorDetailPage: FC = () => {
             </h2>
           </Space>
         </div>
+        <p>{jsError?.componentName}</p>
         <div style={{ marginBottom: '14px' }}>
           <Space size={10} direction="vertical">
             <p>{jsError?.created_at}</p>
@@ -81,10 +91,22 @@ const JsErrorDetailPage: FC = () => {
         </div>
         <div>
           <Space>
-            <Button style={{ fontSize: '10px' }} size="small" icon={<StepBackwardOutlined />}>
+            <Button
+              style={{ fontSize: '10px' }}
+              size="small"
+              icon={<StepBackwardOutlined />}
+              disabled={jsError?.previous_error_id == 0}
+              onClick={() => changeIssue(jsError?.previous_error_id)}
+            >
               上一个
             </Button>
-            <Button style={{ fontSize: '10px' }} size="small" icon={<StepForwardOutlined />}>
+            <Button
+              style={{ fontSize: '10px' }}
+              size="small"
+              icon={<StepForwardOutlined />}
+              disabled={jsError?.next_error_id == 0}
+              onClick={() => changeIssue(jsError?.next_error_id)}
+            >
               下一个
             </Button>
           </Space>
