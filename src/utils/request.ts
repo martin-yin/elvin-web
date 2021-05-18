@@ -27,7 +27,7 @@ axios.interceptors.response.use(
       errorMessage = error?.response?.data.msg
     }
     if (error?.msg?.includes('Network Error')) {
-      errorMessage = '网络错误，请检查您的网络'
+      errorMessage = '网络异常，请检查您的网络'
     }
     error.msg && message.error(errorMessage)
     return {

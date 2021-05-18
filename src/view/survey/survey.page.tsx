@@ -41,7 +41,7 @@ const SurveyPage: FC = () => {
         <Col span={4}>
           <Card className="surveyCardStatistics" style={{ marginBottom: '20px' }}>
             <div className="value">{surveyStatistics.js_error}</div>
-            <div className="name">Js错误</div>
+            <div className="name">Js异常</div>
             <div className="desc"></div>
             {/** 这里当然要做同比日增加或者减少。*/}
           </Card>

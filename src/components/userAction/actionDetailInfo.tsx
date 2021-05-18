@@ -58,7 +58,7 @@ const UserActionDetailInfo: FC<UserActionDetailInfoProps> = ({ detail }) => {
             <p>{detail.page_url}</p>
           </li>
           <li>
-            <label>错误信息：</label>
+            <label>异常信息：</label>
             <p>{detail.message}</p>
           </li>
         </>
@@ -71,11 +71,11 @@ const UserActionDetailInfo: FC<UserActionDetailInfoProps> = ({ detail }) => {
             <p>{detail.page_url}</p>
           </li>
           <li>
-            <label>错误类型：</label>
+            <label>异常类型：</label>
             <p>{detail.element_type}</p>
           </li>
           <li>
-            <label>错误资源：</label>
+            <label>异常资源：</label>
             <p>{detail.source_url}</p>
           </li>
         </>

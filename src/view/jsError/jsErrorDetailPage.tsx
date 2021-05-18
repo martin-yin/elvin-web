@@ -7,6 +7,11 @@ import sourceMap from 'source-map-js'
 import './index.less'
 import SourceMaoItem from '../../components/jsError/sourceMapItem'
 import { CaretRightOutlined, StepBackwardOutlined, StepForwardOutlined } from '@ant-design/icons'
+import IpIcon from '../../assets/webIcons/ip.png'
+import BrowserIcon from '../../assets/webIcons/browse.png'
+import PcIcon from '../../assets/webIcons/pc.png'
+import WindowIcon from '../../assets/webIcons/window.png'
+
 const { Panel } = Collapse
 const JsErrorDetailPage: FC = () => {
   const params: any = useParams()
@@ -82,9 +87,11 @@ const JsErrorDetailPage: FC = () => {
             </h2>
           </Space>
         </div>
-        <p>{jsError?.componentName}</p>
-        <div style={{ marginBottom: '14px' }}>
-          <Space size={10} direction="vertical">
+        <div style={{ marginBottom: '20px' }}>
+          <p>{jsError?.componentName}</p>
+        </div>
+        <div style={{ marginBottom: '20px' }}>
+          <Space size={20} direction="vertical">
             <p>{jsError?.created_at}</p>
             <p>{jsError?.page_url}</p>
           </Space>
@@ -114,23 +121,41 @@ const JsErrorDetailPage: FC = () => {
         <Divider />
         <Row gutter={[16, 16]}>
           <Col span={6}>
-            <h3>{jsError?.ip}</h3>
+            <Space>
+              <img src={IpIcon} alt="" />
+              <h3>{jsError?.ip}</h3>
+            </Space>
           </Col>
           <Col span={6}>
-            <h3>{jsError?.browser}</h3>
-            <p>{jsError?.browser_version}</p>
+            <Space>
+              <img src={BrowserIcon} alt="" />
+              <div>
+                <h3>{jsError?.browser}</h3>
+                <p>{jsError?.browser_version}</p>
+              </div>
+            </Space>
           </Col>
           <Col span={6}>
-            <h3>{jsError?.os}</h3>
-            <p>{jsError?.os_version}</p>
+            <Space>
+              <img src={WindowIcon} alt="" />
+              <div>
+                <h3>{jsError?.os}</h3>
+                <p>{jsError?.os_version}</p>
+              </div>
+            </Space>
           </Col>
           <Col span={6}>
-            <h3>{jsError?.device}</h3>
-            <p>{jsError?.device_type}</p>
+            <Space>
+              <img src={PcIcon} alt="" />
+              <div>
+                <h3>{jsError?.device}</h3>
+                <p>{jsError?.device_type}</p>
+              </div>
+            </Space>
           </Col>
         </Row>
         <Divider />
-        <h4>Js错误堆栈:</h4>
+        <h4>Js异常堆栈:</h4>
         <Collapse
           bordered={false}
           accordion
@@ -155,6 +180,7 @@ const JsErrorDetailPage: FC = () => {
                       <Button
                         size={'small'}
                         type="primary"
+                        style={{ marginTop: '20px' }}
                         onClick={() => {
                           setVisible(true)
                           form.setFieldsValue({
@@ -177,31 +203,6 @@ const JsErrorDetailPage: FC = () => {
         </Collapse>
       </Card>
 
-      {/* <Card>
-        <Row gutter={[8, 8]}>
-          <Col span={16}>
-            <pre>{jsError.stack}</pre>
-          </Col>
-          <Col span={8}>
-            <Button
-              size={'small'}
-              type="primary"
-              onClick={() => {
-                setVisible(true)
-                form.setFieldsValue({
-                  url: stackTrack[0].fileName + '.map'
-                })
-              }}
-            >
-              映射源码
-            </Button>
-          </Col>
-        </Row>
-        <Row gutter={[8, 8]}>
-          <Col span={16}></Col>
-          <Col span={8}></Col>
-        </Row>
-      </Card> */}
       <SourceMapLoadModal visible={visible} form={form} onCreate={loadSourceMap} onClose={onClose} />
     </div>
   )

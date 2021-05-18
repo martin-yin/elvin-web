@@ -46,10 +46,10 @@ export interface UserActionDetail {
   tag_name?: string
   innter_text?: string
   class_name?: string
-  // 资源错误
+  // 资源异常
   element_type?: string
   source_url?: string
-  // js 错误
+  // js 异常
   message?: string
   // http请求
   http_url?: string
@@ -62,14 +62,14 @@ export interface UserActionDetail {
 
 export interface UserAction {
   action_type: string
-  // js 错误
+  // js 异常
   message?: string
 
   event_id?: string
 
   action_detail: string | any
 
-  // 资源错误
+  // 资源异常
   element_type?: string
   source_url?: string
   // 点击事件

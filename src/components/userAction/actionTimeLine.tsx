@@ -48,15 +48,15 @@ const ActionTimeLineItem: FC<ActionTimeLineProps> = ({ key, item, activeTimeLine
         icon: (): React.ReactNode => {
           return <img className="actionTimeLineImg" src={PageJsErrorIcon} />
         },
-        title: `错误信息${item.action_detail.message}`,
-        content: `错误页面: ${item.action_detail.page_url}`
+        title: `异常信息${item.action_detail.message}`,
+        content: `异常页面: ${item.action_detail.page_url}`
       }
     } else if (item.action_type == 'RESOURCE_ERROR') {
       return {
         icon: (): React.ReactNode => {
           return <img className="actionTimeLineImg" src={PageResoucesErrorIcon} />
         },
-        title: `资源加载错误${item.action_detail.element_type}`,
+        title: `资源加载异常${item.action_detail.element_type}`,
         content: `资源URL: ${item.action_detail.source_url}`
       }
     } else if (item.action_type == 'BEHAVIOR_INFO') {
