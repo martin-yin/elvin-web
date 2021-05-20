@@ -9,6 +9,7 @@ import { setProjectList } from '../../stores/app.store'
 import { useDispatch } from 'react-redux'
 import { CreateProject, GetProjectList, GetProjectHealthy } from '../../request/admin'
 import { Project, ProjectHealthyList } from '../../interface/team.interface'
+import DocsPage from '../docs/docsPage'
 
 const HomePage: FC = () => {
   const { projectList } = useAppState(state => state.appsotre)
@@ -79,7 +80,8 @@ const HomePage: FC = () => {
 
   return (
     <>
-      <CreateProjectModal visible={visible} form={form} onClose={onClose} onCreate={createProject} />
+      <DocsPage />
+      {/* <CreateProjectModal visible={visible} form={form} onClose={onClose} onCreate={createProject} />
       <div className="project-list">
         <Row gutter={[16, 16]}>
           {projectList.length > 0 ? (
@@ -91,7 +93,7 @@ const HomePage: FC = () => {
           )}
           {renderAddProjectItem()}
         </Row>
-      </div>
+      </div> */}
     </>
   )
 }
