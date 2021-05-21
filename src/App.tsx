@@ -1,6 +1,6 @@
 import React, { lazy } from 'react'
 import { ConfigProvider, Layout } from 'antd'
-import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 const { Content } = Layout
 import './index.less'
 import HomePage from './view/home/homePage'
@@ -27,9 +27,9 @@ const Routers = [
     component: lazy(() => import(/* webpackChunkName: "http"*/ './view/http/httpPage'))
   },
   {
-    path: '/resource-error',
-    name: 'ErrorPage',
-    component: lazy(() => import(/* webpackChunkName: "error"*/ './view/resourcesError/errorPage'))
+    path: '/resource',
+    name: 'resource',
+    component: lazy(() => import(/* webpackChunkName: "error"*/ './view/resources/resourcesPage'))
   },
   {
     path: '/issues',
@@ -48,17 +48,17 @@ const Routers = [
   },
   {
     path: '/user-detail/:userId',
-    name: 'UserActionDetailPage',
-    component: lazy(() => import(/* webpackChunkName: "user-action-detail"*/ './view/user/useActionPage'))
+    name: 'UserDetailPage',
+    component: lazy(() => import(/* webpackChunkName: "user-detail"*/ './view/user/useDetailPage'))
   },
   {
     path: '/team',
-    name: 'team',
+    name: 'Team',
     component: lazy(() => import(/* webpackChunkName: "team"*/ './view/team/teamPage'))
   },
   {
     path: '/project',
-    name: 'project',
+    name: 'Project',
     component: lazy(() => import(/* webpackChunkName: "team"*/ './view/project/projectPage'))
   }
 ]

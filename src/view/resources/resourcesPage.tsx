@@ -2,12 +2,12 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Statistic, Table, Tooltip } from 'antd'
 import { webPageErrorData } from '../../request'
 import { InfoCircleFilled } from '@ant-design/icons'
-import { ResourcesErrorList, ResourcesErrorQuota } from '../../interface/error.interface'
+import { ResourcesIF } from '../../interface/'
 
-const ResourcesErrorPage: FC = () => {
+const ResourcesPage: FC = () => {
   const [resourcesData, setErrorPageData] = useState<{
-    quota: ResourcesErrorQuota
-    resources_list: ResourcesErrorList
+    quota: ResourcesIF.Quota
+    resources_list: ResourcesIF.ResourcesList
   }>({
     quota: {
       error_count: 13,
@@ -81,4 +81,4 @@ const ResourcesErrorPage: FC = () => {
   )
 }
 
-export default ResourcesErrorPage
+export default ResourcesPage

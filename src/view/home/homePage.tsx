@@ -8,12 +8,12 @@ import { PlusCircleOutlined } from '@ant-design/icons'
 import { setProjectList } from '../../stores/app.store'
 import { useDispatch } from 'react-redux'
 import { CreateProject, GetProjectList, GetProjectHealthy } from '../../request/admin'
-import { Project, ProjectHealthyList } from '../../interface/team.interface'
-import DocsPage from '../docs/docsPage'
+import { TeamIF } from '../../interface'
+import { ProjectIF } from '../../interface/projectInterface'
 
 const HomePage: FC = () => {
   const { projectList } = useAppState(state => state.appsotre)
-  const [healthyList, setHealthyList] = useState<ProjectHealthyList>([])
+  const [healthyList, setHealthyList] = useState<TeamIF.ProjectHealthyList>([])
   const [visible, setVisible] = useState(false)
   const [form] = Form.useForm()
   const dispatch = useDispatch()
@@ -80,12 +80,11 @@ const HomePage: FC = () => {
 
   return (
     <>
-      <DocsPage />
-      {/* <CreateProjectModal visible={visible} form={form} onClose={onClose} onCreate={createProject} />
+      <CreateProjectModal visible={visible} form={form} onClose={onClose} onCreate={createProject} />
       <div className="project-list">
         <Row gutter={[16, 16]}>
           {projectList.length > 0 ? (
-            projectList.map((item: Project, index: number) => {
+            projectList.map((item: ProjectIF.Project, index: number) => {
               return <ProjectItem health={healthyList[index]} key={index} item={item} index={index} />
             })
           ) : (
@@ -93,7 +92,7 @@ const HomePage: FC = () => {
           )}
           {renderAddProjectItem()}
         </Row>
-      </div> */}
+      </div>
     </>
   )
 }

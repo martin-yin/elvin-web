@@ -8,13 +8,13 @@ import {
   PageResoucesErrorIcon,
   PageJsErrorIcon
 } from '../../assets'
-import { UserAction } from '../../interface/user.interface'
+import { UserIF } from '../../interface/user.interface'
 import { getTimeHHMM } from '../../utils'
 
 interface ActionTimeLineProps {
   key: number
-  item: UserAction
-  activeTimeLine: (item: UserAction) => void
+  item: UserIF.UserAction
+  activeTimeLine: (item: UserIF.UserAction) => void
   activeId: string
 }
 
@@ -41,7 +41,7 @@ const ActionTimeLineItem: FC<ActionTimeLineProps> = ({ key, item, activeTimeLine
     initItemData()
   }, [initItemData])
 
-  const transformationAction = (item: UserAction): any => {
+  const transformationAction = (item: UserIF.UserAction): any => {
     item.action_detail = JSON.parse(item.action_detail)
     if (item.action_type == 'JS_ERROR') {
       return {

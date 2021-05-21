@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Button, Card, Col, message, Popconfirm, Row } from 'antd'
 import { useHistory } from 'react-router-dom'
-import { Project } from '../../interface/team.interface'
+import { TeamIF } from '../../interface/team.interface'
 import { DelProject, GetProject } from '../../request/admin'
 import './index.less'
 require('codemirror/lib/codemirror.css')
@@ -13,7 +13,7 @@ import { UnControlled as CodeMirror } from 'react-codemirror2'
 import moment from 'moment'
 
 const ProjectPage: FC = () => {
-  const [project, setProject] = useState<Project>({
+  const [project, setProject] = useState<TeamIF.Project>({
     id: 0,
     monitor_id: '',
     project_name: '',

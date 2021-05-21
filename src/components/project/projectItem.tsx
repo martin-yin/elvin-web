@@ -4,7 +4,7 @@ import { Card, Col, Progress, Space, Tooltip } from 'antd'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { setMonitorId } from '../../stores/app.store'
-import { ProjectHealthy } from '../../interface/team.interface'
+import { TeamIF } from '../../interface'
 
 const ProjectItem: FC<any> = ({ item, index, health }) => {
   const dispatch = useDispatch()
@@ -14,7 +14,7 @@ const ProjectItem: FC<any> = ({ item, index, health }) => {
     history.push(url)
   }
 
-  const getHealthyRate = (health: ProjectHealthy) => {
+  const getHealthyRate = (health: TeamIF.ProjectHealthy) => {
     if (health) {
       if (health.pv == 0) {
         return 0

@@ -2,13 +2,13 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Button, Card, Form, Input, message, Space, Table } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { ModalFrom } from '../../components/modalForm/modalForm'
-import { Admin, Project, TeamAdmins, TeamLit, TeamProjects } from '../../interface/team.interface'
+import { TeamIF } from '../../interface'
 import { CreateTeam, GetTeamList } from '../../request/admin'
 
 const TeamPage: FC = () => {
   const [visible, setVisible] = useState(false)
   const [form] = Form.useForm()
-  const [teamList, setTeamList] = useState<TeamLit>()
+  const [teamList, setTeamList] = useState<TeamIF.TeamLit>()
   const initTeamList = useCallback(async () => {
     const { code, data } = await GetTeamList()
     if (code == 200) {
@@ -69,9 +69,9 @@ const TeamPage: FC = () => {
       title: '团队成员',
       dataIndex: 'team_admins',
       key: 'team_admin',
-      render: (team_admins: TeamAdmins) => (
+      render: (team_admins: TeamIF.TeamAdmins) => (
         <>
-          {team_admins.map((item: Admin, index: number) => {
+          {team_admins.map((item: TeamIF.Admin, index: number) => {
             return <div key={index}>{item.nick_name}</div>
           })}
         </>
@@ -81,9 +81,9 @@ const TeamPage: FC = () => {
       title: '项目列表',
       dataIndex: 'team_projects',
       key: 'team_projects',
-      render: (team_projects: TeamProjects) => (
+      render: (team_projects: TeamIF.TeamProjects) => (
         <>
-          {team_projects.map((item: Project, index: number) => {
+          {team_projects.map((item: TeamIF.Project, index: number) => {
             return <div key={index}>{item.project_name}</div>
           })}
         </>

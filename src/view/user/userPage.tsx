@@ -5,7 +5,7 @@ import './index.less'
 import { Link } from 'react-router-dom'
 import { getTimeYYMMDDHM } from '../../utils'
 import moment from 'moment'
-import { User, UserList, UserParams } from '../../interface/user.interface'
+import { UserIF } from '../../interface'
 import { GetUserList } from '../../request/user'
 
 const { Search } = Input
@@ -21,8 +21,8 @@ for (let i = 0; i < 24; i++) {
 }
 
 const UserPage: FC = () => {
-  const [userLst, setUserList] = useState<UserList>([])
-  const [userParams, setUserParams] = useState<UserParams>({
+  const [userLst, setUserList] = useState<UserIF.UserList>([])
+  const [userParams, setUserParams] = useState<UserIF.UserParams>({
     search_date: moment().format('YYYY-MM-DD'),
     search_hour: '00:00'
   })
@@ -59,6 +59,34 @@ const UserPage: FC = () => {
     setUserList(result.data)
   }
 
+  const tbDeviceRender = (recode: UserIF.User) => {
+    return (
+      <div>
+        {recode.device_type == 'Pc' ? (
+          <Tag color="#2db7f5">
+            {recode.device}/ {recode.device_type}
+          </Tag>
+        ) : (
+          ''
+        )}
+        {recode.os == 'Android' ? (
+          <Tag color="#87d068">
+            {recode.device}/ {recode.device_type}
+          </Tag>
+        ) : (
+          ''
+        )}
+        {recode.os == 'iOS' ? (
+          <Tag color="#f50">
+            {recode.device}/ {recode.device_type}
+          </Tag>
+        ) : (
+          ''
+        )}
+      </div>
+    )
+  }
+
   const columns = [
     {
       title: 'user_id',
@@ -69,39 +97,13 @@ const UserPage: FC = () => {
       title: '设备',
       dataIndex: 'device',
       key: 'device',
-      render: (text: string, recode: User) => {
-        return (
-          <div>
-            {recode.device_type == 'Pc' ? (
-              <Tag color="#2db7f5">
-                {recode.device}/ {recode.device_type}
-              </Tag>
-            ) : (
-              ''
-            )}
-            {recode.os == 'Android' ? (
-              <Tag color="#87d068">
-                {recode.device}/ {recode.device_type}
-              </Tag>
-            ) : (
-              ''
-            )}
-            {recode.os == 'iOS' ? (
-              <Tag color="#f50">
-                {recode.device}/ {recode.device_type}
-              </Tag>
-            ) : (
-              ''
-            )}
-          </div>
-        )
-      }
+      render: (text: string, recode: UserIF.User) => tbDeviceRender(recode)
     },
     {
       title: '操作系统',
       dataIndex: '操作系统',
       key: 'system',
-      render: (text: string, recode: User) => {
+      render: (text: string, recode: UserIF.User) => {
         return (
           <div>
             <Tag color="green">{`${recode.os} ${recode.os_version}`}</Tag>
@@ -113,7 +115,7 @@ const UserPage: FC = () => {
       title: '浏览器',
       dataIndex: 'browser',
       key: 'browser',
-      render: (text: string, recode: User) => {
+      render: (text: string, recode: UserIF.User) => {
         return <div>{`${recode.browser} ${recode.browser_version}`}</div>
       }
     },
@@ -126,7 +128,7 @@ const UserPage: FC = () => {
       title: '位置',
       dataIndex: '位置',
       key: 'address',
-      render: (text: string, recode: User) => {
+      render: (text: string, recode: UserIF.User) => {
         return <div>{`${recode.nation}${recode.province}${recode.city}${recode.district}`}</div>
       }
     },
@@ -141,7 +143,7 @@ const UserPage: FC = () => {
     {
       title: '操作',
       key: 'action',
-      render: (text: string, recode: User) => (
+      render: (text: string, recode: UserIF.User) => (
         <Space size="middle">
           <Link to={`/user-detail/${recode.id}`}>查看详情</Link>
         </Space>

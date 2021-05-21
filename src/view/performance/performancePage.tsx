@@ -3,13 +3,7 @@ import { Card, Statistic, Table, Tag, Tooltip, DatePicker, Radio, Space, Empty }
 import './index.less'
 import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
-import {
-  PerformancePageList,
-  PerformanceParam,
-  PerformanceQuota,
-  PerformanceStack,
-  PerformanceStageTime
-} from '../../interface/performance.interface'
+import { PerformanceIF } from '../../interface'
 import StageTimeChart from '../../components/charts/performanceChart/stageTimeChart'
 import StackBarChar from '../../components/charts/performanceChart/stackBarChart'
 import {
@@ -23,20 +17,20 @@ import {
 const { RangePicker } = DatePicker
 
 const PerformancePage: FC = () => {
-  const [performanceParam, setPerformanceParam] = useState<PerformanceParam>({
+  const [performanceParam, setPerformanceParam] = useState<PerformanceIF.PerformanceParam>({
     time_grain: 'minute',
     start_time: moment().format('YYYY-MM-DD'),
     end_time: moment().format('YYYY-MM-DD')
   })
 
-  const [quota, setQuota] = useState<PerformanceQuota>({
+  const [quota, setQuota] = useState<PerformanceIF.PerformanceQuota>({
     ttfb: 0,
     dom_parse: 0,
     load_page: 0,
     pv: 0,
     fast: ''
   })
-  const [stack, setStack] = useState<PerformanceStack>({
+  const [stack, setStack] = useState<PerformanceIF.PerformanceStack>({
     redirect: 0,
     appcache: 0,
     lookup_domain: 0,
@@ -47,8 +41,8 @@ const PerformancePage: FC = () => {
     load_page: 0,
     load_event: 0
   })
-  const [pageList, setPageList] = useState<Array<PerformancePageList>>([])
-  const [stageTime, setStageTime] = useState<Array<PerformanceStageTime>>([])
+  const [pageList, setPageList] = useState<Array<PerformanceIF.PerformancePageList>>([])
+  const [stageTime, setStageTime] = useState<Array<PerformanceIF.PerformanceStageTime>>([])
   const [rankingList, setRankeList] = useState([])
 
   const initQuotaData = useCallback(async () => {

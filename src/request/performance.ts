@@ -1,7 +1,5 @@
 import { request } from '../utils/request'
 
-export const webPageReportData = (params: any) => request<any>('get', '/communal/performance', params)
-
 export const GetQuotaData = (params: any) => request<any>('get', '/communal/performanceQuota', params)
 
 export const GetPerformanceStack = (params: any) => request<any>('get', '/communal/performanceStack', params)

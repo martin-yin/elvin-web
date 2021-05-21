@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Divider, Pagination, Space, Timeline } from 'antd'
 import './index.less'
 import { useParams } from 'react-router-dom'
-import { User, UserAction } from '../../interface/user.interface'
+import { UserIF } from '../../interface'
 import ActionTimeLineItem from '../../components/userAction/actionTimeLine'
 import UserActionDetailInfo from '../../components/userAction/actionDetailInfo'
 import {
@@ -15,6 +15,17 @@ import {
 } from '../../assets'
 import { GetUse, GetUserActionList, GetUsersActionsStatistics } from '../../request/user'
 
+const USERACTIONICON: {
+  [key: string]: { icon: string; text: string }
+} = {
+  PAGE_LOAD: { icon: PageLoadIcon, text: '次打开页面' },
+  HTTP_LOG: { icon: PageNetworkIcon, text: '次网络请求' },
+  PAGE_VIEW: { icon: PageViewIcon, text: '次浏览页面' },
+  BEHAVIOR_INFO: { icon: PageClickIcon, text: '次点击事件' },
+  RESOURCE_ERROR: { icon: PageResoucesErrorIcon, text: '次资源异常' },
+  JS_ERROR: { icon: PageJsErrorIcon, text: '次JS异常' }
+}
+
 const UserActionPage: FC = () => {
   const [userAactionParams, setUserAactionParams] = useState({
     page: 1,
@@ -25,7 +36,7 @@ const UserActionPage: FC = () => {
   const [userActionStatistics, setUserActionStatistics] = useState([])
   const [detail, setDetail] = useState({} as any)
   const [activeId, setActiveId] = useState('')
-  const [userInfo, setUserInfo] = useState<User>({
+  const [userInfo, setUserInfo] = useState<UserIF.User>({
     user_id: '',
     device: '',
     system: '',
@@ -108,6 +119,18 @@ const UserActionPage: FC = () => {
     })
   }
 
+  const userStatisticsRender = (key: number, item: any) => {
+    const userAction = USERACTIONICON[item.action_type]
+    return (
+      <div key={key} className="info-statistics-item">
+        <div className="statistics-item-icon">
+          <img className="userActionIcon" src={userAction.icon} />
+        </div>
+        <p>{userAction.text} 网络请求</p>
+      </div>
+    )
+  }
+
   return (
     <>
       <div className="user-action-detail-page">
@@ -144,66 +167,7 @@ const UserActionPage: FC = () => {
             <div className="user-info-statistics">
               <Space split={<Divider type="vertical" />} align="center" size={60}>
                 {userActionStatistics.map((item: any, key: any) => {
-                  if (item.action_type == 'PAGE_LOAD') {
-                    return (
-                      <div key={key} className="info-statistics-item">
-                        <div className="statistics-item-icon">
-                          <img className="userActionIcon" src={PageLoadIcon} />
-                        </div>
-                        <p>{item.total} 次打开页面</p>
-                      </div>
-                    )
-                  }
-                  if (item.action_type == 'HTTP_LOG') {
-                    return (
-                      <div key={key} className="info-statistics-item">
-                        <div className="statistics-item-icon">
-                          <img className="userActionIcon" src={PageNetworkIcon} />
-                        </div>
-                        <p>{item.total} 网络请求</p>
-                      </div>
-                    )
-                  }
-                  if (item.action_type == 'PAGE_VIEW') {
-                    return (
-                      <div key={key} className="info-statistics-item">
-                        <div className="statistics-item-icon">
-                          <img className="userActionIcon" src={PageViewIcon} />
-                        </div>
-                        <p>{item.total} 次浏览页面</p>
-                      </div>
-                    )
-                  }
-                  if (item.action_type == 'BEHAVIOR_INFO') {
-                    return (
-                      <div key={key} className="info-statistics-item">
-                        <div className="statistics-item-icon">
-                          <img className="userActionIcon" src={PageClickIcon} />
-                        </div>
-                        <p>{item.total} 次点击事件</p>
-                      </div>
-                    )
-                  }
-                  if (item.action_type == 'RESOURCE_ERROR') {
-                    return (
-                      <div key={key} className="info-statistics-item">
-                        <div className="statistics-item-icon">
-                          <img className="userActionIcon" src={PageResoucesErrorIcon} />
-                        </div>
-                        <p>{item.total} 次资源异常</p>
-                      </div>
-                    )
-                  }
-                  if (item.action_type == 'JS_ERROR') {
-                    return (
-                      <div key={key} className="info-statistics-item">
-                        <div className="statistics-item-icon">
-                          <img className="userActionIcon" src={PageJsErrorIcon} />
-                        </div>
-                        <p>{item.total} 次JS异常</p>
-                      </div>
-                    )
-                  }
+                  return userStatisticsRender(key, item)
                 })}
               </Space>
             </div>
@@ -213,7 +177,7 @@ const UserActionPage: FC = () => {
           <div className=" flex">
             <div className="flex-grow-1 time-line-list-box ">
               <Timeline>
-                {userActionsList.map((item: UserAction, key: number) => {
+                {userActionsList.map((item: UserIF.UserAction, key: number) => {
                   return (
                     <ActionTimeLineItem
                       activeId={activeId}

@@ -3,23 +3,23 @@ import { Button, Card, DatePicker, Radio, Space, Statistic, Table, Tabs, Tooltip
 import './index.less'
 import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
-import { HttpQuota, HttpStageTimeList, HttpUrlList } from '../../interface/http.interface'
 import HttpStageTimeChart from '../../components/charts/httpChart/stageTimeChart'
 import { GetHttpList, GetHttpQuota, GetHttpStage } from '../../request/http'
+import { HttpIF } from '../../interface'
 
 const { TabPane } = Tabs
 const { RangePicker } = DatePicker
 
 const HttpPage: FC = () => {
-  const [quota, setQUota] = useState<HttpQuota>({
+  const [quota, setQUota] = useState<HttpIF.Quota>({
     error_user: 0,
     load_time: 0,
     success_total: 0,
     total: 0,
     success_rate: ''
   })
-  const [httpList, setHttpList] = useState<HttpUrlList>([])
-  const [stageTime, setStageTime] = useState<HttpStageTimeList>([])
+  const [httpList, setHttpList] = useState<HttpIF.HttpUrlList>([])
+  const [stageTime, setStageTime] = useState<HttpIF.StageTimeList>([])
 
   const [httpParam, setHttpParam] = useState({
     time_grain: 'minute',

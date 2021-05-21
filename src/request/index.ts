@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { ResourcesErrorList, ResourcesErrorQuota } from '../interface/error.interface'
+import { ResourcesIF } from '../interface'
+
 import { request } from '../utils/request'
 
 export const GetJsError = () => request<any>('get', '/communal/issues')
@@ -10,8 +11,8 @@ export const GetJsErrorDetail = (param: { issue_id: number; error_id: number }) 
 // 资源异常的页面接口
 export const webPageErrorData = () =>
   request<{
-    quota: ResourcesErrorQuota
-    resources_list: ResourcesErrorList
+    quota: ResourcesIF.Quota
+    resources_list: ResourcesIF.ResourcesList
   }>('get', '/communal/resourceError')
 
 export const LoadSourceMap = (url: string) => axios.get(url)

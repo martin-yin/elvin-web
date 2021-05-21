@@ -1,11 +1,11 @@
-import { User, UserList, UserParams } from '../interface/user.interface'
+import { UserIF } from '../interface'
 import { request } from '../utils/request'
 
-export const GetUserList = (params: UserParams) => request<UserList>('get', '/communal/userList', params)
+export const GetUserList = (params: UserIF.UserParams) => request<UserIF.UserList>('get', '/communal/userList', params)
 
 export const GetUserActions = (params: any) => request<any>('get', `/communal/userActions`, params)
 
-export const GetUse = (id: string) => request<User>('get', `/communal/user?id=${id}`)
+export const GetUse = (id: string) => request<UserIF.User>('get', `/communal/user?id=${id}`)
 
 export const GetUserAction = (action_id: string, action_type: string) =>
   request<any>('get', `/communal/userAction?action_id=${action_id}&action_type=${action_type}`)

@@ -26,7 +26,6 @@ class ErrorBoundary extends React.Component<Props, State> {
       // 你可以自定义降级后的 UI 并渲染
       return <h1>Something went wrong.</h1>
     }
-
     return this.props.children
   }
 }
