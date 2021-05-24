@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { GetJsErrorDetail, LoadSourceMap } from '../../request'
+import { GetIssuesDetail, LoadSourceMap } from '../../request'
 import { Button, Card, Col, Collapse, Divider, Form, message, Row, Space } from 'antd'
 import SourceMapLoadModal from '../../components/jsError/sourceMap'
 import sourceMap from 'source-map-js'
@@ -29,7 +29,7 @@ const JsErrorDetailPage: FC = () => {
   const [visible, setVisible] = useState(false)
 
   const initStackTrackData = useCallback(async () => {
-    const result = await GetJsErrorDetail({
+    const result = await GetIssuesDetail({
       issue_id: params.error_id,
       error_id: 0
     })
@@ -48,7 +48,7 @@ const JsErrorDetailPage: FC = () => {
       message.warn('没有下一个问题了！')
       return
     }
-    const result = await GetJsErrorDetail({
+    const result = await GetIssuesDetail({
       error_id: id,
       issue_id: 0
     })

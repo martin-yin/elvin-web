@@ -40,7 +40,6 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [] }) => {
         type: 'value',
         name: '耗时',
         position: 'left',
-        scale: true,
         axisLabel: {
           formatter: '{value} ms'
         }
@@ -48,7 +47,9 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [] }) => {
       {
         type: 'value',
         name: '请求数量',
-        scale: true
+        splitLine: {
+          show: false
+        }
       }
     ],
     xAxis: {

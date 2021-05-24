@@ -21,8 +21,8 @@ const USERACTIONICON: {
   PAGE_LOAD: { icon: PageLoadIcon, text: '次打开页面' },
   HTTP_LOG: { icon: PageNetworkIcon, text: '次网络请求' },
   PAGE_VIEW: { icon: PageViewIcon, text: '次浏览页面' },
-  BEHAVIOR_INFO: { icon: PageClickIcon, text: '次点击事件' },
-  RESOURCE_ERROR: { icon: PageResoucesErrorIcon, text: '次资源异常' },
+  OPERATION: { icon: PageClickIcon, text: '次点击事件' },
+  RESOURCE: { icon: PageResoucesErrorIcon, text: '次资源异常' },
   JS_ERROR: { icon: PageJsErrorIcon, text: '次JS异常' }
 }
 
@@ -42,6 +42,7 @@ const UserActionPage: FC = () => {
     system: '',
     browser: '',
     browser_version: '',
+    action_type: '',
     ip: '',
     address: '',
     happen_time: '',
@@ -126,7 +127,10 @@ const UserActionPage: FC = () => {
         <div className="statistics-item-icon">
           <img className="userActionIcon" src={userAction.icon} />
         </div>
-        <p>{userAction.text} 网络请求</p>
+        <p>
+          {item.total}
+          {userAction.text}
+        </p>
       </div>
     )
   }

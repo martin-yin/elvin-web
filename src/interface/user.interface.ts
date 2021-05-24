@@ -7,6 +7,7 @@ export namespace UserIF {
     browser_version: string
     ip: string
     address: string
+    action_type: string
     happen_time: string
     device_type: string
     os: string
@@ -81,5 +82,11 @@ export namespace UserIF {
     page_url?: string
     action_id?: string
     happen_time: string
+  }
+
+  export interface UserActionQuota {
+    icon: React.ReactNode
+    title: string
+    content: string
   }
 }

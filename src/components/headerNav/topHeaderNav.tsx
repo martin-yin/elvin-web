@@ -40,11 +40,11 @@ const menuList = [
     children: [
       {
         title: 'JS异常',
-        path: '/js-error'
+        path: '/issues'
       },
       {
         title: '资源异常',
-        path: '/resource-error'
+        path: '/resource'
       }
     ]
   }

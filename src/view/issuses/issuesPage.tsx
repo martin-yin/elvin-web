@@ -43,7 +43,7 @@ const JsErrorPage: FC = () => {
         <Space size="middle">
           <a
             onClick={() => {
-              history.push(`/js-error-detail/${recode.id}`)
+              history.push(`/issues-detail/${recode.id}`)
             }}
           >
             查看详情
