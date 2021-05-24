@@ -34,12 +34,12 @@ const Routers = [
   {
     path: '/issues',
     name: 'issues',
-    component: lazy(() => import(/* webpackChunkName: "js-error"*/ './view/issuses/issuesPage'))
+    component: lazy(() => import(/* webpackChunkName: "js-error"*/ './view/issue/issuePage'))
   },
   {
     path: '/issues-detail/:error_id',
     name: 'issues',
-    component: lazy(() => import(/* webpackChunkName: "js-error-detail"*/ './view/issuses/issuesDetailPage'))
+    component: lazy(() => import(/* webpackChunkName: "js-error-detail"*/ './view/issue/issueDetailPage'))
   },
   {
     path: '/user',

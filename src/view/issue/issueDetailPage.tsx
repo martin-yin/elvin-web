@@ -2,30 +2,24 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { GetIssuesDetail, LoadSourceMap } from '../../request'
 import { Button, Card, Col, Collapse, Divider, Form, message, Row, Space } from 'antd'
-import SourceMapLoadModal from '../../components/jsError/sourceMap'
+import SourceMapLoadModal from '../../components/issue/sourceMap'
 import sourceMap from 'source-map-js'
 import './index.less'
-import SourceMaoItem from '../../components/jsError/sourceMapItem'
 import { CaretRightOutlined, StepBackwardOutlined, StepForwardOutlined } from '@ant-design/icons'
 import IpIcon from '../../assets/webIcons/ip.png'
 import BrowserIcon from '../../assets/webIcons/browse.png'
 import PcIcon from '../../assets/webIcons/pc.png'
 import WindowIcon from '../../assets/webIcons/window.png'
+import { Issue } from '../../interface/issue.interface'
+import StackFramesItem from '../../components/issue/stackFramesItem'
 
 const { Panel } = Collapse
 const JsErrorDetailPage: FC = () => {
   const params: any = useParams()
-  const [stackTrack, setStackTrack] = useState<any>([])
-
-  const [souceCode, setSourceCode] = useState<any>({
-    column: 0,
-    line: 0,
-    source: '',
-    sourcesContent: ''
-  })
-
   const [form] = Form.useForm()
-  const [jsError, setJsError] = useState<any>({})
+  const [jsError, setJsError] = useState<Issue.Issue>()
+  const [stackFramesList, setStackFramesList] = useState<Issue.StackFramesList>([])
+
   const [visible, setVisible] = useState(false)
 
   const initStackTrackData = useCallback(async () => {
@@ -34,7 +28,7 @@ const JsErrorDetailPage: FC = () => {
       error_id: 0
     })
     setJsError(result.data)
-    setStackTrack(JSON.parse(result.data.stack_frames))
+    setStackFramesList(JSON.parse(result.data.stack_frames))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -53,22 +47,23 @@ const JsErrorDetailPage: FC = () => {
       issue_id: 0
     })
     setJsError(result.data)
-    setStackTrack(JSON.parse(result.data.stack_frames))
+    setStackFramesList(JSON.parse(result.data.stack_frames))
   }
 
   const loadSourceMap = () => {
     form.validateFields().then(async (value: any) => {
       const sourceMapData: any = await LoadSourceMap(value.url)
-      const consumer = await new sourceMap.SourceMapConsumer(sourceMapData)
-      const lookUpRes: any = consumer.originalPositionFor({
+      const consumer = new sourceMap.SourceMapConsumer(sourceMapData)
+      const lookUpRes: Issue.LookUpRes = consumer.originalPositionFor({
         line: value.line,
         column: value.column
       })
       const originSource = consumer.sourceContentFor(lookUpRes.source)
-      setSourceCode({
+      stackFramesList[value.index].origin_source = {
         ...lookUpRes,
         originSource: originSource
-      })
+      }
+      setStackFramesList(stackFramesList)
       setVisible(false)
     })
   }
@@ -162,38 +157,11 @@ const JsErrorDetailPage: FC = () => {
           expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
           className="site-collapse-custom-collapse"
         >
-          {stackTrack.length > 0 ? (
-            stackTrack.map((item: any, index: number) => {
+          {stackFramesList.length > 0 ? (
+            stackFramesList.map((item: Issue.StackFrames, index: number) => {
               return (
                 <Panel header={item.fileName} key={index} className="site-collapse-custom-panel">
-                  <Row gutter={[8, 8]}>
-                    <Col span={16}>
-                      {souceCode?.originSource ? (
-                        <SourceMaoItem souceCode={souceCode} />
-                      ) : (
-                        <div>
-                          <pre className="textOverhidden">{item.source}</pre>
-                        </div>
-                      )}
-                    </Col>
-                    <Col span={8}>
-                      <Button
-                        size={'small'}
-                        type="primary"
-                        style={{ marginTop: '20px' }}
-                        onClick={() => {
-                          setVisible(true)
-                          form.setFieldsValue({
-                            url: item.fileName + '.map',
-                            line: item.lineNumber,
-                            column: item.columnNumber
-                          })
-                        }}
-                      >
-                        映射源码
-                      </Button>
-                    </Col>
-                  </Row>
+                  <StackFramesItem item={item} form={form} index={index} setVisible={setVisible} />
                 </Panel>
               )
             })

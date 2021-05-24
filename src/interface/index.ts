@@ -1,4 +1,4 @@
-export * from './error.interface'
+export * from './resource.interface'
 export * from './http.interface'
 export * from './performance.interface'
 export * from './team.interface'
