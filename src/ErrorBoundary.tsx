@@ -17,10 +17,6 @@ class ErrorBoundary extends React.Component<Props, State> {
     return { hasError: true }
   }
 
-  componentDidCatch(error: Error) {
-    console.log(error)
-  }
-
   render() {
     if (this.state.hasError) {
       // 你可以自定义降级后的 UI 并渲染

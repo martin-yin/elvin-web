@@ -1,9 +1,8 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { GetIssuesDetail, LoadSourceMap } from '../../request'
+import { GetIssuesDetail } from '../../request'
 import { Button, Card, Col, Collapse, Divider, Form, message, Row, Space } from 'antd'
 import SourceMapLoadModal from '../../components/issue/sourceMap'
-import sourceMap from 'source-map-js'
 import './index.less'
 import { CaretRightOutlined, StepBackwardOutlined, StepForwardOutlined } from '@ant-design/icons'
 import IpIcon from '../../assets/webIcons/ip.png'
@@ -20,6 +19,13 @@ const JsErrorDetailPage: FC = () => {
   const [jsError, setJsError] = useState<Issue.Issue>()
   const [stackFramesList, setStackFramesList] = useState<Issue.StackFramesList>([])
 
+  const [stackFrame, setStackFrame] = useState<any>({
+    url: '',
+    line: 0,
+    column: 0,
+    index: 0
+  })
+
   const [visible, setVisible] = useState(false)
 
   const initStackTrackData = useCallback(async () => {
@@ -29,8 +35,7 @@ const JsErrorDetailPage: FC = () => {
     })
     setJsError(result.data)
     setStackFramesList(JSON.parse(result.data.stack_frames))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [params.error_id])
 
   const onClose = () => {
     form.resetFields()
@@ -50,27 +55,20 @@ const JsErrorDetailPage: FC = () => {
     setStackFramesList(JSON.parse(result.data.stack_frames))
   }
 
-  const loadSourceMap = () => {
-    form.validateFields().then(async (value: any) => {
-      const sourceMapData: any = await LoadSourceMap(value.url)
-      const consumer = new sourceMap.SourceMapConsumer(sourceMapData)
-      const lookUpRes: Issue.LookUpRes = consumer.originalPositionFor({
-        line: value.line,
-        column: value.column
-      })
-      const originSource = consumer.sourceContentFor(lookUpRes.source)
-      stackFramesList[value.index].origin_source = {
-        ...lookUpRes,
-        originSource: originSource
-      }
-      setStackFramesList(stackFramesList)
-      setVisible(false)
-    })
+  const onCreate = result => {
+    stackFramesList[result.index].origin_source = {
+      ...result,
+      origin_source: result.origin_source,
+      source: stackFramesList[result.index].source
+    }
+    setStackFramesList(stackFramesList)
+    setVisible(false)
   }
 
   useEffect(() => {
     initStackTrackData()
-  }, [initStackTrackData])
+    form.resetFields()
+  }, [initStackTrackData, form, visible])
 
   return (
     <div>
@@ -161,7 +159,13 @@ const JsErrorDetailPage: FC = () => {
             stackFramesList.map((item: Issue.StackFrames, index: number) => {
               return (
                 <Panel header={item.fileName} key={index} className="site-collapse-custom-panel">
-                  <StackFramesItem item={item} form={form} index={index} setVisible={setVisible} />
+                  <StackFramesItem
+                    item={item}
+                    form={form}
+                    index={index}
+                    setVisible={setVisible}
+                    setStackFrame={setStackFrame}
+                  />
                 </Panel>
               )
             })
@@ -170,8 +174,7 @@ const JsErrorDetailPage: FC = () => {
           )}
         </Collapse>
       </Card>
-
-      <SourceMapLoadModal visible={visible} form={form} onCreate={loadSourceMap} onClose={onClose} />
+      <SourceMapLoadModal stackFrame={stackFrame} visible={visible} form={form} onCreate={onCreate} onClose={onClose} />
     </div>
   )
 }

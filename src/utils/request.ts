@@ -59,7 +59,7 @@ export const request = <T>(
     const monitor_id = localStorage.getItem('monitor_id')
     Object.assign(data, { monitor_id })
   }
-  if (url.indexOf('https') !== 0) {
+  if (url.indexOf('https') < 0 && url.indexOf('http') < 0) {
     url = prefix + url
   }
   if (method === 'post') {

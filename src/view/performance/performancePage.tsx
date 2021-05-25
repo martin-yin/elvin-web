@@ -68,7 +68,6 @@ const PerformancePage: FC = () => {
   const initRankingList = useCallback(async () => {
     const result = await GetPerformanceRankingList(performanceParam)
     setRankeList(result.data)
-    console.log(result.data, 'rankingList')
   }, [performanceParam])
 
   useEffect(() => {
