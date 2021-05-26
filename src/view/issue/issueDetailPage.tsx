@@ -35,6 +35,7 @@ const JsErrorDetailPage: FC = () => {
     })
     setJsError(result.data)
     setStackFramesList(JSON.parse(result.data.stack_frames))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onClose = () => {
@@ -65,6 +66,10 @@ const JsErrorDetailPage: FC = () => {
   useEffect(() => {
     initStackTrackData()
   }, [initStackTrackData])
+
+  useEffect(() => {
+    form.resetFields()
+  }, [visible, form])
 
   return (
     <div>
