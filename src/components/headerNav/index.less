@@ -1,30 +1,34 @@
-.top-header {
-  min-width: 1500px;
-  .header-logo {
-    margin-right: 20px;
-    img {
-      width: 42px;
-      height: 42px;
-    }
+
+.logo {
+  margin-right: 20px;
+  img {
+    width: 42px;
+    height: 42px;
   }
-  .flex-grow-1 {
-    display: flex;
-    flex-direction: column; /*垂直排列*/
-    align-items: flex-end; /*右对齐*/
-    .menu-container {
-      height: 64px;
-      line-height: 0.6rem;
-      display: flex;
-      color: #333;
-      .menu-item {
-        width: 90px;
-        height: 64px;
-        line-height: 64px;
-        margin-top: 0rem;
-        text-align: center;
-        cursor: pointer;
-        font-size: 14px;
-      }
-    }
+}
+  // .flex-grow-1 {
+  //   display: flex;
+  //   flex-direction: column; /*垂直排列*/
+  //   align-items: flex-end; /*右对齐*/
+  //   .menu-container {
+  //     
+  //     line-height: 0.6rem;
+  //     display: flex;
+  //     color: #333;
+  //   }
+  // }
+
+
+.ant-layout-header {
+  height: 66px;
+  .flex-grow-0 {
+    flex-basis: 476px;
+  }
+  .ant-menu{
+    width: 440px !important;
+  }
+
+  .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
+    margin: 0 30px;
   }
 }

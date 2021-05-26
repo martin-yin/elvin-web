@@ -1,12 +1,12 @@
 import React, { FC } from 'react'
 
-const SourceMaoItem: FC<any> = ({ souceCode }) => {
-  const { origin_source, line, source, column } = souceCode
+const SourceMaoItem: FC<any> = ({ item }) => {
+  const { source, line, column } = item.origin_source
 
   // 计算开始和结束行数
   const preLineStartEnd = () => {
     // 先获取源码有多少行
-    const transformationLine = origin_source.split('\n')
+    const transformationLine = source.split('\n')
     const len = transformationLine.length - 1
     const start = line - 3 >= 0 ? line - 3 : 0
     const end = start + 5 >= len ? len : start + 5 // 最多展示6行
@@ -42,7 +42,7 @@ const SourceMaoItem: FC<any> = ({ souceCode }) => {
   return (
     <div className="errdetail">
       <div className="errheader">
-        {source} at line {line} : {column}
+        {item.source} at line {line} : {column}
       </div>
       <pre className="errCode">{preCode()}</pre>
     </div>

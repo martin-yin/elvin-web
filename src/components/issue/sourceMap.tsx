@@ -22,14 +22,12 @@ const SourceMapLoadModal: FC<any> = ({ form, stackFrame, visible, onCreate, onCl
       reader.readAsText(file, 'UTF-8')
       reader.onload = event => {
         const look_source = lookSource(event.target.result, stackFrame.line, stackFrame.column)
-        if (!Reflect.get(look_source, 'name')) {
-          message.error(`您上传的.js.map文件不正确，无法正常解析！`)
-          return
+        if (look_source) {
+          onCreate({
+            ...look_source,
+            index: stackFrame.index
+          })
         }
-        onCreate({
-          ...look_source,
-          index: stackFrame.index
-        })
       }
       return false
     }
@@ -43,24 +41,33 @@ const SourceMapLoadModal: FC<any> = ({ form, stackFrame, visible, onCreate, onCl
         return
       }
       const look_source = lookSource(source_map, stackFrame.line, stackFrame.column)
-      onCreate({
-        ...look_source,
-        index: stackFrame.index
-      })
+      if (look_source) {
+        onCreate({
+          ...look_source,
+          index: stackFrame.index
+        })
+      }
     })
   }
 
   const lookSource = (source_map, line: number, column: number) => {
-    const consumer = new sourceMap.SourceMapConsumer(source_map)
-    const lookUpRes: Issue.LookUpRes = consumer.originalPositionFor({
-      line: line,
-      column: column
-    })
-    const origin_source = consumer.sourceContentFor(lookUpRes.source)
-    return {
-      origin_source,
-      column: lookUpRes.column,
-      line: lookUpRes.line
+    try {
+      const consumer = new sourceMap.SourceMapConsumer(source_map)
+      const lookUpRes: Issue.LookUpRes = consumer.originalPositionFor({
+        line: line,
+        column: column
+      })
+
+      const source = consumer.sourceContentFor(lookUpRes.source)
+      return {
+        source,
+        column: lookUpRes.column,
+        line: lookUpRes.line
+      }
+    } catch (e) {
+      message.error(`未能解析出sourceMap！`)
+      console.log(e)
+      return false
     }
   }
 

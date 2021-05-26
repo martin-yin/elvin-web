@@ -1,14 +1,14 @@
-import { Dropdown, Menu, Select, Space, Avatar } from 'antd'
+import { Dropdown, Menu, Select, Avatar } from 'antd'
 import { Header } from 'antd/lib/layout/layout'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import './index.less'
-import logo from '../../assets/logo.png'
 import { useDispatch } from 'react-redux'
 import { useAppState } from '../../stores'
 import { setActiveMenu, setMonitorId, setProjectList } from '../../stores/app.store'
 import { GetProjectList } from '../../request/admin'
-
+import SubMenu from 'antd/lib/menu/SubMenu'
+import logo from '../../assets/logo.png'
 const menuList = [
   {
     title: '首页',
@@ -112,22 +112,6 @@ const TopHeaderNav: FC = () => {
     history.push('/survey')
   }
 
-  const menuChildren = (children: any) => {
-    return (
-      <Menu>
-        {children.map((item: any, key: any) => {
-          return (
-            <Menu.Item key={key}>
-              <Link to={item.path}>
-                <div className="concurrency-container">{item.title}</div>
-              </Link>
-            </Menu.Item>
-          )
-        })}
-      </Menu>
-    )
-  }
-
   const historyPush = (url: string) => {
     history.push(url)
   }
@@ -167,48 +151,60 @@ const TopHeaderNav: FC = () => {
     if (projectList.length == 0) {
       return <></>
     } else {
-      return menuList.map((item: any, index: number) => {
-        return (
-          <Link key={index} to={item.path}>
-            <div className={`menu-item menu-short ${activeMenuIndex === index ? ' active' : ''}`}>
-              {item?.children ? (
-                <Space>
-                  <Dropdown overlay={menuChildren(item.children)} placement="bottomCenter">
-                    <p>{item.title}</p>
-                  </Dropdown>
-                </Space>
-              ) : (
-                <>{item.title}</>
-              )}
-            </div>
-          </Link>
-        )
-      })
+      return (
+        <>
+          <Menu mode="horizontal">
+            {menuList.map((item: any, index: number) => {
+              return (
+                <>
+                  {item?.children ? (
+                    <>
+                      <SubMenu key={index} title={item.title}>
+                        {item.children.map((item: any) => {
+                          return (
+                            <Menu.Item key={item.path}>
+                              <Link to={item.path}>{item.title}</Link>
+                            </Menu.Item>
+                          )
+                        })}
+                      </SubMenu>
+                    </>
+                  ) : (
+                    <>
+                      <Menu.Item key={index}>
+                        <Link to={item.path}>{item.title}</Link>
+                      </Menu.Item>
+                    </>
+                  )}
+                </>
+              )
+            })}
+          </Menu>
+        </>
+      )
     }
   }
 
   return (
     <Header>
-      <div className="top-header flex">
-        <div className="flex-grow-0 flex">
-          <div className="header-logo">
-            <a href="/">
+      <div className="flex">
+        <div className="flex-grow-1 flex">
+          <div className="logo">
+            <Link to="/">
               <img src={logo} alt="" />
-            </a>
+            </Link>
           </div>
           <div className="">{activeMenuIndex === 0 ? '' : projectSelectRender(projectList)}</div>
         </div>
-        <div className="flex-grow-1">
-          <div className="menu-container">{activeMenuIndex === 0 ? '' : menuRender(menuList)}</div>
-        </div>
-        <div className="flex-grow-0" style={{ marginLeft: '20px' }}>
-          <Dropdown overlay={avatarMenu} placement="bottomCenter">
-            <div>
-              <Space>
+        <div className="flex-grow-0">
+          <div className="flex">
+            {activeMenuIndex === 0 ? '' : menuRender(menuList)}
+            <Dropdown overlay={avatarMenu} placement="bottomCenter">
+              <div>
                 <Avatar size={36} src="https://qq.yh31.com/tp/zjbq/202011171044101948.jpg" />
-              </Space>
-            </div>
-          </Dropdown>
+              </div>
+            </Dropdown>
+          </div>
         </div>
       </div>
     </Header>

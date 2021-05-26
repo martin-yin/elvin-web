@@ -35,10 +35,9 @@ const JsErrorDetailPage: FC = () => {
     })
     setJsError(result.data)
     setStackFramesList(JSON.parse(result.data.stack_frames))
-  }, [params.error_id])
+  }, [])
 
   const onClose = () => {
-    form.resetFields()
     setVisible(false)
   }
 
@@ -57,9 +56,7 @@ const JsErrorDetailPage: FC = () => {
 
   const onCreate = result => {
     stackFramesList[result.index].origin_source = {
-      ...result,
-      origin_source: result.origin_source,
-      source: stackFramesList[result.index].source
+      ...result
     }
     setStackFramesList(stackFramesList)
     setVisible(false)
@@ -67,8 +64,7 @@ const JsErrorDetailPage: FC = () => {
 
   useEffect(() => {
     initStackTrackData()
-    form.resetFields()
-  }, [initStackTrackData, form, visible])
+  }, [initStackTrackData])
 
   return (
     <div>
