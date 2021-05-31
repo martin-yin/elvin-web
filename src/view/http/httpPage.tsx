@@ -157,8 +157,8 @@ const HttpPage: FC = () => {
               <TabPane tab="成功耗时" key="2"></TabPane>
               <TabPane tab="失败耗时" key="3"></TabPane>
             </Tabs>
-            <div className="timePickerContainer">
-              <div className="timePicker">
+            <div className="time_picker_warp">
+              <div className="time_picker">
                 <RangePicker
                   disabledDate={disabledDate}
                   defaultValue={[moment(httpParam.start_time, 'YYYY-MM-DD'), moment(httpParam.end_time, 'YYYY-MM-DD')]}
@@ -171,7 +171,7 @@ const HttpPage: FC = () => {
                   onChange={onTimeChange}
                 />
               </div>
-              <div className="timeGrain">
+              <div className="time_grain">
                 <p>时间粒度：</p>
                 <Radio.Group onChange={timeGrainChange} value={httpParam.time_grain}>
                   <Radio value={'minute'}>分钟</Radio>

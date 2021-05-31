@@ -193,8 +193,8 @@ const PerformancePage: FC = () => {
         </Card>
         <div>
           <Card className="timeCharts">
-            <div className="timePickerContainer">
-              <div className="timePicker">
+            <div className="time_picker_warp">
+              <div className="time_picker">
                 <RangePicker
                   disabledDate={disabledDate}
                   defaultValue={[
@@ -210,7 +210,7 @@ const PerformancePage: FC = () => {
                   onChange={onTimeChange}
                 />
               </div>
-              <div className="timeGrain">
+              <div className="time_grain">
                 <p>时间粒度：</p>
                 <Radio.Group onChange={timeGrainChange} value={performanceParam.time_grain}>
                   <Radio value={'minute'}>分钟</Radio>

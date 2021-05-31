@@ -1,8 +1,8 @@
-import PageJsErrorIcon from './webIcons/jsError.png'
-import PageClickIcon from './webIcons/clickEvent.png'
-import PageLoadIcon from './webIcons/pageLoad.png'
-import PageViewIcon from './webIcons/pageView.png'
-import PageResoucesErrorIcon from './webIcons/resoucesError.png'
-import PageNetworkIcon from './webIcons/pageNetworkIcon.png'
+import PageJsErrorIcon from './webIcons/js_error_icon.png'
+import PageOperationIcon from './webIcons/page_operation_icon.png'
+import PageLoadIcon from './webIcons/page_load_icon.png'
+import PageViewIcon from './webIcons/page_view_icon.png'
+import PageResourceIcon from './webIcons/page_resource_icon.png'
+import PageNetworkIcon from './webIcons/page_network_icon.png'
 
-export { PageJsErrorIcon, PageClickIcon, PageLoadIcon, PageViewIcon, PageResoucesErrorIcon, PageNetworkIcon }
+export { PageJsErrorIcon, PageOperationIcon, PageLoadIcon, PageViewIcon, PageResourceIcon, PageNetworkIcon }

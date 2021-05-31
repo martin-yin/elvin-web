@@ -34,7 +34,7 @@ const SourceMaoItem: FC<any> = ({ item }) => {
     return lines
   }
 
-  const encodeHTML = (str: string) => {
+  const encodeHTML = (str: string): string => {
     if (!str || str.length == 0) return ''
     return str.replace(/&/g, '&#38;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\'/g, '&#39;')
   }

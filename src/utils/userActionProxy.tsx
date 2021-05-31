@@ -1,5 +1,5 @@
-import { UserIF } from '../interface'
 import React from 'react'
+import { UserIF } from '../interface'
 import { Tag } from 'antd'
 
 const PAGE_LOAD = (detail: UserIF.UserActionDetail): JSX.Element => {
@@ -104,6 +104,7 @@ const PAGE_VIEW = (detail: UserIF.UserActionDetail): JSX.Element => (
     </li>
   </>
 )
+
 const EMPTY = () => <></>
 
 export const userActionDetailList = {

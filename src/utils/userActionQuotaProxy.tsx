@@ -1,92 +1,55 @@
 import { UserIF } from '../interface'
 import React from 'react'
-
 import {
-  PageClickIcon,
+  PageOperationIcon,
   PageLoadIcon,
   PageNetworkIcon,
   PageViewIcon,
-  PageResoucesErrorIcon,
+  PageResourceIcon,
   PageJsErrorIcon
 } from '../assets'
-
-const PAGE_LOAD = (item: UserIF.UserAction): UserIF.UserActionQuota => {
-  return {
-    icon: (): React.ReactNode => {
-      return <img className="actionTimeLineImg" src={PageLoadIcon} />
-    },
-    title: '打开页面',
-    content: `页面URL: ${item.action_detail.page_url}`
-  }
-}
-
-const HTTP_LOG = (item: UserIF.UserAction): UserIF.UserActionQuota => {
-  return {
-    icon: (): React.ReactNode => {
-      return <img className="actionTimeLineImg" src={PageNetworkIcon} />
-    },
-    title: '发送请求',
-    content: `请求URL: ${item.action_detail.http_url}`
-  }
-}
-
-const JS_ERROR = (item: UserIF.UserAction): UserIF.UserActionQuota => {
-  return {
-    icon: (): React.ReactNode => {
-      return <img className="actionTimeLineImg" src={PageJsErrorIcon} />
-    },
-    title: `异常信息${item.action_detail.message}`,
-    content: `异常页面: ${item.action_detail.page_url}`
-  }
-}
-
-const RESOURCE = (item: UserIF.UserAction): UserIF.UserActionQuota => {
-  return {
-    icon: (): React.ReactNode => {
-      return <img className="actionTimeLineImg" src={PageResoucesErrorIcon} />
-    },
-    title: `资源加载异常${item.action_detail.element_type}`,
-    content: `资源URL: ${item.action_detail.source_url}`
-  }
-}
-
-const OPERATION = (item: UserIF.UserAction): UserIF.UserActionQuota => {
-  return {
-    icon: (): React.ReactNode => {
-      return <img className="actionTimeLineImg" src={PageClickIcon} />
-    },
-    title: '点击事件',
-    content: `点击内容: ${item.action_detail.innter_text}`
-  }
-}
-
-const PAGE_VIEW = (item: UserIF.UserAction): UserIF.UserActionQuota => {
-  return {
-    icon: (): React.ReactNode => {
-      return <img className="actionTimeLineImg" src={PageViewIcon} />
-    },
-    title: '页面浏览',
-    content: `页面URL: ${item.action_detail.page_url}`
-  }
-}
 
 const EMPTY = (): UserIF.UserActionQuota => {
   return {
     icon: (): React.ReactNode => {
-      return <img className="actionTimeLineImg" src={PageViewIcon} />
+      return <></>
     },
     title: '',
     content: ``
   }
 }
 
+const UserActionQuotaRender = (img: string, title: string, content: string): UserIF.UserActionQuota => {
+  return {
+    icon: (): React.ReactNode => {
+      return <img className="action_time_line_image" src={img} />
+    },
+    title,
+    content
+  }
+}
+
 export const UserActionQuotaList = {
-  PAGE_LOAD,
-  HTTP_LOG,
-  JS_ERROR,
-  RESOURCE,
-  OPERATION,
-  PAGE_VIEW,
+  PAGE_LOAD: (item: UserIF.UserAction) =>
+    UserActionQuotaRender(PageLoadIcon, '页面浏览', `页面URL: ${item.action_detail.page_url}`),
+  HTTP_LOG: (item: UserIF.UserAction) =>
+    UserActionQuotaRender(PageNetworkIcon, 'HTTP请求', `请求URL: ${item.action_detail.http_url}`),
+  JS_ERROR: (item: UserIF.UserAction) =>
+    UserActionQuotaRender(
+      PageJsErrorIcon,
+      `异常信息 ${item.action_detail.message}`,
+      `异常页面: ${item.action_detail.page_url}`
+    ),
+  RESOURCE: (item: UserIF.UserAction) =>
+    UserActionQuotaRender(
+      PageResourceIcon,
+      `资源加载异常${item.action_detail.element_type}`,
+      `资源URL: ${item.action_detail.source_url}`
+    ),
+  OPERATION: (item: UserIF.UserAction) =>
+    UserActionQuotaRender(PageOperationIcon, '点击事件', `页面URL: ${item.action_detail.page_url}`),
+  PAGE_VIEW: (item: UserIF.UserAction) =>
+    UserActionQuotaRender(PageViewIcon, '页面浏览', `页面URL: ${item.action_detail.page_url}`),
   EMPTY
 }
 export const UserActionQuotaListProxy = new Proxy(UserActionQuotaList, {
