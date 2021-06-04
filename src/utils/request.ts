@@ -38,8 +38,6 @@ axios.interceptors.response.use(
   }
 )
 
-const notMonitorId = ['/communal/projects', '/communal/addTeamProject', '/communal/projectHealthy']
-
 export type Response<T = any> = {
   code: number
   msg: string
@@ -47,6 +45,8 @@ export type Response<T = any> = {
 }
 
 type Method = 'get' | 'post' | 'put' | 'delete'
+
+const notMonitorId = ['/communal/projects', '/communal/addTeamProject', '/communal/projectHealthy']
 
 export const request = <T>(
   method: Method,
