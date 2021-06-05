@@ -10,6 +10,7 @@ import { GetProjectList } from '../../request/admin'
 import SubMenu from 'antd/lib/menu/SubMenu'
 import logo from '../../assets/logo.png'
 import { MenuList, ProjectIF } from '../../interface'
+const { Option } = Select
 const menuList: MenuList = [
   {
     title: '首页',
@@ -51,7 +52,6 @@ const menuList: MenuList = [
   }
 ]
 
-const { Option } = Select
 const TopHeaderNav: FC = () => {
   const { activeMenu, projectList, monitorId } = useAppState(state => state.appsotre)
   const [defaultMonitorId, setDefaultMonitorId] = useState('')
@@ -63,7 +63,7 @@ const TopHeaderNav: FC = () => {
     setMenu(location.pathname)
   })
 
-  const setMenu = (path: any) => {
+  const setMenu = (path: string) => {
     dispatch(setActiveMenu(path))
   }
 
@@ -134,6 +134,7 @@ const TopHeaderNav: FC = () => {
   }
 
   const handleClick = (e: any) => {
+    console.log(e)
     setMenu(e.key)
   }
 
@@ -148,10 +149,10 @@ const TopHeaderNav: FC = () => {
             return (
               <>
                 {item?.children ? (
-                  <SubMenu key={`children_${item.title}`} title={item.title}>
+                  <SubMenu key={`${item.title}`} title={item.title}>
                     {item.children.map((item: any) => {
                       return (
-                        <Menu.Item key={`children_${item.title}`}>
+                        <Menu.Item key={`${item.path}`}>
                           <Link to={item.path}>{item.title}</Link>
                         </Menu.Item>
                       )
@@ -181,11 +182,11 @@ const TopHeaderNav: FC = () => {
               <img src={logo} alt="" />
             </Link>
           </div>
-          <div className="">{activeMenu === '' ? '' : projectSelectRender(projectList)}</div>
+          <div className="">{activeMenu === '/' ? '' : projectSelectRender(projectList)}</div>
         </div>
         <div className="flex-grow-0">
           <div className="flex">
-            {activeMenu === '' ? '' : menuRender(menuList)}
+            {activeMenu === '/' ? '' : menuRender(menuList)}
             <Dropdown overlay={avatarMenu} placement="bottomCenter">
               <div>
                 <Avatar size={36} src="https://qq.yh31.com/tp/zjbq/202011171044101948.jpg" />

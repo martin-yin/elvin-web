@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Card, Form, Input, message, Space, Table } from 'antd'
+import { Button, Card, Form, Input, message, Space, Table, Tag } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { ModalFrom } from '../../components/modalForm/modalForm'
 import { TeamIF } from '../../interface'
@@ -20,45 +20,19 @@ const TeamPage: FC = () => {
     initTeamList()
   }, [initTeamList])
 
-  const teamModal = () => {
-    return (
-      <div>
-        <ModalFrom title="创建团队" visible={visible} onCreate={addTeam} onClose={cancelTeamModal}>
-          <Form form={form} preserve={false} name="basic">
-            <Form.Item name="name" rules={[{ required: true, message: '请输入项目名称' }]}>
-              <Input placeholder="请输入项目名称" />
-            </Form.Item>
-          </Form>
-        </ModalFrom>
-      </div>
-    )
-  }
-
-  const openTeamModal = () => {
-    setVisible(true)
-  }
-
   const addTeam = async () => {
-    form
-      .validateFields()
-      .then(async (values: any) => {
-        const data: any = await CreateTeam(values)
-        if (data.code == 200) {
-          form.resetFields()
-          cancelTeamModal()
-          initTeamList()
-        } else {
-          message.error(data.msg)
-        }
-      })
-      .catch(info => {
-        console.log('Validate Failed:', info)
-      })
+    form.validateFields().then(async (values: any) => {
+      const data: any = await CreateTeam(values)
+      if (data.code == 200) {
+        form.resetFields()
+        setVisible(false)
+        initTeamList()
+      } else {
+        message.error(data.msg)
+      }
+    })
   }
 
-  const cancelTeamModal = () => {
-    setVisible(false)
-  }
   const columns = [
     {
       title: '团队名称',
@@ -84,7 +58,11 @@ const TeamPage: FC = () => {
       render: (team_projects: TeamIF.TeamProjects) => (
         <>
           {team_projects.map((item: TeamIF.Project, index: number) => {
-            return <div key={index}>{item.project_name}</div>
+            return (
+              <Tag color="#87d068" key={index}>
+                {item.project_name}
+              </Tag>
+            )
           })}
         </>
       )
@@ -93,9 +71,9 @@ const TeamPage: FC = () => {
       title: '操作',
       key: 'action',
       render: () => (
-        <Space size="middle">
-          <a>绑定管理员</a>
-          <a>删除</a>
+        <Space>
+          <Tag color="#2db7f5">添加成员</Tag>
+          <Tag color="#f50">删除项目</Tag>
         </Space>
       )
     }
@@ -103,11 +81,22 @@ const TeamPage: FC = () => {
   return (
     <div>
       <Card>
-        <Button icon={<PlusOutlined />} type="primary" style={{ marginBottom: '10px' }} onClick={() => openTeamModal()}>
+        <Button
+          icon={<PlusOutlined />}
+          type="primary"
+          style={{ marginBottom: '10px' }}
+          onClick={() => setVisible(true)}
+        >
           创建团队
         </Button>
         <Table dataSource={teamList} columns={columns} rowKey="message" />
-        {teamModal()}
+        <ModalFrom title="创建团队" visible={visible} onCreate={addTeam} onClose={() => setVisible(false)}>
+          <Form form={form} preserve={false} name="basic">
+            <Form.Item name="name" rules={[{ required: true, message: '请输入项目名称' }]}>
+              <Input placeholder="请输入项目名称" />
+            </Form.Item>
+          </Form>
+        </ModalFrom>
       </Card>
     </div>
   )
