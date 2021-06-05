@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { message } from 'antd'
-import { createBrowserHistory } from 'history'
 axios.defaults.timeout = 10000
 
 axios.interceptors.request.use(
@@ -16,8 +15,9 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => {
     if (response.data.code == 401) {
-      message.error(response.data.msg)
-      createBrowserHistory().push('/login')
+      message.error(response.data.msg, 2, () => {
+        window.location.href = '/login'
+      })
     }
     return response.data
   },
@@ -59,7 +59,7 @@ export const request = <T>(
     const monitor_id = localStorage.getItem('monitor_id')
     Object.assign(data, { monitor_id })
   }
-  if (url.indexOf('https') < 0 && url.indexOf('http') < 0) {
+  if (url.indexOf('https') < 0) {
     url = prefix + url
   }
   if (method === 'post') {

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState = {
-  activeMenuIndex: 0,
+  activeMenu: '',
   projectList: [],
   monitorId: '',
   userInfo: {
@@ -14,7 +14,7 @@ const appStore = createSlice({
   initialState,
   reducers: {
     setActiveMenu(state, action: PayloadAction<any>) {
-      state.activeMenuIndex = action.payload
+      state.activeMenu = action.payload
     },
     setMonitorId(state, action: PayloadAction<any>) {
       localStorage.setItem('monitor_id', action.payload)

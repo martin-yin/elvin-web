@@ -1,5 +1,5 @@
 import { TeamIF } from '../interface'
-import { ProjectIF } from '../interface/projectInterface'
+import { ProjectIF } from '../interface/project.interface'
 import { request } from '../utils/request'
 
 export const AdminLogin = (data: any) => request<any>('post', '/admin/adminLogin', data)

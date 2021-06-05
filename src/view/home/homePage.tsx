@@ -8,8 +8,7 @@ import { PlusCircleOutlined } from '@ant-design/icons'
 import { setProjectList } from '../../stores/app.store'
 import { useDispatch } from 'react-redux'
 import { CreateProject, GetProjectList, GetProjectHealthy } from '../../request/admin'
-import { TeamIF } from '../../interface'
-import { ProjectIF } from '../../interface/projectInterface'
+import { TeamIF, ProjectIF } from '../../interface'
 
 const HomePage: FC = () => {
   const { projectList } = useAppState(state => state.appsotre)
@@ -61,14 +60,14 @@ const HomePage: FC = () => {
     return (
       <Col span={8}>
         <Card>
-          <div
-            className="project-item"
-            onClick={() => {
-              setVisible(true)
-            }}
-          >
+          <div className="project-item">
             <div className="add-project">
-              <div className="add-icon">
+              <div
+                className="add-icon"
+                onClick={() => {
+                  setVisible(true)
+                }}
+              >
                 <PlusCircleOutlined />
               </div>
             </div>

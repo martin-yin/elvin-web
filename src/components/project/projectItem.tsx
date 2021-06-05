@@ -28,7 +28,6 @@ const ProjectItem: FC<any> = ({ item, index, health }) => {
   return (
     <Col key={index} span={8}>
       <Card>
-        {}
         <div className="project-item">
           <div className="item-title">
             <div className="project-title-name flex-grow-1">{item.project_name}</div>
@@ -57,14 +56,6 @@ const ProjectItem: FC<any> = ({ item, index, health }) => {
                 <p>{health?.uv}</p>
                 <span className="quota-item-title">今日用户</span>
               </div>
-              {/* <div className="quota-item">
-                <p>0</p>
-                <span className="quota-item-title">老用户</span>
-              </div>
-              <div className="quota-item">
-                <p>0</p>
-                <span className="quota-item-title">老用户</span>
-              </div> */}
             </div>
             <p>健康总分</p>
             <div className="flex health">

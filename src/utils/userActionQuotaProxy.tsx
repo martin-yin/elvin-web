@@ -11,7 +11,7 @@ import {
 
 export type ActionQuotaKey = 'PAGE_LOAD' | 'HTTP_LOG' | 'JS_ERROR' | 'RESOURCE' | 'OPERATION' | 'PAGE_VIEW' | 'EMPTY'
 
-type UserActionQuotaType = Record<ActionQuotaKey, (item: UserIF.UserAction) => UserIF.UserActionQuota>
+type UserActionQuotaType = Record<ActionQuotaKey, (item?: UserIF.UserAction) => UserIF.UserActionQuota>
 
 const EMPTY = (): UserIF.UserActionQuota => {
   return {

@@ -9,7 +9,8 @@ import { setActiveMenu, setMonitorId, setProjectList } from '../../stores/app.st
 import { GetProjectList } from '../../request/admin'
 import SubMenu from 'antd/lib/menu/SubMenu'
 import logo from '../../assets/logo.png'
-const menuList = [
+import { MenuList, ProjectIF } from '../../interface'
+const menuList: MenuList = [
   {
     title: '首页',
     path: '/'
@@ -52,36 +53,22 @@ const menuList = [
 
 const { Option } = Select
 const TopHeaderNav: FC = () => {
-  const { activeMenuIndex, projectList, monitorId } = useAppState(state => state.appsotre)
+  const { activeMenu, projectList, monitorId } = useAppState(state => state.appsotre)
   const [defaultMonitorId, setDefaultMonitorId] = useState('')
   const history = useHistory()
   const location = useLocation()
   const dispatch = useDispatch()
 
   history.listen(location => {
-    setMenuInfo(location.pathname)
+    setMenu(location.pathname)
   })
 
-  const setMenuInfo = (path: string) => {
-    let index = 0
-    if (path == '/') {
-      index = 0
-    } else if (path == '/survey') {
-      index = 1
-    } else if (path == '/user') {
-      index = 2
-    } else if (path == '/performance' || path == '/http') {
-      index = 3
-    } else if (path.includes('/user-detail')) {
-      index = 2
-    } else {
-      index = 4
-    }
-    dispatch(setActiveMenu(index))
+  const setMenu = (path: any) => {
+    dispatch(setActiveMenu(path))
   }
 
   const initData = useCallback(async () => {
-    setMenuInfo(location.pathname)
+    setMenu(location.pathname)
     const { data, code } = await GetProjectList()
     if (code === 200) {
       if (data.length > 0) {
@@ -118,23 +105,23 @@ const TopHeaderNav: FC = () => {
 
   const avatarMenu = (
     <Menu>
-      <Menu.Item>修改信息</Menu.Item>
-      <Menu.Item>
+      <Menu.Item key="user">修改信息</Menu.Item>
+      <Menu.Item key="team">
         <div onClick={() => historyPush('/team')}>团队管理</div>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item key="login">
         <div onClick={() => historyPush('/login')}>重新登录</div>
       </Menu.Item>
     </Menu>
   )
 
-  const projectSelectRender = (projectList: any) => {
+  const projectSelectRender = (projectList: ProjectIF.ProjectList) => {
     if (projectList.length == 0) {
       return <></>
     } else {
       return (
         <Select style={{ width: 220 }} defaultValue={defaultMonitorId} key={defaultMonitorId} onChange={setProjectId}>
-          {projectList.map((item: any, index: number) => {
+          {projectList.map((item: ProjectIF.Project, index: number) => {
             return (
               <Option value={item.monitor_id} key={index}>
                 {item.project_name}
@@ -146,41 +133,41 @@ const TopHeaderNav: FC = () => {
     }
   }
 
+  const handleClick = (e: any) => {
+    setMenu(e.key)
+  }
+
   // 菜单渲染
   const menuRender = (menuList: any) => {
     if (projectList.length == 0) {
       return <></>
     } else {
       return (
-        <>
-          <Menu mode="horizontal">
-            {menuList.map((item: any, index: number) => {
-              return (
-                <>
-                  {item?.children ? (
-                    <>
-                      <SubMenu key={index} title={item.title}>
-                        {item.children.map((item: any) => {
-                          return (
-                            <Menu.Item key={item.path}>
-                              <Link to={item.path}>{item.title}</Link>
-                            </Menu.Item>
-                          )
-                        })}
-                      </SubMenu>
-                    </>
-                  ) : (
-                    <>
-                      <Menu.Item key={index}>
-                        <Link to={item.path}>{item.title}</Link>
-                      </Menu.Item>
-                    </>
-                  )}
-                </>
-              )
-            })}
-          </Menu>
-        </>
+        <Menu mode="horizontal" onClick={handleClick} selectedKeys={[activeMenu]}>
+          {menuList.map((item: any) => {
+            return (
+              <>
+                {item?.children ? (
+                  <SubMenu key={`children_${item.title}`} title={item.title}>
+                    {item.children.map((item: any) => {
+                      return (
+                        <Menu.Item key={`children_${item.title}`}>
+                          <Link to={item.path}>{item.title}</Link>
+                        </Menu.Item>
+                      )
+                    })}
+                  </SubMenu>
+                ) : (
+                  <Menu.Item key={item.path}>
+                    <Link key={item.title} to={item.path}>
+                      {item.title}
+                    </Link>
+                  </Menu.Item>
+                )}
+              </>
+            )
+          })}
+        </Menu>
       )
     }
   }
@@ -194,11 +181,11 @@ const TopHeaderNav: FC = () => {
               <img src={logo} alt="" />
             </Link>
           </div>
-          <div className="">{activeMenuIndex === 0 ? '' : projectSelectRender(projectList)}</div>
+          <div className="">{activeMenu === '' ? '' : projectSelectRender(projectList)}</div>
         </div>
         <div className="flex-grow-0">
           <div className="flex">
-            {activeMenuIndex === 0 ? '' : menuRender(menuList)}
+            {activeMenu === '' ? '' : menuRender(menuList)}
             <Dropdown overlay={avatarMenu} placement="bottomCenter">
               <div>
                 <Avatar size={36} src="https://qq.yh31.com/tp/zjbq/202011171044101948.jpg" />

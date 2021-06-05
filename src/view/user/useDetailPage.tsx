@@ -6,12 +6,12 @@ import { UserIF } from '../../interface'
 import ActionTimeLineItem from '../../components/userAction/actionTimeLine'
 import UserActionDetailInfo from '../../components/userAction/actionDetailInfo'
 import {
-  PageClickIcon,
+  PageOperationIcon,
   PageJsErrorIcon,
   PageLoadIcon,
   PageNetworkIcon,
   PageViewIcon,
-  PageResoucesErrorIcon
+  PageResourceIcon
 } from '../../assets'
 import { GetUse, GetUserActionList, GetUsersActionsStatistics } from '../../request/user'
 
@@ -21,8 +21,8 @@ const USERACTIONICON: {
   PAGE_LOAD: { icon: PageLoadIcon, text: '次打开页面' },
   HTTP_LOG: { icon: PageNetworkIcon, text: '次网络请求' },
   PAGE_VIEW: { icon: PageViewIcon, text: '次浏览页面' },
-  OPERATION: { icon: PageClickIcon, text: '次点击事件' },
-  RESOURCE: { icon: PageResoucesErrorIcon, text: '次资源异常' },
+  OPERATION: { icon: PageOperationIcon, text: '次点击事件' },
+  RESOURCE: { icon: PageResourceIcon, text: '次资源异常' },
   JS_ERROR: { icon: PageJsErrorIcon, text: '次JS异常' }
 }
 
