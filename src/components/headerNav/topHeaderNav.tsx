@@ -133,18 +133,13 @@ const TopHeaderNav: FC = () => {
     }
   }
 
-  const handleClick = (e: any) => {
-    console.log(e)
-    setMenu(e.key)
-  }
-
   // 菜单渲染
   const menuRender = (menuList: any) => {
     if (projectList.length == 0) {
       return <></>
     } else {
       return (
-        <Menu mode="horizontal" onClick={handleClick} selectedKeys={[activeMenu]}>
+        <Menu mode="horizontal" onClick={(e: any) => setMenu(e.key)} selectedKeys={[activeMenu]}>
           {menuList.map((item: any) => {
             return (
               <>

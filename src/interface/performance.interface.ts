@@ -6,7 +6,6 @@ export namespace PerformanceIF {
   }
 
   export interface PerformanceQuota {
-    ttfb: number
     dom_parse: number
     load_page: number
     pv: number

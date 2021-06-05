@@ -1,7 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Statistic, Table, Tag, Tooltip, DatePicker, Radio, Space, Empty } from 'antd'
+import { Card, Table, Tag, DatePicker, Radio, Space, Empty } from 'antd'
 import './index.less'
-import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
 import { PerformanceIF } from '../../interface'
 import StageTimeChart from '../../components/charts/performanceChart/stageTimeChart'
@@ -13,6 +12,7 @@ import {
   GetPerformanceStageTime,
   GetQuotaData
 } from '../../request/performance'
+import HeaderQuota from '../../components/headerQuota/headerQuota'
 
 const { RangePicker } = DatePicker
 
@@ -23,13 +23,7 @@ const PerformancePage: FC = () => {
     end_time: moment().format('YYYY-MM-DD')
   })
 
-  const [quota, setQuota] = useState<PerformanceIF.PerformanceQuota>({
-    ttfb: 0,
-    dom_parse: 0,
-    load_page: 0,
-    pv: 0,
-    fast: ''
-  })
+  const [quota, setQuota] = useState<PerformanceIF.PerformanceQuota>(null)
   const [stack, setStack] = useState<PerformanceIF.PerformanceStack>({
     redirect: 0,
     appcache: 0,
@@ -150,30 +144,37 @@ const PerformancePage: FC = () => {
     })
   }
 
+  const quotaTitleUnitKey = [
+    {
+      title: '首字节',
+      key: 'ttfb',
+      unit: 'ms'
+    },
+    {
+      title: 'DOM Ready',
+      key: 'dom_parse',
+      unit: 'ms'
+    },
+    {
+      title: '页面完全加载',
+      key: 'load_page',
+      unit: 'ms'
+    },
+    {
+      title: '采样PV',
+      key: 'pv',
+      unit: ''
+    },
+    {
+      title: '2s 快开占比',
+      key: 'fast',
+      unit: '%'
+    }
+  ]
+
   return (
     <>
-      <Card className="header-quota">
-        <p className="quota-tips">
-          <Tooltip title="今日数据指标">
-            <InfoCircleFilled style={{ fontSize: '16px', color: '#3399FF' }} />
-          </Tooltip>
-        </p>
-        <div className="item">
-          <Statistic title="首字节" value={quota.ttfb} suffix="ms" />
-        </div>
-        <div className="item">
-          <Statistic title="DOM Ready" value={quota.dom_parse} suffix="ms" />
-        </div>
-        <div className="item">
-          <Statistic title="页面完全加载" value={quota.load_page} suffix="ms" />
-        </div>
-        <div className="item">
-          <Statistic title="采样PV" value={quota.pv} />
-        </div>
-        <div className="item">
-          <Statistic title="2s 快开占比" value={quota.fast} suffix="%" />
-        </div>
-      </Card>
+      <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={quota} />
       <Space className="performanceTime" size={20}>
         <Card className="performanceRanking">
           <div className="performanceTimeList">

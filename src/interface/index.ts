@@ -15,3 +15,11 @@ export interface Menu {
 }
 
 export type MenuList = Array<Menu>
+
+export interface QuotaTitleUnitKey {
+  title: string
+  key: string
+  unit: string
+}
+
+export type QuotaTitleUnitKeyList = Array<QuotaTitleUnitKey>

@@ -1,11 +1,11 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Button, Card, DatePicker, Radio, Space, Statistic, Table, Tabs, Tooltip } from 'antd'
+import { Button, Card, DatePicker, Radio, Space, Table, Tabs } from 'antd'
 import './index.less'
-import { InfoCircleFilled } from '@ant-design/icons'
 import moment from 'moment'
 import HttpStageTimeChart from '../../components/charts/httpChart/stageTimeChart'
 import { GetHttpList, GetHttpQuota, GetHttpStage } from '../../request/http'
 import { HttpIF } from '../../interface'
+import HeaderQuota from '../../components/headerQuota/headerQuota'
 
 const { TabPane } = Tabs
 const { RangePicker } = DatePicker
@@ -115,29 +115,33 @@ const HttpPage: FC = () => {
     return current && current >= moment()
   }
 
+  const quotaTitleUnitKey = [
+    {
+      title: '请求次数',
+      key: 'total',
+      unit: ''
+    },
+    {
+      title: '请求耗时',
+      key: 'load_time',
+      unit: 'ms'
+    },
+    {
+      title: '成功率',
+      key: 'success_rate',
+      unit: '%'
+    },
+    {
+      title: '异常影响用户',
+      key: 'error_user',
+      unit: ''
+    }
+  ]
+
   return (
     <>
       <div>
-        <Card className="header-quota">
-          <p className="quota-tips">
-            <Tooltip title="今日数据指标">
-              <InfoCircleFilled style={{ fontSize: '16px', color: '#3399FF' }} />
-            </Tooltip>
-          </p>
-          <div className="item">
-            <Statistic title="请求次数" value={quota.total} suffix="" />
-          </div>
-          <div className="item">
-            <Statistic title="请求耗时" value={quota.load_time} suffix="ms" />
-          </div>
-          <div className="item">
-            <Statistic title="成功率" value={quota.success_rate} suffix="%" />
-          </div>
-          <div className="item">
-            <Statistic title="异常影响用户" value={quota.error_user} />
-          </div>
-        </Card>
-
+        <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={quota} />
         <Space className="httpTime" size={20}>
           <Card className="httpRanking">
             <div className="">
