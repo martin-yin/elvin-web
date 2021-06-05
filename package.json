@@ -59,7 +59,7 @@
     "test": "react-app-rewired test",
     "lint": "tsc --pretty && eslint . --ext ts --ext js",
     "lint:fix": "eslint \"src/**/*.{tsx,ts}\" --fix",
-    "format": "prettier --write **/*.{js,ts}"
+    "format": "prettier --write **/*.{tsx,ts,js}"
   },
   "husky": {
     "hooks": {

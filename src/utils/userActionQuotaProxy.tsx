@@ -6,22 +6,12 @@ import {
   PageNetworkIcon,
   PageViewIcon,
   PageResourceIcon,
-  PageJsErrorIcon,
+  PageJsErrorIcon
 } from '../assets'
 
-export type ActionQuotaKey =
-  | 'PAGE_LOAD'
-  | 'HTTP_LOG'
-  | 'JS_ERROR'
-  | 'RESOURCE'
-  | 'OPERATION'
-  | 'PAGE_VIEW'
-  | 'EMPTY'
+export type ActionQuotaKey = 'PAGE_LOAD' | 'HTTP_LOG' | 'JS_ERROR' | 'RESOURCE' | 'OPERATION' | 'PAGE_VIEW' | 'EMPTY'
 
-type UserActionQuotaType = Record<
-  ActionQuotaKey,
-  (item: UserIF.UserAction) => UserIF.UserActionQuota
->
+type UserActionQuotaType = Record<ActionQuotaKey, (item: UserIF.UserAction) => UserIF.UserActionQuota>
 
 const EMPTY = (): UserIF.UserActionQuota => {
   return {
@@ -29,21 +19,17 @@ const EMPTY = (): UserIF.UserActionQuota => {
       return <></>
     },
     title: '',
-    content: ``,
+    content: ``
   }
 }
 
-const UserActionQuotaRender = (
-  img: string,
-  title: string,
-  content: string
-): UserIF.UserActionQuota => {
+const UserActionQuotaRender = (img: string, title: string, content: string): UserIF.UserActionQuota => {
   return {
     icon: (): React.ReactNode => {
-      return <img className='action_time_line_image' src={img} />
+      return <img className="action_time_line_image" src={img} />
     },
     title,
-    content,
+    content
   }
 }
 
@@ -68,7 +54,7 @@ const UserActionQuotaList: UserActionQuotaType = {
     UserActionQuotaRender(PageOperationIcon, '点击事件', `页面URL: ${item.action_detail.page_url}`),
   PAGE_VIEW: (item: UserIF.UserAction) =>
     UserActionQuotaRender(PageViewIcon, '页面浏览', `页面URL: ${item.action_detail.page_url}`),
-  EMPTY,
+  EMPTY
 }
 
 export const UserActionQuotaListProxy: UserActionQuotaType = new Proxy(UserActionQuotaList, {
@@ -78,5 +64,5 @@ export const UserActionQuotaListProxy: UserActionQuotaType = new Proxy(UserActio
     } else {
       return Reflect.get(target, 'EMPTY')
     }
-  },
+  }
 })
