@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Table, Tag, DatePicker, Radio, Space, Empty } from 'antd'
+import { Card, Table, Tag, Space, Empty } from 'antd'
 import './index.less'
 import moment from 'moment'
 import { PerformanceIF } from '../../interface'
@@ -13,8 +13,7 @@ import {
   GetQuotaData
 } from '../../request/performance'
 import HeaderQuota from '../../components/headerQuota/headerQuota'
-
-const { RangePicker } = DatePicker
+import TimePickerChart from '../../components/timeChartPicker/timePickerChart'
 
 const PerformancePage: FC = () => {
   const [performanceParam, setPerformanceParam] = useState<PerformanceIF.PerformanceParam>({
@@ -23,7 +22,7 @@ const PerformancePage: FC = () => {
     end_time: moment().format('YYYY-MM-DD')
   })
 
-  const [quota, setQuota] = useState<PerformanceIF.PerformanceQuota>(null)
+  const [quota, setQuota] = useState<PerformanceIF.PerformanceQuota>()
   const [stack, setStack] = useState<PerformanceIF.PerformanceStack>({
     redirect: 0,
     appcache: 0,
@@ -116,27 +115,7 @@ const PerformancePage: FC = () => {
     }
   ]
 
-  const disabledDate = (current: any) => {
-    return current && current >= moment()
-  }
-
-  const timeGrainChange = (e: any) => {
-    setPerformanceParam({
-      ...performanceParam,
-      time_grain: e.target.value
-    })
-  }
-
-  const onTimeChange = (dates: any, dateStrings: [string, string]) => {
-    const time = dates[1].diff(dates[0], 'days')
-    let time_grain = performanceParam.time_grain
-    if (time > 0 && time <= 6) {
-      time_grain = 'hour'
-    } else if (time > 6) {
-      time_grain = 'day'
-    } else {
-      time_grain = 'minute'
-    }
+  const onTimeChange = (dateStrings: any, time_grain: string) => {
     setPerformanceParam({
       start_time: dateStrings[0],
       end_time: dateStrings[1],
@@ -175,13 +154,13 @@ const PerformancePage: FC = () => {
   return (
     <>
       <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={quota} />
-      <Space className="performanceTime" size={20}>
-        <Card className="performanceRanking">
-          <div className="performanceTimeList">
+      <Space className="performance__consume_time_warp" size={20}>
+        <Card className="consume_time_ranking">
+          <div>
             {rankingList.length != 0 ? (
               rankingList.map((item: any, key: number) => {
                 return (
-                  <div key={key} className="performanceTimeItem flex">
+                  <div key={key} className="consume_time_ranking_item flex">
                     <div className="flex-grow-1">{item.page_url}</div>
                     <div className="flex-grow-0">耗时{item.load_page}ms</div>
                   </div>
@@ -192,42 +171,19 @@ const PerformancePage: FC = () => {
             )}
           </div>
         </Card>
-        <div>
-          <Card className="timeCharts">
-            <div className="time_picker_warp">
-              <div className="time_picker">
-                <RangePicker
-                  disabledDate={disabledDate}
-                  defaultValue={[
-                    moment(performanceParam.start_time, 'YYYY-MM-DD'),
-                    moment(performanceParam.end_time, 'YYYY-MM-DD')
-                  ]}
-                  ranges={{
-                    今天: [moment(), moment()],
-                    昨天: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    最近七天: [moment().subtract(6, 'days'), moment()],
-                    近一个月: [moment().subtract(1, 'month'), moment()]
-                  }}
-                  onChange={onTimeChange}
-                />
-              </div>
-              <div className="time_grain">
-                <p>时间粒度：</p>
-                <Radio.Group onChange={timeGrainChange} value={performanceParam.time_grain}>
-                  <Radio value={'minute'}>分钟</Radio>
-                  <Radio value={'hour'}>小时</Radio>
-                  <Radio value={'day'}>天</Radio>
-                </Radio.Group>
-              </div>
-            </div>
+        <Card className="consume_time_charts">
+          <TimePickerChart
+            onTimeChange={onTimeChange}
+            startTime={performanceParam.start_time}
+            endTime={performanceParam.end_time}
+          >
             <StageTimeChart stage_time={stageTime} />
-          </Card>
-          <Card style={{ marginTop: '20px' }} className="timeCharts">
+          </TimePickerChart>
+          <Card>
             <StackBarChar stack={stack}></StackBarChar>
           </Card>
-        </div>
+        </Card>
       </Space>
-
       <Card>
         {/* <p>这里需要增加一个查看单条URL 加载得信息 参考：http://www.webfunny.cn/demo/pagePerformance.html</p> */}
         <Table dataSource={pageList} columns={columns} rowKey="page_url" />

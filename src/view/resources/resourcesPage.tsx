@@ -8,7 +8,10 @@ const ResourcesPage: FC = () => {
   const [resourcesData, setErrorPageData] = useState<{
     quota: ResourcesIF.Quota
     resources_list: ResourcesIF.ResourcesList
-  }>()
+  }>({
+    quota: null,
+    resources_list: null
+  })
 
   const initErrorPageData = useCallback(async () => {
     const { data } = await webPageErrorData()

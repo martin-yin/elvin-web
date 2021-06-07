@@ -1,14 +1,14 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Button, Card, DatePicker, Radio, Space, Table, Tabs } from 'antd'
+import { Card, Space, Table, Tabs } from 'antd'
 import './index.less'
 import moment from 'moment'
 import HttpStageTimeChart from '../../components/charts/httpChart/stageTimeChart'
 import { GetHttpList, GetHttpQuota, GetHttpStage } from '../../request/http'
 import { HttpIF } from '../../interface'
 import HeaderQuota from '../../components/headerQuota/headerQuota'
+import TimePickerChart from '../../components/timeChartPicker/timePickerChart'
 
 const { TabPane } = Tabs
-const { RangePicker } = DatePicker
 
 const HttpPage: FC = () => {
   const [quota, setQUota] = useState<HttpIF.Quota>({
@@ -55,28 +55,12 @@ const HttpPage: FC = () => {
     }
   }, [httpParam])
 
-  const onTimeChange = (dates: any, dateStrings: [string, string]) => {
-    const time = dates[1].diff(dates[0], 'days')
-    let time_grain = httpParam.time_grain
-    if (time > 0 && time <= 6) {
-      time_grain = 'hour'
-    } else if (time > 6) {
-      time_grain = 'day'
-    } else {
-      time_grain = 'minute'
-    }
+  const onTimeChange = (dateStrings: any, time_grain: string) => {
     setHttpParam({
       start_time: dateStrings[0],
       end_time: dateStrings[1],
       time_grain: time_grain,
       stage_type: httpParam.stage_type
-    })
-  }
-
-  const timeGrainChange = (e: any) => {
-    setHttpParam({
-      ...httpParam,
-      time_grain: e.target.value
     })
   }
 
@@ -111,10 +95,6 @@ const HttpPage: FC = () => {
     }
   ]
 
-  const disabledDate = (current: any) => {
-    return current && current >= moment()
-  }
-
   const quotaTitleUnitKey = [
     {
       title: '请求次数',
@@ -142,52 +122,26 @@ const HttpPage: FC = () => {
     <>
       <div>
         <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={quota} />
-        <Space className="httpTime" size={20}>
-          <Card className="httpRanking">
-            <div className="">
-              {httpList.map((item: any, key: number) => {
-                return (
-                  <div key={key} className="httpRankingItem flex">
-                    <div className="flex-grow-1">{item.http_url}</div>
-                    <div className="flex-grow-0">耗时{item.load_time}ms</div>
-                  </div>
-                )
-              })}
-            </div>
+        <Space className="http__consume_time_warp" size={20}>
+          <Card className="consume_time_ranking">
+            {httpList.map((item: any, key: number) => {
+              return (
+                <div key={key} className="consume_time_ranking_item flex">
+                  <div className="flex-grow-1">{item.http_url}</div>
+                  <div className="flex-grow-0">耗时{item.load_time}ms</div>
+                </div>
+              )
+            })}
           </Card>
-          <Card className="timeCharts">
+          <Card className="time__pciker_chart_warp">
             <Tabs defaultActiveKey="1">
               <TabPane tab="成功率" key="1"></TabPane>
               <TabPane tab="成功耗时" key="2"></TabPane>
               <TabPane tab="失败耗时" key="3"></TabPane>
             </Tabs>
-            <div className="time_picker_warp">
-              <div className="time_picker">
-                <RangePicker
-                  disabledDate={disabledDate}
-                  defaultValue={[moment(httpParam.start_time, 'YYYY-MM-DD'), moment(httpParam.end_time, 'YYYY-MM-DD')]}
-                  ranges={{
-                    今天: [moment(), moment()],
-                    昨天: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    最近七天: [moment().subtract(6, 'days'), moment()],
-                    近一个月: [moment().subtract(1, 'month'), moment()]
-                  }}
-                  onChange={onTimeChange}
-                />
-              </div>
-              <div className="time_grain">
-                <p>时间粒度：</p>
-                <Radio.Group onChange={timeGrainChange} value={httpParam.time_grain}>
-                  <Radio value={'minute'}>分钟</Radio>
-                  <Radio value={'hour'}>小时</Radio>
-                  <Radio value={'day'}>天</Radio>
-                </Radio.Group>
-                <Button type="primary" size="small">
-                  搜索
-                </Button>
-              </div>
-            </div>
-            <HttpStageTimeChart stageTime={stageTime} />
+            <TimePickerChart onTimeChange={onTimeChange} startTime={httpParam.start_time} endTime={httpParam.end_time}>
+              <HttpStageTimeChart stageTime={stageTime} />
+            </TimePickerChart>
           </Card>
         </Space>
         <Card>
