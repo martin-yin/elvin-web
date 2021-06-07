@@ -1,21 +1,14 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Statistic, Table, Tooltip } from 'antd'
+import { Card, Table } from 'antd'
 import { webPageErrorData } from '../../request'
-import { InfoCircleFilled } from '@ant-design/icons'
 import { ResourcesIF } from '../../interface/'
+import HeaderQuota from '../../components/headerQuota/headerQuota'
 
 const ResourcesPage: FC = () => {
   const [resourcesData, setErrorPageData] = useState<{
     quota: ResourcesIF.Quota
     resources_list: ResourcesIF.ResourcesList
-  }>({
-    quota: {
-      error_count: 13,
-      error_page: 13,
-      error_user: 1
-    },
-    resources_list: []
-  })
+  }>()
 
   const initErrorPageData = useCallback(async () => {
     const { data } = await webPageErrorData()
@@ -54,25 +47,28 @@ const ResourcesPage: FC = () => {
     }
   ]
 
+  const quotaTitleUnitKey = [
+    {
+      title: '异常次数',
+      key: 'error_count',
+      unit: 'ms'
+    },
+    {
+      title: '异常页面',
+      key: 'error_page',
+      unit: '%'
+    },
+    {
+      title: '影响用户',
+      key: 'error_user',
+      unit: ''
+    }
+  ]
+
   return (
     <>
       <div>
-        <Card className="header-quota" style={{ marginBottom: '20px' }}>
-          <p className="quota-tips">
-            <Tooltip title="今日数据指标">
-              <InfoCircleFilled style={{ fontSize: '16px', color: '#3399FF' }} />
-            </Tooltip>
-          </p>
-          <div className="item">
-            <Statistic title="异常次数" value={resourcesData.quota.error_count} />
-          </div>
-          <div className="item">
-            <Statistic title="异常页面" value={resourcesData.quota.error_page} />
-          </div>
-          <div className="item">
-            <Statistic title="影响用户" value={resourcesData.quota.error_user} />
-          </div>
-        </Card>
+        <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={resourcesData.quota} />
         <Card>
           <Table dataSource={resourcesData.resources_list} columns={columns} rowKey="page_source_url" />
         </Card>

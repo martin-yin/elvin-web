@@ -1,11 +1,11 @@
 import { InfoCircleFilled } from '@ant-design/icons'
 import { Card, Statistic, Tooltip } from 'antd'
 import React, { FC } from 'react'
-import { HttpIF, PerformanceIF, QuotaTitleUnitKey, QuotaTitleUnitKeyList } from '../../interface'
+import { HttpIF, PerformanceIF, QuotaTitleUnitKey, QuotaTitleUnitKeyList, ResourcesIF } from '../../interface'
 import './index.less'
 const HeaderQuota: FC<{
   quotaTitleUnitKey: QuotaTitleUnitKeyList
-  quota: PerformanceIF.PerformanceQuota | HttpIF.Quota
+  quota: PerformanceIF.PerformanceQuota | HttpIF.Quota | ResourcesIF.Quota
 }> = ({ quotaTitleUnitKey, quota }) => {
   return (
     <>

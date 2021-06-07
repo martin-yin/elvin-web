@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Space, Table } from 'antd'
 import { GetJsError } from '../../request'
 import { useHistory } from 'react-router-dom'
-const JsErrorPage: FC = () => {
+const IssuePage: FC = () => {
   const [jsErrorList, setJsErrorList] = useState<any>([])
   const history = useHistory()
 
@@ -76,10 +76,4 @@ const JsErrorPage: FC = () => {
   )
 }
 
-export default JsErrorPage
-
-// function parseStackTrack(error: string) {
-//   const err = new Error(error)
-//   const stackFrame = ErrorStackParser.parse(err)
-//   return stackFrame
-// }
+export default IssuePage
