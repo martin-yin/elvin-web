@@ -73,108 +73,124 @@ const JsErrorDetailPage: FC = () => {
 
   return (
     <div>
-      <Card>
-        <div>
-          <Space>
-            <h2>
-              {jsError?.error_name}: {jsError?.message}
-            </h2>
-          </Space>
-        </div>
-        <div style={{ marginBottom: '20px' }}>
-          <p>{jsError?.componentName}</p>
-        </div>
-        <div style={{ marginBottom: '20px' }}>
-          <Space size={20} direction="vertical">
-            <p>{jsError?.created_at}</p>
-            <p>{jsError?.page_url}</p>
-          </Space>
-        </div>
-        <div>
-          <Space>
-            <Button
-              style={{ fontSize: '10px' }}
-              size="small"
-              icon={<StepBackwardOutlined />}
-              disabled={jsError?.previous_error_id == 0}
-              onClick={() => changeIssue(jsError?.previous_error_id)}
+      <Row gutter={20}>
+        <Col span={18}>
+          <Card>
+            <div>
+              <Space>
+                <h2>
+                  {jsError?.error_name}: {jsError?.message}
+                </h2>
+              </Space>
+            </div>
+            <div style={{ marginBottom: '20px' }}>
+              <p>{jsError?.componentName}</p>
+            </div>
+            <div style={{ marginBottom: '20px' }}>
+              <Space size={20} direction="vertical">
+                <p>{jsError?.created_at}</p>
+                <p>{jsError?.page_url}</p>
+              </Space>
+            </div>
+            <div>
+              <Space>
+                <Button
+                  style={{ fontSize: '10px' }}
+                  size="small"
+                  icon={<StepBackwardOutlined />}
+                  disabled={jsError?.previous_error_id == 0}
+                  onClick={() => changeIssue(jsError?.previous_error_id)}
+                >
+                  上一个
+                </Button>
+                <Button
+                  style={{ fontSize: '10px' }}
+                  size="small"
+                  icon={<StepForwardOutlined />}
+                  disabled={jsError?.next_error_id == 0}
+                  onClick={() => changeIssue(jsError?.next_error_id)}
+                >
+                  下一个
+                </Button>
+              </Space>
+            </div>
+            <Divider />
+            <Row gutter={[16, 16]}>
+              <Col span={6}>
+                <Space>
+                  <img src={IpIcon} alt="" />
+                  <h3>{jsError?.ip}</h3>
+                </Space>
+              </Col>
+              <Col span={6}>
+                <Space>
+                  <img src={BrowserIcon} alt="" />
+                  <div>
+                    <h3>{jsError?.browser}</h3>
+                    <p>{jsError?.browser_version}</p>
+                  </div>
+                </Space>
+              </Col>
+              <Col span={6}>
+                <Space>
+                  <img src={WindowIcon} alt="" />
+                  <div>
+                    <h3>{jsError?.os}</h3>
+                    <p>{jsError?.os_version}</p>
+                  </div>
+                </Space>
+              </Col>
+              <Col span={6}>
+                <Space>
+                  <img src={PcIcon} alt="" />
+                  <div>
+                    <h3>{jsError?.device}</h3>
+                    <p>{jsError?.device_type}</p>
+                  </div>
+                </Space>
+              </Col>
+            </Row>
+            <Divider />
+            <h4>Js异常堆栈:</h4>
+            <Collapse
+              bordered={false}
+              accordion
+              expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
+              className="site-collapse-custom-collapse"
             >
-              上一个
-            </Button>
-            <Button
-              style={{ fontSize: '10px' }}
-              size="small"
-              icon={<StepForwardOutlined />}
-              disabled={jsError?.next_error_id == 0}
-              onClick={() => changeIssue(jsError?.next_error_id)}
-            >
-              下一个
-            </Button>
-          </Space>
-        </div>
-        <Divider />
-        <Row gutter={[16, 16]}>
-          <Col span={6}>
-            <Space>
-              <img src={IpIcon} alt="" />
-              <h3>{jsError?.ip}</h3>
-            </Space>
-          </Col>
-          <Col span={6}>
-            <Space>
-              <img src={BrowserIcon} alt="" />
-              <div>
-                <h3>{jsError?.browser}</h3>
-                <p>{jsError?.browser_version}</p>
-              </div>
-            </Space>
-          </Col>
-          <Col span={6}>
-            <Space>
-              <img src={WindowIcon} alt="" />
-              <div>
-                <h3>{jsError?.os}</h3>
-                <p>{jsError?.os_version}</p>
-              </div>
-            </Space>
-          </Col>
-          <Col span={6}>
-            <Space>
-              <img src={PcIcon} alt="" />
-              <div>
-                <h3>{jsError?.device}</h3>
-                <p>{jsError?.device_type}</p>
-              </div>
-            </Space>
-          </Col>
-        </Row>
-        <Divider />
-        <h4>Js异常堆栈:</h4>
-        <Collapse
-          bordered={false}
-          accordion
-          expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
-          className="site-collapse-custom-collapse"
-        >
-          {stackFramesList.length > 0 ? (
-            stackFramesList.map((item: Issue.StackFrames, index: number) => {
-              return (
-                <Panel header={item.fileName} key={index} className="site-collapse-custom-panel">
-                  <StackFramesItem
-                    item={item}
-                    form={form}
-                    index={index}
-                    setVisible={setVisible}
-                    setStackFrame={setStackFrame}
-                  />
-                </Panel>
-              )
-            })
-          ) : (
-            <></>
-          )}
-        </Collapse>
-      </Card>
+              {stackFramesList.length > 0 ? (
+                stackFramesList.map((item: Issue.StackFrames, index: number) => {
+                  return (
+                    <Panel header={item.fileName} key={index} className="site-collapse-custom-panel">
+                      <StackFramesItem
+                        item={item}
+                        form={form}
+                        index={index}
+                        setVisible={setVisible}
+                        setStackFrame={setStackFrame}
+                      />
+                    </Panel>
+                  )
+                })
+              ) : (
+                <></>
+              )}
+            </Collapse>
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card>
+            <h3>概要信息</h3>
+            <ul className="info-ul">
+              <li>
+                <label></label>
+                <span></span>
+              </li>
+            </ul>
+          </Card>
+        </Col>
+      </Row>
+
       <SourceMapLoadModal stackFrame={stackFrame} visible={visible} form={form} onCreate={onCreate} onClose={onClose} />
     </div>
   )

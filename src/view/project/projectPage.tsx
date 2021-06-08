@@ -53,8 +53,6 @@ const ProjectPage: FC = () => {
     if (code == 200) {
       history.push('/')
       message.success(msg)
-    } else {
-      message.success(msg)
     }
   }
 

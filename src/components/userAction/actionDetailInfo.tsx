@@ -13,28 +13,28 @@ const UserActionDetailInfo: FC<UserActionDetailInfoProps> = ({ detail }) => {
     const userAction = Reflect.has(detail, 'action_type')
     return userAction ? (
       <>
-        <ul className="detail-box">
+        <ul className="info-ul">
           {userActionDetailListProxy[detail.action_type](detail)}
           <>
             <li>
               <label>操作系统：</label>
-              <p>
+              <span>
                 {`${detail.device}/ ${detail.device_type}`}
                 &nbsp;&nbsp;&nbsp;
                 {`${detail.os} ${detail.os_version}`}
-              </p>
+              </span>
             </li>
             <li>
               <label>浏览器：</label>
-              <p>{`${detail.browser} ${detail.browser_version}`}</p>
+              <span>{`${detail.browser} ${detail.browser_version}`}</span>
             </li>
             <li>
               <label>时间：</label>
-              <p>{getTimeYYMMDDHM(detail.happen_time)}</p>
+              <span>{getTimeYYMMDDHM(detail.happen_time)}</span>
             </li>
             <li>
               <label>UA：</label>
-              <p>{detail.ua}</p>
+              <span>{detail.ua}</span>
             </li>
           </>
         </ul>

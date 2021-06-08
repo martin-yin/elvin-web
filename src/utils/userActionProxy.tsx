@@ -7,11 +7,11 @@ const PAGE_LOAD = (detail: UserIF.UserActionDetail): JSX.Element => {
     <>
       <li>
         <label>浏览页面：</label>
-        <p>{detail.page_url}</p>
+        <span>{detail.page_url}</span>
       </li>
       <li>
         <label>加载方式：</label>
-        <p>{detail.load_type}</p>
+        <span>{detail.load_type}</span>
       </li>
     </>
   )
@@ -21,23 +21,22 @@ const HTTP_LOG = (detail: UserIF.UserActionDetail): JSX.Element => {
   return (
     <>
       <li>
-        <label></label>
-        <p>请求URL：</p>
-        <p className="over-hidde">{detail.http_url}</p>
+        <label>请求URL：</label>
+        <span className="over-hidde">{detail.http_url}</span>
       </li>
       <li>
         <label>请求参数：</label>
-        <p>{detail.request_text}</p>
+        <span>{detail.request_text}</span>
       </li>
       <li>
         <label>请求返回状态码：</label>
-        <p>
+        <span>
           {detail.status > 200 ? (
             <Tag color="#f50">{`${detail.status}`} </Tag>
           ) : (
             <Tag color="#2db7f5">{`${detail.status}`} </Tag>
           )}
-        </p>
+        </span>
       </li>
       <li>
         <label>请求返回：</label>
@@ -52,11 +51,11 @@ const JS_ERROR = (detail: UserIF.UserActionDetail): JSX.Element => {
     <>
       <li>
         <label>页面URL：</label>
-        <p>{detail.page_url}</p>
+        <span>{detail.page_url}</span>
       </li>
       <li>
         <label>异常信息：</label>
-        <p>{detail.message}</p>
+        <span>{detail.message}</span>
       </li>
     </>
   )
@@ -66,15 +65,15 @@ const RESOURCE = (detail: UserIF.UserActionDetail): JSX.Element => (
   <>
     <li>
       <label>页面URL：</label>
-      <p>{detail.page_url}</p>
+      <span>{detail.page_url}</span>
     </li>
     <li>
       <label>异常类型：</label>
-      <p>{detail.element_type}</p>
+      <span>{detail.element_type}</span>
     </li>
     <li>
       <label>异常资源：</label>
-      <p>{detail.source_url}</p>
+      <span>{detail.source_url}</span>
     </li>
   </>
 )
@@ -83,15 +82,15 @@ const OPERATION = (detail: UserIF.UserActionDetail): JSX.Element => (
   <>
     <li>
       <label>点击Tag：</label>
-      <p>{detail.tag_name}</p>
+      <span>{detail.tag_name}</span>
     </li>
     <li>
       <label>点击正文：</label>
-      <p>{detail.innter_text}</p>
+      <span>{detail.innter_text}</span>
     </li>
     <li>
       <label>ClassName：</label>
-      <p>{detail.class_name}</p>
+      <span>ClassName：{detail.class_name}</span>
     </li>
   </>
 )
@@ -100,7 +99,7 @@ const PAGE_VIEW = (detail: UserIF.UserActionDetail): JSX.Element => (
   <>
     <li>
       <label>页面URL：</label>
-      <p>{detail.page_url}</p>
+      <span>{detail.page_url}</span>
     </li>
   </>
 )
