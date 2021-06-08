@@ -36,25 +36,7 @@ const UserActionPage: FC = () => {
   const [userActionStatistics, setUserActionStatistics] = useState([])
   const [detail, setDetail] = useState({} as any)
   const [activeId, setActiveId] = useState('')
-  const [userInfo, setUserInfo] = useState<UserIF.User>({
-    user_id: '',
-    device: '',
-    system: '',
-    browser: '',
-    browser_version: '',
-    action_type: '',
-    ip: '',
-    address: '',
-    happen_time: '',
-    device_type: '',
-    os: '',
-    os_version: '',
-    nation: '',
-    province: '',
-    city: '',
-    district: '',
-    event_id: ''
-  })
+  const [userInfo, setUserInfo] = useState<UserIF.User>()
   const params: any = useParams()
   const initUserInfoData = useCallback(async () => {
     const userInfo = await GetUse(params.userId)
@@ -95,24 +77,7 @@ const UserActionPage: FC = () => {
 
   const onPageChange = (page: any) => {
     setActiveId('')
-    setDetail({
-      user_id: '',
-      device: '',
-      system: '',
-      browser: '',
-      browser_version: '',
-      ip: '',
-      address: '',
-      happen_time: '',
-      device_type: '',
-      os: '',
-      os_version: '',
-      nation: '',
-      province: '',
-      city: '',
-      district: '',
-      event_id: ''
-    })
+    setDetail(null)
     setUserAactionParams({
       page: page,
       total: userAactionParams.total,

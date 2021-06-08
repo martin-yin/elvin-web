@@ -31,7 +31,7 @@ const IssuePage: FC = () => {
         <div
           style={{ cursor: 'pointer' }}
           onClick={() => {
-            history.push(`/issues-detail/${recode.id}`)
+            history.push(`/issue-detail/${recode.id}`)
           }}
         >
           <Space size="middle">
