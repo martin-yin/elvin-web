@@ -1,7 +1,7 @@
 import React from 'react'
 import { UserIF } from '../interface'
 import { Tag } from 'antd'
-import ListLableItem from '../components/listLable/listLableItem'
+import { ListLableItem } from '../components/listLable/listLable'
 
 const PAGE_LOAD = (detail: UserIF.UserActionDetail): JSX.Element => (
   <>
@@ -70,6 +70,7 @@ export const userActionDetailList = {
   PAGE_VIEW,
   EMPTY
 }
+
 export const userActionDetailListProxy = new Proxy(userActionDetailList, {
   get(target, phrase: string) {
     if (phrase in target) {

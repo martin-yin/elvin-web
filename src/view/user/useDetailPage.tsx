@@ -39,18 +39,20 @@ const UserActionPage: FC = () => {
   const [userInfo, setUserInfo] = useState<UserIF.User>()
   const params: any = useParams()
   const initUserInfoData = useCallback(async () => {
-    const userInfo = await GetUse(params.userId)
-    const usersActionsStatistics = await GetUsersActionsStatistics({
-      event_id: userInfo.data.event_id
-    })
-    setUserInfo(userInfo.data)
-    setUserActionStatistics(usersActionsStatistics.data)
+    const userInfores = await GetUse(params.userId)
+    if (userInfores.code == 200) {
+      const usersActionsStatistics = await GetUsersActionsStatistics({
+        event_id: userInfores.data.event_id
+      })
+      setUserInfo(userInfores.data)
+      setUserActionStatistics(usersActionsStatistics.data)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const initUserActionList = useCallback(async () => {
     const userActionList: any = await GetUserActionList({
-      event_id: userInfo.event_id,
+      event_id: '4cd72c84-0c91-4348-86d9-733435c03458',
       page: userAactionParams.page,
       limit: userAactionParams.limit
     })
@@ -60,7 +62,8 @@ const UserActionPage: FC = () => {
       limit: 3,
       total: userActionList.data.total
     })
-  }, [userAactionParams.limit, userAactionParams.page, userInfo.event_id])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     initUserInfoData()
@@ -104,43 +107,47 @@ const UserActionPage: FC = () => {
     <>
       <div className="user-action-detail-page">
         <div className="page-user-info">
-          <Card title="用户信息">
-            <div className="user-info-ul">
-              <ul className="info-ul">
-                <li>
-                  <label>设备名称: </label>
-                  <span>{`${userInfo.device} / ${userInfo.device_type}`}</span>
-                </li>
-                <li>
-                  <label>浏览器: </label>
-                  <span>
-                    {userInfo.browser}:{userInfo.browser_version}
-                  </span>
-                </li>
-                <li>
-                  <label>系统版本: </label>
-                  <span>
-                    {userInfo.os}: {userInfo.os_version}
-                  </span>
-                </li>
-                <li>
-                  <label>IP地址: </label>
-                  <span>{userInfo.ip}</span>
-                </li>
-                <li>
-                  <label>所在地区: </label>
-                  <span>{`${userInfo.nation}${userInfo.province}${userInfo.city}${userInfo.district}`}</span>
-                </li>
-              </ul>
-            </div>
-            <div className="user-info-statistics">
-              <Space split={<Divider type="vertical" />} align="center" size={60}>
-                {userActionStatistics.map((item: any, key: any) => {
-                  return userStatisticsRender(key, item)
-                })}
-              </Space>
-            </div>
-          </Card>
+          {userInfo ? (
+            <Card title="用户信息">
+              <div className="user-info-ul">
+                <ul className="info-ul">
+                  <li>
+                    <label>设备名称: </label>
+                    <span>{`${userInfo.device} / ${userInfo.device_type}`}</span>
+                  </li>
+                  <li>
+                    <label>浏览器: </label>
+                    <span>
+                      {userInfo.browser}:{userInfo.browser_version}
+                    </span>
+                  </li>
+                  <li>
+                    <label>系统版本: </label>
+                    <span>
+                      {userInfo.os}: {userInfo.os_version}
+                    </span>
+                  </li>
+                  <li>
+                    <label>IP地址: </label>
+                    <span>{userInfo.ip}</span>
+                  </li>
+                  <li>
+                    <label>所在地区: </label>
+                    <span>{`${userInfo.nation}${userInfo.province}${userInfo.city}${userInfo.district}`}</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="user-info-statistics">
+                <Space split={<Divider type="vertical" />} align="center" size={60}>
+                  {userActionStatistics.map((item: any, key: any) => {
+                    return userStatisticsRender(key, item)
+                  })}
+                </Space>
+              </div>
+            </Card>
+          ) : (
+            <></>
+          )}
         </div>
         <Card title="行为记录">
           <div className=" flex">

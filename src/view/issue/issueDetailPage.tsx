@@ -11,6 +11,7 @@ import PcIcon from '../../assets/webIcons/pc.png'
 import WindowIcon from '../../assets/webIcons/window.png'
 import { Issue } from '../../interface/issue.interface'
 import StackFramesItem from '../../components/issue/stackFramesItem'
+import { ListLable, ListLableItem } from '../../components/listLable/listLable'
 
 const { Panel } = Collapse
 const IssueDetailPage: FC = () => {
@@ -87,12 +88,6 @@ const IssueDetailPage: FC = () => {
                 </div>
                 <div style={{ marginBottom: '20px' }}>
                   <p>{issue.componentName}</p>
-                </div>
-                <div style={{ marginBottom: '20px' }}>
-                  <Space size={20} direction="vertical">
-                    <p>{issue.created_at}</p>
-                    <p>{issue.page_url}</p>
-                  </Space>
                 </div>
                 <div>
                   <Space>
@@ -185,15 +180,25 @@ const IssueDetailPage: FC = () => {
           </Card>
         </Col>
         <Col span={6}>
-          <Card>
-            <h3>概要信息</h3>
-            <ul className="info-ul">
-              <li>
-                <label>地址</label>
-                <span>{`${issue.nation}${issue.province}${issue.city}${issue.district}`}</span>
-              </li>
-            </ul>
-          </Card>
+          {issue ? (
+            <Card>
+              <ListLable title="概要信息">
+                <ListLableItem label="工程"></ListLableItem>
+                <ListLableItem label="时间">{issue.created_at}</ListLableItem>
+                <ListLableItem label="URL">{issue.page_url}</ListLableItem>
+              </ListLable>
+              <ListLable title="位置信息">
+                <ListLableItem label="ip">{issue.ip}</ListLableItem>
+                <ListLableItem label="地址">{issue.ip}</ListLableItem>
+              </ListLable>
+              <ListLable title="网络信息">
+                <ListLableItem label="网络">未知</ListLableItem>
+                <ListLableItem label="运行商">未知</ListLableItem>
+              </ListLable>
+            </Card>
+          ) : (
+            <></>
+          )}
         </Col>
       </Row>
       <SourceMapLoadModal stackFrame={stackFrame} visible={visible} form={form} onCreate={onCreate} onClose={onClose} />

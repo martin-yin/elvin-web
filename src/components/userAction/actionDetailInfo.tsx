@@ -3,8 +3,7 @@ import React, { FC } from 'react'
 import { UserIF } from '../../interface'
 import { getTimeYYMMDDHM } from '../../utils'
 import { userActionDetailListProxy } from '../../utils/userActionProxy'
-import ListLable from '../listLable/listLable'
-import ListLableItem from '../listLable/listLableItem'
+import { ListLable, ListLableItem } from '../listLable/listLable'
 
 interface UserActionDetailInfoProps {
   detail: UserIF.UserActionDetail
