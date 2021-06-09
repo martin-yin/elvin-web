@@ -1,6 +1,6 @@
 import React, { lazy } from 'react'
 import { ConfigProvider, Layout } from 'antd'
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 const { Content } = Layout
 import './index.less'
 import HomePage from './view/home/homePage'
@@ -34,12 +34,12 @@ const Routers = [
   {
     path: '/issues',
     name: 'issues',
-    component: lazy(() => import(/* webpackChunkName: "js-error"*/ './view/issue/issuePage'))
+    component: lazy(() => import(/* webpackChunkName: "issue"*/ './view/issue/issuePage'))
   },
   {
     path: '/issue-detail/:error_id',
     name: 'issue-detail',
-    component: lazy(() => import(/* webpackChunkName: "js-error-detail"*/ './view/issue/issueDetailPage'))
+    component: lazy(() => import(/* webpackChunkName: "issue-detail"*/ './view/issue/issueDetailPage'))
   },
   {
     path: '/user',

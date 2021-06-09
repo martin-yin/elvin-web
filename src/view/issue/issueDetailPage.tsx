@@ -189,7 +189,9 @@ const IssueDetailPage: FC = () => {
               </ListLable>
               <ListLable title="位置">
                 <ListLableItem label="ip">{issue.ip}</ListLableItem>
-                <ListLableItem label="地址">{issue.ip}</ListLableItem>
+                <ListLableItem label="地址">
+                  {issue.nation + issue.province + issue.city + issue.district}
+                </ListLableItem>
               </ListLable>
               <ListLable title="网络">
                 <ListLableItem label="网络">未知</ListLableItem>

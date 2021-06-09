@@ -95,7 +95,6 @@ const SourceMapLoadModal: FC<any> = ({ form, stackFrame, visible, onCreate, onCl
               url: stackFrame.url
             }}
           >
-            {stackFrame.url}
             <Form.Item name="url" label="源码地址" rules={[{ required: true, message: '请输入源码地址!' }]}>
               <Input placeholder="请输入源码地址" />
             </Form.Item>
