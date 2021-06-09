@@ -14,6 +14,7 @@ import {
   PageResourceIcon
 } from '../../assets'
 import { GetUse, GetUserActionList, GetUsersActionsStatistics } from '../../request/user'
+import { ListLable, ListLableItem } from '../../components/listLable/listLable'
 
 const USERACTIONICON: {
   [key: string]: { icon: string; text: string }
@@ -40,19 +41,17 @@ const UserActionPage: FC = () => {
   const params: any = useParams()
   const initUserInfoData = useCallback(async () => {
     const userInfores = await GetUse(params.userId)
-    if (userInfores.code == 200) {
-      const usersActionsStatistics = await GetUsersActionsStatistics({
-        event_id: userInfores.data.event_id
-      })
-      setUserInfo(userInfores.data)
-      setUserActionStatistics(usersActionsStatistics.data)
-    }
+    const usersActionsStatistics = await GetUsersActionsStatistics({
+      event_id: params.eventId
+    })
+    setUserInfo(userInfores.data)
+    setUserActionStatistics(usersActionsStatistics.data)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const initUserActionList = useCallback(async () => {
     const userActionList: any = await GetUserActionList({
-      event_id: '4cd72c84-0c91-4348-86d9-733435c03458',
+      event_id: params.eventId,
       page: userAactionParams.page,
       limit: userAactionParams.limit
     })
@@ -80,7 +79,6 @@ const UserActionPage: FC = () => {
 
   const onPageChange = (page: any) => {
     setActiveId('')
-    setDetail(null)
     setUserAactionParams({
       page: page,
       total: userAactionParams.total,
@@ -110,32 +108,17 @@ const UserActionPage: FC = () => {
           {userInfo ? (
             <Card title="用户信息">
               <div className="user-info-ul">
-                <ul className="info-ul">
-                  <li>
-                    <label>设备名称: </label>
-                    <span>{`${userInfo.device} / ${userInfo.device_type}`}</span>
-                  </li>
-                  <li>
-                    <label>浏览器: </label>
-                    <span>
-                      {userInfo.browser}:{userInfo.browser_version}
-                    </span>
-                  </li>
-                  <li>
-                    <label>系统版本: </label>
-                    <span>
-                      {userInfo.os}: {userInfo.os_version}
-                    </span>
-                  </li>
-                  <li>
-                    <label>IP地址: </label>
-                    <span>{userInfo.ip}</span>
-                  </li>
-                  <li>
-                    <label>所在地区: </label>
-                    <span>{`${userInfo.nation}${userInfo.province}${userInfo.city}${userInfo.district}`}</span>
-                  </li>
-                </ul>
+                <ListLable>
+                  <ListLableItem label="设备名称">{`${userInfo.device} / ${userInfo.device_type}`}</ListLableItem>
+                  <ListLableItem label="浏览器">
+                    {userInfo.browser}:{userInfo.browser_version}
+                  </ListLableItem>
+                  <ListLableItem label="系统版本">
+                    {userInfo.os}: {userInfo.os_version}
+                  </ListLableItem>
+                  <ListLableItem label="IP地址">{userInfo.ip}</ListLableItem>
+                  <ListLableItem label="所在地区">{`${userInfo.nation}${userInfo.province}${userInfo.city}${userInfo.district}`}</ListLableItem>
+                </ListLable>
               </div>
               <div className="user-info-statistics">
                 <Space split={<Divider type="vertical" />} align="center" size={60}>

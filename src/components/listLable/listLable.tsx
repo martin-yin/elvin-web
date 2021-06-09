@@ -4,8 +4,8 @@ import './index.less'
 const ListLable: FC<any> = ({ title, children }) => {
   return (
     <>
-      <h3>{title}</h3>
-      <ul className="info-ul">{children}</ul>
+      <p className="list__label_title">{title}</p>
+      <ul className="list__label_ul">{children}</ul>
     </>
   )
 }

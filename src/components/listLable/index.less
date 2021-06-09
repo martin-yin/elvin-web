@@ -1,21 +1,25 @@
-.info-ul {
-  li {
-    line-height: 40px;
-    label {
-      font-size: 14px;
-      color: #363b52;
-      font-weight: 500;
-    }
-    span {
-      font-size: 14px;
-      color: #6c6e7a;
-      margin-left: 4px;
-    }
-    overflow-wrap: break-word;
+.list__label{
+  &_title { 
+    font-size: 14px;
+    color: #333;
+    font-weight: bolder;
   }
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  &_ul {
+    li {
+      line-height: 40px;
+      label {
+        font-size: 14px;
+        color: #6c6e7a;
+        font-weight: 500;
+      }
+      span {
+        font-size: 14px;
+        color: #6c6e7a;
+        margin-left: 4px;
+      }
+      overflow-wrap: break-word;
+    }
+  }
 }
 
 ul,
