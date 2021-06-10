@@ -11,11 +11,11 @@ import { Suspense } from 'react'
 
 const Routers = [
   { path: '/', name: 'HomePage', component: HomePage },
-  {
-    path: '/survey',
-    name: 'SurveyPage',
-    component: lazy(() => import(/* webpackChunkName: "survey"*/ './view/survey/survey.page'))
-  },
+  // {
+  //   path: '/survey',
+  //   name: 'SurveyPage',
+  //   component: lazy(() => import(/* webpackChunkName: "survey"*/ './view/survey/survey.page'))
+  // },
   {
     path: '/performance',
     name: 'PerformancePage',
@@ -32,12 +32,12 @@ const Routers = [
     component: lazy(() => import(/* webpackChunkName: "error"*/ './view/resources/resourcesPage'))
   },
   {
-    path: '/issues',
-    name: 'issues',
+    path: '/issue',
+    name: 'issue',
     component: lazy(() => import(/* webpackChunkName: "issue"*/ './view/issue/issuePage'))
   },
   {
-    path: '/issue-detail/:error_id',
+    path: '/issue/detail/:error_id',
     name: 'issue-detail',
     component: lazy(() => import(/* webpackChunkName: "issue-detail"*/ './view/issue/issueDetailPage'))
   },
@@ -47,7 +47,7 @@ const Routers = [
     component: lazy(() => import(/* webpackChunkName: "use"*/ './view/user/userPage'))
   },
   {
-    path: '/user-detail/:eventId/:userId',
+    path: '/user/detail/:eventId/:userId',
     name: 'UserDetailPage',
     component: lazy(() => import(/* webpackChunkName: "user-detail"*/ './view/user/useDetailPage'))
   },

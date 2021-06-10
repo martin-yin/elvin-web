@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { message } from 'antd'
+import { createHashHistory } from 'history'
 axios.defaults.timeout = 10000
 
 axios.interceptors.request.use(
@@ -16,7 +17,7 @@ axios.interceptors.response.use(
   response => {
     if (response.data.code == 401) {
       message.error(response.data.msg, 2, () => {
-        window.location.href = '/login'
+        createHashHistory().push('/login')
       })
     }
     return response.data
@@ -54,12 +55,12 @@ export const request = <T>(
   data = {},
   config?: AxiosRequestConfig
 ): Promise<Response<T>> => {
-  const prefix = 'http://127.0.0.1:8889'
+  const prefix = 'http://api.dancin.cn'
   if (!notMonitorId.includes(url)) {
     const monitor_id = localStorage.getItem('monitor_id')
     Object.assign(data, { monitor_id })
   }
-  if (url.indexOf('https') < 0) {
+  if (url.indexOf('https') < 0 && url.indexOf('http') < 0) {
     url = prefix + url
   }
   if (method === 'post') {

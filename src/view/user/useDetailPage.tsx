@@ -89,7 +89,7 @@ const UserActionPage: FC = () => {
   const userStatisticsRender = (key: number, item: any) => {
     const userAction = USERACTIONICON[item.action_type]
     return (
-      <div key={key} className="info-statistics-item">
+      <div key={key} className="survey_statistics_item">
         <div className="statistics-item-icon">
           <img className="userActionIcon" src={userAction.icon} />
         </div>
@@ -103,11 +103,11 @@ const UserActionPage: FC = () => {
 
   return (
     <>
-      <div className="user-action-detail-page">
-        <div className="page-user-info">
+      <div className="user__detail_page">
+        <div className="user__survey">
           {userInfo ? (
             <Card title="用户信息">
-              <div className="user-info-ul">
+              <Space size={60}>
                 <ListLable>
                   <ListLableItem label="设备名称">{`${userInfo.device} / ${userInfo.device_type}`}</ListLableItem>
                   <ListLableItem label="浏览器">
@@ -119,22 +119,22 @@ const UserActionPage: FC = () => {
                   <ListLableItem label="IP地址">{userInfo.ip}</ListLableItem>
                   <ListLableItem label="所在地区">{`${userInfo.nation}${userInfo.province}${userInfo.city}${userInfo.district}`}</ListLableItem>
                 </ListLable>
-              </div>
-              <div className="user-info-statistics">
-                <Space split={<Divider type="vertical" />} align="center" size={60}>
-                  {userActionStatistics.map((item: any, key: any) => {
-                    return userStatisticsRender(key, item)
-                  })}
-                </Space>
-              </div>
+                <div className="user__survey_statistics">
+                  <Space split={<Divider type="vertical" />} align="center" size={60}>
+                    {userActionStatistics.map((item: any, key: any) => {
+                      return userStatisticsRender(key, item)
+                    })}
+                  </Space>
+                </div>
+              </Space>
             </Card>
           ) : (
             <></>
           )}
         </div>
         <Card title="行为记录">
-          <div className=" flex">
-            <div className="flex-grow-1 time-line-list-box ">
+          <div className="flex">
+            <div className="flex-grow-1 time_lines_warp">
               <Timeline>
                 {userActionsList.map((item: UserIF.UserAction, key: number) => {
                   return (
@@ -148,7 +148,7 @@ const UserActionPage: FC = () => {
                 })}
               </Timeline>
             </div>
-            <div className="flex-grow-1">
+            <div className="flex-grow-1 time_line_detail_warp">
               <UserActionDetailInfo detail={detail} />
             </div>
           </div>

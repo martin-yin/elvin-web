@@ -32,7 +32,7 @@ const SurveyPage: FC = () => {
 
   return (
     <div>
-      {/* 概况页面参考这个{' '}
+      {/* 概况页面参考这个
       <a href="https://unpkg.com/@alifd/fusion-design-pro-js@0.2.6/build/index.html#/dashboard/monitor">
         https://unpkg.com/@alifd/fusion-design-pro-js@0.2.6/build/index.html#/dashboard/monitor
       </a> */}

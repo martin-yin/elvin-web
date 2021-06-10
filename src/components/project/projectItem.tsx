@@ -38,8 +38,8 @@ const ProjectItem: FC<any> = ({ item, index, health }) => {
                     <EditOutlined style={{ color: '#a3a5b0' }} />
                   </Tooltip>
                 </p>
-                <p onClick={() => projectToUrl('/survey', item.monitor_id)}>
-                  <Tooltip placement="topLeft" title="查看概况">
+                <p onClick={() => projectToUrl('/user', item.monitor_id)}>
+                  <Tooltip placement="topLeft" title="查看用户">
                     <AppstoreOutlined style={{ color: '#a3a5b0' }} />
                   </Tooltip>
                 </p>

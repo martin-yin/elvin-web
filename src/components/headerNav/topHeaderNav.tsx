@@ -16,10 +16,10 @@ const menuList: MenuList = [
     title: '首页',
     path: '/'
   },
-  {
-    title: '概况',
-    path: '/survey'
-  },
+  // {
+  //   title: '概况',
+  //   path: '/survey'
+  // },
   {
     title: '用户',
     path: '/user'
@@ -42,7 +42,7 @@ const menuList: MenuList = [
     children: [
       {
         title: 'JS异常',
-        path: '/issues'
+        path: '/issue'
       },
       {
         title: '资源异常',
@@ -64,23 +64,16 @@ const TopHeaderNav: FC = () => {
   })
 
   const setMenu = (path: string) => {
-    dispatch(setActiveMenu(path))
+    dispatch(setActiveMenu('/' + path.split('/')[1]))
   }
 
   const initData = useCallback(async () => {
     setMenu(location.pathname)
     const { data, code } = await GetProjectList()
     if (code === 200) {
-      if (data.length > 0) {
-        const monitor_id = localStorage.getItem('monitor_id')
-        if (monitor_id) {
-          setDefaultMonitorId(monitor_id)
-        } else {
-          localStorage.setItem('monitor_id', data[0].monitor_id)
-          setDefaultMonitorId(data[0].monitor_id)
-        }
-        dispatch(setProjectList(data))
-      }
+      const monitor_id = localStorage.getItem('monitor_id') ? localStorage.getItem('monitor_id') : data[0]?.monitor_id
+      setDefaultMonitorId(monitor_id)
+      dispatch(setProjectList(data))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -94,9 +87,8 @@ const TopHeaderNav: FC = () => {
   }, [monitorId])
 
   const setProjectId = (value: string) => {
-    localStorage.setItem('monitor_id', value)
     dispatch(setMonitorId(value))
-    history.push('/survey')
+    history.push('/user')
   }
 
   const historyPush = (url: string) => {
@@ -110,7 +102,14 @@ const TopHeaderNav: FC = () => {
         <div onClick={() => historyPush('/team')}>团队管理</div>
       </Menu.Item>
       <Menu.Item key="login">
-        <div onClick={() => historyPush('/login')}>重新登录</div>
+        <div
+          onClick={() => {
+            localStorage.setItem('token', '')
+            historyPush('/login')
+          }}
+        >
+          重新登录
+        </div>
       </Menu.Item>
     </Menu>
   )

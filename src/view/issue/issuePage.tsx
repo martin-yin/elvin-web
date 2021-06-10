@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Space, Table } from 'antd'
+import { Card, Space, Table, Tag } from 'antd'
 import { GetJsError } from '../../request'
 import { useHistory } from 'react-router-dom'
 import moment from 'moment'
@@ -32,7 +32,7 @@ const IssuePage: FC = () => {
         <div
           style={{ cursor: 'pointer' }}
           onClick={() => {
-            history.push(`/issue-detail/${recode.id}`)
+            history.push(`/issue/detail/${recode.id}`)
           }}
         >
           <Space size="middle">
@@ -46,6 +46,10 @@ const IssuePage: FC = () => {
           </Space>
         </div>
       )
+    },
+    {
+      title: '时间',
+      render: (recode: any) => <Tag color="#f50">{moment(recode?.last_time).fromNow()}</Tag>
     },
     {
       title: '异常次数',
