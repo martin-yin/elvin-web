@@ -1,4 +1,10 @@
 export namespace UserIF {
+  export type UserActionKey = 'PAGE_LOAD' | 'HTTP_LOG' | 'JS_ERROR' | 'RESOURCE' | 'OPERATION' | 'PAGE_VIEW' | 'EMPTY'
+
+  export type UserActionType = Record<UserActionKey, (detail: UserActionDetail) => JSX.Element>
+
+  export type UserActionQuotaType = Record<UserActionKey, (item?: UserAction) => UserActionQuota>
+
   export interface User {
     user_id: string
     device: string

@@ -61,7 +61,7 @@ const PAGE_VIEW = (detail: UserIF.UserActionDetail): JSX.Element => (
 
 const EMPTY = () => <></>
 
-export const userActionDetailList = {
+export const userActionDetailList: UserIF.UserActionType = {
   PAGE_LOAD,
   HTTP_LOG,
   JS_ERROR,
@@ -71,7 +71,7 @@ export const userActionDetailList = {
   EMPTY
 }
 
-export const userActionDetailListProxy = new Proxy(userActionDetailList, {
+export const userActionDetailListProxy: UserIF.UserActionType = new Proxy(userActionDetailList, {
   get(target, phrase: string) {
     if (phrase in target) {
       return Reflect.get(target, phrase)

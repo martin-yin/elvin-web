@@ -9,10 +9,6 @@ import {
   PageJsErrorIcon
 } from '../assets'
 
-export type ActionQuotaKey = 'PAGE_LOAD' | 'HTTP_LOG' | 'JS_ERROR' | 'RESOURCE' | 'OPERATION' | 'PAGE_VIEW' | 'EMPTY'
-
-type UserActionQuotaType = Record<ActionQuotaKey, (item?: UserIF.UserAction) => UserIF.UserActionQuota>
-
 const EMPTY = (): UserIF.UserActionQuota => {
   return {
     icon: (): React.ReactNode => {
@@ -33,7 +29,7 @@ const UserActionQuotaRender = (img: string, title: string, content: string): Use
   }
 }
 
-const UserActionQuotaList: UserActionQuotaType = {
+const UserActionQuotaList: UserIF.UserActionQuotaType = {
   PAGE_LOAD: (item: UserIF.UserAction) =>
     UserActionQuotaRender(PageLoadIcon, '页面浏览', `页面URL: ${item.action_detail.page_url}`),
   HTTP_LOG: (item: UserIF.UserAction) =>
@@ -57,7 +53,7 @@ const UserActionQuotaList: UserActionQuotaType = {
   EMPTY
 }
 
-export const UserActionQuotaListProxy: UserActionQuotaType = new Proxy(UserActionQuotaList, {
+export const UserActionQuotaListProxy: UserIF.UserActionQuotaType = new Proxy(UserActionQuotaList, {
   get(target, phrase: string) {
     if (phrase in target) {
       return Reflect.get(target, phrase)
