@@ -61,7 +61,7 @@ const PAGE_VIEW = (detail: UserIF.UserActionDetail): JSX.Element => (
 
 const EMPTY = () => <></>
 
-export const userActionDetailList: UserIF.UserActionType = {
+export const userActionDetailList: Readonly<UserIF.UserActionType> = {
   PAGE_LOAD,
   HTTP_LOG,
   JS_ERROR,
