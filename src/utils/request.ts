@@ -55,14 +55,16 @@ export const request = <T>(
   data = {},
   config?: AxiosRequestConfig
 ): Promise<Response<T>> => {
-  const prefix = 'http://api.dancin.cn'
+  const prefix = 'http://127.0.0.1:8889'
   if (!notMonitorId.includes(url)) {
     const monitor_id = localStorage.getItem('monitor_id')
     Object.assign(data, { monitor_id })
   }
-  if (url.indexOf('https') < 0 && url.indexOf('http') < 0) {
-    url = prefix + url
-  }
+  // if (url.indexOf('https') < 0 && url.indexOf('http') < 0) {
+  //   url = prefix + url
+  // }
+  url = prefix + url
+
   if (method === 'post') {
     return axios.post(url, data, config)
   } else if (method === 'put') {

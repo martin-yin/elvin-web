@@ -47,7 +47,7 @@ const Routers = [
     component: lazy(() => import(/* webpackChunkName: "use"*/ './view/user/userPage'))
   },
   {
-    path: '/user/detail/:eventId/:userId',
+    path: '/user/detail/:sessionId/:userId',
     name: 'UserDetailPage',
     component: lazy(() => import(/* webpackChunkName: "user-detail"*/ './view/user/useDetailPage'))
   },

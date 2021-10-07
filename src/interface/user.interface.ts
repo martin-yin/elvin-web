@@ -22,7 +22,7 @@ export namespace UserIF {
     province: string
     city: string
     district: string
-    event_id: string
+    session_id: string
     id?: string
   }
 
@@ -73,7 +73,7 @@ export namespace UserIF {
     // js 异常
     message?: string
 
-    event_id?: string
+    session_id?: string
 
     action_detail: string | any
 

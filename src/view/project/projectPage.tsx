@@ -40,12 +40,12 @@ const ProjectPage: FC = () => {
       script.type = "text/javascript";
       script.src = sdk
       script.onload = function() {
-        window.hawkReport && window.hawkReport.init({
+        window['elvin-js'] && window['elvin-js'].init({
           monitorId: monitorId,
         })
       };
       head.appendChild(script); 
-    })("https://shifulaile-admin-1258720006.cos.ap-chengdu.myqcloud.com/index.js", ${project.monitor_id});
+    })("https://shifulaile-admin-1258720006.cos.ap-chengdu.myqcloud.com/index.js", "${project.monitor_id}");
   </script>`
 
   const confirm = async (id: number | any) => {

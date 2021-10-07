@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Space, Table, Tabs } from 'antd'
+import { Card, Table, Tabs } from 'antd'
 import './index.less'
 import moment from 'moment'
 import HttpStageTimeChart from '../../components/charts/httpChart/stageTimeChart'
@@ -122,28 +122,16 @@ const HttpPage: FC = () => {
     <>
       <div>
         <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={quota} />
-        <Space className="http__consume_time_warp" size={20}>
-          <Card className="consume_time_ranking">
-            {httpList.map((item: any, key: number) => {
-              return (
-                <div key={key} className="consume_time_ranking_item flex">
-                  <div className="flex-grow-1">{item.http_url}</div>
-                  <div className="flex-grow-0">耗时{item.load_time}ms</div>
-                </div>
-              )
-            })}
-          </Card>
-          <Card className="time__pciker_chart_warp">
-            <Tabs defaultActiveKey="1">
-              <TabPane tab="成功率" key="1"></TabPane>
-              <TabPane tab="成功耗时" key="2"></TabPane>
-              <TabPane tab="失败耗时" key="3"></TabPane>
-            </Tabs>
-            <TimePickerChart onTimeChange={onTimeChange} startTime={httpParam.start_time} endTime={httpParam.end_time}>
-              <HttpStageTimeChart stageTime={stageTime} />
-            </TimePickerChart>
-          </Card>
-        </Space>
+        <Card className="time__pciker_chart_warp">
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="成功率" key="1"></TabPane>
+            <TabPane tab="成功耗时" key="2"></TabPane>
+            <TabPane tab="失败耗时" key="3"></TabPane>
+          </Tabs>
+          <TimePickerChart onTimeChange={onTimeChange} startTime={httpParam.start_time} endTime={httpParam.end_time}>
+            <HttpStageTimeChart stageTime={stageTime} />
+          </TimePickerChart>
+        </Card>
         <Card>
           <Table dataSource={httpList} columns={columns} rowKey="http_url" />
         </Card>

@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Table, Tag, Space, Empty } from 'antd'
+import { Card, Table, Tag } from 'antd'
 import './index.less'
 import moment from 'moment'
 import { PerformanceIF } from '../../interface'
@@ -36,7 +36,6 @@ const PerformancePage: FC = () => {
   })
   const [pageList, setPageList] = useState<Array<PerformanceIF.PerformancePageList>>([])
   const [stageTime, setStageTime] = useState<Array<PerformanceIF.PerformanceStageTime>>([])
-  const [rankingList, setRankeList] = useState([])
 
   const initQuotaData = useCallback(async () => {
     const result = await GetQuotaData(performanceParam)
@@ -58,18 +57,12 @@ const PerformancePage: FC = () => {
     setStageTime(result.data)
   }, [performanceParam])
 
-  const initRankingList = useCallback(async () => {
-    const result = await GetPerformanceRankingList(performanceParam)
-    setRankeList(result.data)
-  }, [performanceParam])
-
   useEffect(() => {
     initQuotaData()
     initStackData()
     initPageListData()
     initStageTimeData()
-    initRankingList()
-  }, [initQuotaData, initStackData, initPageListData, initStageTimeData, initRankingList])
+  }, [initQuotaData, initStackData, initPageListData, initStageTimeData])
 
   const columns = [
     {
@@ -154,36 +147,18 @@ const PerformancePage: FC = () => {
   return (
     <>
       <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={quota} />
-      <Space className="performance__consume_time_warp" size={20}>
-        <Card className="consume_time_ranking">
-          <div>
-            {rankingList.length != 0 ? (
-              rankingList.map((item: any, key: number) => {
-                return (
-                  <div key={key} className="consume_time_ranking_item flex">
-                    <div className="flex-grow-1">{item.page_url}</div>
-                    <div className="flex-grow-0">耗时{item.load_page}ms</div>
-                  </div>
-                )
-              })
-            ) : (
-              <Empty />
-            )}
-          </div>
+      <Card className="consume_time_charts">
+        <TimePickerChart
+          onTimeChange={onTimeChange}
+          startTime={performanceParam.start_time}
+          endTime={performanceParam.end_time}
+        >
+          <StageTimeChart stage_time={stageTime} />
+        </TimePickerChart>
+        <Card>
+          <StackBarChar stack={stack}></StackBarChar>
         </Card>
-        <Card className="consume_time_charts">
-          <TimePickerChart
-            onTimeChange={onTimeChange}
-            startTime={performanceParam.start_time}
-            endTime={performanceParam.end_time}
-          >
-            <StageTimeChart stage_time={stageTime} />
-          </TimePickerChart>
-          <Card>
-            <StackBarChar stack={stack}></StackBarChar>
-          </Card>
-        </Card>
-      </Space>
+      </Card>
       <Card>
         {/* <p>这里需要增加一个查看单条URL 加载得信息 参考：http://www.webfunny.cn/demo/pagePerformance.html</p> */}
         <Table dataSource={pageList} columns={columns} rowKey="page_url" />

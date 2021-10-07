@@ -10,7 +10,7 @@ export namespace Issue {
     device_type: string
     district: string
     error_name: string
-    event_id: string
+    session_id: string
     happen_day: string
     happen_time: number
     id: number

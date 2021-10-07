@@ -145,7 +145,7 @@ const UserPage: FC = () => {
       key: 'action',
       render: (text: string, recode: UserIF.User) => (
         <Space size="middle">
-          <Link to={`/user/detail/${recode.event_id}/${recode.id}`}>查看详情</Link>
+          <Link to={`/user/detail/${recode.session_id}/${recode.id}`}>查看详情</Link>
         </Space>
       )
     }

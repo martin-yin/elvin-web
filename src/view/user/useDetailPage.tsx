@@ -28,12 +28,12 @@ const USERACTIONICON: {
 }
 
 const UserActionPage: FC = () => {
-  const [userAactionParams, setUserAactionParams] = useState({
+  const [userActionsList, setUserActionsList] = useState({
     page: 1,
     limit: 3,
-    total: 0
+    total: 0,
+    list: []
   })
-  const [userActionsList, setUserActionsList] = useState([])
   const [userActionStatistics, setUserActionStatistics] = useState([])
   const [detail, setDetail] = useState({} as any)
   const [activeId, setActiveId] = useState('')
@@ -42,7 +42,7 @@ const UserActionPage: FC = () => {
   const initUserInfoData = useCallback(async () => {
     const userInfores = await GetUse(params.userId)
     const usersActionsStatistics = await GetUsersActionsStatistics({
-      event_id: params.eventId
+      session_id: params.sessionId
     })
     setUserInfo(userInfores.data)
     setUserActionStatistics(usersActionsStatistics.data)
@@ -51,17 +51,16 @@ const UserActionPage: FC = () => {
 
   const initUserActionList = useCallback(async () => {
     const userActionList: any = await GetUserActionList({
-      event_id: params.eventId,
-      page: userAactionParams.page,
-      limit: userAactionParams.limit
+      session_id: params.sessionId,
+      page: 1,
+      limit: 3
     })
-    setUserActionsList(userActionList.data.user_actions_list)
-    setUserAactionParams({
-      page: userActionList.data.page,
+    setUserActionsList({
+      page: 1,
       limit: 3,
-      total: userActionList.data.total
+      total: userActionList.data.total,
+      list: userActionList.data.user_actions_list
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -70,19 +69,25 @@ const UserActionPage: FC = () => {
 
   useEffect(() => {
     initUserActionList()
-  }, [initUserActionList])
+  }, [])
 
   const activeTimeLine = async (item: any) => {
     setActiveId(`${item.happen_time}${item.action_type}`)
     setDetail(item.action_detail)
   }
 
-  const onPageChange = (page: any) => {
+  const onPageChange = async (page: any) => {
     setActiveId('')
-    setUserAactionParams({
+    const userActionList: any = await GetUserActionList({
+      session_id: params.sessionId,
       page: page,
-      total: userAactionParams.total,
-      limit: userAactionParams.limit
+      limit: 3
+    })
+    setUserActionsList({
+      page: page,
+      limit: 3,
+      total: userActionList.data.total,
+      list: userActionList.data.user_actions_list
     })
   }
 
@@ -136,7 +141,7 @@ const UserActionPage: FC = () => {
           <div className="flex">
             <div className="flex-grow-1 time_lines_warp">
               <Timeline>
-                {userActionsList.map((item: UserIF.UserAction, key: number) => {
+                {userActionsList.list.map((item: UserIF.UserAction, key: number) => {
                   return (
                     <ActionTimeLineItem
                       activeId={activeId}
@@ -155,9 +160,9 @@ const UserActionPage: FC = () => {
           <div style={{ marginTop: '10px', textAlign: 'right' }}>
             <Pagination
               onChange={onPageChange}
-              current={userAactionParams.page}
+              current={userActionsList.page}
               pageSize={3}
-              total={userAactionParams.total}
+              total={userActionsList.total}
             />
           </div>
         </Card>
