@@ -2,16 +2,16 @@ import React, { FC } from 'react'
 import { AppstoreOutlined, EditOutlined } from '@ant-design/icons'
 import { Card, Col, Progress, Space, Tooltip } from 'antd'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { setMonitorId } from '../../stores/app.store'
 import { TeamIF } from '../../interface'
 
 const ProjectItem: FC<any> = ({ item, index, health }) => {
   const dispatch = useDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
   const projectToUrl = (url: string, monitor_id: string) => {
     dispatch(setMonitorId(monitor_id))
-    history.push(url)
+    navigate(url)
   }
 
   const getHealthyRate = (health: TeamIF.ProjectHealthy) => {

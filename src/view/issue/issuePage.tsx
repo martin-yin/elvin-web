@@ -1,12 +1,12 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Space, Table, Tag } from 'antd'
 import { GetJsError } from '../../request'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
 // import { DownOutlined } from '@ant-design/icons'
 const IssuePage: FC = () => {
   const [issueList, setIssueList] = useState<any>([])
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const initData = useCallback(async () => {
     const result = await GetJsError()
@@ -32,7 +32,7 @@ const IssuePage: FC = () => {
         <div
           style={{ cursor: 'pointer' }}
           onClick={() => {
-            history.push(`/issue/detail/${recode.id}`)
+            navigate(`/issue/detail/${recode.id}`)
           }}
         >
           <Space size="middle">

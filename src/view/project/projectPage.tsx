@@ -1,14 +1,10 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Button, Card, Col, message, Popconfirm, Row } from 'antd'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { TeamIF } from '../../interface/team.interface'
 import { DelProject, GetProject } from '../../request/admin'
 import './index.less'
-require('codemirror/lib/codemirror.css')
-require('codemirror/theme/material.css')
-require('codemirror/theme/neat.css')
-require('codemirror/mode/xml/xml.js')
-require('codemirror/mode/javascript/javascript.js')
+
 import { UnControlled as CodeMirror } from 'react-codemirror2'
 import moment from 'moment'
 
@@ -20,7 +16,7 @@ const ProjectPage: FC = () => {
     team_id: '',
     created_at: 'string'
   })
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const initProject = useCallback(async () => {
     const { code, data } = await GetProject()
@@ -51,7 +47,7 @@ const ProjectPage: FC = () => {
   const confirm = async (id: number | any) => {
     const { code, msg } = await DelProject(id)
     if (code == 200) {
-      history.push('/')
+      navigate('/')
       message.success(msg)
     }
   }

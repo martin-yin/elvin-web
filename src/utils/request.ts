@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { message } from 'antd'
-import { createHashHistory } from 'history'
 axios.defaults.timeout = 10000
 
 axios.interceptors.request.use(
@@ -15,11 +14,11 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   response => {
-    if (response.data.code == 401) {
-      message.error(response.data.msg, 2, () => {
-        createHashHistory().push('/login')
-      })
-    }
+    // if (response.data == 401) {
+    //   message.error(response.data.msg, 2, () => {
+    //     console.log(1)
+    //   })
+    // }
     return response.data
   },
   error => {

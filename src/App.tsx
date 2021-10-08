@@ -1,104 +1,65 @@
-import React, { lazy } from 'react'
-import { ConfigProvider, Layout } from 'antd'
-import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
-const { Content } = Layout
+import React, { FC, lazy } from 'react'
+import { Alert, ConfigProvider, Layout, Spin } from 'antd'
+import { BrowserRouter, Router, useRoutes } from 'react-router-dom'
 import './index.less'
 import HomePage from './view/home/homePage'
-import TopHeaderNav from './components/headerNav/topHeaderNav'
 import 'moment/locale/zh-cn'
-import locale from 'antd/lib/locale/zh_CN'
-import { Suspense } from 'react'
+import PerformancePage from './view/performance/performancePage'
+import HttpPage from './view/http/httpPage'
+import ResourcesPage from './view/resources/resourcesPage'
+import IssuePage from './view/issue/issuePage'
+import IssueDetailPage from './view/issue/issueDetailPage'
+import UserPage from './view/user/userPage'
+import LayoutPage from './view/layout/Layout'
+import ProjectPage from './view/project/projectPage'
+import TeamPage from './view/team/teamPage'
+import LoginPage from './view/login/loginPage'
 
-const Routers = [
-  { path: '/', name: 'HomePage', component: HomePage },
-  // {
-  //   path: '/survey',
-  //   name: 'SurveyPage',
-  //   component: lazy(() => import(/* webpackChunkName: "survey"*/ './view/survey/survey.page'))
-  // },
-  {
-    path: '/performance',
-    name: 'PerformancePage',
-    component: lazy(() => import(/* webpackChunkName: "performance"*/ './view/performance/performancePage'))
-  },
-  {
-    path: '/http',
-    name: 'HttpPage',
-    component: lazy(() => import(/* webpackChunkName: "http"*/ './view/http/httpPage'))
-  },
-  {
-    path: '/resource',
-    name: 'resource',
-    component: lazy(() => import(/* webpackChunkName: "error"*/ './view/resources/resourcesPage'))
-  },
-  {
-    path: '/issue',
-    name: 'issue',
-    component: lazy(() => import(/* webpackChunkName: "issue"*/ './view/issue/issuePage'))
-  },
-  {
-    path: '/issue/detail/:error_id',
-    name: 'issue-detail',
-    component: lazy(() => import(/* webpackChunkName: "issue-detail"*/ './view/issue/issueDetailPage'))
-  },
-  {
-    path: '/user',
-    name: 'UserPage',
-    component: lazy(() => import(/* webpackChunkName: "use"*/ './view/user/userPage'))
-  },
-  {
-    path: '/user/detail/:sessionId/:userId',
-    name: 'UserDetailPage',
-    component: lazy(() => import(/* webpackChunkName: "user-detail"*/ './view/user/useDetailPage'))
-  },
-  {
-    path: '/team',
-    name: 'Team',
-    component: lazy(() => import(/* webpackChunkName: "team"*/ './view/team/teamPage'))
-  },
-  {
-    path: '/project',
-    name: 'Project',
-    component: lazy(() => import(/* webpackChunkName: "team"*/ './view/project/projectPage'))
-  }
-]
+// const RenderRouter: FC = () => {
+//   const element = useRoutes([
+//     { path: '/', element: <HomePage /> },
+//     { path: '/performance', element: <PerformancePage /> },
+//     { path: '/http', element: <HttpPage /> },
+//     { path: '/resource', element: <ResourcesPage /> },
+//     { path: '/issue', element: <IssuePage /> },
+//     { path: '/issue/detail/:error_id', element: <IssueDetailPage /> },
+//     { path: '/user', element: <UserPage /> },
+//     { path: '/user/detail/:sessionId/:userId', element: <IssueDetailPage /> },
+//     { path: '/project', element: <ProjectPage /> },
+//     { path: '/team', element: <TeamPage /> },
+//     { path: '/project', element: <ProjectPage /> }
+//   ])
+//   return element
+// }
 
-function App() {
+const RenderRouter: FC = () => {
+  const routeList = [
+    {
+      path: '/',
+      element: <LayoutPage />,
+      children: [
+        { path: '/', element: <HomePage /> },
+        { path: '/performance', element: <PerformancePage /> },
+        { path: '/http', element: <HttpPage /> },
+        { path: '/resource', element: <ResourcesPage /> },
+        { path: '/issue', element: <IssuePage /> },
+        { path: '/issue/detail/:error_id', element: <IssueDetailPage /> },
+        { path: '/user', element: <UserPage /> },
+        { path: '/user/detail/:sessionId/:userId', element: <IssueDetailPage /> },
+        { path: '/project', element: <ProjectPage /> },
+        { path: '/team', element: <TeamPage /> },
+        { path: '/project', element: <ProjectPage /> }
+      ]
+    }
+  ]
+  return useRoutes(routeList)
+}
+
+const App = () => {
   return (
-    <>
-      <ConfigProvider locale={locale}>
-        <Router>
-          <Layout className="layout">
-            <Switch>
-              <Suspense fallback={<div>Loading</div>}>
-                {Routers.map((item, index) => {
-                  return (
-                    <Route
-                      key={index}
-                      path={item.path}
-                      exact
-                      render={() => (
-                        <div>
-                          <TopHeaderNav />
-                          <Content className="site-layout-content">
-                            <item.component />
-                          </Content>
-                        </div>
-                      )}
-                    />
-                  )
-                })}
-                <Route
-                  path="/login"
-                  component={lazy(() => import(/* webpackChunkName: "login-page"*/ './view/login/loginPage'))}
-                />
-              </Suspense>
-              <Redirect from={'*'} to={'/'} />
-            </Switch>
-          </Layout>
-        </Router>
-      </ConfigProvider>
-    </>
+    <BrowserRouter>
+      <RenderRouter />
+    </BrowserRouter>
   )
 }
 

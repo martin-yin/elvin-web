@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 import { Input, Form, Button, notification } from 'antd'
-import { useHistory } from 'react-router-dom'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './index.less'
 import { setUserInfo } from '../../stores/app.store'
@@ -11,13 +10,11 @@ import { AdminLogin, RegisterAdmin } from '../../request/admin'
 const { TabPane } = Tabs
 const LoginPage: FC = () => {
   const dispatch = useDispatch()
-  const history = useHistory()
   const userLogin = async (form: any) => {
     const data: any = await AdminLogin(form)
     if (data.code == 200) {
       dispatch(setUserInfo(data.data.user))
       localStorage.setItem('token', data.data.token)
-      history.push('/')
     } else {
       notification['error']({
         message: data.msg
@@ -30,7 +27,6 @@ const LoginPage: FC = () => {
     if (data.code == 200) {
       dispatch(setUserInfo(data.data.user))
       localStorage.setItem('token', data.data.token)
-      history.push('/')
     } else {
       notification['error']({
         message: data.msg

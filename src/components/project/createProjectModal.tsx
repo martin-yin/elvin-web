@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Button, Col, Form, Input, Row, Select } from 'antd'
 
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { ModalFrom } from '../modalForm/modalForm'
 import { PlusOutlined } from '@ant-design/icons'
 import { GetTeamList } from '../../request/admin'
@@ -9,7 +9,7 @@ const { Option } = Select
 
 const CreateProjectModal: FC<any> = ({ form, visible, onCreate, onClose }) => {
   const [teamList, setTeamList] = useState([])
-  const history = useHistory()
+  const navigate = useNavigate()
   const initTeamListData = useCallback(async () => {
     const result: any = await GetTeamList()
     if (result.code == 200) {
@@ -58,7 +58,7 @@ const CreateProjectModal: FC<any> = ({ form, visible, onCreate, onClose }) => {
               <Button
                 type="dashed"
                 onClick={() => {
-                  history.push('/team')
+                  navigate('/team')
                 }}
                 block
                 icon={<PlusOutlined />}
