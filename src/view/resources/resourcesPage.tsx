@@ -10,12 +10,14 @@ const ResourcesPage: FC = () => {
     resources_list: ResourcesIF.ResourcesList
   }>({
     quota: null,
-    resources_list: null
+    resources_list: []
   })
 
   const initErrorPageData = useCallback(async () => {
-    const { data } = await webPageErrorData()
-    setErrorPageData(data)
+    const { code, data } = await webPageErrorData()
+    if (code) {
+      setErrorPageData(data)
+    }
   }, [])
 
   useEffect(() => {

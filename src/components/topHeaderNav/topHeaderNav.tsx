@@ -1,32 +1,23 @@
 import { Dropdown, Menu, Select, Avatar } from 'antd'
 import { Header } from 'antd/lib/layout/layout'
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import './index.less'
 import { useDispatch } from 'react-redux'
 import { useAppState } from '../../stores'
-import { setActiveMenu, setMonitorId, setProjectList } from '../../stores/app.store'
+import { setMonitorId, setProjectList } from '../../stores/app.store'
 import { GetProjectList } from '../../request/admin'
-import SubMenu from 'antd/lib/menu/SubMenu'
-import logo from '../../assets/logo.png'
 import { ProjectIF } from '../../interface'
-const { Option } = Select
-
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons'
+const { Option } = Select
 
 const TopHeaderNav: FC<any> = ({ collapsed, toggle }) => {
   const { activeMenu, projectList, monitorId } = useAppState(state => state.appsotre)
   const [defaultMonitorId, setDefaultMonitorId] = useState('')
   const navigate = useNavigate()
-  const location = useLocation()
   const dispatch = useDispatch()
 
-  const setMenu = (path: string) => {
-    dispatch(setActiveMenu('/' + path.split('/')[1]))
-  }
-
   const initData = useCallback(async () => {
-    setMenu(location.pathname)
     const { data, code } = await GetProjectList()
     if (code === 200) {
       const monitor_id = localStorage.getItem('monitor_id') ? localStorage.getItem('monitor_id') : data[0]?.monitor_id
@@ -86,41 +77,6 @@ const TopHeaderNav: FC<any> = ({ collapsed, toggle }) => {
             )
           })}
         </Select>
-      )
-    }
-  }
-
-  // 菜单渲染
-  const menuRender = (menuList: any) => {
-    if (projectList.length == 0) {
-      return <></>
-    } else {
-      return (
-        <Menu mode="horizontal" onClick={(e: any) => setMenu(e.key)} selectedKeys={[activeMenu]}>
-          {menuList.map((item: any) => {
-            return (
-              <>
-                {item?.children ? (
-                  <SubMenu key={`${item.title}`} title={item.title}>
-                    {item.children.map((item: any) => {
-                      return (
-                        <Menu.Item key={`${item.path}`}>
-                          <Link to={item.path}>{item.title}</Link>
-                        </Menu.Item>
-                      )
-                    })}
-                  </SubMenu>
-                ) : (
-                  <Menu.Item key={item.path}>
-                    <Link key={item.title} to={item.path}>
-                      {item.title}
-                    </Link>
-                  </Menu.Item>
-                )}
-              </>
-            )
-          })}
-        </Menu>
       )
     }
   }

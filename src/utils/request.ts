@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { message } from 'antd'
 axios.defaults.timeout = 10000
 
@@ -13,23 +13,23 @@ axios.interceptors.request.use(
 )
 
 axios.interceptors.response.use(
-  response => {
-    // if (response.data == 401) {
-    //   message.error(response.data.msg, 2, () => {
-    //     console.log(1)
-    //   })
-    // }
-    return response.data
+  (response: AxiosResponse) => {
+    const responseCode = response.status
+    if (responseCode === 200) {
+      return Promise.resolve(response)
+    } else {
+      return Promise.reject(response)
+    }
   },
   error => {
-    let errorMessage = '系统异常'
-    if (error?.response?.data?.msg) {
-      errorMessage = error?.response?.data.msg
+    let errorMessage = ''
+    if (error.message.includes('timeout')) {
+      errorMessage = '请求超时，请稍后再试'
     }
-    if (error?.msg?.includes('Network Error')) {
+    if (error.message.includes('Network Error')) {
       errorMessage = '网络异常，请检查您的网络'
     }
-    error.msg && message.error(errorMessage)
+    message.error(errorMessage)
     return {
       code: false,
       message: errorMessage,

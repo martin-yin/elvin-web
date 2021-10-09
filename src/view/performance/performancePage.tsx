@@ -7,7 +7,6 @@ import StageTimeChart from '../../components/charts/performanceChart/stageTimeCh
 import StackBarChar from '../../components/charts/performanceChart/stackBarChart'
 import {
   GetPerformancePageList,
-  GetPerformanceRankingList,
   GetPerformanceStack,
   GetPerformanceStageTime,
   GetQuotaData

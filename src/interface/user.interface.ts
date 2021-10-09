@@ -51,19 +51,14 @@ export namespace UserIF {
     ua: string
   }
 
-  type PAGE_LOAD = 'page_url' | 'load_type'
-  type HTTP_LOG = 'http_url' | 'request_text' | 'response_text'
-  type JS_ERROR = 'message'
+  export type PAGE_LOAD = 'load_type'
+  export type HTTP_LOG = 'http_url' | 'request_text' | 'response_text'
   export type RESOURCE = 'element_type' | 'source_url'
   export type OPERATION = 'tag_name' | 'innter_text' | 'class_name'
 
   export type UserActionDetail = Readonly<
-    Record<PAGE_LOAD, string> &
-      Record<HTTP_LOG, string> &
-      Record<'status', number> &
-      Record<JS_ERROR, string> &
-      Record<RESOURCE, string> &
-      Record<OPERATION, string> &
+    Record<'status', number> &
+      Record<PAGE_LOAD | HTTP_LOG | 'page_url' | 'message' | RESOURCE | OPERATION, string> &
       UserActionDetailBase
   >
 

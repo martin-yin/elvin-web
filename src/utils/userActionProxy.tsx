@@ -3,14 +3,11 @@ import { UserIF } from '../interface'
 import { Tag } from 'antd'
 import { ListLableItem } from '../components/listLable/listLable'
 
-const PAGE_LOAD = (detail: UserIF.UserActionDetail): JSX.Element => (
-  <>
-    <ListLableItem label="浏览页面：">{detail.page_url}</ListLableItem>
-    <ListLableItem label="加载方式">{detail.load_type}</ListLableItem>
-  </>
+const PAGE_LOAD = (detail: Record<'load_type', string>): JSX.Element => (
+  <ListLableItem label="加载方式">{detail.load_type}</ListLableItem>
 )
 
-const HTTP_LOG = (detail: UserIF.UserActionDetail): JSX.Element => (
+const HTTP_LOG = (detail: Record<UserIF.HTTP_LOG, string> & Record<'status', number>): JSX.Element => (
   <>
     <ListLableItem label="请求URL" spanClass="over-hidde">
       {detail.http_url}
@@ -24,9 +21,7 @@ const HTTP_LOG = (detail: UserIF.UserActionDetail): JSX.Element => (
 )
 
 const JS_ERROR = (detail: Record<'message', string>): JSX.Element => (
-  <>
-    <ListLableItem label="异常信息">{detail.message}</ListLableItem>
-  </>
+  <ListLableItem label="异常信息">{detail.message}</ListLableItem>
 )
 
 const RESOURCE = (detail: Record<UserIF.RESOURCE, string>): JSX.Element => (
@@ -44,7 +39,7 @@ const OPERATION = (detail: Record<UserIF.OPERATION, string>): JSX.Element => (
   </>
 )
 
-const PAGE_VIEW = (detail: Pick<UserIF.UserActionDetail, 'page_url'>): JSX.Element => (
+const PAGE_VIEW = (detail: Record<'page_url', string>): JSX.Element => (
   <>
     <li>
       <label>页面URL：</label>
