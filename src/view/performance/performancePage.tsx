@@ -1,18 +1,18 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Table, Tag } from 'antd'
-import './index.less'
 import moment from 'moment'
-import { PerformanceIF } from '../../interface'
-import StageTimeChart from '../../components/charts/performanceChart/stageTimeChart'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import StackBarChar from '../../components/charts/performanceChart/stackBarChart'
+import StageTimeChart from '../../components/charts/performanceChart/stageTimeChart'
+import HeaderQuota from '../../components/headerQuota/headerQuota'
+import TimePickerChart from '../../components/timeChartPicker/timePickerChart'
+import { PerformanceIF } from '../../interface'
 import {
   GetPerformancePageList,
   GetPerformanceStack,
   GetPerformanceStageTime,
   GetQuotaData
 } from '../../request/performance'
-import HeaderQuota from '../../components/headerQuota/headerQuota'
-import TimePickerChart from '../../components/timeChartPicker/timePickerChart'
+import './index.less'
 
 const PerformancePage: FC = () => {
   const [performanceParam, setPerformanceParam] = useState<PerformanceIF.PerformanceParam>({

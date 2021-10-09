@@ -1,13 +1,12 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Table, Tabs } from 'antd'
-import './index.less'
 import moment from 'moment'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import HttpStageTimeChart from '../../components/charts/httpChart/stageTimeChart'
-import { GetHttpList, GetHttpQuota, GetHttpStage } from '../../request/http'
-import { HttpIF } from '../../interface'
 import HeaderQuota from '../../components/headerQuota/headerQuota'
 import TimePickerChart from '../../components/timeChartPicker/timePickerChart'
-
+import { HttpIF } from '../../interface'
+import { GetHttpList, GetHttpQuota, GetHttpStage } from '../../request/http'
+import './index.less'
 const { TabPane } = Tabs
 
 const HttpPage: FC = () => {

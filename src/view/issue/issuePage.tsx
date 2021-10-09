@@ -1,8 +1,8 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Card, Space, Table, Tag } from 'antd'
-import { GetJsError } from '../../request'
-import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
+import React, { FC, useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { GetJsError } from '../../request'
 
 const IssuePage: FC = () => {
   const [issueList, setIssueList] = useState<any>([])

@@ -1,9 +1,10 @@
-import React, { FC, useEffect, useState } from 'react'
-import { DashboardOutlined, UsergroupDeleteOutlined, ThunderboltOutlined, CodeOutlined } from '@ant-design/icons'
+import { CodeOutlined, DashboardOutlined, ThunderboltOutlined, UsergroupDeleteOutlined } from '@ant-design/icons'
 import { Menu } from 'antd'
+import React, { FC, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 const { SubMenu } = Menu
-const MenuList = [
+
+const menuList = [
   {
     key: '/',
     path: '/',
@@ -52,8 +53,8 @@ const MenuList = [
   }
 ]
 
-function findKeyByMenuList(path) {
-  const item = MenuList.find(item => {
+const findKeyByMenuList = (path: string) => {
+  const item = menuList.find(item => {
     if (item?.children) {
       return item.children.find(child => child.path == path)
     }
@@ -77,7 +78,6 @@ const SiderMenu: FC = () => {
   })
   useEffect(() => {
     const res = findKeyByMenuList(location.pathname)
-
     if (Array.isArray(res)) {
       setMenuKeys({
         selectKeys: res[0],
@@ -89,17 +89,16 @@ const SiderMenu: FC = () => {
         openKeys: []
       })
     }
-    console.log(menuKeys.openKeys)
   }, [])
 
-  const menuClick = ({ item, key, keyPath }) => {
-    if (Array.isArray(keyPath)) {
+  const menuClick = item => {
+    if (Array.isArray(item.keyPath)) {
       setMenuKeys({
-        selectKeys: Array.of(keyPath[0]),
-        openKeys: Array.of(keyPath[1])
+        selectKeys: Array.of(item.keyPath[0]),
+        openKeys: Array.of(item.keyPath[1])
       })
     } else {
-      const res = findKeyByMenuList(keyPath)
+      const res = findKeyByMenuList(item.keyPath)
       setMenuKeys({
         selectKeys: Array.of(res),
         openKeys: []
@@ -123,7 +122,7 @@ const SiderMenu: FC = () => {
       selectedKeys={menuKeys.selectKeys}
       onClick={menuClick}
     >
-      {MenuList.map((item: any) => {
+      {menuList.map((item: any) => {
         return (
           <>
             {item?.children ? (

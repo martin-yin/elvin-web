@@ -1,10 +1,10 @@
-import React, { FC } from 'react'
 import { AppstoreOutlined, EditOutlined } from '@ant-design/icons'
 import { Card, Col, Progress, Space, Tooltip } from 'antd'
+import React, { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { setMonitorId } from '../../stores/app.store'
 import { TeamIF } from '../../interface'
+import { setMonitorId } from '../../stores/app.store'
 
 const ProjectItem: FC<any> = ({ item, index, health }) => {
   const dispatch = useDispatch()

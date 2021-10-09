@@ -4,14 +4,15 @@ import { Header } from 'antd/lib/layout/layout'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { ProjectIF } from '../../interface'
-import { GetProjectList } from '../../request/admin'
-import { useAppState } from '../../stores'
-import { setMonitorId, setProjectList } from '../../stores/app.store'
+import { ProjectIF } from '../../../interface'
+import { GetProjectList } from '../../../request/admin'
+import { useAppState } from '../../../stores'
+import { setMonitorId, setProjectList } from '../../../stores/app.store'
 import './index.less'
+
 const { Option } = Select
 
-const TopHeaderNav: FC<any> = ({ collapsed, toggle }) => {
+const NavMenu: FC<any> = ({ collapsed, toggle }) => {
   const { activeMenu, projectList, monitorId } = useAppState(state => state.appsotre)
   const [defaultMonitorId, setDefaultMonitorId] = useState('')
   const navigate = useNavigate()
@@ -103,4 +104,4 @@ const TopHeaderNav: FC<any> = ({ collapsed, toggle }) => {
   )
 }
 
-export default TopHeaderNav
+export default NavMenu

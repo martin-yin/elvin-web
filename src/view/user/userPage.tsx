@@ -1,12 +1,11 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Table, Space, Tag, DatePicker, Input, Select } from 'antd'
-import './index.less'
-
-import { Link } from 'react-router-dom'
-import { getTimeYYMMDDHM } from '../../utils'
+import { Card, DatePicker, Input, Select, Space, Table, Tag } from 'antd'
 import moment from 'moment'
+import React, { FC, useCallback, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { UserIF } from '../../interface'
 import { GetUserList } from '../../request/user'
+import { getTimeYYMMDDHM } from '../../utils'
+import './index.less'
 
 const { Search } = Input
 const { Option } = Select
