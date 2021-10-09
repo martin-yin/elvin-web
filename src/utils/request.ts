@@ -16,7 +16,7 @@ axios.interceptors.response.use(
   (response: AxiosResponse) => {
     const responseCode = response.status
     if (responseCode === 200) {
-      return Promise.resolve(response)
+      return Promise.resolve(response.data)
     } else {
       return Promise.reject(response)
     }

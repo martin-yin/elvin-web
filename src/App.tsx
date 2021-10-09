@@ -12,6 +12,7 @@ import PerformancePage from './view/performance/performancePage'
 import ProjectPage from './view/project/projectPage'
 import ResourcesPage from './view/resources/resourcesPage'
 import TeamPage from './view/team/teamPage'
+import UserActionPage from './view/user/useDetailPage'
 import UserPage from './view/user/userPage'
 
 const RenderRouter: FC = () => {
@@ -27,7 +28,7 @@ const RenderRouter: FC = () => {
         { path: '/issue', element: <IssuePage /> },
         { path: '/issue/detail/:error_id', element: <IssueDetailPage /> },
         { path: '/user', element: <UserPage /> },
-        { path: '/user/detail/:sessionId/:userId', element: <IssueDetailPage /> },
+        { path: '/user/detail/:sessionId/:userId', element: <UserActionPage /> },
         { path: '/project', element: <ProjectPage /> },
         { path: '/team', element: <TeamPage /> },
         { path: '/project', element: <ProjectPage /> }

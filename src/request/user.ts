@@ -1,4 +1,4 @@
-import { UserIF } from '../interface'
+import type { UserIF } from '../interface'
 import { request } from '../utils/request'
 
 export const GetUserList = (params: UserIF.UserParams) => request<UserIF.UserList>('get', '/communal/userList', params)
