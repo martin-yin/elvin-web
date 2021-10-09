@@ -15,7 +15,7 @@ import { ListLable, ListLableItem } from '../../components/listLable/listLable'
 
 const { Panel } = Collapse
 const IssueDetailPage: FC = () => {
-  const params: any = useParams()
+  const params: any = useParams<'error_id'>()
   const [form] = Form.useForm()
   const [issue, setIssue] = useState<Issue.Issue>()
   const [stackFramesList, setStackFramesList] = useState<Issue.StackFramesList>([])

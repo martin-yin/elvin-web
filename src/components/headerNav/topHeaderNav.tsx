@@ -21,10 +21,6 @@ const TopHeaderNav: FC<any> = ({ collapsed, toggle }) => {
   const location = useLocation()
   const dispatch = useDispatch()
 
-  // navigate.listen(location => {
-  //   setMenu(location.pathname)
-  // })
-
   const setMenu = (path: string) => {
     dispatch(setActiveMenu('/' + path.split('/')[1]))
   }

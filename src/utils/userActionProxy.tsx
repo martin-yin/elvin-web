@@ -17,32 +17,26 @@ const HTTP_LOG = (detail: UserIF.UserActionDetail): JSX.Element => (
     </ListLableItem>
     <ListLableItem label="请求参数">{detail.request_text}</ListLableItem>
     <ListLableItem label="请求返回状态码">
-      {detail.status > 200 ? (
-        <Tag color="#f50">{`${detail.status}`} </Tag>
-      ) : (
-        <Tag color="#2db7f5">{`${detail.status}`} </Tag>
-      )}
+      <Tag color={detail.status > 200 ? '#f50' : '#2db7f5'}>{detail.status} </Tag>
     </ListLableItem>
     <ListLableItem label="请求返回">{detail.response_text}</ListLableItem>
   </>
 )
 
-const JS_ERROR = (detail: UserIF.UserActionDetail): JSX.Element => (
+const JS_ERROR = (detail: Record<'message', string>): JSX.Element => (
   <>
-    <ListLableItem label="页面URL">{detail.page_url}</ListLableItem>
     <ListLableItem label="异常信息">{detail.message}</ListLableItem>
   </>
 )
 
-const RESOURCE = (detail: UserIF.UserActionDetail): JSX.Element => (
+const RESOURCE = (detail: Record<UserIF.RESOURCE, string>): JSX.Element => (
   <>
-    <ListLableItem label="页面URL">{detail.page_url}</ListLableItem>
     <ListLableItem label="异常类型">{detail.element_type}</ListLableItem>
     <ListLableItem label="异常资源">{detail.source_url}</ListLableItem>
   </>
 )
 
-const OPERATION = (detail: UserIF.UserActionDetail): JSX.Element => (
+const OPERATION = (detail: Record<UserIF.OPERATION, string>): JSX.Element => (
   <>
     <ListLableItem label="点击Tag">{detail.tag_name}</ListLableItem>
     <ListLableItem label="点击正文">{detail.innter_text}</ListLableItem>
@@ -50,7 +44,7 @@ const OPERATION = (detail: UserIF.UserActionDetail): JSX.Element => (
   </>
 )
 
-const PAGE_VIEW = (detail: UserIF.UserActionDetail): JSX.Element => (
+const PAGE_VIEW = (detail: Pick<UserIF.UserActionDetail, 'page_url'>): JSX.Element => (
   <>
     <li>
       <label>页面URL：</label>

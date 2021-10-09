@@ -3,7 +3,7 @@ import { Card, Space, Table, Tag } from 'antd'
 import { GetJsError } from '../../request'
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
-// import { DownOutlined } from '@ant-design/icons'
+
 const IssuePage: FC = () => {
   const [issueList, setIssueList] = useState<any>([])
   const navigate = useNavigate()
@@ -16,13 +16,6 @@ const IssuePage: FC = () => {
   useEffect(() => {
     initData()
   }, [initData])
-
-  // const menu = (
-  //   <Menu>
-  //     <Menu.Item>a danger item</Menu.Item>
-  //     <Menu.Item>a danger item</Menu.Item>
-  //   </Menu>
-  // )
 
   const columns = [
     {

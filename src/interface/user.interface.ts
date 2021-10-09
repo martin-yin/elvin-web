@@ -39,7 +39,7 @@ export namespace UserIF {
     total: number
   }
 
-  export interface UserActionDetail {
+  export interface UserActionDetailBase {
     action_type: string
     device: string
     device_type: string
@@ -49,24 +49,23 @@ export namespace UserIF {
     browser_version: string
     happen_time: string
     ua: string
-    page_url?: string
-    // 点击事件
-    tag_name?: string
-    innter_text?: string
-    class_name?: string
-    // 资源异常
-    element_type?: string
-    source_url?: string
-    // js 异常
-    message?: string
-    // http请求
-    http_url?: string
-    request_text?: string
-    status: number
-    response_text?: string
-    // 页面加载
-    load_type?: string
   }
+
+  type PAGE_LOAD = 'page_url' | 'load_type'
+  type HTTP_LOG = 'http_url' | 'request_text' | 'response_text'
+  type JS_ERROR = 'message'
+  export type RESOURCE = 'element_type' | 'source_url'
+  export type OPERATION = 'tag_name' | 'innter_text' | 'class_name'
+
+  export type UserActionDetail = Readonly<
+    Record<PAGE_LOAD, string> &
+      Record<HTTP_LOG, string> &
+      Record<'status', number> &
+      Record<JS_ERROR, string> &
+      Record<RESOURCE, string> &
+      Record<OPERATION, string> &
+      UserActionDetailBase
+  >
 
   export interface UserAction {
     action_type: string
