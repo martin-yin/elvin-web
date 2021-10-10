@@ -1,7 +1,6 @@
 import { Button, Card, Col, message, Popconfirm, Row } from 'antd'
 import moment from 'moment'
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { UnControlled as CodeMirror } from 'react-codemirror2'
 import { useNavigate } from 'react-router-dom'
 import { TeamIF } from '../../interface/team.interface'
 import { DelProject, GetProject } from '../../request/admin'
@@ -73,14 +72,14 @@ const ProjectPage: FC = () => {
             <p className="align-right">打点代码：</p>
           </Col>
           <Col span={14}>
-            <CodeMirror
+            {/* <CodeMirror
               value={code}
               options={{
                 mode: 'javascript',
                 theme: 'material',
                 lineNumbers: true
               }}
-            />
+            /> */}
           </Col>
           <Col span={8}></Col>
         </Row>
