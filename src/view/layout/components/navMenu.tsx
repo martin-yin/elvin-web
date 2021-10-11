@@ -4,10 +4,10 @@ import { Header } from 'antd/lib/layout/layout'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import projectInteractor from '../../../core/interactors/project-interactor'
 import { ProjectIF } from '../../../interface'
-import { GetProjectList } from '../../../request/admin'
 import { useAppState } from '../../../stores'
-import { setMonitorId, setProjectList } from '../../../stores/app.store'
+import { setMonitorId } from '../../../stores/app.store'
 import './index.less'
 
 const { Option } = Select
@@ -17,20 +17,13 @@ const NavMenu: FC<any> = ({ collapsed, toggle }) => {
   const [defaultMonitorId, setDefaultMonitorId] = useState('')
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
-  const initData = useCallback(async () => {
-    const { data, code } = await GetProjectList()
-    if (code === 200) {
-      const monitor_id = localStorage.getItem('monitor_id') ? localStorage.getItem('monitor_id') : data[0]?.monitor_id
-      setDefaultMonitorId(monitor_id)
-      dispatch(setProjectList(data))
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  const initData = useCallback(async (setMonitorId, dispatch) => {
+    await projectInteractor.getProjectList(setMonitorId, dispatch)
   }, [])
 
   useEffect(() => {
-    initData()
-  }, [initData])
+    initData(setDefaultMonitorId, dispatch)
+  }, [])
 
   useEffect(() => {
     setDefaultMonitorId(monitorId)
@@ -59,10 +52,8 @@ const NavMenu: FC<any> = ({ collapsed, toggle }) => {
     </Menu>
   )
 
-  const projectSelectRender = (projectList: ProjectIF.ProjectList) => {
-    if (projectList.length == 0) {
-      return <></>
-    } else {
+  const selectRender = (projectList: ProjectIF.ProjectList) => {
+    if (projectList.length > 0 && activeMenu == '/') {
       return (
         <Select
           style={{ width: 140, marginRight: '20px' }}
@@ -80,6 +71,7 @@ const NavMenu: FC<any> = ({ collapsed, toggle }) => {
         </Select>
       )
     }
+    return <></>
   }
 
   return (
@@ -92,7 +84,7 @@ const NavMenu: FC<any> = ({ collapsed, toggle }) => {
           })}
         </div>
         <div className="flex-grow-0 flex">
-          <div className="">{activeMenu === '/' ? '' : projectSelectRender(projectList)}</div>
+          <div>{selectRender(projectList)}</div>
           <Dropdown overlay={avatarMenu} placement="bottomCenter">
             <div>
               <Avatar size={36} src="https://qq.yh31.com/tp/zjbq/202011171044101948.jpg" />

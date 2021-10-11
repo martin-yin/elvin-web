@@ -1,7 +1,9 @@
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { Card, Col, Form, message, Row } from 'antd'
+import moment from 'moment'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import FilterHeader from '../../components/filterHeader/filterHeader'
 import CreateProjectModal from '../../components/project/createProjectModal'
 import ProjectItem from '../../components/project/projectItem'
 import { ProjectIF, TeamIF } from '../../interface'
@@ -79,6 +81,7 @@ const HomePage: FC = () => {
 
   return (
     <>
+      <FilterHeader startTime={moment().format('YYYY-MM-DD')} endTime={moment().format('YYYY-MM-DD')} />
       <CreateProjectModal visible={visible} form={form} onClose={onClose} onCreate={createProject} />
       <div className="project-list">
         <Row gutter={[16, 16]}>

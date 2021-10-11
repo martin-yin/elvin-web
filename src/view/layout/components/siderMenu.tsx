@@ -18,36 +18,47 @@ const menuList = [
     icon: <UsergroupDeleteOutlined />
   },
   {
+    key: 'http',
+    path: '/http',
+    title: '请求分析',
+    icon: <UsergroupDeleteOutlined />
+  },
+  {
     key: 'sub1',
-    title: '性能',
+    title: '性能分析',
     icon: <ThunderboltOutlined />,
     children: [
       {
         key: 'performance',
         path: '/performance',
-        title: '页面性能'
+        title: '页面加载'
       },
       {
-        key: 'http',
-        path: '/http',
-        title: 'API接口'
+        key: 'static',
+        path: '/static',
+        title: '静态资源性能'
       }
     ]
   },
   {
     key: 'sub2',
-    title: '异常',
+    title: '异常分析',
     icon: <CodeOutlined />,
     children: [
       {
-        key: 'issue',
-        path: '/issue',
+        key: 'jserror',
+        path: '/jserror',
         title: 'JS异常'
       },
       {
-        key: 'resource',
-        path: '/resource',
-        title: '资源异常'
+        key: 'httperror',
+        path: '/httperror',
+        title: '请求异常'
+      },
+      {
+        key: 'static_err',
+        path: '/static_err',
+        title: '静态资源异常'
       }
     ]
   }
@@ -112,6 +123,31 @@ const SiderMenu: FC = () => {
       openKeys
     })
   }
+
+  const renderMenu = item => {
+    const renderMenuItem = item => {
+      return (
+        <Menu.Item key={item.path} icon={item.icon}>
+          <Link to={item.path}>{item.title}</Link>
+        </Menu.Item>
+      )
+    }
+
+    const renderSubMenu = item => {
+      return (
+        <SubMenu key={item.key} icon={item.icon} title={item.title}>
+          {item.children.map(child => {
+            return (
+              <Menu.Item key={child.path}>
+                <Link to={child.path}>{child.title}</Link>
+              </Menu.Item>
+            )
+          })}
+        </SubMenu>
+      )
+    }
+    return item?.children ? renderSubMenu(item) : renderMenuItem(item)
+  }
   return (
     <Menu
       mode="inline"
@@ -123,25 +159,7 @@ const SiderMenu: FC = () => {
       onClick={menuClick}
     >
       {menuList.map((item: any) => {
-        return (
-          <>
-            {item?.children ? (
-              <SubMenu key={item.key} icon={item.icon} title={item.title}>
-                {item.children.map(child => {
-                  return (
-                    <Menu.Item key={child.path}>
-                      <Link to={child.path}>{child.title}</Link>
-                    </Menu.Item>
-                  )
-                })}
-              </SubMenu>
-            ) : (
-              <Menu.Item key={item.path} icon={item.icon}>
-                <Link to={item.path}>{item.title}</Link>
-              </Menu.Item>
-            )}
-          </>
-        )
+        return renderMenu(item)
       })}
     </Menu>
   )

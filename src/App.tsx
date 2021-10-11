@@ -1,6 +1,6 @@
 import 'moment/locale/zh-cn'
 import React, { FC } from 'react'
-import { BrowserRouter, useRoutes } from 'react-router-dom'
+import { BrowserRouter, RouteObject, useRoutes } from 'react-router-dom'
 import HomePage from './view/home/homePage'
 import HttpPage from './view/http/httpPage'
 import IssueDetailPage from './view/issue/issueDetailPage'
@@ -15,7 +15,7 @@ import UserActionPage from './view/user/useDetailPage'
 import UserPage from './view/user/userPage'
 
 const RenderRouter: FC = () => {
-  const routeList = [
+  const routeList: Array<RouteObject> = [
     {
       path: '/',
       element: <LayoutPage />,
