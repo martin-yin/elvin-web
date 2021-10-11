@@ -6,19 +6,24 @@ import { setUserInfo } from '../../stores/app.store'
 import { useDispatch } from 'react-redux'
 import { Tabs } from 'antd'
 import { AdminLogin, RegisterAdmin } from '../../request/admin'
+import { useNavigate } from 'react-router'
 
 const { TabPane } = Tabs
 const LoginPage: FC = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const userLogin = async (form: any) => {
-    const data: any = await AdminLogin(form)
-    if (data.code == 200) {
-      dispatch(setUserInfo(data.data.user))
-      localStorage.setItem('token', data.data.token)
+    const { data, code } = await AdminLogin(form)
+
+    console.log(code)
+    if (code == 200) {
+      dispatch(setUserInfo(data.user))
+      localStorage.setItem('token', data.token)
+      navigate('/')
     } else {
-      notification['error']({
-        message: data.msg
-      })
+      // notification['error']({
+      //   message: data.msg
+      // })
     }
   }
 

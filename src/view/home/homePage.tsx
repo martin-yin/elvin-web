@@ -1,15 +1,12 @@
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { Card, Col, Form, message, Row } from 'antd'
-import moment from 'moment'
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import FilterHeader from '../../components/filterHeader/filterHeader'
 import CreateProjectModal from '../../components/project/createProjectModal'
 import ProjectItem from '../../components/project/projectItem'
+import projectInteractor from '../../core/interactors/projectInteractor'
 import { ProjectIF, TeamIF } from '../../interface'
-import { CreateProject, GetProjectHealthy, GetProjectList } from '../../request/admin'
+import { CreateProject } from '../../request/admin'
 import { useAppState } from '../../stores'
-import { setProjectList } from '../../stores/app.store'
 import './index.less'
 
 const HomePage: FC = () => {
@@ -17,25 +14,11 @@ const HomePage: FC = () => {
   const [healthyList, setHealthyList] = useState<TeamIF.ProjectHealthyList>([])
   const [visible, setVisible] = useState(false)
   const [form] = Form.useForm()
-  const dispatch = useDispatch()
 
   const initProjectData = useCallback(async () => {
-    const { data, code } = await GetProjectList()
-    if (code === 200) {
-      dispatch(setProjectList(data))
-      const monitorIds: Array<string> = []
-      data.map(project => {
-        monitorIds.push(project.monitor_id)
-      })
-      await projectHealthy(monitorIds.join(','))
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const data = await projectInteractor.getProjectHealthyList()
+    setHealthyList(data)
   }, [])
-
-  const projectHealthy = async (monitorIds: string) => {
-    const data = await GetProjectHealthy({ monitor_id: monitorIds })
-    setHealthyList(data.data)
-  }
 
   useEffect(() => {
     initProjectData()
@@ -79,19 +62,22 @@ const HomePage: FC = () => {
     )
   }
 
+  const renderProjectList = () => {
+    if (projectList.length > 0) {
+      return projectList.map((item: ProjectIF.Project, index: number) => {
+        return <ProjectItem health={healthyList[index]} key={index} item={item} index={index} />
+      })
+    }
+    return <></>
+  }
+
   return (
     <>
-      <FilterHeader startTime={moment().format('YYYY-MM-DD')} endTime={moment().format('YYYY-MM-DD')} />
+      {/* <FilterHeader startTime={moment().format('YYYY-MM-DD')} endTime={moment().format('YYYY-MM-DD')} /> */}
       <CreateProjectModal visible={visible} form={form} onClose={onClose} onCreate={createProject} />
       <div className="project-list">
         <Row gutter={[16, 16]}>
-          {projectList.length > 0 ? (
-            projectList.map((item: ProjectIF.Project, index: number) => {
-              return <ProjectItem health={healthyList[index]} key={index} item={item} index={index} />
-            })
-          ) : (
-            <></>
-          )}
+          {renderProjectList()}
           {renderAddProjectItem()}
         </Row>
       </div>

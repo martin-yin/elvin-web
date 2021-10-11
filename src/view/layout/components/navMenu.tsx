@@ -1,36 +1,38 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { Avatar, Dropdown, Menu, Select } from 'antd'
 import { Header } from 'antd/lib/layout/layout'
-import React, { FC, useCallback, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { FC, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import projectInteractor from '../../../core/interactors/project-interactor'
+import projectInteractor from '../../../core/interactors/projectInteractor'
 import { ProjectIF } from '../../../interface'
-import { useAppState } from '../../../stores'
-import { setMonitorId } from '../../../stores/app.store'
+import { useAppDispatch, useAppState } from '../../../stores'
+import { setMonitorId, setMonitorIdAndProject } from '../../../stores/app.store'
 import './index.less'
-
 const { Option } = Select
 
-const NavMenu: FC<any> = ({ collapsed, toggle }) => {
-  const { activeMenu, projectList, monitorId } = useAppState(state => state.appsotre)
-  const [defaultMonitorId, setDefaultMonitorId] = useState('')
+const NavMenu: FC<{
+  collapsed: boolean
+  toggle: () => void
+}> = ({ collapsed, toggle }) => {
+  const { projectList, monitorId } = useAppState(state => state.appsotre)
   const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const initData = useCallback(async (setMonitorId, dispatch) => {
-    await projectInteractor.getProjectList(setMonitorId, dispatch)
+  const storeDispatch = useAppDispatch()
+  const initData = useCallback(async () => {
+    const { monitor_id, projectList } = await projectInteractor.getProjects()
+    storeDispatch(
+      setMonitorIdAndProject({
+        monitor_id,
+        projectList
+      })
+    )
   }, [])
 
   useEffect(() => {
-    initData(setDefaultMonitorId, dispatch)
+    initData()
   }, [])
-
-  useEffect(() => {
-    setDefaultMonitorId(monitorId)
-  }, [monitorId])
 
   const setProjectId = (value: string) => {
-    dispatch(setMonitorId(value))
+    storeDispatch(setMonitorId(value))
     navigate('/user')
   }
 
@@ -53,12 +55,12 @@ const NavMenu: FC<any> = ({ collapsed, toggle }) => {
   )
 
   const selectRender = (projectList: ProjectIF.ProjectList) => {
-    if (projectList.length > 0 && activeMenu == '/') {
+    if (projectList.length > 0) {
       return (
         <Select
           style={{ width: 140, marginRight: '20px' }}
-          defaultValue={defaultMonitorId}
-          key={defaultMonitorId}
+          defaultValue={monitorId}
+          key={monitorId}
           onChange={setProjectId}
         >
           {projectList.map((item: ProjectIF.Project, index: number) => {

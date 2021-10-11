@@ -20,6 +20,11 @@ const appStore = createSlice({
       localStorage.setItem('monitor_id', action.payload)
       state.monitorId = action.payload
     },
+    setMonitorIdAndProject(state, action: PayloadAction<any>) {
+      localStorage.setItem('monitor_id', action.payload.monitor_id)
+      state.monitorId = action.payload.monitor_id
+      state.projectList = action.payload.projectList
+    },
     setProjectList(state, action: PayloadAction<any>) {
       state.projectList = action.payload
     },
@@ -29,6 +34,6 @@ const appStore = createSlice({
   }
 })
 
-export const { setActiveMenu, setMonitorId, setProjectList, setUserInfo } = appStore.actions
+export const { setActiveMenu, setMonitorIdAndProject, setMonitorId, setProjectList, setUserInfo } = appStore.actions
 
 export default appStore.reducer

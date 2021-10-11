@@ -13,8 +13,20 @@ axios.interceptors.request.use(
 )
 
 axios.interceptors.response.use(
-  (response: AxiosResponse) => {
+  (
+    response: AxiosResponse<{
+      code: number
+    }>
+  ) => {
     const responseCode = response.status
+    if (response.data?.code === 401) {
+      message.error('登录状态过期！')
+      return Promise.reject(response)
+    }
+    if (responseCode === 404) {
+      message.error('404')
+      return Promise.reject(response)
+    }
     if (responseCode === 200) {
       return Promise.resolve(response.data)
     } else {
@@ -23,12 +35,16 @@ axios.interceptors.response.use(
   },
   error => {
     let errorMessage = ''
+    if (error.message.includes('404')) {
+      errorMessage = '接口地址错误，请检查接口地址！'
+    }
     if (error.message.includes('timeout')) {
       errorMessage = '请求超时，请稍后再试'
     }
     if (error.message.includes('Network Error')) {
       errorMessage = '网络异常，请检查您的网络'
     }
+
     message.error(errorMessage)
     return {
       code: false,
