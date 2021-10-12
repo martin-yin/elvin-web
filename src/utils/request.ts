@@ -1,8 +1,11 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { message } from 'antd'
-axios.defaults.timeout = 10000
 
-axios.interceptors.request.use(
+const service = axios.create({
+  timeout: 60000
+})
+
+service.interceptors.request.use(
   config => {
     config.headers['token'] = localStorage.getItem('token')
     return config
@@ -12,7 +15,7 @@ axios.interceptors.request.use(
   }
 )
 
-axios.interceptors.response.use(
+service.interceptors.response.use(
   (
     response: AxiosResponse<{
       code: number

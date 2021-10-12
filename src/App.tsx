@@ -12,8 +12,8 @@ import PerformancePage from './view/performance/performancePage'
 import ProjectPage from './view/project/projectPage'
 import ResourcesPage from './view/resources/resourcesPage'
 import TeamPage from './view/team/teamPage'
-import UserActionPage from './view/user/useDetailPage'
-import UserPage from './view/user/userPage'
+import UserActionPage from './view/User/useDetailPage'
+import UserPage from './view/User/userPage'
 
 const RenderRouter: FC = () => {
   const routeList: Array<RouteObject> = [
