@@ -17,7 +17,7 @@ const NavMenu: FC<{
   const { projectList, monitorId } = useAppState(state => state.appsotre)
   const navigate = useNavigate()
   const storeDispatch = useAppDispatch()
-  const initData = useCallback(async () => {
+  const initProjectList = useCallback(async () => {
     const { monitor_id, projectList } = await projectInteractor.getProjects()
     storeDispatch(
       setMonitorIdAndProject({
@@ -28,7 +28,7 @@ const NavMenu: FC<{
   }, [])
 
   useEffect(() => {
-    initData()
+    initProjectList()
   }, [])
 
   const setProjectId = (value: string) => {

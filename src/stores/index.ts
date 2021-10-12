@@ -10,7 +10,6 @@ type AppState = ReturnType<typeof rootReducer>
 type AppDispatch = typeof store.dispatch
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
-
 export const useAppState = <T extends (state: AppState) => any>(selector: T): ReturnType<T> => useSelector(selector)
 
 export default store

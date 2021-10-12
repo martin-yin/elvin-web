@@ -2,6 +2,7 @@ import { Card, DatePicker, Input, Select, Space, Table, Tag } from 'antd'
 import moment from 'moment'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import userInteractor from '../../core/interactors/userInteractor copy'
 import { UserIF } from '../../interface'
 import { GetUserList } from '../../request/user'
 import { getTimeYYMMDDHM } from '../../utils'
@@ -26,14 +27,14 @@ const UserPage: FC = () => {
     search_hour: '00:00'
   })
 
-  const initUserListData = useCallback(async () => {
-    const { data } = await GetUserList(userParams)
+  const initUserList = useCallback(async () => {
+    const data = await userInteractor.geUsers(userParams)
     setUserList(data)
   }, [userParams])
 
   useEffect(() => {
-    initUserListData()
-  }, [initUserListData, userParams])
+    initUserList()
+  }, [initUserList, userParams])
 
   const timeChange = (date: any, dateString: string) => {
     setUserParams({

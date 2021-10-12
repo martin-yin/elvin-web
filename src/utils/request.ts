@@ -21,6 +21,7 @@ axios.interceptors.response.use(
     const responseCode = response.status
     if (response.data?.code === 401) {
       message.error('登录状态过期！')
+      location.href = '/login'
       return Promise.reject(response)
     }
     if (responseCode === 404) {

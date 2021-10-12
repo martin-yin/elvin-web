@@ -13,8 +13,9 @@ import {
   PageViewIcon,
   PageResourceIcon
 } from '../../assets'
-import { GetUse, GetUserActionList, GetUsersActionsStatistics } from '../../request/user'
+import { GetUse, GetUsersActionsStatistics } from '../../request/user'
 import { ListLable, ListLableItem } from '../../components/listLable/listLable'
+import userInteractor from '../../core/interactors/userInteractor copy'
 
 const USERACTIONICON: {
   [key: string]: { icon: string; text: string }
@@ -29,8 +30,6 @@ const USERACTIONICON: {
 
 const UserActionPage: FC = () => {
   const [userActionsList, setUserActionsList] = useState({
-    page: 1,
-    limit: 3,
     total: 0,
     list: []
   })
@@ -38,28 +37,28 @@ const UserActionPage: FC = () => {
   const [detail, setDetail] = useState({} as any)
   const [activeId, setActiveId] = useState('')
   const [userInfo, setUserInfo] = useState<UserIF.User>()
-  const params: any = useParams()
+  const params = useParams<'user_id' | 'session_id'>()
   const initUserInfoData = useCallback(async () => {
-    const userInfores = await GetUse(params.userId)
+    const userInfores = await GetUse(params.user_id)
     const usersActionsStatistics = await GetUsersActionsStatistics({
-      session_id: params.sessionId
+      session_id: params.session_id
     })
     setUserInfo(userInfores.data)
     setUserActionStatistics(usersActionsStatistics.data)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const initUserActionList = useCallback(async () => {
-    const userActionList: any = await GetUserActionList({
-      session_id: params.sessionId,
-      page: 1,
+  const initUserActionList = useCallback(async page => {
+    const userActionList = await userInteractor.getUserActions({
+      session_id: params.session_id,
+      page: page,
       limit: 3
     })
+
     setUserActionsList({
-      page: 1,
-      limit: 3,
-      total: userActionList.data.total,
-      list: userActionList.data.user_actions_list
+      ...userActionsList,
+      total: userActionList.total,
+      list: userActionList.user_actions_list
     })
   }, [])
 
@@ -68,7 +67,7 @@ const UserActionPage: FC = () => {
   }, [initUserInfoData])
 
   useEffect(() => {
-    initUserActionList()
+    initUserActionList(1)
   }, [])
 
   const activeTimeLine = async (item: any) => {
@@ -77,18 +76,10 @@ const UserActionPage: FC = () => {
   }
 
   const onPageChange = async (page: any) => {
-    setActiveId('')
-    const userActionList: any = await GetUserActionList({
-      session_id: params.sessionId,
-      page: page,
-      limit: 3
-    })
     setUserActionsList({
-      page: page,
-      limit: 3,
-      total: userActionList.data.total,
-      list: userActionList.data.user_actions_list
+      ...userActionsList
     })
+    initUserActionList(page)
   }
 
   const userStatisticsRender = (key: number, item: any) => {
@@ -158,12 +149,7 @@ const UserActionPage: FC = () => {
             </div>
           </div>
           <div style={{ marginTop: '10px', textAlign: 'right' }}>
-            <Pagination
-              onChange={onPageChange}
-              current={userActionsList.page}
-              pageSize={3}
-              total={userActionsList.total}
-            />
+            <Pagination onChange={onPageChange} pageSize={3} total={userActionsList.total} />
           </div>
         </Card>
       </div>

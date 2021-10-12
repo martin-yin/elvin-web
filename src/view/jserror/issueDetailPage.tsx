@@ -15,7 +15,7 @@ import './index.less'
 
 const { Panel } = Collapse
 const IssueDetailPage: FC = () => {
-  const params: any = useParams<'error_id'>()
+  const params = useParams<'error_id'>()
   const [form] = Form.useForm()
   const [issue, setIssue] = useState<Issue.Issue>()
   const [stackFramesList, setStackFramesList] = useState<Issue.StackFramesList>([])
@@ -31,7 +31,7 @@ const IssueDetailPage: FC = () => {
 
   const initStackTrackData = useCallback(async () => {
     const result = await GetIssuesDetail({
-      issue_id: params.error_id,
+      issue_id: +params.error_id,
       error_id: 0
     })
     setIssue(result.data)

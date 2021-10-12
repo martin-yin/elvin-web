@@ -4,7 +4,7 @@ import HeaderQuota from '../../components/headerQuota/headerQuota'
 import { ResourcesIF } from '../../interface/'
 import { webPageErrorData } from '../../request'
 
-const ResourcesPage: FC = () => {
+const StaticErrPage: FC = () => {
   const [resourcesData, setErrorPageData] = useState<{
     quota: ResourcesIF.Quota
     resources_list: ResourcesIF.ResourcesList
@@ -56,7 +56,7 @@ const ResourcesPage: FC = () => {
     {
       title: '异常次数',
       key: 'error_count',
-      unit: 'ms'
+      unit: ''
     },
     {
       title: '异常页面',
@@ -82,4 +82,4 @@ const ResourcesPage: FC = () => {
   )
 }
 
-export default ResourcesPage
+export default StaticErrPage

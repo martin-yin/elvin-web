@@ -4,7 +4,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { GetJsError } from '../../request'
 
-const IssuePage: FC = () => {
+const JserrorPage: FC = () => {
   const [issueList, setIssueList] = useState<any>([])
   const navigate = useNavigate()
 
@@ -71,4 +71,4 @@ const IssuePage: FC = () => {
   )
 }
 
-export default IssuePage
+export default JserrorPage
