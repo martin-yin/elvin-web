@@ -54,7 +54,7 @@ export namespace UserIF {
   export type PAGE_LOAD = 'load_type'
   export type HTTP_LOG = 'http_url' | 'request_text' | 'response_text'
   export type RESOURCE = 'element_type' | 'source_url'
-  export type OPERATION = 'tag_name' | 'innter_text' | 'class_name'
+  export type OPERATION = 'tag_name' | 'inner_text' | 'class_name'
 
   export type UserActionDetail = Readonly<
     Record<'status', number> &

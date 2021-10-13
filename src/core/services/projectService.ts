@@ -18,8 +18,8 @@ export class ProjectService implements IProjectService {
     return null
   }
 
-  async getProjects(): Promise<ProjectIF.Project[]> {
-    const { data, code } = await request<ProjectIF.Project[]>('get', '/admin/projectList')
+  async getProjects(): Promise<ProjectIF.ProjectList> {
+    const { data, code } = await request<ProjectIF.ProjectList>('get', '/admin/projectList')
     if (code == 200) {
       return data
     }

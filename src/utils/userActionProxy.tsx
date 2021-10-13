@@ -34,7 +34,7 @@ const RESOURCE = (detail: Record<UserIF.RESOURCE, string>): JSX.Element => (
 const OPERATION = (detail: Record<UserIF.OPERATION, string>): JSX.Element => (
   <>
     <ListLableItem label="点击Tag">{detail.tag_name}</ListLableItem>
-    <ListLableItem label="点击正文">{detail.innter_text}</ListLableItem>
+    <ListLableItem label="点击正文">{detail.inner_text}</ListLableItem>
     <ListLableItem label="ClassName">{detail.class_name}</ListLableItem>
   </>
 )

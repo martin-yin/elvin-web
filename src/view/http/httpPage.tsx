@@ -32,7 +32,10 @@ const HttpPage: FC = () => {
       ...httpParam
     })
     if (code == 200) {
-      setQUota(data)
+      setQUota({
+        ...data,
+        success_rate: ((data.success_total / data.total) * 100).toFixed(2).toString()
+      })
     }
   }, [httpParam])
 
@@ -119,24 +122,48 @@ const HttpPage: FC = () => {
 
   return (
     <>
-      <div>
-        <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={quota} />
-        <Card className="time__pciker_chart_warp">
-          <Tabs defaultActiveKey="1">
-            <TabPane tab="成功率" key="1"></TabPane>
-            <TabPane tab="成功耗时" key="2"></TabPane>
-            <TabPane tab="失败耗时" key="3"></TabPane>
-          </Tabs>
-          <TimePickerChart onTimeChange={onTimeChange} startTime={httpParam.start_time} endTime={httpParam.end_time}>
-            <HttpStageTimeChart stageTime={stageTime} />
-          </TimePickerChart>
-        </Card>
-        <Card>
-          <Table dataSource={httpList} columns={columns} rowKey="http_url" />
-        </Card>
-      </div>
+      <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={quota} />
+      <Card className="time__pciker_chart_warp">
+        <TimePickerChart onTimeChange={onTimeChange} startTime={httpParam.start_time} endTime={httpParam.end_time}>
+          <HttpStageTimeChart stageTime={stageTime} />
+        </TimePickerChart>
+      </Card>
+      <Card>
+        <Table dataSource={httpList} columns={columns} rowKey="http_url" />
+      </Card>
     </>
   )
 }
 
 export default HttpPage
+
+// import { Card, Table, Tabs } from 'antd'
+// import moment from 'moment'
+// import React, { FC, useCallback, useEffect, useState } from 'react'
+// import HttpStageTimeChart from '../../components/charts/httpChart/stageTimeChart'
+// import HeaderQuota from '../../components/headerQuota/headerQuota'
+// import TimePickerChart from '../../components/timeChartPicker/timePickerChart'
+// import { HttpIF } from '../../interface'
+// import { GetHttpList, GetHttpQuota, GetHttpStage } from '../../request/http'
+// import './index.less'
+
+// const HttpPage: FC = () => {
+//   const [httpParam, setHttpParam] = useState({
+//     time_grain: 'minute',
+//     start_time: moment().format('YYYY-MM-DD'),
+//     end_time: moment().format('YYYY-MM-DD'),
+//     stage_type: 'success'
+//   })
+
+//   return (
+//     <>
+//       <div>
+//         <Card>
+//           <RenderTable httpParam={httpParam} />
+//         </Card>
+//       </div>
+//     </>
+//   )
+// }
+
+// export default HttpPage

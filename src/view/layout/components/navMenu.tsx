@@ -1,35 +1,23 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { Avatar, Dropdown, Menu, Select } from 'antd'
 import { Header } from 'antd/lib/layout/layout'
-import React, { FC, useCallback, useEffect } from 'react'
+import React, { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
-import projectInteractor from '../../../core/interactors/projectInteractor'
 import { ProjectIF } from '../../../interface'
-import { useAppDispatch, useAppState } from '../../../stores'
-import { setMonitorId, setMonitorIdAndProject } from '../../../stores/app.store'
+import { useAppDispatch } from '../../../stores'
+import { setMonitorId } from '../../../stores/app.store'
+
 import './index.less'
 const { Option } = Select
 
 const NavMenu: FC<{
   collapsed: boolean
   toggle: () => void
-}> = ({ collapsed, toggle }) => {
-  const { projectList, monitorId } = useAppState(state => state.appsotre)
+  monitorId: string
+  projectList: ProjectIF.ProjectList
+}> = ({ collapsed, toggle, monitorId, projectList }) => {
   const navigate = useNavigate()
   const storeDispatch = useAppDispatch()
-  const initProjectList = useCallback(async () => {
-    const { monitor_id, projectList } = await projectInteractor.getProjects()
-    storeDispatch(
-      setMonitorIdAndProject({
-        monitor_id,
-        projectList
-      })
-    )
-  }, [])
-
-  useEffect(() => {
-    initProjectList()
-  }, [])
 
   const setProjectId = (value: string) => {
     storeDispatch(setMonitorId(value))

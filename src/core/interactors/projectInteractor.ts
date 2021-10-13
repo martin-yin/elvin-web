@@ -9,11 +9,9 @@ class ProjectInteractor {
   }
 
   public async getProjects() {
-    const projectList = await this.projectSerivce.getProjects()
-    const monitor_id = localStorage.getItem('monitor_id')
-      ? localStorage.getItem('monitor_id')
-      : projectList[0]?.monitor_id
-    return { monitor_id, projectList }
+    const projects = await this.projectSerivce.getProjects()
+    const monitor_id = localStorage.getItem('monitor_id') ? localStorage.getItem('monitor_id') : projects[0]?.monitor_id
+    return { monitor_id, projects }
   }
 
   public async getProjectHealthy(param: { monitor_id: string }) {

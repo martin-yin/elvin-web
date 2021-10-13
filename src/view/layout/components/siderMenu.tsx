@@ -64,22 +64,22 @@ const menuList = [
   }
 ]
 
-const findKeyByMenuList = (path: string) => {
-  const item = menuList.find(item => {
-    if (item?.children) {
-      return item.children.find(child => child.path == path)
-    }
-    if (item.path == path) {
-      return item
-    }
-  })
-  if (item?.children) {
-    const chilld = item.children.find(child => child.path == path)
-    return [[chilld.path], [item.key]]
-  } else {
-    return item.path
-  }
-}
+// const findKeyByMenuList = (path: string) => {
+//   const item = menuList.find(item => {
+//     if (item?.children) {
+//       return item.children.find(child => child.path == path)
+//     }
+//     if (item.path == path) {
+//       return item
+//     }
+//   })
+//   if (item?.children) {
+//     const chilld = item.children.find(child => child.path == path)
+//     return [[chilld.path], [item.key]]
+//   } else {
+//     return item.path
+//   }
+// }
 
 const SiderMenu: FC = () => {
   const location = useLocation()
@@ -88,18 +88,18 @@ const SiderMenu: FC = () => {
     openKeys: []
   })
   useEffect(() => {
-    const res = findKeyByMenuList(location.pathname)
-    if (Array.isArray(res)) {
-      setMenuKeys({
-        selectKeys: res[0],
-        openKeys: res[1]
-      })
-    } else {
-      setMenuKeys({
-        selectKeys: Array.of(res),
-        openKeys: []
-      })
-    }
+    // const res = findKeyByMenuList(location.pathname)
+    // if (Array.isArray(res)) {
+    //   setMenuKeys({
+    //     selectKeys: res[0],
+    //     openKeys: res[1]
+    //   })
+    // } else {
+    //   setMenuKeys({
+    //     selectKeys: Array.of(res),
+    //     openKeys: []
+    //   })
+    // }
   }, [])
 
   const menuClick = item => {
@@ -109,11 +109,11 @@ const SiderMenu: FC = () => {
         openKeys: Array.of(item.keyPath[1])
       })
     } else {
-      const res = findKeyByMenuList(item.keyPath)
-      setMenuKeys({
-        selectKeys: Array.of(res),
-        openKeys: []
-      })
+      // const res = findKeyByMenuList(item.keyPath)
+      // setMenuKeys({
+      //   selectKeys: Array.of(res),
+      //   openKeys: []
+      // })
     }
   }
 

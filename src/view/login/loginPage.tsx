@@ -13,17 +13,15 @@ const LoginPage: FC = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const userLogin = async (form: any) => {
-    const { data, code } = await AdminLogin(form)
-
-    console.log(code)
+    const { data, code, msg } = await AdminLogin(form)
     if (code == 200) {
       dispatch(setUserInfo(data.user))
       localStorage.setItem('token', data.token)
       navigate('/')
     } else {
-      // notification['error']({
-      //   message: data.msg
-      // })
+      notification['error']({
+        message: msg
+      })
     }
   }
 

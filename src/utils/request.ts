@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { message } from 'antd'
 
+import { createBrowserHistory } from 'history'
 const service = axios.create({
   timeout: 60000
 })
@@ -22,9 +23,13 @@ service.interceptors.response.use(
     }>
   ) => {
     const responseCode = response.status
+
+    console.log()
     if (response.data?.code === 401) {
       message.error('登录状态过期！')
-      location.href = '/login'
+      const history = createBrowserHistory()
+      history.push('/login')
+      // location.href = '/login'
       return Promise.reject(response)
     }
     if (responseCode === 404) {
@@ -83,15 +88,14 @@ export const request = <T>(
   //   url = prefix + url
   // }
   url = prefix + url
-
   if (method === 'post') {
-    return axios.post(url, data, config)
+    return service.post(url, data, config)
   } else if (method === 'put') {
-    return axios.put(url, data)
+    return service.put(url, data)
   } else if (method === 'delete') {
-    return axios.delete(url)
+    return service.delete(url)
   } else {
-    return axios.get(url, {
+    return service.get(url, {
       params: data,
       ...config
     })
