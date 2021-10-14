@@ -5,4 +5,6 @@ export const GetHttpQuota = (params: any) => request<HttpIF.Quota>('get', '/comm
 
 export const GetHttpList = (params: any) => request<HttpIF.HttpUrlList>('get', '/communal/httpList', params)
 
+export const GetHttpErrorList = (params: any) => request<HttpIF.HttpUrlList>('get', '/communal/httpErrorList', params)
+
 export const GetHttpStage = (params: any) => request<HttpIF.StageTimeList>('get', '/communal/httpStage', params)

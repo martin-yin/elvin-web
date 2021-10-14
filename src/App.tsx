@@ -1,11 +1,11 @@
 import 'moment/locale/zh-cn'
 import React, { ComponentType, FC, lazy, Suspense } from 'react'
 import { BrowserRouter, RouteObject, RouteProps, useRoutes } from 'react-router-dom'
-import HomePage from './view/home/homePage'
 import HttpPage from './view/http/httpPage'
+import HttperrorPage from './view/httperror/httperrorPage'
 import IssueDetailPage from './view/jserror/issueDetailPage'
 import JserrorPage from './view/jserror/issuePage'
-import IssuePage from './view/jserror/issuePage'
+import LayoutPage from './view/layout/layoutPage'
 import LoginPage from './view/login/loginPage'
 import PerformancePage from './view/performance/performancePage'
 import ProjectPage from './view/project/projectPage'
@@ -25,7 +25,7 @@ const RenderRouter: FC = () => {
   const routeList: Array<RouteObject> = [
     {
       path: '/',
-      element: <RouteWrapper element={lazy(() => import('./view/layout/layoutPage'))} />,
+      element: <LayoutPage />,
       children: [
         { path: '/', element: <RouteWrapper element={lazy(() => import('./view/home/homePage'))} /> },
         { path: '/performance', element: <PerformancePage /> },
@@ -37,7 +37,8 @@ const RenderRouter: FC = () => {
         { path: '/user/detail/:session_id/:user_id', element: <UserActionPage /> },
         { path: '/project', element: <ProjectPage /> },
         { path: '/team', element: <TeamPage /> },
-        { path: '/project', element: <ProjectPage /> }
+        { path: '/project', element: <ProjectPage /> },
+        { path: '/httperror', element: <HttperrorPage /> }
       ]
     },
     {
@@ -69,9 +70,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <ErrorComponent>
-        <Suspense fallback={<>加载中</>}>
-          <RenderRouter />
-        </Suspense>
+        <RenderRouter />
       </ErrorComponent>
     </BrowserRouter>
   )

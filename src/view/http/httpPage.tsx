@@ -76,13 +76,18 @@ const HttpPage: FC = () => {
   const columns = [
     {
       title: '请求URL',
-      dataIndex: 'http_url',
-      key: 'http_url'
+      dataIndex: 'url',
+      key: 'url'
     },
     {
       title: '请求用户',
       dataIndex: 'user_total',
       key: 'user_total'
+    },
+    {
+      title: '慢查询',
+      dataIndex: 'user_slow',
+      key: 'user_slow'
     },
     {
       title: '平均耗时',
@@ -129,7 +134,7 @@ const HttpPage: FC = () => {
         </TimePickerChart>
       </Card>
       <Card>
-        <Table dataSource={httpList} columns={columns} rowKey="http_url" />
+        <Table dataSource={httpList} columns={columns} rowKey="url" />
       </Card>
     </>
   )
