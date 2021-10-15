@@ -1,3 +1,4 @@
+import store from '../../stores'
 import { IProjectService, ProjectService } from '../services/projectService'
 
 class ProjectInteractor {
@@ -19,8 +20,10 @@ class ProjectInteractor {
     return data
   }
 
-  public async getProjectHealthyList() {
-    const projectList = await this.projectSerivce.getProjects()
+  public async getProjectHealthyList(projectList) {
+    if (projectList.length == 0) {
+      projectList = await this.projectSerivce.getProjects()
+    }
     const monitorIds: Array<string> = []
     projectList.forEach(item => {
       monitorIds.push(item.monitor_id)

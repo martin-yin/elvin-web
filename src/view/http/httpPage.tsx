@@ -1,4 +1,4 @@
-import { Card, Table, Tabs } from 'antd'
+import { Card, Table } from 'antd'
 import moment from 'moment'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import HttpStageTimeChart from '../../components/charts/httpChart/stageTimeChart'
@@ -7,7 +7,6 @@ import TimePickerChart from '../../components/timeChartPicker/timePickerChart'
 import { HttpIF } from '../../interface'
 import { GetHttpList, GetHttpQuota, GetHttpStage } from '../../request/http'
 import './index.less'
-const { TabPane } = Tabs
 
 const HttpPage: FC = () => {
   const [quota, setQUota] = useState<HttpIF.Quota>({
@@ -80,11 +79,6 @@ const HttpPage: FC = () => {
       key: 'url'
     },
     {
-      title: '请求用户',
-      dataIndex: 'user_total',
-      key: 'user_total'
-    },
-    {
       title: '慢查询',
       dataIndex: 'user_slow',
       key: 'user_slow'
@@ -99,6 +93,17 @@ const HttpPage: FC = () => {
       title: '请求次数',
       dataIndex: 'total',
       key: 'total'
+    },
+    {
+      title: '成功率',
+      dataIndex: 'success_rate',
+      key: 'success_rate',
+      render: (text: string) => <span>{text}%</span>
+    },
+    {
+      title: '用户数',
+      dataIndex: 'user_total',
+      key: 'user_total'
     }
   ]
 
@@ -141,34 +146,3 @@ const HttpPage: FC = () => {
 }
 
 export default HttpPage
-
-// import { Card, Table, Tabs } from 'antd'
-// import moment from 'moment'
-// import React, { FC, useCallback, useEffect, useState } from 'react'
-// import HttpStageTimeChart from '../../components/charts/httpChart/stageTimeChart'
-// import HeaderQuota from '../../components/headerQuota/headerQuota'
-// import TimePickerChart from '../../components/timeChartPicker/timePickerChart'
-// import { HttpIF } from '../../interface'
-// import { GetHttpList, GetHttpQuota, GetHttpStage } from '../../request/http'
-// import './index.less'
-
-// const HttpPage: FC = () => {
-//   const [httpParam, setHttpParam] = useState({
-//     time_grain: 'minute',
-//     start_time: moment().format('YYYY-MM-DD'),
-//     end_time: moment().format('YYYY-MM-DD'),
-//     stage_type: 'success'
-//   })
-
-//   return (
-//     <>
-//       <div>
-//         <Card>
-//           <RenderTable httpParam={httpParam} />
-//         </Card>
-//       </div>
-//     </>
-//   )
-// }
-
-// export default HttpPage

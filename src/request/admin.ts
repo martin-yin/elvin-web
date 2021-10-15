@@ -15,8 +15,6 @@ export const CreateTeam = (data: any) => request<any>('post', '/admin/createTeam
 // 根据团队创建项目
 export const CreateProject = (data: any) => request<ProjectIF.Project>('post', '/admin/createProject', data)
 
-export const GetProjectList = () => request<ProjectIF.ProjectList>('get', '/admin/projectList')
-
 export const GetProjectHealthy = (param: { monitor_id: string }) =>
   request<TeamIF.ProjectHealthyList>('get', '/communal/projectHealthy', param)
 

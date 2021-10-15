@@ -37,9 +37,9 @@ const PublicChart: FC<any> = ({ option, height }) => {
 
   Object.assign(option, {
     grid: {
-      left: '2%',
-      right: '2%',
-      containLabel: true
+      left: 80,
+      right: 80,
+      bottom: 40
     }
   })
   return (

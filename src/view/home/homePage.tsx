@@ -16,7 +16,7 @@ const HomePage: FC = () => {
   const [form] = Form.useForm()
 
   const initProjectData = useCallback(async () => {
-    const data = await projectInteractor.getProjectHealthyList()
+    const data = await projectInteractor.getProjectHealthyList(projectList)
     setHealthyList(data)
   }, [])
 

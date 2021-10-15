@@ -1,19 +1,10 @@
 import React, { FC } from 'react'
 import * as echarts from 'echarts/core'
 import { BarChart, LineChart } from 'echarts/charts'
-import { GridComponent, TooltipComponent, TitleComponent, LegendComponent, DataZoomComponent } from 'echarts/components'
+import { GridComponent, TooltipComponent, TitleComponent, LegendComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 import PublicChart from '../publicChart/publicChart'
-echarts.use([
-  TitleComponent,
-  TooltipComponent,
-  GridComponent,
-  BarChart,
-  CanvasRenderer,
-  LineChart,
-  DataZoomComponent,
-  LegendComponent
-])
+echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer, LineChart, LegendComponent])
 const HttpStageTimeChart: FC<any> = ({ stageTime = [] }) => {
   const successOption = {
     color: ['#4395ff', '#91CB75'],
@@ -24,14 +15,6 @@ const HttpStageTimeChart: FC<any> = ({ stageTime = [] }) => {
       trigger: 'axis',
       backgroundColor: '#fff'
     },
-    dataZoom: [
-      {
-        startValue: ''
-      },
-      {
-        type: 'inside'
-      }
-    ],
     legend: {
       data: ['请求数量', '请求耗时']
     },

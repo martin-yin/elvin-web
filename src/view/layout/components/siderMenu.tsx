@@ -32,11 +32,6 @@ const menuList = [
         key: 'performance',
         path: '/performance',
         title: '页面加载'
-      },
-      {
-        key: 'static',
-        path: '/static',
-        title: '静态资源性能'
       }
     ]
   },

@@ -30,11 +30,11 @@ const HttperrorPage: FC = () => {
   const columns = [
     {
       title: '请求URL',
-      dataIndex: 'http_url',
-      key: 'http_url'
+      dataIndex: 'url',
+      key: 'url'
     },
     {
-      title: '请求用户',
+      title: '影响用户',
       dataIndex: 'user_total',
       key: 'user_total'
     },
@@ -48,13 +48,23 @@ const HttperrorPage: FC = () => {
       title: '请求次数',
       dataIndex: 'total',
       key: 'total'
+    },
+    {
+      title: '处理人',
+      dataIndex: '',
+      key: ''
+    },
+    {
+      title: '状态',
+      dataIndex: '',
+      key: ''
     }
   ]
 
   return (
     <>
       <Card>
-        <Table dataSource={httperrorList} columns={columns} rowKey="http_url" />
+        <Table dataSource={httperrorList} columns={columns} rowKey="url" />
       </Card>
     </>
   )
