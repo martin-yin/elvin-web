@@ -11,5 +11,5 @@ export namespace ProjectIF {
     updated_at: string
   }
 
-  export type ProjectList = Array<Project>
+  export type Projects = Array<Project>
 }

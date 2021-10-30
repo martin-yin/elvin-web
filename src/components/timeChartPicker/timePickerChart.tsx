@@ -28,34 +28,7 @@ const TimePickerChart: FC<any> = ({ onTimeChange, startTime, endTime, children }
     setTimeGrain(e.target.value)
   }
 
-  return (
-    <>
-      <div className="time_chart_picker_warp">
-        <div className="time_picker">
-          <RangePicker
-            disabledDate={disabledDate}
-            defaultValue={[moment(startTime, 'YYYY-MM-DD'), moment(endTime, 'YYYY-MM-DD')]}
-            ranges={{
-              今天: [moment(), moment()],
-              昨天: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-              最近七天: [moment().subtract(6, 'days'), moment()],
-              近一个月: [moment().subtract(1, 'month'), moment()]
-            }}
-            onChange={timeChange}
-          />
-        </div>
-        <div className="time_grain">
-          <p>时间粒度：</p>
-          <Radio.Group onChange={timeGrainChange} value={timeGrain}>
-            <Radio value={'minute'}>分钟</Radio>
-            <Radio value={'hour'}>小时</Radio>
-            <Radio value={'day'}>天</Radio>
-          </Radio.Group>
-        </div>
-      </div>
-      {children}
-    </>
-  )
+  return <>{children}</>
 }
 
 export default TimePickerChart

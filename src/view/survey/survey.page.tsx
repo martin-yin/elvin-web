@@ -6,9 +6,9 @@ import './index.less'
 
 const SurveyPage: FC = () => {
   const [surveyStatistics, setSurveyStatistics] = useState({
-    http_error: 0,
-    js_error: 0,
-    load_page: 1413.4,
+    httpError: 0,
+    jsError: 0,
+    loadPage: 1413.4,
     resources: 0
   })
 
@@ -26,7 +26,6 @@ const SurveyPage: FC = () => {
   useEffect(() => {
     initSurveyStatistics()
     initSurveyPUvData()
-    // initSurveyJsErrorData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -40,13 +39,13 @@ const SurveyPage: FC = () => {
       <Row gutter={[16, 16]}>
         <Col span={4}>
           <Card className="surveyCardStatistics" style={{ marginBottom: '20px' }}>
-            <div className="value">{surveyStatistics.js_error}</div>
+            <div className="value">{surveyStatistics.jsError}</div>
             <div className="name">Js异常</div>
             <div className="desc"></div>
             {/** 这里当然要做同比日增加或者减少。*/}
           </Card>
           <Card className="surveyCardStatistics">
-            <div className="value">{surveyStatistics.load_page}ms</div>
+            <div className="value">{surveyStatistics.loadPage}ms</div>
             <div className="name">首次渲染时间</div>
             <div className="desc"></div>
           </Card>
@@ -67,7 +66,7 @@ const SurveyPage: FC = () => {
         </Col>
         <Col span={4}>
           <Card className="surveyCardStatistics" style={{ marginBottom: '20px' }}>
-            <div className="value">{surveyStatistics.http_error}</div>
+            <div className="value">{surveyStatistics.httpError}</div>
             <div className="name">API异常</div>
             <div className="desc"></div>
           </Card>

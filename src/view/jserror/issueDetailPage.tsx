@@ -57,7 +57,7 @@ const IssueDetailPage: FC = () => {
   }
 
   const onCreate = result => {
-    stackFramesList[result.index].origin_source = {
+    stackFramesList[result.index].originSource = {
       ...result
     }
     setStackFramesList(stackFramesList)

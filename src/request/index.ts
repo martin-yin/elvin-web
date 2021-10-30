@@ -11,7 +11,7 @@ export const GetIssuesDetail = (param: { issue_id: number; error_id: number }) =
 export const webPageErrorData = () =>
   request<{
     quota: ResourcesIF.Quota
-    resources_list: ResourcesIF.ResourcesList
+    resourcesList: ResourcesIF.ResourcesList
   }>('get', '/communal/resourceError')
 
 export const LoadSourceMap = (url: string) => request<any>('get', url)

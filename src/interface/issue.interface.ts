@@ -37,7 +37,7 @@ export namespace Issue {
     functionName: string
     lineNumber: number
     source: string
-    origin_source: OriginSource
+    originSource: OriginSource
   }
 
   export interface OriginSource {

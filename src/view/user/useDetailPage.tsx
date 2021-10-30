@@ -15,7 +15,7 @@ import {
 } from '../../assets'
 import { GetUse, GetUsersActionsStatistics } from '../../request/user'
 import { ListLable, ListLableItem } from '../../components/listLable/listLable'
-import userInteractor from '../../core/interactors/userInteractor copy'
+import { userInteractor } from '../../core/interactors'
 
 const USERACTIONICON: {
   [key: string]: { icon: string; text: string }
@@ -50,7 +50,7 @@ const UserActionPage: FC = () => {
 
   const initUserActionList = useCallback(async page => {
     const userActionList = await userInteractor.getUserActions({
-      session_id: params.session_id,
+      sessionId: params.session_id,
       page: page,
       limit: 3
     })

@@ -33,7 +33,7 @@ const ProjectItem: FC<any> = ({ item, index, health }) => {
             <div className="project-title-name flex-grow-1">{item.project_name}</div>
             <div className="project-title-operation flex-grow-1">
               <Space size={20}>
-                <p onClick={() => projectToUrl('/project', item.monitor_id)}>
+                <p onClick={() => projectToUrl('/dashboard/project', item.monitor_id)}>
                   <Tooltip placement="topLeft" title="修改配置">
                     <EditOutlined style={{ color: '#a3a5b0' }} />
                   </Tooltip>

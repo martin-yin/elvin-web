@@ -26,8 +26,8 @@
   },
   "rules": {
     "prettier/prettier": "warn",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/rules-of-hooks": "off",
+    "react-hooks/exhaustive-deps": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/camelcase": "off",
@@ -38,6 +38,7 @@
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "react/prop-types": "off",
+    "react/no-string-refs": "off",
     "react/display-name": "off",
     "@typescript-eslint/no-namespace": 0
   }

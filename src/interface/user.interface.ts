@@ -29,9 +29,9 @@ export namespace UserIF {
   export type UserList = Array<User>
 
   export interface UserParams {
-    search_date: string
-    search_hour: string
-    user_id?: string
+    searchDate: string
+    searchHour: string
+    userId?: string
   }
 
   export interface UserActionStatistics {

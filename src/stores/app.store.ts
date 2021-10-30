@@ -1,8 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState = {
-  activeMenu: '',
-  projectList: [],
+  menuKeys: {
+    selectKeys: [],
+    openKeys: []
+  },
+  projects: [],
   monitorId: '',
   userInfo: {
     nick_name: ''
@@ -13,8 +16,8 @@ const appStore = createSlice({
   name: 'menu',
   initialState,
   reducers: {
-    setActiveMenu(state, action: PayloadAction<any>) {
-      state.activeMenu = action.payload
+    setMenuKeys(state, action: PayloadAction<any>) {
+      state.menuKeys = action.payload
     },
     setMonitorId(state, action: PayloadAction<any>) {
       localStorage.setItem('monitor_id', action.payload)
@@ -23,10 +26,10 @@ const appStore = createSlice({
     setMonitorIdAndProject(state, action: PayloadAction<any>) {
       localStorage.setItem('monitor_id', action.payload.monitor_id)
       state.monitorId = action.payload.monitor_id
-      state.projectList = action.payload.projectList
+      state.projects = action.payload.projects
     },
-    setProjectList(state, action: PayloadAction<any>) {
-      state.projectList = action.payload
+    setProjects(state, action: PayloadAction<any>) {
+      state.projects = action.payload
     },
     setUserInfo(state, action: PayloadAction<any>) {
       state.userInfo = action.payload
@@ -34,6 +37,6 @@ const appStore = createSlice({
   }
 })
 
-export const { setActiveMenu, setMonitorIdAndProject, setMonitorId, setProjectList, setUserInfo } = appStore.actions
+export const { setMenuKeys, setMonitorIdAndProject, setMonitorId, setProjects, setUserInfo } = appStore.actions
 
 export default appStore.reducer

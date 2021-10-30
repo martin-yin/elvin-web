@@ -1,7 +1,9 @@
 import { UserIF } from '../../interface'
+import { Injectable } from '../decorator'
 import { IUserService, UserService } from '../services/userService'
 
-class UserInteractor {
+@Injectable([UserService])
+export class UserInteractor {
   constructor(private userSerivce: IUserService) {}
 
   public async geUsers(params: UserIF.UserParams): Promise<UserIF.UserList> {
@@ -14,6 +16,3 @@ class UserInteractor {
     return data
   }
 }
-
-const userInteractor = new UserInteractor(new UserService())
-export default userInteractor

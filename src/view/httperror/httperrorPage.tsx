@@ -34,6 +34,17 @@ const HttperrorPage: FC = () => {
       key: 'url'
     },
     {
+      title: '出现时间',
+      render: (text, recode) => (
+        <div>
+          <p>
+            {moment(recode?.first_happen_time).format('YYYY-MM-DD HH:mm:ss')}~
+            {moment(recode?.last_happen_time).fromNow()}
+          </p>
+        </div>
+      )
+    },
+    {
       title: '影响用户',
       dataIndex: 'user_total',
       key: 'user_total'

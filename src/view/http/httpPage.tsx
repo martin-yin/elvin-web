@@ -2,8 +2,8 @@ import { Card, Table } from 'antd'
 import moment from 'moment'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import HttpStageTimeChart from '../../components/charts/httpChart/stageTimeChart'
+import FilterHeader from '../../components/filterHeader/filterHeader'
 import HeaderQuota from '../../components/headerQuota/headerQuota'
-import TimePickerChart from '../../components/timeChartPicker/timePickerChart'
 import { HttpIF } from '../../interface'
 import { GetHttpList, GetHttpQuota, GetHttpStage } from '../../request/http'
 import './index.less'
@@ -56,20 +56,10 @@ const HttpPage: FC = () => {
     }
   }, [httpParam])
 
-  const onTimeChange = (dateStrings: any, time_grain: string) => {
-    setHttpParam({
-      start_time: dateStrings[0],
-      end_time: dateStrings[1],
-      time_grain: time_grain,
-      stage_type: httpParam.stage_type
-    })
-  }
-
   useEffect(() => {
     initQuotaData()
     initHttpListData()
     initStageTimeData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const columns = [
@@ -132,11 +122,10 @@ const HttpPage: FC = () => {
 
   return (
     <>
+      <FilterHeader />
       <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={quota} />
       <Card className="time__pciker_chart_warp">
-        <TimePickerChart onTimeChange={onTimeChange} startTime={httpParam.start_time} endTime={httpParam.end_time}>
-          <HttpStageTimeChart stageTime={stageTime} />
-        </TimePickerChart>
+        <HttpStageTimeChart stageTime={stageTime} />
       </Card>
       <Card>
         <Table dataSource={httpList} columns={columns} rowKey="url" />

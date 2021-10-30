@@ -2,7 +2,7 @@ import { Card, DatePicker, Input, Select, Space, Table, Tag } from 'antd'
 import moment from 'moment'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import userInteractor from '../../core/interactors/userInteractor copy'
+import { userInteractor } from '../../core/interactors'
 import { UserIF } from '../../interface'
 import { GetUserList } from '../../request/user'
 import { getTimeYYMMDDHM } from '../../utils'
@@ -23,8 +23,8 @@ for (let i = 0; i < 24; i++) {
 const UserPage: FC = () => {
   const [userLst, setUserList] = useState<UserIF.UserList>([])
   const [userParams, setUserParams] = useState<UserIF.UserParams>({
-    search_date: moment().format('YYYY-MM-DD'),
-    search_hour: '00:00'
+    searchDate: moment().format('YYYY-MM-DD'),
+    searchHour: '00:00'
   })
 
   const initUserList = useCallback(async () => {
@@ -38,23 +38,23 @@ const UserPage: FC = () => {
 
   const timeChange = (date: any, dateString: string) => {
     setUserParams({
-      search_date: dateString,
-      search_hour: userParams.search_hour
+      searchDate: dateString,
+      searchHour: userParams.searchHour
     })
   }
 
   const timeLineChange = (value: string) => {
     setUserParams({
-      search_date: userParams.search_date,
-      search_hour: value
+      searchDate: userParams.searchDate,
+      searchHour: value
     })
   }
 
   const onSearch = async (value: any) => {
     const result = await GetUserList({
-      search_date: userParams.search_date,
-      search_hour: userParams.search_hour,
-      user_id: value
+      searchDate: userParams.searchDate,
+      searchHour: userParams.searchDate,
+      userId: value
     })
     setUserList(result.data)
   }
@@ -156,7 +156,7 @@ const UserPage: FC = () => {
         <Card style={{ textAlign: 'right' }}>
           <Space>
             <DatePicker
-              defaultValue={moment(userParams.search_date, 'YYYY-MM-DD')}
+              defaultValue={moment(userParams.searchDate, 'YYYY-MM-DD')}
               onChange={timeChange}
               style={{ width: 160 }}
             />

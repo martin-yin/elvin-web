@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { message } from 'antd'
-
-import { createBrowserHistory } from 'history'
+import { toLineData } from '.'
 const service = axios.create({
   timeout: 60000
 })
@@ -23,13 +22,9 @@ service.interceptors.response.use(
     }>
   ) => {
     const responseCode = response.status
-
-    console.log()
     if (response.data?.code === 401) {
       message.error('登录状态过期！')
-      const history = createBrowserHistory()
-      history.push('/login')
-      // location.href = '/login'
+      location.href = '/login'
       return Promise.reject(response)
     }
     if (responseCode === 404) {
@@ -79,24 +74,27 @@ export const request = <T>(
   data = {},
   config?: AxiosRequestConfig
 ): Promise<Response<T>> => {
+  // const prefix = 'http://cznmzwu.nat.ipyingshe.com'
   const prefix = 'http://127.0.0.1:8889'
   if (!notMonitorId.includes(url)) {
     const monitor_id = localStorage.getItem('monitor_id')
     Object.assign(data, { monitor_id })
   }
+  const postData = toLineData(data)
   // if (url.indexOf('https') < 0 && url.indexOf('http') < 0) {
   //   url = prefix + url
   // }
+
   url = prefix + url
   if (method === 'post') {
-    return service.post(url, data, config)
+    return service.post(url, postData, config)
   } else if (method === 'put') {
-    return service.put(url, data)
+    return service.put(url, postData)
   } else if (method === 'delete') {
     return service.delete(url)
   } else {
     return service.get(url, {
-      params: data,
+      params: postData,
       ...config
     })
   }

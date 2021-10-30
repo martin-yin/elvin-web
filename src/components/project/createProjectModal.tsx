@@ -4,26 +4,26 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TeamIF } from '../../interface'
 import { GetTeamList } from '../../request/admin'
+import { useHomePageInit } from '../../view/home/hook/useHomePageInit'
 import { ModalFrom } from '../modalForm/modalForm'
 
 const { Option } = Select
 
-const CreateProjectModal: FC<any> = ({ form, visible, onCreate, onClose }) => {
+const CreateProjectModal: FC = () => {
+  const { form, onClose, createProject, visible } = useHomePageInit()
   const [teamList, setTeamList] = useState<TeamIF.TeamLit>([])
   const navigate = useNavigate()
-  const initTeamListData = useCallback(async () => {
-    const { data, code } = await GetTeamList()
-    if (code == 200) {
-      setTeamList(data)
+  useEffect(() => {
+    ;async () => {
+      const { data, code } = await GetTeamList()
+      if (code == 200) {
+        setTeamList(data)
+      }
     }
   }, [])
 
-  useEffect(() => {
-    initTeamListData()
-  }, [initTeamListData])
-
   return (
-    <ModalFrom onClose={onClose} visible={visible} onCreate={onCreate} title="创建项目">
+    <ModalFrom onClose={onClose} visible={visible} onCreate={createProject} title="创建项目">
       <Form
         {...{
           labelCol: { span: 6 },

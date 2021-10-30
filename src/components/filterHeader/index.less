@@ -2,7 +2,8 @@
   margin-bottom: 20px !important;
   &-item {
     white-space: nowrap;
-    margin: 6px 24px 6px 0px;
+    margin: 6px 0px 6px 0px;
+    min-width: 364px;
     display: flex;
     &-label {
       color: rgb(139, 139, 166);
@@ -15,8 +16,11 @@
     }
     &-content {
       flex: 1 0 auto;
-      min-width: 200px;
       display: flex;
+      width: 240px;
+      &-select {
+        width: 200px !important;
+      }
     }
   }
 }

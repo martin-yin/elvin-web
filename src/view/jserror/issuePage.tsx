@@ -57,6 +57,16 @@ const JserrorPage: FC = () => {
       title: '总数用户',
       key: 'error_user',
       render: (recode: any) => <p>{recode.error_user}</p>
+    },
+    {
+      title: '处理人',
+      dataIndex: '',
+      key: ''
+    },
+    {
+      title: '状态',
+      dataIndex: '',
+      key: ''
     }
   ]
 

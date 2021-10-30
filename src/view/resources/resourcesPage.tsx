@@ -7,10 +7,10 @@ import { webPageErrorData } from '../../request'
 const StaticErrPage: FC = () => {
   const [resourcesData, setErrorPageData] = useState<{
     quota: ResourcesIF.Quota
-    resources_list: ResourcesIF.ResourcesList
+    resourcesList: ResourcesIF.ResourcesList
   }>({
     quota: null,
-    resources_list: []
+    resourcesList: []
   })
 
   const initErrorPageData = useCallback(async () => {
@@ -75,7 +75,7 @@ const StaticErrPage: FC = () => {
       <div>
         <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={resourcesData.quota} />
         <Card>
-          <Table dataSource={resourcesData.resources_list} columns={columns} rowKey="page_source_url" />
+          <Table dataSource={resourcesData.resourcesList} columns={columns} rowKey="page_source_url" />
         </Card>
       </div>
     </>

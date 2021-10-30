@@ -33,7 +33,7 @@ export namespace TeamIF {
 
   export type TeamLit = ReadonlyArray<Team>
 
-  export type ProjectList = Array<Project>
+  export type Projects = Array<Project>
 
   export type ProjectHealthyList = Array<ProjectHealthy>
 

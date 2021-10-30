@@ -1,7 +1,9 @@
-import store from '../../stores'
+import { useAppState } from '../../stores'
+import { Injectable } from '../decorator'
 import { IProjectService, ProjectService } from '../services/projectService'
 
-class ProjectInteractor {
+@Injectable([ProjectService])
+export class ProjectInteractor {
   constructor(private projectSerivce: IProjectService) {}
 
   public async getProject() {
@@ -20,17 +22,12 @@ class ProjectInteractor {
     return data
   }
 
-  public async getProjectHealthyList(projectList) {
-    if (projectList.length == 0) {
-      projectList = await this.projectSerivce.getProjects()
-    }
+  public async getProjectHealthys() {
+    const projects = await this.projectSerivce.getProjects()
     const monitorIds: Array<string> = []
-    projectList.forEach(item => {
+    projects.forEach(item => {
       monitorIds.push(item.monitor_id)
     })
     return await this.projectSerivce.getProjectHealthy({ monitor_id: monitorIds.join(',') })
   }
 }
-
-const projectInteractor = new ProjectInteractor(new ProjectService())
-export default projectInteractor
