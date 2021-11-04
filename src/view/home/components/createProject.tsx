@@ -1,15 +1,15 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Col, Form, Input, Row, Select } from 'antd'
-import React, { FC, useCallback, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { TeamIF } from '../../interface'
-import { GetTeamList } from '../../request/admin'
-import { useHomePageInit } from '../../view/home/hook/useHomePageInit'
-import { ModalFrom } from '../modalForm/modalForm'
+import { ModalFrom } from '../../../components/modalForm/modalForm'
+import { TeamIF } from '../../../interface'
+import { GetTeamList } from '../../../request/admin'
+import { useHomePageInit } from '../hook/useHomePageInit'
 
 const { Option } = Select
 
-const CreateProjectModal: FC = () => {
+const CreateProject: FC = () => {
   const { form, onClose, createProject, visible } = useHomePageInit()
   const [teamList, setTeamList] = useState<TeamIF.TeamLit>([])
   const navigate = useNavigate()
@@ -73,4 +73,4 @@ const CreateProjectModal: FC = () => {
     </ModalFrom>
   )
 }
-export default CreateProjectModal
+export default CreateProject

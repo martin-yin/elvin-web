@@ -53,7 +53,7 @@ const UserActionQuotaList: UserIF.UserActionQuotaType = {
   EMPTY
 }
 
-export const UserActionQuotaListProxy: UserIF.UserActionQuotaType = new Proxy(UserActionQuotaList, {
+export const UseActionQuotaListProxy: UserIF.UserActionQuotaType = new Proxy(UserActionQuotaList, {
   get(target, phrase: string) {
     if (phrase in target) {
       return Reflect.get(target, phrase)

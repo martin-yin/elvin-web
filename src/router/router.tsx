@@ -3,6 +3,7 @@ import { RouteObject, useRoutes } from 'react-router-dom'
 import LayoutPage, { OutletLayout } from '../layout/layoutPage'
 import HttpPage from '../view/http/httpPage'
 import HttperrorPage from '../view/httperror/httperrorPage'
+import IssueDetailPage from '../view/jserror/issueDetailPage'
 import JserrorPage from '../view/jserror/issuePage'
 import LoginPage from '../view/login/loginPage'
 import PerformancePage from '../view/performance/performancePage'
@@ -49,8 +50,8 @@ export const RenderRouter: FC = () => {
         {
           path: '/jsErr',
           element: <JserrorPage />
-          // children: [{ path: '/issue/detail/:error_id', element: <IssueDetailPage /> }]
         },
+        { path: '/issue/detail/:error_id', element: <IssueDetailPage /> },
         { path: '/httpErr', element: <HttperrorPage /> },
         { path: '/staticErr', element: <StaticErrPage /> }
       ]

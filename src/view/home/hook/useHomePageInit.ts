@@ -12,7 +12,7 @@ export const useHomePageInit = () => {
   const [visible, setVisible] = useState(false)
   useEffect(() => {
     ;(async () => {
-      const data = await projectInteractor.getProjectHealthys()
+      const data = await projectInteractor.getHealthStatus()
       setList(data)
     })()
   }, [])

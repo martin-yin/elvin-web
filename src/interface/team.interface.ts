@@ -43,5 +43,7 @@ export namespace TeamIF {
     pv: number
     resources_error: number
     uv: number
+    project_name: string
+    monitor_id: string
   }
 }

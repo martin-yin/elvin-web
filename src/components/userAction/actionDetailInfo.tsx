@@ -2,7 +2,7 @@ import { Empty } from 'antd'
 import React, { FC } from 'react'
 import { UserIF } from '../../interface'
 import { getTimeYYMMDDHM } from '../../utils'
-import { userActionDetailListProxy } from '../../utils/userActionProxy'
+import { useActionDetailListProxy } from '../../utils/useActionProxy'
 import { ListLable, ListLableItem } from '../listLable/listLable'
 
 interface UserActionDetailInfoProps {
@@ -14,9 +14,9 @@ const UserActionDetailInfo: FC<UserActionDetailInfoProps> = ({ detail }) => {
     const userAction = Reflect.has(detail, 'action_type')
     return userAction ? (
       <ListLable>
-        {userActionDetailListProxy[detail.action_type](detail)}
+        {useActionDetailListProxy[detail.action_type](detail)}
         <ListLableItem label="操作系统">
-          {`${detail.device}/ ${detail.device_type}`}
+          {`${detail.device} / ${detail.device_type}`}
           &nbsp;&nbsp;&nbsp;
           {`${detail.os} ${detail.os_version}`}
         </ListLableItem>

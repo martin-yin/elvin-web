@@ -150,7 +150,7 @@ const IssueDetailPage: FC = () => {
                 <Divider />
                 <h4>Js异常堆栈:</h4>
                 <Collapse
-                  bordered={false}
+                  bordered={true}
                   accordion
                   expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
                   className="site-collapse-custom-collapse"

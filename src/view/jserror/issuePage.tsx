@@ -1,8 +1,8 @@
-import { Card, Space, Table, Tag } from 'antd'
 import moment from 'moment'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { GetJsError } from '../../request'
+import { Tag, Card, Table, Space } from 'antd'
 
 const JserrorPage: FC = () => {
   const [issueList, setIssueList] = useState<any>([])
@@ -71,13 +71,9 @@ const JserrorPage: FC = () => {
   ]
 
   return (
-    <>
-      <div>
-        <Card>
-          <Table dataSource={issueList} columns={columns} rowKey="message" />
-        </Card>
-      </div>
-    </>
+    <Card>
+      <Table dataSource={issueList} columns={columns} rowKey="message" />
+    </Card>
   )
 }
 

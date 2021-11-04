@@ -2,7 +2,7 @@ import { Timeline } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { UserIF } from '../../interface/user.interface'
 import { getTimeHHMM } from '../../utils'
-import { UserActionQuotaListProxy } from '../../utils/userActionQuotaProxy'
+import { UseActionQuotaListProxy } from '../../utils/useActionQuotaProxy'
 
 interface ActionTimeLineProps {
   key: number
@@ -38,9 +38,9 @@ const ActionTimeLineItem: FC<ActionTimeLineProps> = ({ key, item, activeTimeLine
     const action_detail = Reflect.has(item, 'action_detail')
     if (action_detail) {
       item.action_detail = JSON.parse(item.action_detail)
-      return UserActionQuotaListProxy[item.action_type](item)
+      return UseActionQuotaListProxy[item.action_type](item)
     } else {
-      return UserActionQuotaListProxy['EMPTY']()
+      return UseActionQuotaListProxy['EMPTY']()
     }
   }
 

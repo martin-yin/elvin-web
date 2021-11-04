@@ -5,7 +5,7 @@ export interface IProjectService {
   getProject(): Promise<TeamIF.Project>
   getProjects(): Promise<ProjectIF.Project[]>
   createProject(project): Promise<ProjectIF.Project>
-  getProjectHealthy(param): Promise<TeamIF.ProjectHealthyList>
+  getHealthStatus(): Promise<TeamIF.ProjectHealthyList>
   delProject(id: number): Promise<string>
 }
 
@@ -34,8 +34,8 @@ export class ProjectService implements IProjectService {
     return null
   }
 
-  async getProjectHealthy(param): Promise<TeamIF.ProjectHealthyList> {
-    const { data, code } = await request<TeamIF.ProjectHealthyList>('get', '/communal/projectHealthy', param)
+  async getHealthStatus(): Promise<TeamIF.ProjectHealthyList> {
+    const { data, code } = await request<TeamIF.ProjectHealthyList>('get', '/communal/getHealthStatus')
     if (code === 200) {
       return data
     }

@@ -50,7 +50,7 @@ const PAGE_VIEW = (detail: Record<'page_url', string>): JSX.Element => (
 
 const EMPTY = () => <></>
 
-export const userActionDetailList: Readonly<UserIF.UserActionType> = {
+export const useActionDetailList: Readonly<UserIF.UserActionType> = {
   PAGE_LOAD,
   HTTP_LOG,
   JS_ERROR,
@@ -60,7 +60,7 @@ export const userActionDetailList: Readonly<UserIF.UserActionType> = {
   EMPTY
 }
 
-export const userActionDetailListProxy: UserIF.UserActionType = new Proxy(userActionDetailList, {
+export const useActionDetailListProxy: UserIF.UserActionType = new Proxy(useActionDetailList, {
   get(target, phrase: string) {
     if (phrase in target) {
       return Reflect.get(target, phrase)

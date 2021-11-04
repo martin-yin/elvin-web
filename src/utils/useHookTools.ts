@@ -1,4 +1,4 @@
-import { Form, FormInstance } from 'antd'
+import { FormInstance } from 'antd'
 import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '../stores'
@@ -6,13 +6,7 @@ import { useAppDispatch } from '../stores'
 export const useHookTools = () => {
   const navigate = useNavigate()
   const storeDispatch = useAppDispatch()
-  const [form] = Form.useForm()
-
-  const formValidateFields = (callbcak: <T>(value: T) => void): void => {
-    form.validateFields().then(async (value: any) => callbcak(value))
-  }
-
-  return { navigate, storeDispatch, form, formValidateFields }
+  return { navigate, storeDispatch }
 }
 
 export const useFormValidateFields = <T>(form: FormInstance<T>) => {

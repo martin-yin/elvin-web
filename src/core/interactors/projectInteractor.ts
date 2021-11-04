@@ -17,17 +17,12 @@ export class ProjectInteractor {
     return { monitor_id, projects }
   }
 
-  public async getProjectHealthy(param: { monitor_id: string }) {
-    const data = await this.projectSerivce.getProjectHealthy(param)
-    return data
-  }
+  // public async getProjectHealthy(param: { monitor_id: string }) {
+  //   const data = await this.projectSerivce.getProjectHealthy(param)
+  //   return data
+  // }
 
-  public async getProjectHealthys() {
-    const projects = await this.projectSerivce.getProjects()
-    const monitorIds: Array<string> = []
-    projects.forEach(item => {
-      monitorIds.push(item.monitor_id)
-    })
-    return await this.projectSerivce.getProjectHealthy({ monitor_id: monitorIds.join(',') })
+  public async getHealthStatus() {
+    return await this.projectSerivce.getHealthStatus()
   }
 }

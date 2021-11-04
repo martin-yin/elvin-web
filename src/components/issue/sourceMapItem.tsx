@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 
-const SourceMaoItem: FC<any> = ({ item }) => {
+const SourceMapItem: FC<any> = ({ item }) => {
   const { source, line, column } = item.origin_source
 
   // 计算开始和结束行数
@@ -48,4 +48,4 @@ const SourceMaoItem: FC<any> = ({ item }) => {
     </div>
   )
 }
-export default SourceMaoItem
+export default SourceMapItem

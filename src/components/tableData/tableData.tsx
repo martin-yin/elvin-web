@@ -1,5 +1,5 @@
 import { Table } from 'antd'
-import React, { FC } from 'react'
+import React from 'react'
 import { TableProps as AntTableProps } from 'antd/lib/table'
 type TableDataProps<T = any> = Required<Pick<AntTableProps<T>, 'dataSource' | 'columns'>>
 
