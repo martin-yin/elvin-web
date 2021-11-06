@@ -9,8 +9,8 @@ import { useHomePageInit } from '../hook/useHomePageInit'
 
 const { Option } = Select
 
-const CreateProject: FC = () => {
-  const { form, onClose, createProject, visible } = useHomePageInit()
+const CreateProject: FC<any> = ({ visible }) => {
+  const { form, onClose, createProject } = useHomePageInit()
   const [teamList, setTeamList] = useState<TeamIF.TeamLit>([])
   const navigate = useNavigate()
   useEffect(() => {

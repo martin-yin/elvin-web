@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { ResourcesIF } from '../interface'
 
 import { request } from '../utils/request'
@@ -14,4 +15,4 @@ export const webPageErrorData = () =>
     resourcesList: ResourcesIF.ResourcesList
   }>('get', '/communal/resourceError')
 
-export const LoadSourceMap = (url: string) => request<any>('get', url)
+export const LoadSourceMap = (url: string) => axios.get<any>(url)

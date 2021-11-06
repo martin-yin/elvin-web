@@ -1,7 +1,7 @@
 import AppstoreOutlined from '@ant-design/icons/lib/icons/AppstoreOutlined'
 import EditOutlined from '@ant-design/icons/lib/icons/EditOutlined'
 import ProCard from '@ant-design/pro-card'
-import { Card, Progress, Space, Tooltip } from 'antd'
+import { Progress, Space, Tooltip } from 'antd'
 import React, { FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router'
@@ -94,18 +94,16 @@ interface HealthStatusProps {
 
 export const HealthStatus: FC<HealthStatusProps> = ({ list }) => {
   return (
-    <>
-      <div className="project-list">
-        <ProCard gutter={8} ghost>
-          {list.map((item, index) => {
-            return (
-              <ProCard key={index} colSpan={8}>
-                <HealthStatusItem detail={item} />
-              </ProCard>
-            )
-          })}
-        </ProCard>
-      </div>
-    </>
+    <div className="project-list">
+      <ProCard gutter={8} ghost>
+        {list.map((item, index) => {
+          return (
+            <ProCard key={index} colSpan={8}>
+              <HealthStatusItem detail={item} />
+            </ProCard>
+          )
+        })}
+      </ProCard>
+    </div>
   )
 }

@@ -1,14 +1,15 @@
 import React, { FC } from 'react'
 import { Form, Input, message, Tabs, Upload } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
-import { ModalFrom } from '../modalForm/modalForm'
-import { LoadSourceMap } from '../../request'
-import { Issue } from '../../interface/issue.interface'
+
+import { LoadSourceMap } from '../../../request'
+import { Issue } from '../../../interface/issue.interface'
 import sourceMap from 'source-map-js'
+import { ModalFrom } from '../../../components/modalForm/modalForm'
 const { Dragger } = Upload
 const { TabPane } = Tabs
 
-const SourceMapLoadModal: FC<any> = ({ form, stackFrame, visible, onCreate, onClose }) => {
+const SourceMapLoadModal: FC<any> = ({ form, stackFrame, visible, closeModal, setOriginSource }) => {
   const props = {
     multiple: false,
     maxCount: 1,
@@ -23,7 +24,7 @@ const SourceMapLoadModal: FC<any> = ({ form, stackFrame, visible, onCreate, onCl
       reader.onload = event => {
         const look_source = lookSource(event.target.result, stackFrame.line, stackFrame.column)
         if (look_source) {
-          onCreate({
+          setOriginSource({
             ...look_source,
             index: stackFrame.index
           })
@@ -33,16 +34,16 @@ const SourceMapLoadModal: FC<any> = ({ form, stackFrame, visible, onCreate, onCl
     }
   }
 
-  const modelFormCreate = () => {
+  const handleModelFormCreate = () => {
     form.validateFields().then(async (value: any) => {
-      const source_map: any = await LoadSourceMap(value.url)
-      if (source_map?.code == false) {
+      const sourceMapResponse: any = await LoadSourceMap(value.url)
+      if (sourceMapResponse.status !== 200) {
         message.error(`无法加载source-map文件！`)
         return
       }
-      const look_source = lookSource(source_map, stackFrame.line, stackFrame.column)
+      const look_source = lookSource(sourceMapResponse.data, stackFrame.line, stackFrame.column)
       if (look_source) {
-        onCreate({
+        setOriginSource({
           ...look_source,
           index: stackFrame.index
         })
@@ -57,7 +58,6 @@ const SourceMapLoadModal: FC<any> = ({ form, stackFrame, visible, onCreate, onCl
         line: line,
         column: column
       })
-
       const source = consumer.sourceContentFor(lookUpRes.source)
       return {
         source,
@@ -66,13 +66,12 @@ const SourceMapLoadModal: FC<any> = ({ form, stackFrame, visible, onCreate, onCl
       }
     } catch (e) {
       message.error(`未能解析出sourceMap！`)
-      console.log(e)
       return false
     }
   }
 
   return (
-    <ModalFrom onClose={onClose} visible={visible} onCreate={modelFormCreate} title="SouceMap映射">
+    <ModalFrom onClose={closeModal} visible={visible} onCreate={handleModelFormCreate} title="SouceMap映射">
       <Tabs>
         <TabPane tab="本地上传" key="1">
           <Dragger {...props}>

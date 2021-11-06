@@ -1,47 +1,18 @@
-import { CaretRightOutlined, StepBackwardOutlined, StepForwardOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Collapse, Divider, Empty, Form, message, Row, Space } from 'antd'
-import React, { FC, useCallback, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { StepBackwardOutlined, StepForwardOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Divider, Empty, Form, message, Row, Space } from 'antd'
+import React, { FC } from 'react'
 import BrowserIcon from '../../assets/webIcons/browse.png'
 import IpIcon from '../../assets/webIcons/ip.png'
 import PcIcon from '../../assets/webIcons/pc.png'
 import WindowIcon from '../../assets/webIcons/window.png'
-import SourceMapLoadModal from '../../components/issue/sourceMap'
-import StackFramesItem from '../../components/issue/stackFramesItem'
 import { ListLable, ListLableItem } from '../../components/listLable/listLable'
-import { Issue } from '../../interface/issue.interface'
 import { GetIssuesDetail } from '../../request'
+import StackFramesRender from './components/stackFrames'
+import { useJsErrorInit } from './hook/useJsError'
 import './index.less'
 
-const { Panel } = Collapse
 const IssueDetailPage: FC = () => {
-  const params = useParams<'error_id'>()
-  const [form] = Form.useForm()
-  const [issue, setIssue] = useState<Issue.Issue>()
-  const [stackFramesList, setStackFramesList] = useState<Issue.StackFramesList>([])
-
-  const [stackFrame, setStackFrame] = useState<any>({
-    url: '',
-    line: 0,
-    column: 0,
-    index: 0
-  })
-
-  const [visible, setVisible] = useState(false)
-
-  const initStackTrackData = useCallback(async () => {
-    const result = await GetIssuesDetail({
-      issue_id: +params.error_id,
-      error_id: 0
-    })
-    setIssue(result.data)
-    setStackFramesList(JSON.parse(result.data.stack_frames))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const onClose = () => {
-    setVisible(false)
-  }
+  const { setStackFrames, setIssue, issue } = useJsErrorInit()
 
   const changeIssue = async (id: number) => {
     if (id == 0) {
@@ -53,24 +24,8 @@ const IssueDetailPage: FC = () => {
       issue_id: 0
     })
     setIssue(result.data)
-    setStackFramesList(JSON.parse(result.data.stack_frames))
+    setStackFrames(JSON.parse(result.data.stack_frames))
   }
-
-  const onCreate = result => {
-    stackFramesList[result.index].originSource = {
-      ...result
-    }
-    setStackFramesList(stackFramesList)
-    setVisible(false)
-  }
-
-  useEffect(() => {
-    initStackTrackData()
-  }, [initStackTrackData])
-
-  useEffect(() => {
-    form.resetFields()
-  }, [visible, form])
 
   return (
     <div>
@@ -148,31 +103,7 @@ const IssueDetailPage: FC = () => {
                   </Col>
                 </Row>
                 <Divider />
-                <h4>Js异常堆栈:</h4>
-                <Collapse
-                  bordered={true}
-                  accordion
-                  expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
-                  className="site-collapse-custom-collapse"
-                >
-                  {stackFramesList.length > 0 ? (
-                    stackFramesList.map((item: Issue.StackFrames, index: number) => {
-                      return (
-                        <Panel header={item.fileName} key={index} className="site-collapse-custom-panel">
-                          <StackFramesItem
-                            item={item}
-                            form={form}
-                            index={index}
-                            setVisible={setVisible}
-                            setStackFrame={setStackFrame}
-                          />
-                        </Panel>
-                      )
-                    })
-                  ) : (
-                    <></>
-                  )}
-                </Collapse>
+                <StackFramesRender />
               </>
             ) : (
               <Empty></Empty>
@@ -203,7 +134,6 @@ const IssueDetailPage: FC = () => {
           )}
         </Col>
       </Row>
-      <SourceMapLoadModal stackFrame={stackFrame} visible={visible} form={form} onCreate={onCreate} onClose={onClose} />
     </div>
   )
 }

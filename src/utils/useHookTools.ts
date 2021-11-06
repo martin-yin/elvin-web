@@ -1,5 +1,5 @@
 import { FormInstance } from 'antd'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '../stores'
 
@@ -22,4 +22,17 @@ export const useFormValidateFields = <T>(form: FormInstance<T>) => {
   }, [])
 
   return formValidateFields
+}
+
+export const useModalHook = () => {
+  const [visible, setVisible] = useState(false)
+
+  const handleCloseModal = () => {
+    setVisible(false)
+  }
+
+  const handleOpenModal = () => {
+    setVisible(true)
+  }
+  return { visible, setVisible, handleOpenModal, handleCloseModal }
 }

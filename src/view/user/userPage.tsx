@@ -28,12 +28,14 @@ const UserPage: FC = () => {
     searchHour: '00:00'
   })
 
+  // const jb = useCallback(async () => {}, [])
+
   useEffect(() => {
-    ;async () => {
+    ;(async () => {
       const data = await userInteractor.geUsers(userParams)
       setUserList(data)
-    }
-  }, [userParams])
+    })()
+  }, [])
 
   const timeChange = (date: any, dateString: string) => {
     setUserParams({
