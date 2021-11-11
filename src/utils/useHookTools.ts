@@ -27,12 +27,13 @@ export const useFormValidateFields = <T>(form: FormInstance<T>) => {
 export const useModalHook = () => {
   const [visible, setVisible] = useState(false)
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setVisible(false)
-  }
+  }, [])
 
-  const handleOpenModal = () => {
+  const handleOpenModal = useCallback(() => {
     setVisible(true)
-  }
+  }, [])
+
   return { visible, setVisible, handleOpenModal, handleCloseModal }
 }

@@ -1,5 +1,5 @@
 import { Form } from 'antd'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Issue } from '../../../interface/issue.interface'
 import { GetIssuesDetail } from '../../../request'
@@ -30,19 +30,28 @@ export const useJsErrorInit = () => {
         error_id: 0
       })
       setIssue(result.data)
+    })()
+  }, [])
+
+  useEffect(() => {
+    ;(async () => {
+      const result = await GetIssuesDetail({
+        issue_id: +params.error_id,
+        error_id: 0
+      })
       setStackFrames(JSON.parse(result.data.stack_frames))
     })()
   }, [])
 
-  const handleSetOriginSource = originSource => {
+  const handleSetOriginSource = useCallback(originSource => {
     stackFrames[originSource.index].originSource = {
       ...originSource
     }
     setStackFrames(stackFrames)
     handleCloseModal()
-  }
+  }, [])
 
-  const handleOpenSourceMapModal = (item, index) => {
+  const handleOpenSourceMapModal = useCallback((item, index) => {
     form.setFieldsValue({
       url: item.fileName + '.map'
     })
@@ -53,7 +62,7 @@ export const useJsErrorInit = () => {
       index: index
     })
     handleOpenModal()
-  }
+  }, [])
 
   return {
     issue,

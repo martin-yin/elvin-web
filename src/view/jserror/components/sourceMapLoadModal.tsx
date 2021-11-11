@@ -9,7 +9,9 @@ import { ModalFrom } from '../../../components/modalForm/modalForm'
 const { Dragger } = Upload
 const { TabPane } = Tabs
 
-const SourceMapLoadModal: FC<any> = ({ form, stackFrame, visible, closeModal, setOriginSource }) => {
+const SourceMapLoadModal = React.memo<any>(({ visible, stackFrame, closeModal, setOriginSource }) => {
+  const [form] = Form.useForm()
+
   const props = {
     multiple: false,
     maxCount: 1,
@@ -41,10 +43,10 @@ const SourceMapLoadModal: FC<any> = ({ form, stackFrame, visible, closeModal, se
         message.error(`无法加载source-map文件！`)
         return
       }
-      const look_source = lookSource(sourceMapResponse.data, stackFrame.line, stackFrame.column)
-      if (look_source) {
+      const sourceCode = lookSource(sourceMapResponse.data, stackFrame.line, stackFrame.column)
+      if (lookSource) {
         setOriginSource({
-          ...look_source,
+          ...sourceCode,
           index: stackFrame.index
         })
       }
@@ -102,5 +104,6 @@ const SourceMapLoadModal: FC<any> = ({ form, stackFrame, visible, closeModal, se
       </Tabs>
     </ModalFrom>
   )
-}
+})
+
 export default SourceMapLoadModal

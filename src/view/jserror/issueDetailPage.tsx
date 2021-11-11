@@ -1,113 +1,33 @@
-import { StepBackwardOutlined, StepForwardOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Divider, Empty, Form, message, Row, Space } from 'antd'
+import { Card, Col, Divider, Row } from 'antd'
 import React, { FC } from 'react'
-import BrowserIcon from '../../assets/webIcons/browse.png'
-import IpIcon from '../../assets/webIcons/ip.png'
-import PcIcon from '../../assets/webIcons/pc.png'
-import WindowIcon from '../../assets/webIcons/window.png'
 import { ListLable, ListLableItem } from '../../components/listLable/listLable'
-import { GetIssuesDetail } from '../../request'
+import IssueSurvey from './components/issueSurvey'
+import SourceMapLoadModal from './components/sourceMapLoadModal'
 import StackFramesRender from './components/stackFrames'
 import { useJsErrorInit } from './hook/useJsError'
 import './index.less'
 
 const IssueDetailPage: FC = () => {
-  const { setStackFrames, setIssue, issue } = useJsErrorInit()
-
-  const changeIssue = async (id: number) => {
-    if (id == 0) {
-      message.warn('没有下一个问题了！')
-      return
-    }
-    const result = await GetIssuesDetail({
-      error_id: id,
-      issue_id: 0
-    })
-    setIssue(result.data)
-    setStackFrames(JSON.parse(result.data.stack_frames))
-  }
+  const {
+    issue,
+    setIssue,
+    stackFrames,
+    visible,
+    setStackFrames,
+    stackFrame,
+    handleOpenSourceMapModal,
+    handleCloseModal,
+    handleSetOriginSource
+  } = useJsErrorInit()
 
   return (
     <div>
       <Row gutter={20}>
         <Col span={18}>
           <Card>
-            {issue ? (
-              <>
-                <div>
-                  <Space>
-                    <h2>
-                      {issue.error_name}: {issue.message}
-                    </h2>
-                  </Space>
-                </div>
-                <div style={{ marginBottom: '20px' }}>
-                  <p>{issue.componentName}</p>
-                </div>
-                <div>
-                  <Space>
-                    <Button
-                      style={{ fontSize: '10px' }}
-                      size="small"
-                      icon={<StepBackwardOutlined />}
-                      disabled={issue.previous_error_id == 0}
-                      onClick={() => changeIssue(issue.previous_error_id)}
-                    >
-                      上一个
-                    </Button>
-                    <Button
-                      style={{ fontSize: '10px' }}
-                      size="small"
-                      icon={<StepForwardOutlined />}
-                      disabled={issue.next_error_id == 0}
-                      onClick={() => changeIssue(issue.next_error_id)}
-                    >
-                      下一个
-                    </Button>
-                  </Space>
-                </div>
-                <Divider />
-                <Row gutter={[16, 16]}>
-                  <Col span={6}>
-                    <Space>
-                      <img src={IpIcon} alt="" />
-                      <h3>{issue.ip}</h3>
-                    </Space>
-                  </Col>
-                  <Col span={6}>
-                    <Space>
-                      <img src={BrowserIcon} alt="" />
-                      <div>
-                        <h3>{issue.browser}</h3>
-                        <p>{issue.browser_version}</p>
-                      </div>
-                    </Space>
-                  </Col>
-                  <Col span={6}>
-                    <Space>
-                      <img src={WindowIcon} alt="" />
-                      <div>
-                        <h3>{issue.os}</h3>
-                        <p>{issue.os_version}</p>
-                      </div>
-                    </Space>
-                  </Col>
-                  <Col span={6}>
-                    <Space>
-                      <img src={PcIcon} alt="" />
-                      <div>
-                        <h3>{issue.device}</h3>
-                        <p>{issue.device_type}</p>
-                      </div>
-                    </Space>
-                  </Col>
-                </Row>
-                <Divider />
-                <StackFramesRender />
-              </>
-            ) : (
-              <Empty></Empty>
-            )}
+            <IssueSurvey issue={issue} setIssue={setIssue} setStackFrames={setStackFrames} />
+            <Divider />
+            <StackFramesRender stackFrames={stackFrames} openSourceMapModal={handleOpenSourceMapModal} />
           </Card>
         </Col>
         <Col span={6}>
@@ -134,6 +54,12 @@ const IssueDetailPage: FC = () => {
           )}
         </Col>
       </Row>
+      <SourceMapLoadModal
+        visible={visible}
+        stackFrame={stackFrame}
+        closeModal={handleCloseModal}
+        setOriginSource={handleSetOriginSource}
+      />
     </div>
   )
 }
