@@ -1,7 +1,7 @@
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 import './index.less'
 
-const ListLable: FC<any> = ({ title, children }) => {
+const ListLable: FC<{ title?: string; children: ReactNode }> = ({ title, children }) => {
   return (
     <>
       <p className="list__label_title">{title}</p>
@@ -10,7 +10,11 @@ const ListLable: FC<any> = ({ title, children }) => {
   )
 }
 
-const ListLableItem: FC<any> = ({ label, children, spanClass }) => {
+const ListLableItem: FC<{ label: string; children: ReactNode; spanClass?: string }> = ({
+  label,
+  children,
+  spanClass
+}) => {
   return (
     <li>
       <label>{label}：</label>

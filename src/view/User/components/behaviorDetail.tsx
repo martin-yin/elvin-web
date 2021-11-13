@@ -1,15 +1,15 @@
 import { Empty } from 'antd'
-import React, { FC } from 'react'
-import { UserIF } from '../../interface'
-import { getTimeYYMMDDHM } from '../../utils'
-import { useActionDetailListProxy } from '../../utils/useActionProxy'
-import { ListLable, ListLableItem } from '../listLable/listLable'
+import React from 'react'
+import { ListLable, ListLableItem } from '../../../components/listLable/listLable'
+import { UserIF } from '../../../interface'
+import { getTimeYYMMDDHM } from '../../../utils'
+import { useActionDetailListProxy } from '../../../utils/useActionProxy'
 
-interface UserActionDetailInfoProps {
+interface BehaviorDetailProps {
   detail: UserIF.UserActionDetail
 }
 
-const UserActionDetailInfo: FC<UserActionDetailInfoProps> = ({ detail }) => {
+const BehaviorDetail = React.memo<BehaviorDetailProps>(({ detail }) => {
   const userActionDetail = (detail: UserIF.UserActionDetail): JSX.Element => {
     const userAction = Reflect.has(detail, 'action_type')
     return userAction ? (
@@ -31,6 +31,6 @@ const UserActionDetailInfo: FC<UserActionDetailInfoProps> = ({ detail }) => {
     )
   }
   return <>{userActionDetail(detail)}</>
-}
+})
 
-export default UserActionDetailInfo
+export default BehaviorDetail

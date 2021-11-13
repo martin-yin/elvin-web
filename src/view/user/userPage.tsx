@@ -1,6 +1,6 @@
-import { Card, DatePicker, Input, Select, Space, Table, Tag } from 'antd'
+import { Card, DatePicker, Input, Select, Space, Tag } from 'antd'
 import moment from 'moment'
-import React, { FC, useCallback, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import TableData from '../../components/tableData/tableData'
 import { userInteractor } from '../../core/interactors'

@@ -1,17 +1,17 @@
 import { Timeline } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
-import { UserIF } from '../../interface/user.interface'
-import { getTimeHHMM } from '../../utils'
-import { UseActionQuotaListProxy } from '../../utils/useActionQuotaProxy'
+import { UserIF } from '../../../interface'
+import { getTimeHHMM } from '../../../utils'
+import { UseActionQuotaListProxy } from '../../../utils/useActionQuotaProxy'
 
-interface ActionTimeLineProps {
+interface BehaviorTimeLineItemProps {
   key: number
   item: UserIF.UserAction
-  activeTimeLine: (item: UserIF.UserAction) => void
+  activeBehavior: (item: UserIF.UserAction) => void
   activeId: string
 }
 
-const ActionTimeLineItem: FC<ActionTimeLineProps> = ({ key, item, activeTimeLine, activeId }) => {
+const BehaviorTimeLineItem: FC<BehaviorTimeLineItemProps> = ({ key, item, activeBehavior, activeId }) => {
   const [itemData, setItemData] = useState({
     itemIcon: () => {
       return <></>
@@ -49,7 +49,7 @@ const ActionTimeLineItem: FC<ActionTimeLineProps> = ({ key, item, activeTimeLine
       <Timeline.Item key={key} dot={itemData.itemIcon()}>
         <div
           className={`footprint__des ${activeId == item.happen_time + item.action_type ? 'active__footprint_des' : ''}`}
-          onClick={() => activeTimeLine(item)}
+          onClick={() => activeBehavior(item)}
         >
           <div className="flex">
             <div className="flex-grow-1">
@@ -64,4 +64,4 @@ const ActionTimeLineItem: FC<ActionTimeLineProps> = ({ key, item, activeTimeLine
   )
 }
 
-export default ActionTimeLineItem
+export default BehaviorTimeLineItem
