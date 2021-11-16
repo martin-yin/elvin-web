@@ -3,15 +3,10 @@ import { RouteObject, useRoutes } from 'react-router-dom'
 import LayoutPage, { OutletLayout } from '../layout/layoutPage'
 import HttpPage from '../view/http/httpPage'
 import HttperrorPage from '../view/httperror/httperrorPage'
-import IssueDetailPage from '../view/jserror/issueDetailPage'
-import JserrorPage from '../view/jserror/issuePage'
+import JserrPage from '../view/jsErr/jsErrPage'
 import LoginPage from '../view/login/loginPage'
 import PerformancePage from '../view/performance/performancePage'
-import ProjectPage from '../view/project/projectPage'
-import StaticErrPage from '../view/resources/resourcesPage'
-import TeamPage from '../view/team/teamPage'
-import UserActionPage from '../view/user/useDetailPage'
-import UserPage from '../view/user/userPage'
+import StaticErrPage from '../view/staticErr/staticErrPage'
 
 type RouteWrapperProps = {
   element: React.LazyExoticComponent<ComponentType<any>>
@@ -33,25 +28,37 @@ export const RenderRouter: FC = () => {
           element: <OutletLayout />,
           children: [
             { path: '', element: <RouteWrapper element={lazy(() => import('../view/home/homePage'))} /> },
-            { path: 'project', element: <ProjectPage /> },
-            { path: 'team', element: <TeamPage /> }
+            { path: 'project', element: <RouteWrapper element={lazy(() => import('../view/project/projectPage'))} /> },
+            { path: 'team', element: <RouteWrapper element={lazy(() => import('../view/team/teamPage'))} /> }
           ]
         },
         {
           path: 'user',
           element: <OutletLayout />,
           children: [
-            { path: '', element: <UserPage /> },
-            { path: 'detail/:session_id/:user_id', element: <UserActionPage /> }
+            { path: '', element: <RouteWrapper element={lazy(() => import('../view/user/userPage'))} /> },
+            {
+              path: 'detail/:session_id/:user_id',
+              element: <RouteWrapper element={lazy(() => import('../view/user/useDetailPage'))} />
+            }
+          ]
+        },
+        {
+          path: '/jsErr',
+          element: <OutletLayout />,
+          children: [
+            {
+              path: '',
+              element: <RouteWrapper element={lazy(() => import('../view/jsErr/jsErrPage'))} />
+            },
+            {
+              path: 'detail/:error_id',
+              element: <RouteWrapper element={lazy(() => import('../view/jsErr/jsErrDetailPage'))} />
+            }
           ]
         },
         { path: '/performance', element: <PerformancePage /> },
         { path: '/http', element: <HttpPage /> },
-        {
-          path: '/jsErr',
-          element: <JserrorPage />
-        },
-        { path: '/issue/detail/:error_id', element: <IssueDetailPage /> },
         { path: '/httpErr', element: <HttperrorPage /> },
         { path: '/staticErr', element: <StaticErrPage /> }
       ]

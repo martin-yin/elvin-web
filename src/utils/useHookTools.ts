@@ -9,7 +9,7 @@ export const useHookTools = () => {
   return { navigate, storeDispatch }
 }
 
-export const useFormValidateFields = <T>(form: FormInstance<T>) => {
+export const useFormValidateFields = <T = any>(form: FormInstance<T>) => {
   const formValidateFields = useCallback((callback: (value: T) => void) => {
     form
       .validateFields()
@@ -27,13 +27,13 @@ export const useFormValidateFields = <T>(form: FormInstance<T>) => {
 export const useModalHook = () => {
   const [visible, setVisible] = useState(false)
 
-  const handleCloseModal = useCallback(() => {
+  const handleCloseModal = (): void => {
     setVisible(false)
-  }, [])
+  }
 
-  const handleOpenModal = useCallback(() => {
+  const handleOpenModal = (): void => {
     setVisible(true)
-  }, [])
+  }
 
-  return { visible, setVisible, handleOpenModal, handleCloseModal }
+  return [visible, handleOpenModal, handleCloseModal] as const
 }

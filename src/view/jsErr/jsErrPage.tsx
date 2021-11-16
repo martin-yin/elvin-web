@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { GetJsError } from '../../request'
 import { Tag, Card, Table, Space } from 'antd'
 
-const JserrorPage: FC = () => {
+const JsErrPage: FC = () => {
   const [issueList, setIssueList] = useState<any>([])
   const navigate = useNavigate()
 
@@ -25,7 +25,7 @@ const JserrorPage: FC = () => {
         <div
           style={{ cursor: 'pointer' }}
           onClick={() => {
-            navigate(`/issue/detail/${recode.id}`)
+            navigate(`/jsErr/detail/${recode.id}`)
           }}
         >
           <Space size="middle">
@@ -77,4 +77,4 @@ const JserrorPage: FC = () => {
   )
 }
 
-export default JserrorPage
+export default JsErrPage

@@ -1,7 +1,7 @@
 import { Card, Table } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import HeaderQuota from '../../components/headerQuota/headerQuota'
-import { ResourcesIF } from '../../interface/'
+import { ResourcesIF } from '../../interface'
 import { webPageErrorData } from '../../request'
 
 const StaticErrPage: FC = () => {

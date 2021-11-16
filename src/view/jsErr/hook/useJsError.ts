@@ -5,18 +5,20 @@ import { Issue } from '../../../interface/issue.interface'
 import { GetIssuesDetail } from '../../../request'
 import { useModalHook } from '../../../utils/useHookTools'
 
+interface StackFram {
+  url: string
+  line: number
+  column: number
+  index: number
+}
+
 export const useJsErrorInit = () => {
   const [form] = Form.useForm()
   const params = useParams<'error_id'>()
-  const { visible, handleOpenModal, handleCloseModal } = useModalHook()
+  const [visible, handleOpenModal, handleCloseModal] = useModalHook()
   const [stackFrames, setStackFrames] = useState<Issue.StackFramesList>([])
   const [issue, setIssue] = useState<Issue.Issue>()
-  const [stackFrame, setStackFrame] = useState<{
-    url: string
-    line: number
-    column: number
-    index: number
-  }>({
+  const [stackFrame, setStackFrame] = useState<StackFram>({
     url: '',
     line: 0,
     column: 0,

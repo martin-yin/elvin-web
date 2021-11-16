@@ -8,7 +8,7 @@ import StackFramesRender from './components/stackFrames'
 import { useJsErrorInit } from './hook/useJsError'
 import './index.less'
 
-const IssueDetailPage: FC = () => {
+const JsErrDetailPage: FC = () => {
   const {
     issue,
     setIssue,
@@ -43,4 +43,4 @@ const IssueDetailPage: FC = () => {
   )
 }
 
-export default IssueDetailPage
+export default JsErrDetailPage
