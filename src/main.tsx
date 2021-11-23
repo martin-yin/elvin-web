@@ -6,6 +6,9 @@ import App from './App'
 import 'antd/dist/antd.less'
 import './index.css'
 import store from './stores'
+
+const b = '11'
+
 message.config({
   maxCount: 1
 })

@@ -2,8 +2,7 @@
   "extends": [
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-    "prettier"
+    "plugin:prettier/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": ["react-hooks", "@typescript-eslint"],
@@ -25,7 +24,7 @@
     }
   },
   "rules": {
-    "prettier/prettier": "warn",
+    "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "off",
     "react-hooks/exhaustive-deps": "off",
     "@typescript-eslint/no-use-before-define": "off",

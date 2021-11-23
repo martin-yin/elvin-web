@@ -1,8 +1,7 @@
 import { Form, message } from 'antd'
 import { useCallback, useEffect, useState } from 'react'
-import { projectInteractor } from '../../../core/interactors'
+import { adminInteractor, projectInteractor } from '../../../core/interactors'
 import { TeamIF } from '../../../interface'
-import { CreateProject } from '../../../request/admin'
 import { useFormValidateFields } from '../../../utils/useHookTools'
 
 export const useHomePageInit = () => {
@@ -28,12 +27,10 @@ export const useHomePageInit = () => {
 
   const createProject = useCallback(async () => {
     formValidateFields(async value => {
-      const { code, msg } = await CreateProject(value)
+      const { code } = await adminInteractor.createProject(value)
       if (code === 200) {
-        message.success(msg)
+        message.success('创建成功！')
         onClose()
-      } else {
-        message.warn(msg)
       }
     })
   }, [])

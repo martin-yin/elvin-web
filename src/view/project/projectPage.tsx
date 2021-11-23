@@ -1,12 +1,10 @@
 import { Card } from 'antd'
 import moment from 'moment'
 import React, { FC, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { TeamIF } from '../../interface/team.interface'
-import { GetProject } from '../../request/admin'
 import { Descriptions } from 'antd'
-// import type { ProFieldFCMode } from '@ant-design/pro-utils'
 import Field from '@ant-design/pro-field'
+import { projectInteractor } from '../../core/interactors'
 
 const ProjectPage: FC = () => {
   const [project, setProject] = useState<TeamIF.Project>({
@@ -16,14 +14,11 @@ const ProjectPage: FC = () => {
     team_id: '',
     created_at: 'string'
   })
-  const navigate = useNavigate()
 
   useEffect(() => {
     ;async () => {
-      const { code, data } = await GetProject()
-      if (code == 200) {
-        setProject(data)
-      }
+      const data = await projectInteractor.getProject()
+      setProject(data)
     }
   }, [])
 

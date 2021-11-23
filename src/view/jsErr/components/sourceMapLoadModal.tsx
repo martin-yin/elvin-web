@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React from 'react'
 import { Form, Input, message, Tabs, Upload } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
 
@@ -6,6 +6,7 @@ import { LoadSourceMap } from '../../../request'
 import { Issue } from '../../../interface/issue.interface'
 import sourceMap from 'source-map-js'
 import { ModalFrom } from '../../../components/modalForm/modalForm'
+import type { RcFile } from 'antd/lib/upload'
 const { Dragger } = Upload
 const { TabPane } = Tabs
 
@@ -16,7 +17,7 @@ const SourceMapLoadModal = React.memo<any>(({ visible, stackFrame, closeModal, s
     multiple: false,
     maxCount: 1,
     action: '',
-    beforeUpload(file) {
+    beforeUpload(file: RcFile) {
       if (file.name.substring(file.name.lastIndexOf('.') + 1) !== 'map') {
         message.error(`请上传.js.map 文件！`)
         return
@@ -24,10 +25,10 @@ const SourceMapLoadModal = React.memo<any>(({ visible, stackFrame, closeModal, s
       const reader = new FileReader()
       reader.readAsText(file, 'UTF-8')
       reader.onload = event => {
-        const look_source = lookSource(event.target.result, stackFrame.line, stackFrame.column)
-        if (look_source) {
+        const originSource = lookSource(event.target.result, stackFrame.line, stackFrame.column)
+        if (originSource) {
           setOriginSource({
-            ...look_source,
+            ...originSource,
             index: stackFrame.index
           })
         }
@@ -43,10 +44,10 @@ const SourceMapLoadModal = React.memo<any>(({ visible, stackFrame, closeModal, s
         message.error(`无法加载source-map文件！`)
         return
       }
-      const sourceCode = lookSource(sourceMapResponse.data, stackFrame.line, stackFrame.column)
-      if (lookSource) {
+      const originSource = lookSource(sourceMapResponse.data, stackFrame.line, stackFrame.column)
+      if (originSource) {
         setOriginSource({
-          ...sourceCode,
+          ...originSource,
           index: stackFrame.index
         })
       }

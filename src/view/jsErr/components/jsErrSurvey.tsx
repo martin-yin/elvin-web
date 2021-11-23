@@ -8,7 +8,7 @@ import IpIcon from '../../../assets/webIcons/ip.png'
 import PcIcon from '../../../assets/webIcons/pc.png'
 import WindowIcon from '../../../assets/webIcons/window.png'
 
-const IssueSurvey = React.memo<any>(({ issue, setIssue, setStackFrames }) => {
+const JsErrSurvey = React.memo<any>(({ issue, setIssue, setStackFrames }) => {
   const changeIssue = async (id: number) => {
     if (id == 0) {
       message.warn('没有下一个问题了！')
@@ -94,4 +94,4 @@ const IssueSurvey = React.memo<any>(({ issue, setIssue, setStackFrames }) => {
   )
 })
 
-export default IssueSurvey
+export default JsErrSurvey

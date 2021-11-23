@@ -12,7 +12,7 @@ interface StackFram {
   index: number
 }
 
-export const useJsErrorInit = () => {
+export const useJsErrDeatilInit = () => {
   const [form] = Form.useForm()
   const params = useParams<'error_id'>()
   const [visible, handleOpenModal, handleCloseModal] = useModalHook()

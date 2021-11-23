@@ -1,19 +1,17 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Card, Form, Input, message, Space, Table, Tag } from 'antd'
+import { Button, Card, Form, Input, Space, Table, Tag } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { ModalFrom } from '../../components/modalForm/modalForm'
+import { adminInteractor } from '../../core/interactors'
 import { TeamIF } from '../../interface'
-import { CreateTeam, GetTeamList } from '../../request/admin'
 
 const TeamPage: FC = () => {
   const [visible, setVisible] = useState(false)
   const [form] = Form.useForm()
   const [teamList, setTeamList] = useState<TeamIF.TeamLit>()
   const initTeamList = useCallback(async () => {
-    const { code, data } = await GetTeamList()
-    if (code == 200) {
-      setTeamList(data)
-    }
+    const data = await adminInteractor.getTeams()
+    setTeamList(data)
   }, [])
 
   useEffect(() => {
@@ -22,13 +20,11 @@ const TeamPage: FC = () => {
 
   const addTeam = async () => {
     form.validateFields().then(async (values: any) => {
-      const data: any = await CreateTeam(values)
-      if (data.code == 200) {
+      const data = await adminInteractor.createTeam(values)
+      if (data) {
         form.resetFields()
         setVisible(false)
         initTeamList()
-      } else {
-        message.error(data.msg)
       }
     })
   }

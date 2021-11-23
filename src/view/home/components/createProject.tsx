@@ -3,8 +3,8 @@ import { Button, Col, Form, Input, Row, Select } from 'antd'
 import React, { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ModalFrom } from '../../../components/modalForm/modalForm'
+import { adminInteractor } from '../../../core/interactors'
 import { TeamIF } from '../../../interface'
-import { GetTeamList } from '../../../request/admin'
 import { useHomePageInit } from '../hook/useHomePageInit'
 
 const { Option } = Select
@@ -15,10 +15,8 @@ const CreateProject: FC<any> = ({ visible }) => {
   const navigate = useNavigate()
   useEffect(() => {
     ;async () => {
-      const { data, code } = await GetTeamList()
-      if (code == 200) {
-        setTeamList(data)
-      }
+      const data = await adminInteractor.getTeams()
+      setTeamList(data)
     }
   }, [])
 
