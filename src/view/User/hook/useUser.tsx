@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { userInteractor } from '../../../core/interactors'
 import { UserIF } from '../../../interface'
-import { GetUse, GetUsersActionsStatistics } from '../../../request/user'
 
 const useUserInit = () => {
   const [behaviorTraces, setBehaviorTraces] = useState({
@@ -17,7 +16,7 @@ const useUserInit = () => {
 
   const initSessionBehaviorTrace = useCallback(async page => {
     const { total, user_actions_list } = await userInteractor.getUserActions({
-      sessionId: params.session_id,
+      session_id: params.session_id,
       page: page,
       limit: 3
     })
@@ -33,12 +32,12 @@ const useUserInit = () => {
   }
   useEffect(() => {
     ;(async () => {
-      const { data } = await GetUse(params.user_id)
-      const actionsStatistics = await GetUsersActionsStatistics({
+      const user = await userInteractor.getUser(params.user_id)
+      const actionsStatistics = await userInteractor.getUserActionStatistics<Array<UserIF.UserActionStatistics>>({
         session_id: params.session_id
       })
-      setSessionSurvey(data)
-      setBehavioStatistics(actionsStatistics.data)
+      setSessionSurvey(user)
+      setBehavioStatistics(actionsStatistics)
     })()
   }, [params])
 

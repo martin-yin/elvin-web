@@ -28,6 +28,11 @@ export namespace UserIF {
 
   export type UserList = Array<User>
 
+  export interface UserActionList {
+    total: number
+    user_actions_list: UserIF.UserList
+  }
+
   export interface UserParams {
     searchDate: string
     searchHour: string

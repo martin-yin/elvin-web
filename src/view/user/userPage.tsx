@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import TableData from '../../components/tableData/tableData'
 import { userInteractor } from '../../core/interactors'
 import { UserIF } from '../../interface'
-import { GetUserList } from '../../request/user'
 import { getTimeYYMMDDHM } from '../../utils'
 import './index.less'
 
@@ -27,8 +26,6 @@ const UserPage: FC = () => {
     searchDate: moment().format('YYYY-MM-DD'),
     searchHour: '00:00'
   })
-
-  // const jb = useCallback(async () => {}, [])
 
   useEffect(() => {
     ;(async () => {
@@ -52,12 +49,12 @@ const UserPage: FC = () => {
   }
 
   const onSearch = async (value: any) => {
-    const result = await GetUserList({
+    const data = await userInteractor.geUsers({
       searchDate: userParams.searchDate,
       searchHour: userParams.searchDate,
       userId: value
     })
-    setUserList(result.data)
+    setUserList(data)
   }
 
   const tbDeviceRender = (recode: UserIF.User) => {
@@ -153,28 +150,26 @@ const UserPage: FC = () => {
   ]
   return (
     <>
-      <div>
-        <Card style={{ textAlign: 'right' }}>
-          <Space>
-            <DatePicker
-              defaultValue={moment(userParams.searchDate, 'YYYY-MM-DD')}
-              onChange={timeChange}
-              style={{ width: 160 }}
-            />
-            <Select defaultValue="00:00" style={{ width: 80 }} onChange={timeLineChange}>
-              {timeLine.map((item: any, key) => (
-                <Option value={item} key={key}>
-                  {item}
-                </Option>
-              ))}
-            </Select>
-            <Search placeholder="user_id" style={{ width: 300 }} onSearch={onSearch} />
-          </Space>
-        </Card>
-        <Card>
-          <TableData dataSource={userLst} columns={columns} />
-        </Card>
-      </div>
+      <Card style={{ textAlign: 'right' }}>
+        <Space>
+          <DatePicker
+            defaultValue={moment(userParams.searchDate, 'YYYY-MM-DD')}
+            onChange={timeChange}
+            style={{ width: 160 }}
+          />
+          <Select defaultValue="00:00" style={{ width: 80 }} onChange={timeLineChange}>
+            {timeLine.map((item: any, key) => (
+              <Option value={item} key={key}>
+                {item}
+              </Option>
+            ))}
+          </Select>
+          <Search placeholder="user_id" style={{ width: 300 }} onSearch={onSearch} />
+        </Space>
+      </Card>
+      <Card>
+        <TableData dataSource={userLst} columns={columns} />
+      </Card>
     </>
   )
 }

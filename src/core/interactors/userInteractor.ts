@@ -11,8 +11,22 @@ export class UserInteractor {
     return data
   }
 
-  public async getUserActions(params: any): Promise<any> {
+  public async getUserActions(params: {
+    session_id: string
+    page: number
+    limit: number
+  }): Promise<UserIF.UserActionList> {
     const data = await this.userSerivce.getUserActions(params)
+    return data
+  }
+
+  public async getUserActionStatistics<T>(params: { session_id: string }): Promise<T> {
+    const data = await this.userSerivce.getUserActionStatistics<T>(params)
+    return data
+  }
+
+  public async getUser(id: string): Promise<UserIF.User> {
+    const data = await this.userSerivce.getUser(id)
     return data
   }
 }
