@@ -6,8 +6,7 @@ export class ProjectInteractor {
   constructor(private projectSerivce: IProjectService) {}
 
   public async getProject() {
-    const data = await this.projectSerivce.getProject()
-    return data
+    return await this.projectSerivce.getProject()
   }
 
   public async getProjects() {

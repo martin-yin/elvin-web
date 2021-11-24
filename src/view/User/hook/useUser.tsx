@@ -45,7 +45,7 @@ const useUserInit = () => {
     initSessionBehaviorTrace(1)
   }, [])
 
-  const onPageChange = useCallback(async (page: any) => {
+  const onPageChange = useCallback(async (page: number) => {
     setBehaviorTraces({
       ...behaviorTraces
     })

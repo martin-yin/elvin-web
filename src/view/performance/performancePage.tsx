@@ -1,67 +1,15 @@
 import { Card, Table, Tag } from 'antd'
-import moment from 'moment'
-import React, { FC, useCallback, useEffect, useState } from 'react'
-import StackBarChar from '../../components/charts/performanceChart/stackBarChart'
-import StageTimeChart from '../../components/charts/performanceChart/stageTimeChart'
+import React, { FC } from 'react'
 import HeaderQuota from '../../components/headerQuota/headerQuota'
 import TimePickerChart from '../../components/timeChartPicker/timePickerChart'
-import { PerformanceIF } from '../../interface'
-import {
-  GetPerformancePageList,
-  GetPerformanceStack,
-  GetPerformanceStageTime,
-  GetQuotaData
-} from '../../request/performance'
+import { PerformanceChart } from './components/performanceChart'
+import { StackBarChar } from './components/stackBarChar'
+import usePerformanceInit from './hook/usePerformance'
 import './index.less'
 
 const PerformancePage: FC = () => {
-  const [performanceParam, setPerformanceParam] = useState<PerformanceIF.PerformanceParam>({
-    time_grain: 'minute',
-    start_time: moment().format('YYYY-MM-DD'),
-    end_time: moment().format('YYYY-MM-DD')
-  })
-
-  const [quota, setQuota] = useState<PerformanceIF.PerformanceQuota>()
-  const [stack, setStack] = useState<PerformanceIF.PerformanceStack>({
-    redirect: 0,
-    appcache: 0,
-    lookup_domain: 0,
-    tcp: 0,
-    ttfb: 0,
-    request: 0,
-    dom_parse: 0,
-    load_page: 0,
-    load_event: 0
-  })
-  const [pageList, setPageList] = useState<Array<PerformanceIF.PerformancePageList>>([])
-  const [stageTime, setStageTime] = useState<Array<PerformanceIF.PerformanceStageTime>>([])
-
-  const initQuotaData = useCallback(async () => {
-    const result = await GetQuotaData(performanceParam)
-    setQuota(result.data)
-  }, [performanceParam])
-
-  const initStackData = useCallback(async () => {
-    const result = await GetPerformanceStack(performanceParam)
-    setStack(result.data)
-  }, [performanceParam])
-
-  const initPageListData = useCallback(async () => {
-    const result = await GetPerformancePageList(performanceParam)
-    setPageList(result.data)
-  }, [performanceParam])
-
-  const initStageTimeData = useCallback(async () => {
-    const result = await GetPerformanceStageTime(performanceParam)
-    setStageTime(result.data)
-  }, [performanceParam])
-
-  useEffect(() => {
-    initQuotaData()
-    initStackData()
-    initPageListData()
-    initStageTimeData()
-  }, [initQuotaData, initStackData, initPageListData, initStageTimeData])
+  const { stackChartData, quota, performanceConsumes, pageList, performanceParam, setPerformanceParam } =
+    usePerformanceInit()
 
   const columns = [
     {
@@ -152,14 +100,13 @@ const PerformancePage: FC = () => {
           startTime={performanceParam.start_time}
           endTime={performanceParam.end_time}
         >
-          <StageTimeChart stage_time={stageTime} />
+          <PerformanceChart performanceConsumes={performanceConsumes} />
         </TimePickerChart>
         <Card>
-          <StackBarChar stack={stack}></StackBarChar>
+          <StackBarChar stackChartData={stackChartData} />
         </Card>
       </Card>
       <Card>
-        {/* <p>这里需要增加一个查看单条URL 加载得信息 参考：http://www.webfunny.cn/demo/pagePerformance.html</p> */}
         <Table dataSource={pageList} columns={columns} rowKey="page_url" />
       </Card>
     </>
