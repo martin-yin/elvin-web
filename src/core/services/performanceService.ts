@@ -18,7 +18,6 @@ export class PerformanceService implements IPerformanceService {
   }
   async getPerformanceStack(params: any): Promise<any> {
     const { code, data } = await request<any>('get', '/communal/performanceStack', params)
-    console.log(data)
     if (code === 200) {
       return data
     }

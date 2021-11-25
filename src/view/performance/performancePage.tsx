@@ -8,7 +8,7 @@ import usePerformanceInit from './hook/usePerformance'
 import './index.less'
 
 const PerformancePage: FC = () => {
-  const { stackChartData, quota, performanceConsumes, pageList, performanceParam, setPerformanceParam } =
+  const { stackConsumes, quota, performanceConsumes, pageList, performanceParam, setPerformanceParam } =
     usePerformanceInit()
 
   const columns = [
@@ -103,7 +103,7 @@ const PerformancePage: FC = () => {
           <PerformanceChart performanceConsumes={performanceConsumes} />
         </TimePickerChart>
         <Card>
-          <StackBarChar stackChartData={stackChartData} />
+          <StackBarChar stackConsumes={stackConsumes} />
         </Card>
       </Card>
       <Card>

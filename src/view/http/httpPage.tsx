@@ -1,67 +1,12 @@
 import { Card, Table } from 'antd'
-import moment from 'moment'
-import React, { FC, useCallback, useEffect, useState } from 'react'
-import HttpStageTimeChart from '../../components/charts/httpChart/stageTimeChart'
-import FilterHeader from '../../components/filterHeader/filterHeader'
+import React, { FC } from 'react'
 import HeaderQuota from '../../components/headerQuota/headerQuota'
-import { HttpIF } from '../../interface'
-import { GetHttpList, GetHttpQuota, GetHttpStage } from '../../request/http'
+import { HttpChart } from './components/httpChart'
+import { useHttpInit } from './hook/useHttp'
 import './index.less'
 
 const HttpPage: FC = () => {
-  const [quota, setQUota] = useState<HttpIF.Quota>({
-    error_user: 0,
-    load_time: 0,
-    success_total: 0,
-    total: 0,
-    success_rate: ''
-  })
-  const [httpList, setHttpList] = useState<HttpIF.HttpUrlList>([])
-  const [stageTime, setStageTime] = useState<HttpIF.StageTimeList>([])
-
-  const [httpParam, setHttpParam] = useState({
-    time_grain: 'minute',
-    start_time: moment().format('YYYY-MM-DD'),
-    end_time: moment().format('YYYY-MM-DD'),
-    stage_type: 'success'
-  })
-
-  const initQuotaData = useCallback(async () => {
-    const { code, data } = await GetHttpQuota({
-      ...httpParam
-    })
-    if (code == 200) {
-      setQUota({
-        ...data,
-        success_rate: ((data.success_total / data.total) * 100).toFixed(2).toString()
-      })
-    }
-  }, [httpParam])
-
-  const initHttpListData = useCallback(async () => {
-    const { code, data } = await GetHttpList({
-      ...httpParam
-    })
-    if (code == 200) {
-      setHttpList(data)
-    }
-  }, [httpParam])
-
-  const initStageTimeData = useCallback(async () => {
-    const { code, data } = await GetHttpStage({
-      ...httpParam
-    })
-    if (code == 200) {
-      setStageTime(data)
-    }
-  }, [httpParam])
-
-  useEffect(() => {
-    initQuotaData()
-    initHttpListData()
-    initStageTimeData()
-  }, [])
-
+  const { quota, httpList, httpConsumes } = useHttpInit()
   const columns = [
     {
       title: '请求URL',
@@ -122,10 +67,9 @@ const HttpPage: FC = () => {
 
   return (
     <>
-      <FilterHeader />
       <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={quota} />
       <Card className="time__pciker_chart_warp">
-        <HttpStageTimeChart stageTime={stageTime} />
+        <HttpChart httpConsumes={httpConsumes} />
       </Card>
       <Card>
         <Table dataSource={httpList} columns={columns} rowKey="url" />

@@ -1,12 +1,7 @@
 import React, { ComponentType, FC, lazy } from 'react'
 import { RouteObject, useRoutes } from 'react-router-dom'
 import LayoutPage, { OutletLayout } from '../layout/layoutPage'
-import HttpPage from '../view/http/httpPage'
-import HttperrorPage from '../view/httperror/httperrorPage'
-import JserrPage from '../view/jsErr/jsErrPage'
 import LoginPage from '../view/login/loginPage'
-import PerformancePage from '../view/performance/performancePage'
-import StaticErrPage from '../view/staticErr/staticErrPage'
 
 type RouteWrapperProps = {
   element: React.LazyExoticComponent<ComponentType<any>>
@@ -57,10 +52,18 @@ export const RenderRouter: FC = () => {
             }
           ]
         },
-        { path: '/performance', element: <PerformancePage /> },
-        { path: '/http', element: <HttpPage /> },
-        { path: '/httpErr', element: <HttperrorPage /> },
-        { path: '/staticErr', element: <StaticErrPage /> }
+        {
+          path: '/performance',
+          element: <RouteWrapper element={lazy(() => import('../view/performance/performancePage'))} />
+        },
+        {
+          path: '/http',
+          element: <RouteWrapper element={lazy(() => import('../view/http/httpPage'))} />
+        },
+        {
+          path: '/staticErr',
+          element: <RouteWrapper element={lazy(() => import('../view/staticErr/staticErrPage'))} />
+        }
       ]
     },
     {

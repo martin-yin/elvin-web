@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
-import { Column } from '@ant-design/charts'
+import { AllBaseConfig, Column, Plot } from '@ant-design/charts'
 
-export const StackBarChar = React.memo<any>(({ stackChartData }) => {
-  let ref
+export const StackBarChar = React.memo<any>(({ stackConsumes }) => {
+  let ref: Plot<AllBaseConfig>
   useEffect(() => {
     ref.chart.coordinate('rect').transpose()
   }, [])
 
   const config = {
-    data: stackChartData,
+    data: stackConsumes,
     isStack: true,
     xField: 'title',
     yField: 'value',

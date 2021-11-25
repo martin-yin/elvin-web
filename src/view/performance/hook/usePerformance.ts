@@ -10,7 +10,7 @@ const usePerformanceInit = () => {
     start_time: moment().format('YYYY-MM-DD'),
     end_time: moment().format('YYYY-MM-DD')
   })
-  const [stackChartData, setStackChartData] = useState<any>([])
+  const [stackConsumes, setStackConsumes] = useState<any>([])
   const [pageList, setPageList] = useState<Array<PerformanceIF.PerformancePageList>>([])
   const [performanceConsumes, setPerformanceConsumes] = useState<{
     pv: Array<{
@@ -30,8 +30,8 @@ const usePerformanceInit = () => {
 
   useEffect(() => {
     ;(async () => {
-      const stackChartData = await performanceInteractor.getPerformanceStack(performanceParam)
-      setStackChartData(stackChartData)
+      const stackConsumes = await performanceInteractor.getPerformanceStack(performanceParam)
+      setStackConsumes(stackConsumes)
       const performanceConsumes = await performanceInteractor.getPerformanceStageTime(performanceParam)
       setPerformanceConsumes(performanceConsumes)
       const quota = await performanceInteractor.getQuotaData(performanceParam)
@@ -41,7 +41,7 @@ const usePerformanceInit = () => {
     })()
   }, [])
 
-  return { quota, stackChartData, performanceConsumes, pageList, performanceParam, setPerformanceParam }
+  return { quota, stackConsumes, performanceConsumes, pageList, performanceParam, setPerformanceParam }
 }
 
 export default usePerformanceInit
