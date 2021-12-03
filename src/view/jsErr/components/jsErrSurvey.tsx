@@ -2,7 +2,7 @@ import StepBackwardOutlined from '@ant-design/icons/lib/icons/StepBackwardOutlin
 import StepForwardOutlined from '@ant-design/icons/lib/icons/StepForwardOutlined'
 import { Button, Divider, Empty, message, Space } from 'antd'
 import React from 'react'
-import { GetIssuesDetail } from '../../../request'
+import { getJsError } from '../../../request'
 import BrowserIcon from '../../../assets/webIcons/browse.png'
 import IpIcon from '../../../assets/webIcons/ip.png'
 import PcIcon from '../../../assets/webIcons/pc.png'
@@ -14,7 +14,7 @@ const JsErrSurvey = React.memo<any>(({ issue, setIssue, setStackFrames }) => {
       message.warn('没有下一个问题了！')
       return
     }
-    const result = await GetIssuesDetail({
+    const result = await getJsError({
       error_id: id,
       issue_id: 0
     })

@@ -36,7 +36,7 @@ const usePerformanceInit = () => {
       setPerformanceConsumes(performanceConsumes)
       const quota = await performanceInteractor.getQuotaData(performanceParam)
       setQuota(quota)
-      const pageList = await performanceInteractor.getPerformancePageList(performanceParam)
+      const pageList = await performanceInteractor.getPerformancePages(performanceParam)
       setPageList(pageList)
     })()
   }, [])

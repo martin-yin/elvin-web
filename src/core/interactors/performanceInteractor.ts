@@ -58,8 +58,8 @@ export class PerformanceInteractor {
     return []
   }
 
-  async getPerformancePageList(params) {
-    return await this.performanceService.getPerformancePageList(params)
+  async getPerformancePages(params) {
+    return await this.performanceService.getPerformancePages(params)
   }
 
   async getPerformanceStageTime(params) {

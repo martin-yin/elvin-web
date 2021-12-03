@@ -2,7 +2,7 @@ import { Form } from 'antd'
 import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Issue } from '../../../interface/issue.interface'
-import { GetIssuesDetail } from '../../../request'
+import { getJsError } from '../../../request'
 import { useModalHook } from '../../../utils/useHookTools'
 
 interface StackFram {
@@ -27,7 +27,7 @@ export const useJsErrDeatilInit = () => {
 
   useEffect(() => {
     ;(async () => {
-      const result = await GetIssuesDetail({
+      const result = await getJsError({
         issue_id: +params.error_id,
         error_id: 0
       })
@@ -37,7 +37,7 @@ export const useJsErrDeatilInit = () => {
 
   useEffect(() => {
     ;(async () => {
-      const result = await GetIssuesDetail({
+      const result = await getJsError({
         issue_id: +params.error_id,
         error_id: 0
       })

@@ -1,7 +1,7 @@
 import moment from 'moment'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { GetJsError } from '../../request'
+import { getJsErrors } from '../../request'
 import { Tag, Card, Table, Space } from 'antd'
 
 const JsErrPage: FC = () => {
@@ -9,7 +9,7 @@ const JsErrPage: FC = () => {
   const navigate = useNavigate()
 
   const initData = useCallback(async () => {
-    const result = await GetJsError()
+    const result = await getJsErrors()
     setIssueList(result.data)
   }, [])
 

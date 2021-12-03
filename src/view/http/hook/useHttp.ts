@@ -39,11 +39,8 @@ export const useHttpInit = () => {
     ;(async () => {
       const httpConsumes = await httpInteractor.getHttpStage(httpParam)
       setHttpConsumes(httpConsumes)
-      console.log(httpConsumes, '===========')
-
-      const httpList = await httpInteractor.getHttpList(httpParam)
+      const httpList = await httpInteractor.getHttps(httpParam)
       setHttpList(httpList)
-
       const quota = await httpInteractor.getHttpQuota(httpParam)
       setQUota(quota)
     })()

@@ -7,7 +7,6 @@ export interface IAdminService {
   registerAdmin(params: any): Promise<any>
   getTeams(): Promise<any>
   createTeam(params: any): Promise<any>
-  createProject(params: any): Promise<any>
 }
 
 export class AdminService implements IAdminService {
@@ -34,7 +33,7 @@ export class AdminService implements IAdminService {
   }
 
   public async getTeams(): Promise<any> {
-    const { code, data } = await request<TeamIF.TeamLit>('get', '/admin/teamList')
+    const { code, data } = await request<TeamIF.TeamLit>('get', '/admin/teams')
     if (code == 200) {
       return data
     }
@@ -49,11 +48,11 @@ export class AdminService implements IAdminService {
     return null
   }
 
-  public async createProject(formData): Promise<any> {
-    const { code } = await request<ProjectIF.Project>('post', '/admin/createProject', formData)
-    if (code == 200) {
-      return code
-    }
-    return null
-  }
+  // public async createProject(formData): Promise<any> {
+  //   const { code } = await request<ProjectIF.Project>('post', '/admin/createProject', formData)
+  //   if (code == 200) {
+  //     return code
+  //   }
+  //   return null
+  // }
 }

@@ -3,7 +3,7 @@ import { request } from '../../utils/request'
 export interface IPerformanceService {
   getQuotaData(params): Promise<any>
   getPerformanceStack(params): Promise<any>
-  getPerformancePageList(params): Promise<any>
+  getPerformancePages(params): Promise<any>
   getPerformanceStageTime(params): Promise<any>
   getPerformanceRankingList(params): Promise<any>
 }
@@ -23,8 +23,8 @@ export class PerformanceService implements IPerformanceService {
     }
     return null
   }
-  async getPerformancePageList(params: any): Promise<any> {
-    const { code, data } = await request<any>('get', '/communal/performancePageList', params)
+  async getPerformancePages(params: any): Promise<any> {
+    const { code, data } = await request<any>('get', '/communal/performancePages', params)
     if (code === 200) {
       return data
     }

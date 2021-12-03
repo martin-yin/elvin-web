@@ -10,7 +10,7 @@ export interface IUserService {
 
 export class UserService implements IUserService {
   async getUsers(params: UserIF.UserParams): Promise<UserIF.UserList> {
-    const { code, data } = await request<UserIF.UserList>('get', '/communal/userList', params)
+    const { code, data } = await request<UserIF.UserList>('get', '/communal/users', params)
     if (code == 200) {
       return data
     }
@@ -21,7 +21,7 @@ export class UserService implements IUserService {
     const { code, data } = await request<{
       total: number
       user_actions_list: UserIF.UserList
-    }>('get', '/communal/usersActionList', params)
+    }>('get', '/communal/userActions', params)
     if (code == 200) {
       return data
     }
@@ -37,7 +37,7 @@ export class UserService implements IUserService {
   }
 
   async getUserActionStatistics<T>(params: { session_id: string }): Promise<T> {
-    const { data, code } = await request<T>('get', '/communal/usersActionsStatistics', params)
+    const { data, code } = await request<T>('get', '/communal/userActionStatistics', params)
     if (code === 200) {
       return data
     }

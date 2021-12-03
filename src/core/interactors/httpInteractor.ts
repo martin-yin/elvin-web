@@ -14,13 +14,13 @@ export class HttpInteractor {
     return data
   }
 
-  async getHttpList(params): Promise<HttpIF.HttpUrlList> {
-    const data = await this.httpService.getHttpList(params)
+  async getHttps(params): Promise<HttpIF.HttpUrlList> {
+    const data = await this.httpService.getHttps(params)
     return data
   }
 
-  async getHttpErrorList(params): Promise<HttpIF.HttpUrlList> {
-    const data = await this.httpService.getHttpErrorList(params)
+  async getHttpErrors(params): Promise<HttpIF.HttpUrlList> {
+    const data = await this.httpService.getHttpErrors(params)
     return data
   }
 

@@ -19,7 +19,7 @@ export class ProjectService implements IProjectService {
   }
 
   async getProjects(): Promise<ProjectIF.Projects> {
-    const { data, code } = await request<ProjectIF.Projects>('get', '/admin/projectList')
+    const { data, code } = await request<ProjectIF.Projects>('get', '/admin/projects')
     if (code == 200) {
       return data
     }

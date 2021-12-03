@@ -2,7 +2,7 @@ import { Card, Table } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import HeaderQuota from '../../components/headerQuota/headerQuota'
 import { ResourcesIF } from '../../interface'
-import { webPageErrorData } from '../../request'
+import { getStaticErr } from '../../request'
 
 const StaticErrPage: FC = () => {
   const [resourcesData, setErrorPageData] = useState<{
@@ -14,7 +14,7 @@ const StaticErrPage: FC = () => {
   })
 
   const initErrorPageData = useCallback(async () => {
-    const { code, data } = await webPageErrorData()
+    const { code, data } = await getStaticErr()
     if (code) {
       setErrorPageData(data)
     }
@@ -72,12 +72,10 @@ const StaticErrPage: FC = () => {
 
   return (
     <>
-      <div>
-        <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={resourcesData.quota} />
-        <Card>
-          <Table dataSource={resourcesData.resourcesList} columns={columns} rowKey="page_source_url" />
-        </Card>
-      </div>
+      <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={resourcesData.quota} />
+      <Card>
+        <Table dataSource={resourcesData.resourcesList} columns={columns} rowKey="page_source_url" />
+      </Card>
     </>
   )
 }
