@@ -5,13 +5,13 @@ import { PerformanceIF } from '../../../interface'
 
 const usePerformanceInit = () => {
   const [quota, setQuota] = useState<PerformanceIF.PerformanceQuota>()
-  const [performanceParam, setPerformanceParam] = useState<PerformanceIF.PerformanceParam>({
+  const [performanceParams, setPerformanceParams] = useState<PerformanceIF.PerformanceParams>({
     time_grain: 'minute',
     start_time: moment().format('YYYY-MM-DD'),
     end_time: moment().format('YYYY-MM-DD')
   })
   const [stackConsumes, setStackConsumes] = useState<any>([])
-  const [pageList, setPageList] = useState<Array<PerformanceIF.PerformancePageList>>([])
+  const [performances, setPerformances] = useState<PerformanceIF.Performances>([])
   const [performanceConsumes, setPerformanceConsumes] = useState<{
     pv: Array<{
       time: string
@@ -30,18 +30,18 @@ const usePerformanceInit = () => {
 
   useEffect(() => {
     ;(async () => {
-      const stackConsumes = await performanceInteractor.getPerformanceStack(performanceParam)
+      const stackConsumes = await performanceInteractor.getPerformanceStack(performanceParams)
       setStackConsumes(stackConsumes)
-      const performanceConsumes = await performanceInteractor.getPerformanceStageTime(performanceParam)
+      const performanceConsumes = await performanceInteractor.getPerformanceStageTime(performanceParams)
       setPerformanceConsumes(performanceConsumes)
-      const quota = await performanceInteractor.getQuotaData(performanceParam)
+      const quota = await performanceInteractor.getQuotaData(performanceParams)
       setQuota(quota)
-      const pageList = await performanceInteractor.getPerformancePages(performanceParam)
-      setPageList(pageList)
+      const performances = await performanceInteractor.getPerformancePages(performanceParams)
+      setPerformances(performances)
     })()
   }, [])
 
-  return { quota, stackConsumes, performanceConsumes, pageList, performanceParam, setPerformanceParam }
+  return { quota, stackConsumes, performanceConsumes, performances, performanceParams, setPerformanceParams }
 }
 
 export default usePerformanceInit

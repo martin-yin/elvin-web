@@ -42,7 +42,7 @@ const HttpPage: FC = () => {
     }
   ]
 
-  const quotaTitleUnitKey = [
+  const quotaTitleUnitKeys = [
     {
       title: '请求次数',
       key: 'total',
@@ -67,7 +67,7 @@ const HttpPage: FC = () => {
 
   return (
     <>
-      <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={quota} />
+      <HeaderQuota quotaTitleUnitKeys={quotaTitleUnitKeys} quota={quota} />
       <Card className="time__pciker_chart_warp">
         <HttpChart httpConsumes={httpConsumes} />
       </Card>

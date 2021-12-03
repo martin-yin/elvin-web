@@ -2,14 +2,14 @@ import { HttpIF } from '../../interface'
 import { request } from '../../utils/request'
 
 export interface IHttpService {
-  getHttpQuota(params: any): Promise<HttpIF.Quota>
-  getHttps(params: any): Promise<HttpIF.HttpUrlList>
-  getHttpErrors(params: any): Promise<HttpIF.HttpUrlList>
-  getHttpStage(params: any): Promise<HttpIF.StageTimeList>
+  getHttpQuota(params: HttpIF.HttpParams): Promise<HttpIF.Quota>
+  getHttps(params: HttpIF.HttpParams): Promise<HttpIF.Https>
+  getHttpErrors(params: HttpIF.HttpParams): Promise<HttpIF.Https>
+  getHttpStage(params: HttpIF.HttpParams): Promise<HttpIF.HttpStageTimes>
 }
 
 export class HttpService implements IHttpService {
-  async getHttpQuota(params: any): Promise<HttpIF.Quota> {
+  async getHttpQuota(params: HttpIF.HttpParams): Promise<HttpIF.Quota> {
     const { code, data } = await request<HttpIF.Quota>('get', '/communal/httpQuota', params)
     if (code === 200) {
       return data
@@ -17,24 +17,24 @@ export class HttpService implements IHttpService {
     return null
   }
 
-  async getHttps(params: any): Promise<HttpIF.HttpUrlList> {
-    const { code, data } = await request<HttpIF.HttpUrlList>('get', '/communal/https', params)
+  async getHttps(params: HttpIF.HttpParams): Promise<HttpIF.Https> {
+    const { code, data } = await request<HttpIF.Https>('get', '/communal/https', params)
     if (code === 200) {
       return data
     }
     return null
   }
 
-  async getHttpErrors(params: any): Promise<HttpIF.HttpUrlList> {
-    const { code, data } = await request<HttpIF.HttpUrlList>('get', '/communal/httpErrorList', params)
+  async getHttpErrors(params: HttpIF.HttpParams): Promise<HttpIF.Https> {
+    const { code, data } = await request<HttpIF.Https>('get', '/communal/httpErrors', params)
     if (code === 200) {
       return data
     }
     return null
   }
 
-  async getHttpStage(params: any): Promise<HttpIF.StageTimeList> {
-    const { code, data } = await request<HttpIF.StageTimeList>('get', '/communal/httpStage', params)
+  async getHttpStage(params: HttpIF.HttpParams): Promise<HttpIF.HttpStageTimes> {
+    const { code, data } = await request<HttpIF.HttpStageTimes>('get', '/communal/httpStage', params)
     if (code === 200) {
       return data
     }

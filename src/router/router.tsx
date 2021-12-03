@@ -1,11 +1,8 @@
-import React, { ComponentType, FC, lazy } from 'react'
+import React, { FC, lazy } from 'react'
 import { RouteObject, useRoutes } from 'react-router-dom'
+import { RouteWrapperProps } from '../interface'
 import LayoutPage, { OutletLayout } from '../layout/layoutPage'
 import LoginPage from '../view/login/loginPage'
-
-type RouteWrapperProps = {
-  element: React.LazyExoticComponent<ComponentType<any>>
-}
 
 const RouteWrapper: React.FC<RouteWrapperProps> = props => {
   const { element: ElementComponent } = props

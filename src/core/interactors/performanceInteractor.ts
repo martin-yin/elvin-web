@@ -131,8 +131,4 @@ export class PerformanceInteractor {
       return { pv, timeConsumes }
     }
   }
-
-  async getPerformanceRankingList(params) {
-    return await this.performanceService.getPerformanceRankingList(params)
-  }
 }

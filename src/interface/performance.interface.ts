@@ -1,50 +1,17 @@
 export namespace PerformanceIF {
-  export interface PerformanceParam {
-    time_grain: string
-    start_time: string
-    end_time: string
-  }
+  export type PerformanceParams = Record<'time_grain' | 'start_time' | 'end_time', string>
 
-  export interface PerformanceQuota {
-    dom_parse: number
-    load_page: number
-    pv: number
-    fast: string
-  }
+  export type PerformanceQuota = Record<'dom_parse' | 'load_page' | 'pv', number> & { fast: string }
 
-  export interface PerformanceStack {
-    redirect: number
-    appcache: number
-    lookup_domain: number
-    tcp: number
-    ttfb: number
-    request: number
-    dom_parse: number
-    load_page: number
-    load_event: number
-  }
+  export type Performance = Record<'page_url' | 'ttfb' | 'dom_parse' | 'load_event' | 'load_type' | 'pv', number>
 
-  export interface PerformancePageList {
-    page_url: string
-    ttfb: string
-    dom_parse: string
-    load_event: string
-    load_type: string
-    pv: string
-  }
+  export type Performances = Array<Performance>
 
-  export interface PerformanceStageTime {
-    time_key: string
-    pv: string
-    redirect: string
-    lookup_domain: string
-    appcache: string
-    tcp: string
-    ssl_t: string
-    ttfb: string
-    request: string
-    dom_parse: string
-    load_event: string
-    load_page: string
-  }
+  export type PerformanceStageTime = Omit<Performance, 'page_url' | 'load_type'> &
+    Record<'redirect' | 'appcache' | 'lookup_domain' | 'tcp' | 'request' | 'load_page' | 'ssl_t', number> & {
+      time_key: string
+    }
+
+  export type PerformanceStageTimes = Array<PerformanceStageTime>
+  export type PerformanceStack = Omit<PerformanceStageTime, 'pv' | 'time_key'>
 }

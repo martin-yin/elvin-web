@@ -31,7 +31,7 @@ export namespace TeamIF {
     updated_at?: string
   }
 
-  export type TeamLit = ReadonlyArray<Team>
+  export type Teams = ReadonlyArray<Team>
 
   export type Projects = Array<Project>
 

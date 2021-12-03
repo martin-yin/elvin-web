@@ -2,18 +2,7 @@ import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { httpInteractor } from '../../../core/interactors'
 import { HttpIF } from '../../../interface'
-export interface HttpConsumes {
-  total: Array<{
-    time: string
-    value: number
-    type: string
-  }>
-  timeConsumes: Array<{
-    time: string
-    count: number
-    name: string
-  }>
-}
+
 export const useHttpInit = () => {
   const [quota, setQUota] = useState<HttpIF.Quota>({
     error_user: 0,
@@ -22,29 +11,28 @@ export const useHttpInit = () => {
     total: 0,
     success_rate: ''
   })
-  const [httpList, setHttpList] = useState<HttpIF.HttpUrlList>([])
-  const [httpConsumes, setHttpConsumes] = useState<HttpConsumes>({
+  const [httpList, setHttpList] = useState<HttpIF.Https>([])
+  const [httpConsumes, setHttpConsumes] = useState<HttpIF.HttpConsumes>({
     total: [],
     timeConsumes: []
   })
 
-  const [httpParam, setHttpParam] = useState({
+  const [httpParams] = useState<HttpIF.HttpParams>({
     time_grain: 'minute',
     start_time: moment().format('YYYY-MM-DD'),
-    end_time: moment().format('YYYY-MM-DD'),
-    stage_type: 'success'
+    end_time: moment().format('YYYY-MM-DD')
   })
 
   useEffect(() => {
     ;(async () => {
-      const httpConsumes = await httpInteractor.getHttpStage(httpParam)
+      const httpConsumes = await httpInteractor.getHttpStage(httpParams)
       setHttpConsumes(httpConsumes)
-      const httpList = await httpInteractor.getHttps(httpParam)
+      const httpList = await httpInteractor.getHttps(httpParams)
       setHttpList(httpList)
-      const quota = await httpInteractor.getHttpQuota(httpParam)
+      const quota = await httpInteractor.getHttpQuota(httpParams)
       setQUota(quota)
     })()
   }, [])
 
-  return { quota, httpList, httpConsumes, setHttpParam }
+  return { quota, httpList, httpConsumes }
 }

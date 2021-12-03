@@ -1,12 +1,11 @@
 import { HttpIF } from '../../interface'
-import { HttpConsumes } from '../../view/http/hook/useHttp'
 import { Injectable } from '../decorator'
 import { HttpService, IHttpService } from '../services/httpService'
 
 @Injectable([HttpService])
 export class HttpInteractor {
   constructor(private httpService: IHttpService) {}
-  async getHttpQuota(params): Promise<HttpIF.Quota> {
+  async getHttpQuota(params: HttpIF.HttpParams): Promise<HttpIF.Quota> {
     const data = await this.httpService.getHttpQuota(params)
     if (data) {
       data.success_rate = ((data.success_total / data.total) * 100).toFixed(2).toString()
@@ -14,17 +13,17 @@ export class HttpInteractor {
     return data
   }
 
-  async getHttps(params): Promise<HttpIF.HttpUrlList> {
+  async getHttps(params: HttpIF.HttpParams): Promise<HttpIF.Https> {
     const data = await this.httpService.getHttps(params)
     return data
   }
 
-  async getHttpErrors(params): Promise<HttpIF.HttpUrlList> {
+  async getHttpErrors(params: HttpIF.HttpParams): Promise<HttpIF.Https> {
     const data = await this.httpService.getHttpErrors(params)
     return data
   }
 
-  async getHttpStage(params): Promise<HttpConsumes> {
+  async getHttpStage(params: HttpIF.HttpParams): Promise<HttpIF.HttpConsumes> {
     const data = await this.httpService.getHttpStage(params)
     if (data) {
       const total = []

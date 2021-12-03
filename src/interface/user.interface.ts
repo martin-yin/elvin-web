@@ -26,11 +26,11 @@ export namespace UserIF {
     id?: string
   }
 
-  export type UserList = Array<User>
+  export type Users = Array<User>
 
-  export interface UserActionList {
+  export interface UserActions {
     total: number
-    user_actions_list: UserIF.UserList
+    user_actions_list: UserIF.Users
   }
 
   export interface UserParams {
@@ -71,11 +71,8 @@ export namespace UserIF {
     action_type: string
     // js 异常
     message?: string
-
     session_id?: string
-
     action_detail: string | any
-
     // 资源异常
     element_type?: string
     source_url?: string
