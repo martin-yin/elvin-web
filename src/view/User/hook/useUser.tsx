@@ -8,7 +8,7 @@ const useUserInit = () => {
     total: 0,
     list: []
   })
-  const [behavioStatistics, setBehavioStatistics] = useState([])
+  const [behavioStatistics, setBehavioStatistics] = useState<UserIF.UserActionStatistics>()
   const [behavioDetail, setBehavioDetail] = useState({} as any)
   const [activeId, setActiveId] = useState('')
   const [sessionSurvey, setSessionSurvey] = useState<UserIF.User>()
@@ -26,14 +26,14 @@ const useUserInit = () => {
     })
   }, [])
 
-  const handleActiveBehavior = async (item: any) => {
+  const handleActiveBehavior = async item => {
     setActiveId(`${item.happen_time}${item.action_type}`)
     setBehavioDetail(item.action_detail)
   }
   useEffect(() => {
     ;(async () => {
       const user = await userInteractor.getUser(params.user_id)
-      const actionsStatistics = await userInteractor.getUserActionStatistics<Array<UserIF.UserActionStatistics>>({
+      const actionsStatistics = await userInteractor.getUserActionStatistics<UserIF.UserActionStatistics>({
         session_id: params.session_id
       })
       setSessionSurvey(user)

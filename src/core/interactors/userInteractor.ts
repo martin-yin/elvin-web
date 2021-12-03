@@ -6,7 +6,7 @@ import { IUserService, UserService } from '../services/userService'
 export class UserInteractor {
   constructor(private userSerivce: IUserService) {}
 
-  public async geUsers(params: UserIF.UserParams): Promise<UserIF.UserList> {
+  public async geUsers(params: UserIF.UserParams): Promise<UserIF.Users> {
     const data = await this.userSerivce.getUsers(params)
     return data
   }
@@ -15,7 +15,7 @@ export class UserInteractor {
     session_id: string
     page: number
     limit: number
-  }): Promise<UserIF.UserActionList> {
+  }): Promise<UserIF.UserActions> {
     const data = await this.userSerivce.getUserActions(params)
     return data
   }

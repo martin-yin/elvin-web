@@ -7,11 +7,11 @@ const { RangePicker } = DatePicker
 const TimePickerChart: FC<any> = ({ onTimeChange, startTime, endTime, children }) => {
   const [timeGrain, setTimeGrain] = useState('minute')
 
-  const disabledDate = (current: any) => {
+  const disabledDate = current => {
     return current && current >= moment()
   }
 
-  const timeChange = (dates: any, dateStrings: [string, string]) => {
+  const timeChange = (dates, dateStrings: [string, string]) => {
     const time = dates[1].diff(dates[0], 'days')
     let time_grain = timeGrain
     if (time > 0 && time <= 6) {
@@ -24,7 +24,7 @@ const TimePickerChart: FC<any> = ({ onTimeChange, startTime, endTime, children }
     onTimeChange(dateStrings, time_grain)
   }
 
-  const timeGrainChange = (e: any) => {
+  const timeGrainChange = e => {
     setTimeGrain(e.target.value)
   }
 

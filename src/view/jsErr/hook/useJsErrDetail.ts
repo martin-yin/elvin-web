@@ -1,7 +1,7 @@
 import { Form } from 'antd'
 import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { Issue } from '../../../interface/issue.interface'
+import { JsErrIF } from '../../../interface/jsErr.interface'
 import { getJsError } from '../../../request'
 import { useModalHook } from '../../../utils/useHookTools'
 
@@ -16,8 +16,8 @@ export const useJsErrDeatilInit = () => {
   const [form] = Form.useForm()
   const params = useParams<'error_id'>()
   const [visible, handleOpenModal, handleCloseModal] = useModalHook()
-  const [stackFrames, setStackFrames] = useState<Issue.StackFramesList>([])
-  const [issue, setIssue] = useState<Issue.Issue>()
+  const [stackFrames, setStackFrames] = useState<JsErrIF.StackFramesList>([])
+  const [jsErr, setJsErr] = useState<JsErrIF.JsErr>()
   const [stackFrame, setStackFrame] = useState<StackFram>({
     url: '',
     line: 0,
@@ -31,7 +31,7 @@ export const useJsErrDeatilInit = () => {
         issue_id: +params.error_id,
         error_id: 0
       })
-      setIssue(result.data)
+      setJsErr(result.data)
     })()
   }, [])
 
@@ -67,8 +67,8 @@ export const useJsErrDeatilInit = () => {
   }, [])
 
   return {
-    issue,
-    setIssue,
+    jsErr,
+    setJsErr,
     visible,
     stackFrames,
     setStackFrames,

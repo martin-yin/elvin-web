@@ -1,3 +1,4 @@
+import { AdminIF, TeamIF } from '../../interface'
 import { Injectable } from '../decorator'
 import { AdminService, IAdminService } from '../services/adminService'
 
@@ -5,13 +6,13 @@ import { AdminService, IAdminService } from '../services/adminService'
 export class AdminInteractor {
   constructor(private adminService: IAdminService) {}
 
-  public async adminLogin(formData) {
-    const data = await this.adminService.adminLogin(formData)
+  public async adminLogin(params: AdminIF.LoginParam) {
+    const data = await this.adminService.adminLogin(params)
     return data
   }
 
-  public async registerAdmin(formData) {
-    const data = await this.adminService.registerAdmin(formData)
+  public async registerAdmin(params: AdminIF.RegisterParam) {
+    const data = await this.adminService.registerAdmin(params)
     return data
   }
 
@@ -20,13 +21,13 @@ export class AdminInteractor {
     return data
   }
 
-  public async createTeam(formData) {
-    const data = await this.adminService.createTeam(formData)
+  public async createTeam(params) {
+    const data = await this.adminService.createTeam(params)
     return data
   }
 
-  public async createProject(formData) {
-    const data = await this.adminService.createProject(formData)
+  public async createProject(params: AdminIF.CreateProject) {
+    const data = await this.adminService.createProject(params)
     return data
   }
 }

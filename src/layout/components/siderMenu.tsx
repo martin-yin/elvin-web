@@ -15,7 +15,7 @@ interface MenuItem {
   isShow?: boolean
 }
 
-const menuList: Array<MenuItem> = [
+const menus: Array<MenuItem> = [
   {
     key: '/',
     path: '/dashboard',
@@ -115,7 +115,7 @@ const SiderMenu: FC = () => {
       selectedKeys={menuKeys.selectKeys}
       onClick={menuClick}
     >
-      {menuList.map((item: any) => {
+      {menus.map(item => {
         return renderMenu(item)
       })}
     </Menu>

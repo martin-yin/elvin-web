@@ -34,7 +34,7 @@ const BehaviorTimeLineItem: FC<BehaviorTimeLineItemProps> = ({ key, item, active
     initItemData()
   }, [initItemData])
 
-  const transformationAction = (item: UserIF.UserAction): any => {
+  const transformationAction = (item: UserIF.UserAction) => {
     const action_detail = Reflect.has(item, 'action_detail')
     if (action_detail) {
       item.action_detail = JSON.parse(item.action_detail)

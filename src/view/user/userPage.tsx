@@ -21,7 +21,7 @@ for (let i = 0; i < 24; i++) {
 }
 
 const UserPage: FC = () => {
-  const [userLst, setUserList] = useState<UserIF.UserList>([])
+  const [userLst, setUserList] = useState<UserIF.Users>([])
   const [userParams, setUserParams] = useState<UserIF.UserParams>({
     searchDate: moment().format('YYYY-MM-DD'),
     searchHour: '00:00'
@@ -34,7 +34,7 @@ const UserPage: FC = () => {
     })()
   }, [])
 
-  const timeChange = (date: any, dateString: string) => {
+  const timeChange = (date, dateString: string) => {
     setUserParams({
       searchDate: dateString,
       searchHour: userParams.searchHour
@@ -48,7 +48,7 @@ const UserPage: FC = () => {
     })
   }
 
-  const onSearch = async (value: any) => {
+  const onSearch = async (value: string) => {
     const data = await userInteractor.geUsers({
       searchDate: userParams.searchDate,
       searchHour: userParams.searchDate,
@@ -158,7 +158,7 @@ const UserPage: FC = () => {
             style={{ width: 160 }}
           />
           <Select defaultValue="00:00" style={{ width: 80 }} onChange={timeLineChange}>
-            {timeLine.map((item: any, key) => (
+            {timeLine.map((item, key) => (
               <Option value={item} key={key}>
                 {item}
               </Option>

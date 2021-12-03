@@ -5,12 +5,11 @@ import { useHomePageInit } from './hook/useHomePageInit'
 import './index.less'
 
 const HomePage: FC = () => {
-  const { list, visible } = useHomePageInit()
-
+  const { list, visible, handleOpenModal, handleCloseModal, handleCreateProject, form } = useHomePageInit()
   return (
     <>
-      <CreateProject visible={visible} />
-      <HealthStatus list={list} />
+      <CreateProject visible={visible} onClose={handleCloseModal} onCreate={handleCreateProject} form={form} />
+      <HealthStatus list={list} openModal={handleOpenModal} />
     </>
   )
 }

@@ -1,10 +1,12 @@
-import { Card } from 'antd'
+import { Card, message } from 'antd'
 import moment from 'moment'
 import React, { FC, useEffect, useState } from 'react'
 import { TeamIF } from '../../interface/team.interface'
 import { Descriptions } from 'antd'
 import Field from '@ant-design/pro-field'
 import { projectInteractor } from '../../core/interactors'
+import { delProject } from '../../request'
+import { useNavigate } from 'react-router-dom'
 
 const ProjectPage: FC = () => {
   const [project, setProject] = useState<TeamIF.Project>({
@@ -14,12 +16,13 @@ const ProjectPage: FC = () => {
     team_id: '',
     created_at: 'string'
   })
+  const navigate = useNavigate()
 
   useEffect(() => {
-    ;async () => {
-      const data = await projectInteractor.getProject()
-      setProject(data)
-    }
+    ;(async () => {
+      const project = await projectInteractor.getProject()
+      setProject(project)
+    })()
   }, [])
 
   const code = `<script>
@@ -34,17 +37,17 @@ const ProjectPage: FC = () => {
         })
       };
       head.appendChild(script); 
-    })("https://shifulaile-admin-1258720006.cos.ap-chengdu.myqcloud.com/index.js", "${project.monitor_id}");
+    })("./index.js", "${project.monitor_id}");
   </script>`
 
   // 删除项目
-  // const confirm = async (id: number | any) => {
-  //   const { code, msg } = await DelProject(id)
-  //   if (code == 200) {
-  //     navigate('/')
-  //     message.success(msg)
-  //   }
-  // }
+  const del = async (id: number | any) => {
+    const { code, msg } = await delProject(id)
+    if (code == 200) {
+      navigate('/dashboard')
+      message.success(msg)
+    }
+  }
 
   return (
     <Card>
@@ -60,6 +63,16 @@ const ProjectPage: FC = () => {
         </Descriptions.Item>
         <Descriptions.Item label="创建时间">
           <Field text={moment(project?.created_at).format('YYYY MM-DD hh:mm:ss')} mode="read" />
+        </Descriptions.Item>
+        <Descriptions.Item label="创建时间">
+          <button
+            onClick={() => {
+              del(project.id)
+            }}
+          >
+            {project.id}
+            删除
+          </button>
         </Descriptions.Item>
       </Descriptions>
     </Card>

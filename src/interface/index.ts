@@ -4,7 +4,6 @@ export * from './http.interface'
 export * from './performance.interface'
 export * from './team.interface'
 export * from './user.interface'
-export * from './project.interface'
 export * from './admin.interface'
 
 export interface Menu {

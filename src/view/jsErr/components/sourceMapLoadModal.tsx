@@ -3,10 +3,12 @@ import { Form, Input, message, Tabs, Upload } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
 
 import { LoadSourceMap } from '../../../request'
-import { Issue } from '../../../interface/issue.interface'
+
 import sourceMap from 'source-map-js'
 import { ModalFrom } from '../../../components/modalForm/modalForm'
 import type { RcFile } from 'antd/lib/upload'
+import { JsErrIF } from '../../../interface/jsErr.interface'
+import { AxiosResponse } from 'axios'
 const { Dragger } = Upload
 const { TabPane } = Tabs
 
@@ -38,8 +40,10 @@ const SourceMapLoadModal = React.memo<any>(({ visible, stackFrame, closeModal, s
   }
 
   const handleModelFormCreate = () => {
-    form.validateFields().then(async (value: any) => {
-      const sourceMapResponse: any = await LoadSourceMap(value.url)
+    form.validateFields().then(async (value: { url: string }) => {
+      const sourceMapResponse: AxiosResponse<{
+        data: any
+      }> = await LoadSourceMap(value.url)
       if (sourceMapResponse.status !== 200) {
         message.error(`无法加载source-map文件！`)
         return
@@ -54,10 +58,10 @@ const SourceMapLoadModal = React.memo<any>(({ visible, stackFrame, closeModal, s
     })
   }
 
-  const lookSource = (source_map, line: number, column: number) => {
+  const lookSource = (sourceMap, line: number, column: number) => {
     try {
-      const consumer = new sourceMap.SourceMapConsumer(source_map)
-      const lookUpRes: Issue.LookUpRes = consumer.originalPositionFor({
+      const consumer = new sourceMap.SourceMapConsumer(sourceMap)
+      const lookUpRes: JsErrIF.LookUpRes = consumer.originalPositionFor({
         line: line,
         column: column
       })

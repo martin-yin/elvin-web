@@ -8,7 +8,7 @@ import usePerformanceInit from './hook/usePerformance'
 import './index.less'
 
 const PerformancePage: FC = () => {
-  const { stackConsumes, quota, performanceConsumes, pageList, performanceParam, setPerformanceParam } =
+  const { stackConsumes, quota, performanceConsumes, performances, performanceParams, setPerformanceParams } =
     usePerformanceInit()
 
   const columns = [
@@ -55,15 +55,15 @@ const PerformancePage: FC = () => {
     }
   ]
 
-  const onTimeChange = (dateStrings: any, time_grain: string) => {
-    setPerformanceParam({
+  const onTimeChange = (dateStrings: Array<string>, time_grain: string) => {
+    setPerformanceParams({
       start_time: dateStrings[0],
       end_time: dateStrings[1],
       time_grain: time_grain
     })
   }
 
-  const quotaTitleUnitKey = [
+  const quotaTitleUnitKeys = [
     {
       title: '首字节',
       key: 'ttfb',
@@ -93,12 +93,12 @@ const PerformancePage: FC = () => {
 
   return (
     <>
-      <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={quota} />
+      <HeaderQuota quotaTitleUnitKeys={quotaTitleUnitKeys} quota={quota} />
       <Card className="consume_time_charts">
         <TimePickerChart
           onTimeChange={onTimeChange}
-          startTime={performanceParam.start_time}
-          endTime={performanceParam.end_time}
+          startTime={performanceParams.start_time}
+          endTime={performanceParams.end_time}
         >
           <PerformanceChart performanceConsumes={performanceConsumes} />
         </TimePickerChart>
@@ -107,7 +107,7 @@ const PerformancePage: FC = () => {
         </Card>
       </Card>
       <Card>
-        <Table dataSource={pageList} columns={columns} rowKey="page_url" />
+        <Table dataSource={performances} columns={columns} rowKey="page_url" />
       </Card>
     </>
   )

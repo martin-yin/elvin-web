@@ -74,15 +74,6 @@ export const toLineData = <T>(data: T): CasedProperties<T> => {
   return lineData
 }
 
-export const usePersistFn = <T extends (...args: any[]) => any>(fn: T) => {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  const ref = React.useRef<Function>(() => {
-    throw new Error('Cannot call function while rendering.')
-  })
-  ref.current = fn
-  return React.useCallback(ref.current as T, [ref])
-}
-
 export const preLineStartEnd = originSource => {
   const { source, line } = originSource
   // 先获取源码有多少行

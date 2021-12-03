@@ -1,3 +1,4 @@
+import { PerformanceIF } from '../../interface'
 import { Injectable } from '../decorator'
 import { IPerformanceService, PerformanceService } from '../services/performanceService'
 
@@ -5,11 +6,11 @@ import { IPerformanceService, PerformanceService } from '../services/performance
 export class PerformanceInteractor {
   constructor(private performanceService: IPerformanceService) {}
 
-  async getQuotaData(params) {
+  async getQuotaData(params: PerformanceIF.PerformanceParams) {
     return await this.performanceService.getQuotaData(params)
   }
 
-  async getPerformanceStack(params) {
+  async getPerformanceStack(params: PerformanceIF.PerformanceParams) {
     const stack = await this.performanceService.getPerformanceStack(params)
     if (stack) {
       return [
@@ -58,11 +59,11 @@ export class PerformanceInteractor {
     return []
   }
 
-  async getPerformancePages(params) {
+  async getPerformancePages(params: PerformanceIF.PerformanceParams) {
     return await this.performanceService.getPerformancePages(params)
   }
 
-  async getPerformanceStageTime(params) {
+  async getPerformanceStageTime(params: PerformanceIF.PerformanceParams) {
     const data = await this.performanceService.getPerformanceStageTime(params)
     if (data) {
       const pv = []

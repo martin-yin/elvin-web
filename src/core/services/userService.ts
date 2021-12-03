@@ -2,25 +2,25 @@ import { UserIF } from '../../interface'
 import { request } from '../../utils/request'
 
 export interface IUserService {
-  getUsers(params: UserIF.UserParams): Promise<UserIF.UserList>
-  getUserActions(params: { session_id: string; page: number; limit: number }): Promise<UserIF.UserActionList>
+  getUsers(params: UserIF.UserParams): Promise<UserIF.Users>
+  getUserActions(params: { session_id: string; page: number; limit: number }): Promise<UserIF.UserActions>
   getUser(id: string): Promise<UserIF.User>
   getUserActionStatistics<T>(params: { session_id: string }): Promise<T>
 }
 
 export class UserService implements IUserService {
-  async getUsers(params: UserIF.UserParams): Promise<UserIF.UserList> {
-    const { code, data } = await request<UserIF.UserList>('get', '/communal/users', params)
+  async getUsers(params: UserIF.UserParams): Promise<UserIF.Users> {
+    const { code, data } = await request<UserIF.Users>('get', '/communal/users', params)
     if (code == 200) {
       return data
     }
     return []
   }
 
-  async getUserActions(params: { session_id: string; page: number; limit: number }): Promise<UserIF.UserActionList> {
+  async getUserActions(params: { session_id: string; page: number; limit: number }): Promise<UserIF.UserActions> {
     const { code, data } = await request<{
       total: number
-      user_actions_list: UserIF.UserList
+      user_actions_list: UserIF.Users
     }>('get', '/communal/userActions', params)
     if (code == 200) {
       return data

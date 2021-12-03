@@ -2,7 +2,8 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { Avatar, Dropdown, Menu, Select } from 'antd'
 import { Header } from 'antd/lib/layout/layout'
 import React, { FC } from 'react'
-import { ProjectIF } from '../../interface'
+import { Link } from 'react-router-dom'
+import { TeamIF } from '../../interface'
 import { useAppState } from '../../stores'
 import { useNavMenuInit } from '../hooks/navMenuInit'
 
@@ -12,7 +13,6 @@ const { Option } = Select
 const ProjectsRender: FC = () => {
   const { projects, monitorId } = useAppState(state => state.appsotre)
   const setActiveMonitorId = useNavMenuInit(projects)
-
   return (
     <div>
       <Select
@@ -21,7 +21,7 @@ const ProjectsRender: FC = () => {
         key={monitorId}
         onChange={setActiveMonitorId}
       >
-        {projects.map((item: ProjectIF.Project, index: number) => {
+        {projects.map((item: TeamIF.Project, index: number) => {
           return (
             <Option value={item.monitor_id} key={index}>
               {item.project_name}
@@ -41,10 +41,10 @@ const NavMenu: FC<{
     <Menu>
       <Menu.Item key="user">修改信息</Menu.Item>
       <Menu.Item key="team">
-        <div>团队管理</div>
+        <Link to="/dashboard/team">团队管理</Link>
       </Menu.Item>
       <Menu.Item key="login">
-        <div>重新登录</div>
+        <Link to="/login">退出登录</Link>
       </Menu.Item>
     </Menu>
   )

@@ -7,18 +7,19 @@ import { useDispatch } from 'react-redux'
 import { Tabs } from 'antd'
 import { useNavigate } from 'react-router'
 import { adminInteractor } from '../../core/interactors'
+import { AdminIF } from '../../interface'
 
 const loginInit = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const handleSubmit = async (form: any) => {
+  const handleSubmit = async (form: AdminIF.LoginParam) => {
     const data = await adminInteractor.adminLogin(form)
     dispatch(setUserInfo(data.user))
     localStorage.setItem('token', data.token)
     navigate('/')
   }
 
-  const handleRegister = async (form: any) => {
+  const handleRegister = async (form: AdminIF.RegisterParam) => {
     const data = await adminInteractor.registerAdmin(form)
     dispatch(setUserInfo(data.user))
     localStorage.setItem('token', data.token)

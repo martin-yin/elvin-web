@@ -5,10 +5,10 @@ import { useFilterHeaderInit } from '../hook/useFilterHeaderInit'
 const { Option } = Select
 const { RangePicker } = DatePicker
 
-const TimeRangPicker: FC<any> = () => {
+const TimeRangPicker: FC = () => {
   const { timePicker, setTimePicker } = useFilterHeaderInit()
 
-  const onTimeChange = (dates: any, dateString: [string, string]) => {
+  const onTimeChange = (dates, dateString: [string, string]) => {
     setTimePicker({
       ...timePicker,
       startTime: dateString[0],
@@ -23,7 +23,7 @@ const TimeRangPicker: FC<any> = () => {
     })
   }
 
-  const disabledDate = (current: any) => {
+  const disabledDate = current => {
     return current && current >= moment()
   }
 

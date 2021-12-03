@@ -5,19 +5,11 @@ export namespace UserIF {
 
   export type UserActionQuotaType = Record<UserActionKey, (item?: UserAction) => UserActionQuota>
 
-  export interface User {
+  export interface User extends UserActionDetailBase {
     user_id: string
-    device: string
     system: string
-    browser: string
-    browser_version: string
     ip: string
     address: string
-    action_type: string
-    happen_time: string
-    device_type: string
-    os: string
-    os_version: string
     nation: string
     province: string
     city: string
@@ -39,10 +31,12 @@ export namespace UserIF {
     userId?: string
   }
 
-  export interface UserActionStatistics {
+  export interface UserActionStatistic {
     action_type: string
     total: number
   }
+
+  export type UserActionStatistics = Array<UserActionStatistic>
 
   export interface UserActionDetailBase {
     action_type: string

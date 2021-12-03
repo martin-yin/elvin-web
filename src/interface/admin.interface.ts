@@ -19,4 +19,6 @@ export namespace AdminIF {
       user_name: string
     }
   }
+
+  export type CreateProject = Record<'project_name', string> & Record<'team_id', string>
 }

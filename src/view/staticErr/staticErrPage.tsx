@@ -52,7 +52,7 @@ const StaticErrPage: FC = () => {
     }
   ]
 
-  const quotaTitleUnitKey = [
+  const quotaTitleUnitKeys = [
     {
       title: '异常次数',
       key: 'error_count',
@@ -72,7 +72,7 @@ const StaticErrPage: FC = () => {
 
   return (
     <>
-      <HeaderQuota quotaTitleUnitKey={quotaTitleUnitKey} quota={resourcesData.quota} />
+      <HeaderQuota quotaTitleUnitKeys={quotaTitleUnitKeys} quota={resourcesData.quota} />
       <Card>
         <Table dataSource={resourcesData.resourcesList} columns={columns} rowKey="page_source_url" />
       </Card>

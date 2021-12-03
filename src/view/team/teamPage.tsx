@@ -1,17 +1,18 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Card, Form, Input, Space, Table, Tag } from 'antd'
+import { Button, Card, Form, Input, message, Space, Table, Tag } from 'antd'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { ModalFrom } from '../../components/modalForm/modalForm'
 import { adminInteractor } from '../../core/interactors'
 import { TeamIF } from '../../interface'
+import { delTeam } from '../../request'
 
 const TeamPage: FC = () => {
   const [visible, setVisible] = useState(false)
   const [form] = Form.useForm()
-  const [teamList, setTeamList] = useState<TeamIF.TeamLit>()
+  const [teams, setTeams] = useState<TeamIF.Teams>()
   const initTeamList = useCallback(async () => {
     const data = await adminInteractor.getTeams()
-    setTeamList(data)
+    setTeams(data)
   }, [])
 
   useEffect(() => {
@@ -19,7 +20,7 @@ const TeamPage: FC = () => {
   }, [initTeamList])
 
   const addTeam = async () => {
-    form.validateFields().then(async (values: any) => {
+    form.validateFields().then(async (values: { name: string }) => {
       const data = await adminInteractor.createTeam(values)
       if (data) {
         form.resetFields()
@@ -27,6 +28,13 @@ const TeamPage: FC = () => {
         initTeamList()
       }
     })
+  }
+
+  const del = async id => {
+    const { code } = await delTeam(id)
+    if (code == 200) {
+      message.success('删除成功！')
+    }
   }
 
   const columns = [
@@ -66,10 +74,12 @@ const TeamPage: FC = () => {
     {
       title: '操作',
       key: 'action',
-      render: () => (
+      render: record => (
         <Space>
-          <Tag color="#2db7f5">添加成员</Tag>
-          <Tag color="#f50">删除项目</Tag>
+          {/* <Tag color="#2db7f5">添加成员</Tag> */}
+          <Tag color="#f50" onClick={() => del(record.id)}>
+            删除团队
+          </Tag>
         </Space>
       )
     }
@@ -85,7 +95,7 @@ const TeamPage: FC = () => {
         >
           创建团队
         </Button>
-        <Table dataSource={teamList} columns={columns} rowKey="message" />
+        <Table dataSource={teams} columns={columns} rowKey="message" />
         <ModalFrom title="创建团队" visible={visible} onCreate={addTeam} onClose={() => setVisible(false)}>
           <Form form={form} preserve={false} name="basic">
             <Form.Item name="name" rules={[{ required: true, message: '请输入项目名称' }]}>

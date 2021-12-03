@@ -1,27 +1,32 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Col, Form, Input, Row, Select } from 'antd'
+import { Button, Col, Form, Input, Row, Select, FormInstance } from 'antd'
 import React, { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ModalFrom } from '../../../components/modalForm/modalForm'
 import { adminInteractor } from '../../../core/interactors'
 import { TeamIF } from '../../../interface'
-import { useHomePageInit } from '../hook/useHomePageInit'
 
 const { Option } = Select
 
-const CreateProject: FC<any> = ({ visible }) => {
-  const { form, onClose, createProject } = useHomePageInit()
-  const [teamList, setTeamList] = useState<TeamIF.TeamLit>([])
+interface CreateProjectProps {
+  visible: boolean
+  onClose: () => void
+  onCreate: () => void
+  form: FormInstance
+}
+
+const CreateProject: FC<CreateProjectProps> = ({ visible, onClose, onCreate, form }) => {
+  const [teams, setTeams] = useState<TeamIF.Teams>([])
   const navigate = useNavigate()
   useEffect(() => {
-    ;async () => {
+    ;(async () => {
       const data = await adminInteractor.getTeams()
-      setTeamList(data)
-    }
+      setTeams(data)
+    })()
   }, [])
 
   return (
-    <ModalFrom onClose={onClose} visible={visible} onCreate={createProject} title="创建项目">
+    <ModalFrom onClose={onClose} visible={visible} onCreate={onCreate} title="创建项目">
       <Form
         {...{
           labelCol: { span: 6 },
@@ -39,10 +44,10 @@ const CreateProject: FC<any> = ({ visible }) => {
             <Col span={16}>
               <Form.Item name="team_id" rules={[{ required: true, message: '请选择团队' }]}>
                 <Select placeholder="请选择团队">
-                  {teamList.length == 0 ? (
+                  {teams.length == 0 ? (
                     <></>
                   ) : (
-                    teamList.map((item: any, key: number) => {
+                    teams.map((item, key: number) => {
                       return (
                         <Option value={item.id} key={key}>
                           {item.name}
@@ -57,7 +62,7 @@ const CreateProject: FC<any> = ({ visible }) => {
               <Button
                 type="dashed"
                 onClick={() => {
-                  navigate('/team')
+                  navigate('/dashboard/team')
                 }}
                 block
                 icon={<PlusOutlined />}

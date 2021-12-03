@@ -24,11 +24,11 @@ const USERACTIONICONS: {
 
 interface SessionSurveyProps {
   sessionSurvey: UserIF.User
-  behavioStatistics: Array<any>
+  behavioStatistics: UserIF.UserActionStatistics
 }
 
 const SessionSurvey = React.memo<SessionSurveyProps>(({ sessionSurvey, behavioStatistics }) => {
-  const userStatisticsRender = (key: number, item: any) => {
+  const userStatisticsRender = (key: number, item: UserIF.UserActionStatistic) => {
     const action = USERACTIONICONS[item.action_type]
     return (
       <div key={key} className="survey_statistics_item">
@@ -61,7 +61,7 @@ const SessionSurvey = React.memo<SessionSurveyProps>(({ sessionSurvey, behavioSt
             </ListLable>
             <div className="user__survey_statistics">
               <Space split={<Divider type="vertical" />} align="center" size={60}>
-                {behavioStatistics.map((item: any, key: any) => {
+                {behavioStatistics.map((item, key: number) => {
                   return userStatisticsRender(key, item)
                 })}
               </Space>

@@ -1,5 +1,6 @@
 import AppstoreOutlined from '@ant-design/icons/lib/icons/AppstoreOutlined'
-import EditOutlined from '@ant-design/icons/lib/icons/EditOutlined'
+import { EditOutlined } from '@ant-design/icons'
+import PlusCircleOutlined from '@ant-design/icons/lib/icons/PlusCircleOutlined'
 import ProCard from '@ant-design/pro-card'
 import { Progress, Space, Tooltip } from 'antd'
 import React, { FC } from 'react'
@@ -89,20 +90,28 @@ const HealthStatusItem: FC<HealthStatusItemProps> = ({ detail }) => {
 }
 
 interface HealthStatusProps {
-  list: TeamIF.ProjectHealthyList
+  list: TeamIF.ProjectHealthys
+  openModal: () => void
 }
 
-export const HealthStatus: FC<HealthStatusProps> = ({ list }) => {
+export const HealthStatus: FC<HealthStatusProps> = ({ list, openModal }) => {
   return (
     <div className="project-list">
-      <ProCard gutter={8} ghost>
+      <ProCard gutter={8} ghost wrap>
         {list.map((item, index) => {
           return (
-            <ProCard key={index} colSpan={8}>
+            <ProCard key={index} colSpan={8} style={{ marginBottom: 8 }}>
               <HealthStatusItem detail={item} />
             </ProCard>
           )
         })}
+        <ProCard colSpan={8} style={{ marginBottom: 8 }}>
+          <div className="project-item">
+            <div className="add-project">
+              <PlusCircleOutlined className="add-icon" onClick={openModal} />
+            </div>
+          </div>
+        </ProCard>
       </ProCard>
     </div>
   )

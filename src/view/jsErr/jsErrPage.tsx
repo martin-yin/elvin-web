@@ -3,14 +3,15 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getJsErrors } from '../../request'
 import { Tag, Card, Table, Space } from 'antd'
+import { JsErrIF } from '../../interface/jsErr.interface'
 
 const JsErrPage: FC = () => {
-  const [issueList, setIssueList] = useState<any>([])
+  const [jsErrs, setJsErrs] = useState<JsErrIF.JsErrs>([])
   const navigate = useNavigate()
 
   const initData = useCallback(async () => {
     const result = await getJsErrors()
-    setIssueList(result.data)
+    setJsErrs(result.data)
   }, [])
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const JsErrPage: FC = () => {
     {
       title: '',
       key: 'error_name',
-      render: (recode: any) => (
+      render: recode => (
         <div
           style={{ cursor: 'pointer' }}
           onClick={() => {
@@ -42,12 +43,12 @@ const JsErrPage: FC = () => {
     },
     {
       title: '时间',
-      render: (recode: any) => <Tag color="#f50">{moment(recode?.last_time).fromNow()}</Tag>
+      render: (recode: JsErrIF.JsErr) => <Tag color="#f50">{moment(recode?.last_time).fromNow()}</Tag>
     },
     {
       title: '异常次数',
       key: '',
-      render: (recode: any) => (
+      render: (recode: JsErrIF.JsErr) => (
         <p>
           {recode.today}/{recode.total}
         </p>
@@ -56,7 +57,7 @@ const JsErrPage: FC = () => {
     {
       title: '总数用户',
       key: 'error_user',
-      render: (recode: any) => <p>{recode.error_user}</p>
+      render: (recode: JsErrIF.JsErr) => <p>{recode.error_user}</p>
     },
     {
       title: '处理人',
@@ -72,7 +73,7 @@ const JsErrPage: FC = () => {
 
   return (
     <Card>
-      <Table dataSource={issueList} columns={columns} rowKey="message" />
+      <Table dataSource={jsErrs} columns={columns} rowKey="message" />
     </Card>
   )
 }

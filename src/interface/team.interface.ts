@@ -35,7 +35,7 @@ export namespace TeamIF {
 
   export type Projects = Array<Project>
 
-  export type ProjectHealthyList = Array<ProjectHealthy>
+  export type ProjectHealthys = Array<ProjectHealthy>
 
   export interface ProjectHealthy {
     http_error: number
