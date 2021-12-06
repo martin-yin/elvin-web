@@ -20,8 +20,8 @@ export class UserInteractor {
     return data
   }
 
-  public async getUserActionStatistics<T>(params: { session_id: string }): Promise<T> {
-    const data = await this.userSerivce.getUserActionStatistics<T>(params)
+  public async getUserActionStatistics(params: { session_id: string }): Promise<UserIF.UserActionStatistics> {
+    const data = await this.userSerivce.getUserActionStatistics(params)
     return data
   }
 

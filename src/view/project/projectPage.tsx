@@ -1,4 +1,4 @@
-import { Card, message } from 'antd'
+import { Card, message, Button } from 'antd'
 import moment from 'moment'
 import React, { FC, useEffect, useState } from 'react'
 import { TeamIF } from '../../interface/team.interface'
@@ -65,14 +65,14 @@ const ProjectPage: FC = () => {
           <Field text={moment(project?.created_at).format('YYYY MM-DD hh:mm:ss')} mode="read" />
         </Descriptions.Item>
         <Descriptions.Item label="创建时间">
-          <button
+          <Button
             onClick={() => {
               del(project.id)
             }}
+            size="small"
           >
-            {project.id}
             删除
-          </button>
+          </Button>
         </Descriptions.Item>
       </Descriptions>
     </Card>

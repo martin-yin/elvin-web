@@ -8,7 +8,7 @@ import IpIcon from '../../../assets/webIcons/ip.png'
 import PcIcon from '../../../assets/webIcons/pc.png'
 import WindowIcon from '../../../assets/webIcons/window.png'
 
-const JsErrSurvey = React.memo<any>(({ issue, setIssue, setStackFrames }) => {
+const JsErrSurvey = React.memo<any>(({ jsErr, setJsErr, setStackFrames }) => {
   const changeIssue = async (id: number) => {
     if (id == 0) {
       message.warn('没有下一个问题了！')
@@ -18,22 +18,22 @@ const JsErrSurvey = React.memo<any>(({ issue, setIssue, setStackFrames }) => {
       error_id: id,
       issue_id: 0
     })
-    setIssue(result.data)
+    setJsErr(result.data)
     setStackFrames(JSON.parse(result.data.stack_frames))
   }
 
   return (
     <>
-      {issue ? (
+      {jsErr ? (
         <>
           <div id="errorDesc">
             <Space>
               <h2>
-                {issue.error_name}: {issue.message}
+                {jsErr.error_name}: {jsErr.message}
               </h2>
             </Space>
             <div style={{ marginBottom: '20px' }}>
-              <p>{issue.componentName}</p>
+              <p>{jsErr.componentName}</p>
             </div>
           </div>
           <div id="errorAction">
@@ -42,8 +42,8 @@ const JsErrSurvey = React.memo<any>(({ issue, setIssue, setStackFrames }) => {
                 style={{ fontSize: '10px' }}
                 size="small"
                 icon={<StepBackwardOutlined />}
-                disabled={issue?.previous_error_id == 0}
-                onClick={() => changeIssue(issue?.previous_error_id)}
+                disabled={jsErr?.previous_error_id == 0}
+                onClick={() => changeIssue(jsErr?.previous_error_id)}
               >
                 上一个
               </Button>
@@ -51,8 +51,8 @@ const JsErrSurvey = React.memo<any>(({ issue, setIssue, setStackFrames }) => {
                 style={{ fontSize: '10px' }}
                 size="small"
                 icon={<StepForwardOutlined />}
-                disabled={issue?.next_error_id == 0}
-                onClick={() => changeIssue(issue?.next_error_id)}
+                disabled={jsErr?.next_error_id == 0}
+                onClick={() => changeIssue(jsErr?.next_error_id)}
               >
                 下一个
               </Button>
@@ -62,27 +62,27 @@ const JsErrSurvey = React.memo<any>(({ issue, setIssue, setStackFrames }) => {
           <Space size={60}>
             <Space>
               <img src={IpIcon} alt="" />
-              <h3>{issue.ip}</h3>
+              <h3>{jsErr.ip}</h3>
             </Space>
             <Space>
               <img src={BrowserIcon} alt="" />
               <div>
-                <h3>{issue.browser}</h3>
-                <p>{issue.browser_version}</p>
+                <h3>{jsErr.browser}</h3>
+                <p>{jsErr.browser_version}</p>
               </div>
             </Space>
             <Space>
               <img src={WindowIcon} alt="" />
               <div>
-                <h3>{issue.os}</h3>
-                <p>{issue.os_version}</p>
+                <h3>{jsErr.os}</h3>
+                <p>{jsErr.os_version}</p>
               </div>
             </Space>
             <Space>
               <img src={PcIcon} alt="" />
               <div>
-                <h3>{issue.device}</h3>
-                <p>{issue.device_type}</p>
+                <h3>{jsErr.device}</h3>
+                <p>{jsErr.device_type}</p>
               </div>
             </Space>
           </Space>

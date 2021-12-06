@@ -8,7 +8,7 @@ const useUserInit = () => {
     total: 0,
     list: []
   })
-  const [behavioStatistics, setBehavioStatistics] = useState<UserIF.UserActionStatistics>()
+  const [behavioStatistics, setBehavioStatistics] = useState<UserIF.UserActionStatistics>([])
   const [behavioDetail, setBehavioDetail] = useState({} as any)
   const [activeId, setActiveId] = useState('')
   const [sessionSurvey, setSessionSurvey] = useState<UserIF.User>()
@@ -33,7 +33,7 @@ const useUserInit = () => {
   useEffect(() => {
     ;(async () => {
       const user = await userInteractor.getUser(params.user_id)
-      const actionsStatistics = await userInteractor.getUserActionStatistics<UserIF.UserActionStatistics>({
+      const actionsStatistics = await userInteractor.getUserActionStatistics({
         session_id: params.session_id
       })
       setSessionSurvey(user)

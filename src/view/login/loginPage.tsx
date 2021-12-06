@@ -16,13 +16,14 @@ const loginInit = () => {
     const data = await adminInteractor.adminLogin(form)
     dispatch(setUserInfo(data.user))
     localStorage.setItem('token', data.token)
-    navigate('/')
+    navigate('/dashboard')
   }
 
   const handleRegister = async (form: AdminIF.RegisterParam) => {
     const data = await adminInteractor.registerAdmin(form)
     dispatch(setUserInfo(data.user))
     localStorage.setItem('token', data.token)
+    navigate('/dashboard')
   }
   return { handleSubmit, handleRegister }
 }

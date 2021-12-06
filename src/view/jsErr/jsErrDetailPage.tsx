@@ -10,8 +10,8 @@ import './index.less'
 
 const JsErrDetailPage: FC = () => {
   const {
-    issue,
-    setIssue,
+    jsErr,
+    setJsErr,
     stackFrames,
     visible,
     setStackFrames,
@@ -26,12 +26,12 @@ const JsErrDetailPage: FC = () => {
       <Row gutter={20}>
         <Col span={18}>
           <Card>
-            <JsErrSurvey issue={issue} setIssue={setIssue} setStackFrames={setStackFrames} />
+            <JsErrSurvey jsErr={jsErr} setJsErr={jsErr} setStackFrames={setStackFrames} />
             <Divider />
             <StackFramesRender stackFrames={stackFrames} openSourceMapModal={handleOpenSourceMapModal} />
           </Card>
         </Col>
-        <Col span={6}>{issue ? <JsErrLabel issue={issue} /> : <></>}</Col>
+        <Col span={6}>{jsErr ? <JsErrLabel jsErr={jsErr} /> : <></>}</Col>
       </Row>
       <SourceMapLoadModal
         visible={visible}

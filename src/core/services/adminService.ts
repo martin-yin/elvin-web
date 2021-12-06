@@ -4,7 +4,7 @@ import { request } from '../../utils/request'
 
 export interface IAdminService {
   adminLogin(params: AdminIF.LoginParam): Promise<AdminIF.LoginRes>
-  registerAdmin(params: AdminIF.RegisterParam): Promise<any>
+  registerAdmin(params: AdminIF.RegisterParam): Promise<AdminIF.LoginRes>
   getTeams(): Promise<TeamIF.Teams>
   createTeam(params: { name: string }): Promise<number>
   createProject(params: AdminIF.CreateProject): Promise<number>

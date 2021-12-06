@@ -5,7 +5,7 @@ export interface IUserService {
   getUsers(params: UserIF.UserParams): Promise<UserIF.Users>
   getUserActions(params: { session_id: string; page: number; limit: number }): Promise<UserIF.UserActions>
   getUser(id: string): Promise<UserIF.User>
-  getUserActionStatistics<T>(params: { session_id: string }): Promise<T>
+  getUserActionStatistics(params: { session_id: string }): Promise<UserIF.UserActionStatistics>
 }
 
 export class UserService implements IUserService {
@@ -36,11 +36,11 @@ export class UserService implements IUserService {
     return null
   }
 
-  async getUserActionStatistics<T>(params: { session_id: string }): Promise<T> {
-    const { data, code } = await request<T>('get', '/communal/userActionStatistics', params)
+  async getUserActionStatistics(params: { session_id: string }): Promise<UserIF.UserActionStatistics> {
+    const { data, code } = await request<UserIF.UserActionStatistics>('get', '/communal/userActionStatistics', params)
     if (code === 200) {
       return data
     }
-    return null
+    return []
   }
 }
