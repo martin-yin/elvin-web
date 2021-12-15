@@ -9,11 +9,16 @@ import { ModalFrom } from '../../../components/modalForm/modalForm'
 import type { RcFile } from 'antd/lib/upload'
 import { JsErrIF } from '../../../interface/jsErr.interface'
 import { AxiosResponse } from 'axios'
+import { useJsErrContext } from '../hook/useJsErrDetail'
 const { Dragger } = Upload
 const { TabPane } = Tabs
 
-const SourceMapLoadModal = React.memo<any>(({ visible, stackFrame, closeModal, setOriginSource }) => {
+const SourceMapLoadModal = React.memo<{ visible: boolean }>(({ visible }) => {
+  console.log('modal 渲染！')
+
   const [form] = Form.useForm()
+  const [jsErrContext] = useJsErrContext()
+  const { setOriginSource, stackFrame, closeModal } = jsErrContext
 
   const props = {
     multiple: false,
@@ -98,7 +103,7 @@ const SourceMapLoadModal = React.memo<any>(({ visible, stackFrame, closeModal, s
             form={form}
             name="basic"
             initialValues={{
-              url: stackFrame.url
+              url: stackFrame?.url
             }}
           >
             <Form.Item name="url" label="源码地址" rules={[{ required: true, message: '请输入源码地址!' }]}>

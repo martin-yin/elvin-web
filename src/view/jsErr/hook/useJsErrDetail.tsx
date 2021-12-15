@@ -1,5 +1,6 @@
 import { Form } from 'antd'
-import { useCallback, useEffect, useState } from 'react'
+import React from 'react'
+import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { JsErrIF } from '../../../interface/jsErr.interface'
 import { getJsError } from '../../../request'
@@ -12,12 +13,31 @@ interface StackFram {
   index: number
 }
 
-export const useJsErrDeatilInit = () => {
+export const JsErrContext = createContext<any>(null)
+
+export const useJsErrContext = () => {
+  const value = useContext(JsErrContext)
+  return value
+}
+
+export const JsErrorProvider = ({ value = {}, children }) => {
+  const [state, setState] = useState(value)
+  const updateState = (value = {}) => {
+    setState({
+      ...state,
+      ...value
+    })
+  }
+
+  return <JsErrContext.Provider value={[state, updateState]}>{children}</JsErrContext.Provider>
+}
+
+export const useJsErrDeatilInit = (jsErrorContext, setJsErrContxt) => {
   const [form] = Form.useForm()
   const params = useParams<'error_id'>()
   const [visible, handleOpenModal, handleCloseModal] = useModalHook()
   const [stackFrames, setStackFrames] = useState<JsErrIF.StackFramesList>([])
-  const [jsErr, setJsErr] = useState<JsErrIF.JsErr>()
+  // const [jsErr, setJsErr] = useState<JsErrIF.JsErr>()
   const [stackFrame, setStackFrame] = useState<StackFram>({
     url: '',
     line: 0,
@@ -31,17 +51,12 @@ export const useJsErrDeatilInit = () => {
         issue_id: +params.error_id,
         error_id: 0
       })
-      setJsErr(result.data)
-    })()
-  }, [])
-
-  useEffect(() => {
-    ;(async () => {
-      const result = await getJsError({
-        issue_id: +params.error_id,
-        error_id: 0
+      setJsErrContxt({
+        ...jsErrorContext,
+        visible,
+        jsErr: result.data,
+        stackFrames: JSON.parse(result.data.stack_frames)
       })
-      setStackFrames(JSON.parse(result.data.stack_frames))
     })()
   }, [])
 
@@ -67,15 +82,13 @@ export const useJsErrDeatilInit = () => {
   }, [])
 
   return {
-    jsErr,
-    setJsErr,
     visible,
     stackFrames,
-    setStackFrames,
-    handleSetOriginSource,
-    stackFrame,
-    setStackFrame,
-    handleCloseModal,
-    handleOpenSourceMapModal
+    setStackFrames
+    // handleSetOriginSource,
+    // stackFrame,
+    // setStackFrame,
+    // handleCloseModal,
+    // handleOpenSourceMapModal
   }
 }

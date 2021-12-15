@@ -6,7 +6,6 @@ export class ProjectInteractor {
   constructor(private projectSerivce: IProjectService) {}
 
   public async getProject() {
-    console.log('data', '==========')
     return await this.projectSerivce.getProject()
   }
 
