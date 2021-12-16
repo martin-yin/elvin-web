@@ -6,7 +6,7 @@ import StackFrameItem from './stackFrameItem'
 import { useJsErrContext } from '../hook/useJsErrDetail'
 const { Panel } = Collapse
 
-const StackFramesRender = React.memo<any>(({ openSourceMapModal }) => {
+const StackFramesRender = React.memo<any>(() => {
   const [jsErrContext] = useJsErrContext()
   const { stackFrames } = jsErrContext
 
@@ -23,7 +23,7 @@ const StackFramesRender = React.memo<any>(({ openSourceMapModal }) => {
           {stackFrames.map((item: JsErrIF.StackFrames, index: number) => {
             return (
               <Panel header={item.fileName} key={index} className="site-collapse-custom-panel">
-                <StackFrameItem item={item} index={index} openSourceMapModal={openSourceMapModal} />
+                <StackFrameItem item={item} index={index} />
               </Panel>
             )
           })}

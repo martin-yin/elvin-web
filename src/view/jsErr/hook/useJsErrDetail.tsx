@@ -1,17 +1,7 @@
-import { Form } from 'antd'
 import React from 'react'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { JsErrIF } from '../../../interface/jsErr.interface'
 import { getJsError } from '../../../request'
-import { useModalHook } from '../../../utils/useHookTools'
-
-interface StackFram {
-  url: string
-  line: number
-  column: number
-  index: number
-}
 
 export const JsErrContext = createContext<any>(null)
 
@@ -28,22 +18,42 @@ export const JsErrorProvider = ({ value = {}, children }) => {
       ...value
     })
   }
-
   return <JsErrContext.Provider value={[state, updateState]}>{children}</JsErrContext.Provider>
 }
 
 export const useJsErrDeatilInit = (jsErrorContext, setJsErrContxt) => {
-  const [form] = Form.useForm()
   const params = useParams<'error_id'>()
-  const [visible, handleOpenModal, handleCloseModal] = useModalHook()
-  const [stackFrames, setStackFrames] = useState<JsErrIF.StackFramesList>([])
-  // const [jsErr, setJsErr] = useState<JsErrIF.JsErr>()
-  const [stackFrame, setStackFrame] = useState<StackFram>({
-    url: '',
-    line: 0,
-    column: 0,
-    index: 0
-  })
+  const handleSetOriginSource = useCallback((originSource, value) => {
+    const { stackFrames } = value
+    stackFrames[originSource.index].originSource = {
+      ...originSource
+    }
+    setJsErrContxt({
+      ...value,
+      stackFrames,
+      visible: false
+    })
+  }, [])
+
+  const handleOpenSourceMapModal = (item, index, value) => {
+    setJsErrContxt({
+      ...value,
+      stackFrame: {
+        url: item.fileName + '.map',
+        line: item.lineNumber,
+        column: item.columnNumber,
+        index: index
+      },
+      visible: true
+    })
+  }
+
+  const handleCloseModal = value => {
+    setJsErrContxt({
+      ...value,
+      visible: true
+    })
+  }
 
   useEffect(() => {
     ;(async () => {
@@ -53,42 +63,15 @@ export const useJsErrDeatilInit = (jsErrorContext, setJsErrContxt) => {
       })
       setJsErrContxt({
         ...jsErrorContext,
-        visible,
+        visible: false,
+        handleCloseModal,
         jsErr: result.data,
-        stackFrames: JSON.parse(result.data.stack_frames)
+        handleOpenSourceMapModal,
+        stackFrames: JSON.parse(result.data.stack_frames),
+        handleSetOriginSource
       })
     })()
   }, [])
 
-  const handleSetOriginSource = useCallback(originSource => {
-    stackFrames[originSource.index].originSource = {
-      ...originSource
-    }
-    setStackFrames(stackFrames)
-    handleCloseModal()
-  }, [])
-
-  const handleOpenSourceMapModal = useCallback((item, index) => {
-    form.setFieldsValue({
-      url: item.fileName + '.map'
-    })
-    setStackFrame({
-      url: item.fileName + '.map',
-      line: item.lineNumber,
-      column: item.columnNumber,
-      index: index
-    })
-    handleOpenModal()
-  }, [])
-
-  return {
-    visible,
-    stackFrames,
-    setStackFrames
-    // handleSetOriginSource,
-    // stackFrame,
-    // setStackFrame,
-    // handleCloseModal,
-    // handleOpenSourceMapModal
-  }
+  return jsErrorContext
 }

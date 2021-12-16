@@ -2,10 +2,9 @@ import { Card, Table } from 'antd'
 import moment from 'moment'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import { HttpIF } from '../../interface'
-import { GetHttpErrorList } from '../../request/http'
 
 const HttperrorPage: FC = () => {
-  const [httperrorList, setHttperrorList] = useState<HttpIF.HttpUrlList>([])
+  const [httperrorList, setHttperrorList] = useState<HttpIF.Https>([])
 
   const [httpParam, setHttpParam] = useState({
     time_grain: 'minute',
@@ -15,12 +14,12 @@ const HttperrorPage: FC = () => {
   })
 
   const initHttpListData = useCallback(async () => {
-    const { code, data } = await GetHttpErrorList({
-      ...httpParam
-    })
-    if (code == 200) {
-      setHttperrorList(data)
-    }
+    // const { code, data } = await GetHttpErrorList({
+    //   ...httpParam
+    // })
+    // if (code == 200) {
+    //   setHttperrorList(data)
+    // }
   }, [httpParam])
 
   useEffect(() => {

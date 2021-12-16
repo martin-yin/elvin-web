@@ -16,10 +16,9 @@ export const ModalFrom: React.FC<ModalFormProps> = ({ visible, onCreate, onClose
   return (
     visible && (
       <Modal
-        forceRender
+        forceRender={true}
         maskClosable={false}
         destroyOnClose={true}
-        getContainer={false}
         width={640}
         visible={visible}
         title={title}

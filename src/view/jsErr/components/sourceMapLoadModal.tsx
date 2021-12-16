@@ -1,9 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Form, Input, message, Tabs, Upload } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
-
 import { LoadSourceMap } from '../../../request'
-
 import sourceMap from 'source-map-js'
 import { ModalFrom } from '../../../components/modalForm/modalForm'
 import type { RcFile } from 'antd/lib/upload'
@@ -13,59 +11,70 @@ import { useJsErrContext } from '../hook/useJsErrDetail'
 const { Dragger } = Upload
 const { TabPane } = Tabs
 
-const SourceMapLoadModal = React.memo<{ visible: boolean }>(({ visible }) => {
-  console.log('modal 渲染！')
-
+const SourceMapLoadModal = React.memo<{ visible: boolean }>(({ visible = false }) => {
   const [form] = Form.useForm()
-  const [jsErrContext] = useJsErrContext()
-  const { setOriginSource, stackFrame, closeModal } = jsErrContext
-
-  const props = {
-    multiple: false,
-    maxCount: 1,
-    action: '',
-    beforeUpload(file: RcFile) {
-      if (file.name.substring(file.name.lastIndexOf('.') + 1) !== 'map') {
-        message.error(`请上传.js.map 文件！`)
-        return
-      }
-      const reader = new FileReader()
-      reader.readAsText(file, 'UTF-8')
-      reader.onload = event => {
-        const originSource = lookSource(event.target.result, stackFrame.line, stackFrame.column)
-        if (originSource) {
-          setOriginSource({
-            ...originSource,
-            index: stackFrame.index
-          })
+  const [jsErrContext, setJsErrContext] = useJsErrContext()
+  const { handleSetOriginSource, stackFrame } = jsErrContext
+  const props = (function setUploadProps() {
+    return {
+      multiple: false,
+      maxCount: 1,
+      action: '',
+      beforeUpload(file: RcFile) {
+        if (file.name.substring(file.name.lastIndexOf('.') + 1) !== 'map') {
+          message.error(`请上传.js.map 文件！`)
+          return
         }
+        const reader = new FileReader()
+        reader.readAsText(file, 'UTF-8')
+        reader.onload = event => {
+          const originSource = lookSource(event.target.result, stackFrame.line, stackFrame.column)
+          if (originSource) {
+            handleSetOriginSource(
+              {
+                ...originSource,
+                index: stackFrame.index
+              },
+              jsErrContext
+            )
+          }
+        }
+        return false
       }
-      return false
     }
-  }
+  })()
 
   const handleModelFormCreate = () => {
     form.validateFields().then(async (value: { url: string }) => {
-      const sourceMapResponse: AxiosResponse<{
+      const sourceMapCodeResponse: AxiosResponse<{
         data: any
       }> = await LoadSourceMap(value.url)
-      if (sourceMapResponse.status !== 200) {
+      if (sourceMapCodeResponse.status !== 200) {
         message.error(`无法加载source-map文件！`)
         return
       }
-      const originSource = lookSource(sourceMapResponse.data, stackFrame.line, stackFrame.column)
+      const originSource = lookSource(sourceMapCodeResponse.data, stackFrame.line, stackFrame.column)
       if (originSource) {
-        setOriginSource({
-          ...originSource,
-          index: stackFrame.index
-        })
+        handleSetOriginSource(
+          {
+            ...originSource,
+            index: stackFrame.index
+          },
+          jsErrContext
+        )
       }
     })
   }
 
-  const lookSource = (sourceMap, line: number, column: number) => {
+  useEffect(() => {
+    form.setFieldsValue({
+      url: stackFrame?.url
+    })
+  }, [stackFrame?.url])
+
+  const lookSource = (sourceMapCode, line: number, column: number) => {
     try {
-      const consumer = new sourceMap.SourceMapConsumer(sourceMap)
+      const consumer = new sourceMap.SourceMapConsumer(sourceMapCode)
       const lookUpRes: JsErrIF.LookUpRes = consumer.originalPositionFor({
         line: line,
         column: column
@@ -77,13 +86,24 @@ const SourceMapLoadModal = React.memo<{ visible: boolean }>(({ visible }) => {
         line: lookUpRes.line
       }
     } catch (e) {
+      console.log(e, 'sourcemap error')
       message.error(`未能解析出sourceMap！`)
       return false
     }
   }
 
   return (
-    <ModalFrom onClose={closeModal} visible={visible} onCreate={handleModelFormCreate} title="SouceMap映射">
+    <ModalFrom
+      onClose={() => {
+        setJsErrContext({
+          ...jsErrContext,
+          visible: false
+        })
+      }}
+      visible={visible}
+      onCreate={handleModelFormCreate}
+      title="SouceMap映射"
+    >
       <Tabs>
         <TabPane tab="本地上传" key="1">
           <Dragger {...props}>
@@ -102,9 +122,6 @@ const SourceMapLoadModal = React.memo<{ visible: boolean }>(({ visible }) => {
             }}
             form={form}
             name="basic"
-            initialValues={{
-              url: stackFrame?.url
-            }}
           >
             <Form.Item name="url" label="源码地址" rules={[{ required: true, message: '请输入源码地址!' }]}>
               <Input placeholder="请输入源码地址" />

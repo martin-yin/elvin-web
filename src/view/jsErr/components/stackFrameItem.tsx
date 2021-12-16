@@ -1,6 +1,7 @@
 import { Button, Col, Row } from 'antd'
 import React, { FC } from 'react'
 import { encodeHTML, preLineStartEnd } from '../../../utils'
+import { useJsErrContext } from '../hook/useJsErrDetail'
 
 const SourceMapCode: FC<any> = ({ item }) => {
   const { line, column } = item.originSource
@@ -32,7 +33,10 @@ const SourceMapCode: FC<any> = ({ item }) => {
   )
 }
 
-const StackFrameItem: FC<any> = ({ item, index, openSourceMapModal }) => {
+const StackFrameItem: FC<any> = ({ item, index }) => {
+  const [jsErrContext] = useJsErrContext()
+  const { handleOpenSourceMapModal } = jsErrContext
+
   return (
     <Row gutter={[8, 8]}>
       {item.originSource ? (
@@ -50,7 +54,7 @@ const StackFrameItem: FC<any> = ({ item, index, openSourceMapModal }) => {
           type="primary"
           style={{ marginTop: '20px' }}
           onClick={() => {
-            openSourceMapModal(item, index)
+            handleOpenSourceMapModal(item, index, jsErrContext)
           }}
         >
           映射源码

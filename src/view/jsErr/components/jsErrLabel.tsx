@@ -3,9 +3,7 @@ import React from 'react'
 import { ListLable, ListLableItem } from '../../../components/listLable/listLable'
 import { useJsErrContext } from '../hook/useJsErrDetail'
 
-const JsErrLabel = React.memo<any>(() => {
-  const [jsErrContext] = useJsErrContext()
-  const { jsErr } = jsErrContext
+const JsErrLabel = React.memo<any>(({ jsErr }) => {
   return (
     <>
       {jsErr ? (
