@@ -5,7 +5,6 @@ import { LoadSourceMap } from '../../../request'
 import sourceMap from 'source-map-js'
 import { ModalFrom } from '../../../components/modalForm/modalForm'
 import type { RcFile } from 'antd/lib/upload'
-import { JsErrIF } from '../../../interface/jsErr.interface'
 import { AxiosResponse } from 'axios'
 import { useJsErrContext } from '../hook/useJsErrDetail'
 const { Dragger } = Upload
@@ -13,8 +12,12 @@ const { TabPane } = Tabs
 
 const SourceMapLoadModal = React.memo<{ visible: boolean }>(({ visible = false }) => {
   const [form] = Form.useForm()
-  const [jsErrContext, setJsErrContext] = useJsErrContext()
-  const { handleSetOriginSource, stackFrame } = jsErrContext
+  const {
+    jsErrData: { stackFrame, stackFrames },
+    handleSetOriginSource,
+    handleCloseModal
+  } = useJsErrContext()
+
   const props = (function setUploadProps() {
     return {
       multiple: false,
@@ -28,16 +31,7 @@ const SourceMapLoadModal = React.memo<{ visible: boolean }>(({ visible = false }
         const reader = new FileReader()
         reader.readAsText(file, 'UTF-8')
         reader.onload = event => {
-          const originSource = lookSource(event.target.result, stackFrame.line, stackFrame.column)
-          if (originSource) {
-            handleSetOriginSource(
-              {
-                ...originSource,
-                index: stackFrame.index
-              },
-              jsErrContext
-            )
-          }
+          handleLookSource(event.target.result, stackFrame.line, stackFrame.column)
         }
         return false
       }
@@ -53,16 +47,7 @@ const SourceMapLoadModal = React.memo<{ visible: boolean }>(({ visible = false }
         message.error(`无法加载source-map文件！`)
         return
       }
-      const originSource = lookSource(sourceMapCodeResponse.data, stackFrame.line, stackFrame.column)
-      if (originSource) {
-        handleSetOriginSource(
-          {
-            ...originSource,
-            index: stackFrame.index
-          },
-          jsErrContext
-        )
-      }
+      handleLookSource(sourceMapCodeResponse.data, stackFrame.line, stackFrame.column)
     })
   }
 
@@ -72,38 +57,32 @@ const SourceMapLoadModal = React.memo<{ visible: boolean }>(({ visible = false }
     })
   }, [stackFrame?.url])
 
-  const lookSource = (sourceMapCode, line: number, column: number) => {
+  const handleLookSource = (sourceMapCode, line: number, column: number) => {
     try {
       const consumer = new sourceMap.SourceMapConsumer(sourceMapCode)
-      const lookUpRes: JsErrIF.LookUpRes = consumer.originalPositionFor({
+      const lookUpRes = consumer.originalPositionFor({
         line: line,
         column: column
       })
       const source = consumer.sourceContentFor(lookUpRes.source)
-      return {
-        source,
-        column: lookUpRes.column,
-        line: lookUpRes.line
-      }
+      handleSetOriginSource(
+        {
+          source,
+          column: lookUpRes.column,
+          line: lookUpRes.line
+        },
+        stackFrame.index,
+        stackFrames
+      )
     } catch (e) {
       console.log(e, 'sourcemap error')
       message.error(`未能解析出sourceMap！`)
-      return false
+      return
     }
   }
 
   return (
-    <ModalFrom
-      onClose={() => {
-        setJsErrContext({
-          ...jsErrContext,
-          visible: false
-        })
-      }}
-      visible={visible}
-      onCreate={handleModelFormCreate}
-      title="SouceMap映射"
-    >
+    <ModalFrom onClose={handleCloseModal} visible={visible} onCreate={handleModelFormCreate} title="SouceMap映射">
       <Tabs>
         <TabPane tab="本地上传" key="1">
           <Dragger {...props}>

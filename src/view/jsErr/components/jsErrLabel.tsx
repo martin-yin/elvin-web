@@ -1,9 +1,9 @@
 import { Card } from 'antd'
 import React from 'react'
 import { ListLable, ListLableItem } from '../../../components/listLable/listLable'
-import { useJsErrContext } from '../hook/useJsErrDetail'
+import { JsErrIF } from '../../../interface/jsErr.interface'
 
-const JsErrLabel = React.memo<any>(({ jsErr }) => {
+const JsErrLabel = React.memo<{ jsErr: JsErrIF.JsErr }>(({ jsErr }) => {
   return (
     <>
       {jsErr ? (

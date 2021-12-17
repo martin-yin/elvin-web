@@ -4,13 +4,14 @@ import JsErrLabel from './components/jsErrLabel'
 import JsErrSurvey from './components/jsErrSurvey'
 import SourceMapLoadModal from './components/sourceMapLoadModal'
 import StackFramesRender from './components/stackFrames'
-import { JsErrorProvider, useJsErrContext, useJsErrDeatilInit } from './hook/useJsErrDetail'
+import { JsErrorProvider, useJsErrContext } from './hook/useJsErrDetail'
 import './index.less'
 
 const JsErrDetailPage: FC = () => {
   const JsErrContextRender = () => {
-    const [jsErrorContext, setJsErrContxt] = useJsErrContext()
-    const { jsErr, visible } = useJsErrDeatilInit(jsErrorContext, setJsErrContxt)
+    const {
+      jsErrData: { jsErr, visible }
+    } = useJsErrContext()
     return (
       <>
         <Row gutter={20}>

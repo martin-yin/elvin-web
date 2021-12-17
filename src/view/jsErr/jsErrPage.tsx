@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { getJsErrors } from '../../request'
 import { Tag, Card, Table, Space } from 'antd'
 import { JsErrIF } from '../../interface/jsErr.interface'
+import { CloseCircleOutlined, ExclamationCircleOutlined, SyncOutlined } from '@ant-design/icons'
 
 const JsErrPage: FC = () => {
   const [jsErrs, setJsErrs] = useState<JsErrIF.JsErrs>([])
@@ -16,11 +17,11 @@ const JsErrPage: FC = () => {
 
   useEffect(() => {
     initData()
-  }, [initData])
+  }, [])
 
   const columns = [
     {
-      title: '',
+      title: '概况',
       key: 'error_name',
       render: recode => (
         <div
@@ -30,7 +31,11 @@ const JsErrPage: FC = () => {
           }}
         >
           <Space size="middle">
-            <h3>{recode.error_name}</h3>
+            <h3>
+              <Tag icon={<CloseCircleOutlined />} color="error">
+                {recode.error_name}
+              </Tag>
+            </h3>
             <p>{recode.page_url}</p>
           </Space>
           <p>{recode.message}</p>
@@ -42,11 +47,24 @@ const JsErrPage: FC = () => {
       )
     },
     {
-      title: '时间',
-      render: (recode: JsErrIF.JsErr) => <Tag color="#f50">{moment(recode?.last_time).fromNow()}</Tag>
+      title: '最后出现时间',
+      render: (recode: JsErrIF.JsErr) => (
+        // <Tag
+        //   color="#f50"
+        //   icon={
+        //     <>
+        //       <FieldTimeOutlined />
+        //     </>
+        //   }
+        // >
+        // </Tag>
+        <Tag icon={<ExclamationCircleOutlined />} color="warning">
+          {moment(recode?.last_time).fromNow()}
+        </Tag>
+      )
     },
     {
-      title: '异常次数',
+      title: '异常次数(今/总)',
       key: '',
       render: (recode: JsErrIF.JsErr) => (
         <p>
@@ -55,7 +73,7 @@ const JsErrPage: FC = () => {
       )
     },
     {
-      title: '总数用户',
+      title: '影响总数用户',
       key: 'error_user',
       render: (recode: JsErrIF.JsErr) => <p>{recode.error_user}</p>
     },
@@ -67,7 +85,14 @@ const JsErrPage: FC = () => {
     {
       title: '状态',
       dataIndex: '',
-      key: ''
+      key: '',
+      render: (recode: JsErrIF.JsErr) => (
+        <p>
+          <Tag icon={<SyncOutlined spin />} color="error">
+            等待修复
+          </Tag>
+        </p>
+      )
     }
   ]
 

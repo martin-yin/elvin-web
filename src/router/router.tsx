@@ -58,6 +58,10 @@ export const RenderRouter: FC = () => {
           element: <RouteWrapper element={lazy(() => import('../view/http/httpPage'))} />
         },
         {
+          path: '/httpErr',
+          element: <RouteWrapper element={lazy(() => import('../view/httpErr/httpErrPage'))} />
+        },
+        {
           path: '/staticErr',
           element: <RouteWrapper element={lazy(() => import('../view/staticErr/staticErrPage'))} />
         }

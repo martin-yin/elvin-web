@@ -1,4 +1,4 @@
 {
-    "tsdk": "",
-    "typescript.tsdk": "node_modules\\typescript\\lib"
+  "tsdk": "",
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

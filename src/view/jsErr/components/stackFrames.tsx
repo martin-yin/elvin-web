@@ -1,15 +1,15 @@
 import { Collapse, Empty } from 'antd'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { CaretRightOutlined } from '@ant-design/icons'
 import { JsErrIF } from '../../../interface/jsErr.interface'
 import StackFrameItem from './stackFrameItem'
 import { useJsErrContext } from '../hook/useJsErrDetail'
 const { Panel } = Collapse
 
-const StackFramesRender = React.memo<any>(() => {
-  const [jsErrContext] = useJsErrContext()
-  const { stackFrames } = jsErrContext
-
+const StackFramesRender = React.memo(() => {
+  const {
+    jsErrData: { stackFrames }
+  } = useJsErrContext()
   return (
     <>
       <h4>Js异常堆栈:</h4>
@@ -20,7 +20,7 @@ const StackFramesRender = React.memo<any>(() => {
           expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
           className="site-collapse-custom-collapse"
         >
-          {stackFrames.map((item: JsErrIF.StackFrames, index: number) => {
+          {stackFrames.map((item: JsErrIF.StackFrame, index: number) => {
             return (
               <Panel header={item.fileName} key={index} className="site-collapse-custom-panel">
                 <StackFrameItem item={item} index={index} />

@@ -34,8 +34,7 @@ const SourceMapCode: FC<any> = ({ item }) => {
 }
 
 const StackFrameItem: FC<any> = ({ item, index }) => {
-  const [jsErrContext] = useJsErrContext()
-  const { handleOpenSourceMapModal } = jsErrContext
+  const { handleOpenSourceMapModal } = useJsErrContext()
 
   return (
     <Row gutter={[8, 8]}>
@@ -54,7 +53,7 @@ const StackFrameItem: FC<any> = ({ item, index }) => {
           type="primary"
           style={{ marginTop: '20px' }}
           onClick={() => {
-            handleOpenSourceMapModal(item, index, jsErrContext)
+            handleOpenSourceMapModal(item, index)
           }}
         >
           映射源码

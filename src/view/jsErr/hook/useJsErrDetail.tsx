@@ -1,42 +1,64 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
+import { JsErrIF } from '../../../interface/jsErr.interface'
 import { getJsError } from '../../../request'
 
-export const JsErrContext = createContext<any>(null)
+const defaultJsErrData: JsErrIF.JsErrData = {
+  jsErr: null,
+  error_id: null,
+  visible: false,
+  stackFrames: [],
+  stackFrame: {
+    url: '',
+    line: 0,
+    column: 0,
+    index: 0
+  }
+}
+export interface JsErrProviderState {
+  jsErrData: JsErrIF.JsErrData
+  handleOpenSourceMapModal: (item: JsErrIF.StackFrame, index: number) => void
+  handleSetOriginSource: (sourceCode: JsErrIF.StackFrame['originSource'], index: number, stackFrames) => void
+  handleCloseModal: () => void
+  handleChangeErrorId: (error_id: number) => void
+}
+
+export const JsErrContext = createContext<JsErrProviderState>({
+  jsErrData: defaultJsErrData,
+  handleOpenSourceMapModal(item: JsErrIF.StackFrame, index: number) {
+    throw new Error('JsErrContext not yet initialized.')
+  },
+  handleSetOriginSource(sourceCode: JsErrIF.StackFrame['originSource'], index: number, stackFrames) {
+    throw new Error('JsErrContext not yet initialized.')
+  },
+  handleCloseModal() {
+    throw new Error('JsErrContext not yet initialized.')
+  },
+  handleChangeErrorId(error_id: number) {
+    throw new Error('JsErrContext not yet initialized.')
+  }
+})
 
 export const useJsErrContext = () => {
   const value = useContext(JsErrContext)
   return value
 }
 
-export const JsErrorProvider = ({ value = {}, children }) => {
-  const [state, setState] = useState(value)
-  const updateState = (value = {}) => {
-    setState({
-      ...state,
-      ...value
-    })
-  }
-  return <JsErrContext.Provider value={[state, updateState]}>{children}</JsErrContext.Provider>
-}
-
-export const useJsErrDeatilInit = (jsErrorContext, setJsErrContxt) => {
+export const JsErrorProvider = ({ children }) => {
   const params = useParams<'error_id'>()
-  const handleSetOriginSource = useCallback((originSource, value) => {
-    const { stackFrames } = value
-    stackFrames[originSource.index].originSource = {
-      ...originSource
+  defaultJsErrData.error_id = +params.error_id
+  const [jsErrData, setJsErrData] = useState(defaultJsErrData)
+
+  const handleSetOriginSource = useCallback((sourceCode, index, stackFrames) => {
+    stackFrames[index].originSource = {
+      ...sourceCode
     }
-    setJsErrContxt({
-      ...value,
-      stackFrames,
-      visible: false
-    })
+    setJsErrData(value => ({ ...value, stackFrames, visible: false }))
   }, [])
 
-  const handleOpenSourceMapModal = (item, index, value) => {
-    setJsErrContxt({
+  const handleOpenSourceMapModal = useCallback((item, index: number) => {
+    setJsErrData(value => ({
       ...value,
       stackFrame: {
         url: item.fileName + '.map',
@@ -45,33 +67,51 @@ export const useJsErrDeatilInit = (jsErrorContext, setJsErrContxt) => {
         index: index
       },
       visible: true
-    })
-  }
+    }))
+  }, [])
 
-  const handleCloseModal = value => {
-    setJsErrContxt({
+  const handleChangeErrorId = useCallback((error_id: number) => {
+    setJsErrData(value => ({
       ...value,
-      visible: true
-    })
-  }
+      error_id
+    }))
+  }, [])
 
-  useEffect(() => {
+  const handleCloseModal = useCallback(() => {
+    setJsErrData(value => ({
+      ...value,
+      visible: false
+    }))
+  }, [])
+
+  const initJsErrData = useCallback((error_id: number) => {
     ;(async () => {
       const result = await getJsError({
-        issue_id: +params.error_id,
-        error_id: 0
+        issue_id: 0,
+        error_id
       })
-      setJsErrContxt({
-        ...jsErrorContext,
+      setJsErrData(value => ({
+        ...value,
         visible: false,
-        handleCloseModal,
         jsErr: result.data,
-        handleOpenSourceMapModal,
-        stackFrames: JSON.parse(result.data.stack_frames),
-        handleSetOriginSource
-      })
+        stackFrames: JSON.parse(result.data.stack_frames)
+      }))
     })()
   }, [])
 
-  return jsErrorContext
+  useEffect(() => {
+    initJsErrData(jsErrData.error_id)
+  }, [jsErrData.error_id])
+
+  const value = useMemo(
+    () => ({
+      jsErrData,
+      handleSetOriginSource,
+      handleOpenSourceMapModal,
+      handleCloseModal,
+      handleChangeErrorId
+    }),
+    [jsErrData, handleSetOriginSource, handleOpenSourceMapModal, handleCloseModal, handleChangeErrorId]
+  )
+  return <JsErrContext.Provider value={value}>{children}</JsErrContext.Provider>
 }

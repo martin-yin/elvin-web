@@ -6,26 +6,76 @@ import BrowserIcon from '../../../assets/webIcons/browse.png'
 import IpIcon from '../../../assets/webIcons/ip.png'
 import PcIcon from '../../../assets/webIcons/pc.png'
 import WindowIcon from '../../../assets/webIcons/window.png'
-import { getJsError } from '../../../request'
+import { JsErrIF } from '../../../interface/jsErr.interface'
 import { useJsErrContext } from '../hook/useJsErrDetail'
 
-const JsErrSurvey = React.memo<any>(({ jsErr }) => {
-  const [jsErrContext, setJsErrContext] = useJsErrContext()
-
+const JsErrSurvey = React.memo<{ jsErr: JsErrIF.JsErr }>(({ jsErr }) => {
+  const { handleChangeErrorId } = useJsErrContext()
   const changeIssue = async (id: number) => {
     if (id == 0) {
       message.warn('没有下一个问题了！')
       return
     }
-    const result = await getJsError({
-      error_id: id,
-      issue_id: 0
-    })
-    setJsErrContext({
-      ...jsErrContext,
-      jsErr: result.data,
-      stackFrames: JSON.parse(result.data.stack_frames)
-    })
+    handleChangeErrorId(id)
+  }
+
+  const ErrorChangeButton = () => {
+    return (
+      <div id="errorAction">
+        <Space>
+          <Button
+            style={{ fontSize: '10px' }}
+            size="small"
+            icon={<StepBackwardOutlined />}
+            disabled={jsErr.previous_error_id == 0}
+            onClick={() => changeIssue(jsErr.previous_error_id)}
+          >
+            上一个
+          </Button>
+          <Button
+            style={{ fontSize: '10px' }}
+            size="small"
+            icon={<StepForwardOutlined />}
+            disabled={jsErr.next_error_id == 0}
+            onClick={() => changeIssue(jsErr.next_error_id)}
+          >
+            下一个
+          </Button>
+        </Space>
+      </div>
+    )
+  }
+
+  const SurveyIcon = () => {
+    return (
+      <Space size={60}>
+        <Space>
+          <img src={IpIcon} alt="" />
+          <h3>{jsErr.ip}</h3>
+        </Space>
+        <Space>
+          <img src={BrowserIcon} alt="" />
+          <div>
+            <h3>{jsErr.browser}</h3>
+            <p>{jsErr.browser_version}</p>
+          </div>
+        </Space>
+        <Space>
+          <img src={WindowIcon} alt="" />
+          <div>
+            <h3>{jsErr.os}</h3>
+            <p>{jsErr.os_version}</p>
+          </div>
+        </Space>
+        <Space>
+          <img src={PcIcon} alt="" />
+          <div>
+            <h3>{jsErr.device}</h3>
+            <p>{jsErr.device_type}</p>
+          </div>
+        </Space>
+      </Space>
+    )
   }
 
   return (
@@ -42,56 +92,9 @@ const JsErrSurvey = React.memo<any>(({ jsErr }) => {
               <p>{jsErr.componentName}</p>
             </div>
           </div>
-          <div id="errorAction">
-            <Space>
-              <Button
-                style={{ fontSize: '10px' }}
-                size="small"
-                icon={<StepBackwardOutlined />}
-                disabled={jsErr?.previous_error_id == 0}
-                onClick={() => changeIssue(jsErr?.previous_error_id)}
-              >
-                上一个
-              </Button>
-              <Button
-                style={{ fontSize: '10px' }}
-                size="small"
-                icon={<StepForwardOutlined />}
-                disabled={jsErr?.next_error_id == 0}
-                onClick={() => changeIssue(jsErr?.next_error_id)}
-              >
-                下一个
-              </Button>
-            </Space>
-          </div>
+          <ErrorChangeButton />
           <Divider />
-          <Space size={60}>
-            <Space>
-              <img src={IpIcon} alt="" />
-              <h3>{jsErr.ip}</h3>
-            </Space>
-            <Space>
-              <img src={BrowserIcon} alt="" />
-              <div>
-                <h3>{jsErr.browser}</h3>
-                <p>{jsErr.browser_version}</p>
-              </div>
-            </Space>
-            <Space>
-              <img src={WindowIcon} alt="" />
-              <div>
-                <h3>{jsErr.os}</h3>
-                <p>{jsErr.os_version}</p>
-              </div>
-            </Space>
-            <Space>
-              <img src={PcIcon} alt="" />
-              <div>
-                <h3>{jsErr.device}</h3>
-                <p>{jsErr.device_type}</p>
-              </div>
-            </Space>
-          </Space>
+          <SurveyIcon />
         </>
       ) : (
         <Empty />
