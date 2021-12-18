@@ -7,15 +7,16 @@ import { getStaticErr } from '../../request'
 const StaticErrPage: FC = () => {
   const [resourcesData, setErrorPageData] = useState<{
     quota: ResourcesIF.Quota
-    resourcesList: ResourcesIF.ResourcesList
+    resources_list: ResourcesIF.ResourcesList
   }>({
     quota: null,
-    resourcesList: []
+    resources_list: []
   })
 
   const initErrorPageData = useCallback(async () => {
     const { code, data } = await getStaticErr()
     if (code) {
+      console.log(data, '=============')
       setErrorPageData(data)
     }
   }, [])
@@ -74,7 +75,7 @@ const StaticErrPage: FC = () => {
     <>
       <HeaderQuota quotaTitleUnitKeys={quotaTitleUnitKeys} quota={resourcesData.quota} />
       <Card>
-        <Table dataSource={resourcesData.resourcesList} columns={columns} rowKey="page_source_url" />
+        <Table dataSource={resourcesData.resources_list} columns={columns} rowKey="page_source_url" />
       </Card>
     </>
   )

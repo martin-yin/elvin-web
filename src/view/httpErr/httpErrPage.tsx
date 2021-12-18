@@ -9,7 +9,7 @@ const HttpErrPage: FC = () => {
 
   const [httpParam, setHttpParam] = useState({
     time_grain: 'minute',
-    start_time: moment().format('YYYY-MM-DD'),
+    start_time: '2021-12-14',
     end_time: moment().format('YYYY-MM-DD'),
     stage_type: 'success'
   })
@@ -28,6 +28,11 @@ const HttpErrPage: FC = () => {
       title: '请求URL',
       dataIndex: 'url',
       key: 'url'
+    },
+    {
+      title: '请求参数',
+      dataIndex: 'request_text',
+      key: 'request_text'
     },
     {
       title: '出现时间',

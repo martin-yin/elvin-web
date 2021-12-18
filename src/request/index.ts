@@ -17,7 +17,7 @@ export const delTeam = id => request<any>('get', `/admin/delTeam?id=${id}`)
 export const getStaticErr = () =>
   request<{
     quota: ResourcesIF.Quota
-    resourcesList: ResourcesIF.ResourcesList
+    resources_list: ResourcesIF.ResourcesList
   }>('get', '/communal/staticErr')
 
 export const LoadSourceMap = (url: string) => axios.get<any>(url)

@@ -1,28 +1,11 @@
-import React, { DatePicker, Select } from 'antd'
+import React, { DatePicker } from 'antd'
 import moment from 'moment'
 import { FC } from 'react'
-import { useFilterHeaderInit } from '../hook/useFilterHeaderInit'
-const { Option } = Select
+import { useFilterHeaderContext } from '../hook/useFilterHeaderInit'
 const { RangePicker } = DatePicker
 
 const TimeRangPicker: FC = () => {
-  const { timePicker, setTimePicker } = useFilterHeaderInit()
-
-  const onTimeChange = (dates, dateString: [string, string]) => {
-    setTimePicker({
-      ...timePicker,
-      startTime: dateString[0],
-      endTime: dateString[1]
-    })
-  }
-
-  const onTimeGrainChange = (e: string) => {
-    setTimePicker({
-      ...timePicker,
-      timeGrain: e
-    })
-  }
-
+  const { filterHeaderParams, handleTimeChange } = useFilterHeaderContext()
   const disabledDate = current => {
     return current && current >= moment()
   }
@@ -32,22 +15,20 @@ const TimeRangPicker: FC = () => {
       <div className="filter-header-item-label">
         <span>时间范围：</span>
       </div>
-      <Select value={timePicker.timeGrain} style={{ width: 88 }} onChange={onTimeGrainChange}>
-        <Option value="minute">分钟</Option>
-        <Option value="hour">小时</Option>
-        <Option value="day">天</Option>
-      </Select>
       <div className="time-picker-control">
         <RangePicker
           disabledDate={disabledDate}
-          defaultValue={[moment(timePicker.startTime, 'YYYY-MM-DD'), moment(timePicker.endTime, 'YYYY-MM-DD')]}
+          defaultValue={[
+            moment(filterHeaderParams.startTime, 'YYYY-MM-DD'),
+            moment(filterHeaderParams.endTime, 'YYYY-MM-DD')
+          ]}
           ranges={{
             今天: [moment(), moment()],
             昨天: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
             最近七天: [moment().subtract(6, 'days'), moment()],
             近一个月: [moment().subtract(1, 'month'), moment()]
           }}
-          onChange={onTimeChange}
+          onChange={handleTimeChange}
         />
       </div>
     </div>

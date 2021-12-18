@@ -26,9 +26,10 @@ export namespace UserIF {
   }
 
   export interface UserParams {
-    searchDate: string
-    searchHour: string
-    userId?: string
+    startTime: string
+    endTime: string
+    session_id: string
+    uuid: string
   }
 
   export interface UserActionStatistic {

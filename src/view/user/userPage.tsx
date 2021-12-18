@@ -1,61 +1,25 @@
 import { Card, DatePicker, Input, Select, Space, Tag } from 'antd'
 import moment from 'moment'
 import React, { FC, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import FilterHeader from '../../components/filterHeader/filterHeader'
+import { useFilterHeaderContext } from '../../components/filterHeader/hook/useFilterHeaderInit'
 import TableData from '../../components/tableData/tableData'
 import { userInteractor } from '../../core/interactors'
 import { UserIF } from '../../interface'
 import { getTimeYYMMDDHM } from '../../utils'
 import './index.less'
 
-const { Search } = Input
-const { Option } = Select
-
-const timeLine: Array<string> = []
-for (let i = 0; i < 24; i++) {
-  if (i < 10) {
-    timeLine.push(`0${i}:00`)
-  } else {
-    timeLine.push(`${i}:00`)
-  }
-}
-
 const UserPage: FC = () => {
-  const [userLst, setUserList] = useState<UserIF.Users>([])
-  const [userParams, setUserParams] = useState<UserIF.UserParams>({
-    searchDate: moment().format('YYYY-MM-DD'),
-    searchHour: '00:00'
-  })
+  const [users, setUsers] = useState<UserIF.Users>([])
+  const { filterHeaderParams } = useFilterHeaderContext()
 
   useEffect(() => {
     ;(async () => {
-      const data = await userInteractor.geUsers(userParams)
-      setUserList(data)
+      const data = await userInteractor.geUsers(filterHeaderParams)
+      setUsers(data)
     })()
-  }, [])
-
-  const timeChange = (date, dateString: string) => {
-    setUserParams({
-      searchDate: dateString,
-      searchHour: userParams.searchHour
-    })
-  }
-
-  const timeLineChange = (value: string) => {
-    setUserParams({
-      searchDate: userParams.searchDate,
-      searchHour: value
-    })
-  }
-
-  const onSearch = async (value: string) => {
-    const data = await userInteractor.geUsers({
-      searchDate: userParams.searchDate,
-      searchHour: userParams.searchDate,
-      userId: value
-    })
-    setUserList(data)
-  }
+  }, [filterHeaderParams])
 
   const tbDeviceRender = (recode: UserIF.User) => {
     return (
@@ -150,25 +114,9 @@ const UserPage: FC = () => {
   ]
   return (
     <>
-      <Card style={{ textAlign: 'right' }}>
-        <Space>
-          <DatePicker
-            defaultValue={moment(userParams.searchDate, 'YYYY-MM-DD')}
-            onChange={timeChange}
-            style={{ width: 160 }}
-          />
-          <Select defaultValue="00:00" style={{ width: 80 }} onChange={timeLineChange}>
-            {timeLine.map((item, key) => (
-              <Option value={item} key={key}>
-                {item}
-              </Option>
-            ))}
-          </Select>
-          <Search placeholder="user_id" style={{ width: 300 }} onSearch={onSearch} />
-        </Space>
-      </Card>
+      <FilterHeader />
       <Card>
-        <TableData dataSource={userLst} columns={columns} />
+        <TableData dataSource={users} columns={columns} />
       </Card>
     </>
   )

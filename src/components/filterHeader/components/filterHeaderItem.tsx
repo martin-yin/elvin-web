@@ -10,10 +10,6 @@ const FilterHeaderItem: FC<any> = (props: { title: string }) => {
       </div>
       <div className="filter-header-item-content">
         <Input.Group compact>
-          <Select defaultValue="=">
-            <Option value="=">等于</Option>
-            <Option value="!=">不等于</Option>
-          </Select>
           <Select
             className="filter-header-item-content-select"
             mode="multiple"
