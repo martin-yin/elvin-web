@@ -1,15 +1,14 @@
 import { Card, Table, Tag } from 'antd'
 import React, { FC } from 'react'
+import FilterHeader from '../../components/filterHeader/filterHeader'
 import HeaderQuota from '../../components/headerQuota/headerQuota'
-import TimePickerChart from '../../components/timeChartPicker/timePickerChart'
 import { PerformanceChart } from './components/performanceChart'
 import { StackBarChar } from './components/stackBarChar'
 import usePerformanceInit from './hook/usePerformance'
 import './index.less'
 
 const PerformancePage: FC = () => {
-  const { stackConsumes, quota, performanceConsumes, performances, performanceParams, setPerformanceParams } =
-    usePerformanceInit()
+  const { stackConsumes, quota, performanceConsumes, performances } = usePerformanceInit()
 
   const columns = [
     {
@@ -55,14 +54,6 @@ const PerformancePage: FC = () => {
     }
   ]
 
-  const onTimeChange = (dateStrings: Array<string>, time_grain: string) => {
-    setPerformanceParams({
-      start_time: dateStrings[0],
-      end_time: dateStrings[1],
-      time_grain: time_grain
-    })
-  }
-
   const quotaTitleUnitKeys = [
     {
       title: '首字节',
@@ -93,15 +84,10 @@ const PerformancePage: FC = () => {
 
   return (
     <>
+      <FilterHeader />
       <HeaderQuota quotaTitleUnitKeys={quotaTitleUnitKeys} quota={quota} />
       <Card className="consume_time_charts">
-        <TimePickerChart
-          onTimeChange={onTimeChange}
-          startTime={performanceParams.start_time}
-          endTime={performanceParams.end_time}
-        >
-          <PerformanceChart performanceConsumes={performanceConsumes} />
-        </TimePickerChart>
+        <PerformanceChart performanceConsumes={performanceConsumes} />
         <Card>
           <StackBarChar stackConsumes={stackConsumes} />
         </Card>

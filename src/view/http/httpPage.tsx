@@ -1,5 +1,6 @@
 import { Card, Table } from 'antd'
 import React, { FC } from 'react'
+import FilterHeader from '../../components/filterHeader/filterHeader'
 import HeaderQuota from '../../components/headerQuota/headerQuota'
 import { HttpChart } from './components/httpChart'
 import { useHttpInit } from './hook/useHttp'
@@ -7,6 +8,7 @@ import './index.less'
 
 const HttpPage: FC = () => {
   const { quota, httpList, httpConsumes } = useHttpInit()
+
   const columns = [
     {
       title: '请求URL',
@@ -67,6 +69,7 @@ const HttpPage: FC = () => {
 
   return (
     <>
+      <FilterHeader />
       <HeaderQuota quotaTitleUnitKeys={quotaTitleUnitKeys} quota={quota} />
       <Card className="time__pciker_chart_warp">
         <HttpChart httpConsumes={httpConsumes} />

@@ -1,4 +1,4 @@
-import { PerformanceIF } from '../../interface'
+import { FilterHeaderParams } from '../../components/filterHeader/hook/useFilterHeaderInit'
 import { Injectable } from '../decorator'
 import { IPerformanceService, PerformanceService } from '../services/performanceService'
 
@@ -6,11 +6,11 @@ import { IPerformanceService, PerformanceService } from '../services/performance
 export class PerformanceInteractor {
   constructor(private performanceService: IPerformanceService) {}
 
-  async getQuotaData(params: PerformanceIF.PerformanceParams) {
+  async getQuotaData(params: FilterHeaderParams) {
     return await this.performanceService.getQuotaData(params)
   }
 
-  async getPerformanceStack(params: PerformanceIF.PerformanceParams) {
+  async getPerformanceStack(params: FilterHeaderParams) {
     const stack = await this.performanceService.getPerformanceStack(params)
     if (stack) {
       return [
@@ -59,11 +59,11 @@ export class PerformanceInteractor {
     return []
   }
 
-  async getPerformancePages(params: PerformanceIF.PerformanceParams) {
+  async getPerformancePages(params: FilterHeaderParams) {
     return await this.performanceService.getPerformancePages(params)
   }
 
-  async getPerformanceStageTime(params: PerformanceIF.PerformanceParams) {
+  async getPerformanceStageTime(params: FilterHeaderParams) {
     const data = await this.performanceService.getPerformanceStageTime(params)
     if (data) {
       const pv = []

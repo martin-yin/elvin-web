@@ -2,30 +2,30 @@ import moment from 'moment'
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
 
 interface FilterHeaderIF {
-  filterHeaderParams: filterHeaderParamsIF
+  filterHeaderParams: FilterHeaderParams
   handleTimeChange: (dates, dateString: [string, string]) => void
   handleFilterHeaderLabelChange: (label: string, value: string) => void
 }
 
-interface filterHeaderParamsIF {
+export interface FilterHeaderParams {
   startTime: string
   endTime: string
-  session_id: string
-  uuid: string
+  sessionId: string
+  userId: string
 }
 
-const defaultFilterHeaderData: filterHeaderParamsIF = {
+const defaultFilterHeaderData: FilterHeaderParams = {
   startTime: moment().format('YYYY-MM-DD'),
   endTime: moment().format('YYYY-MM-DD'),
-  session_id: '',
-  uuid: ''
+  sessionId: '',
+  userId: ''
 }
 export const FilterHeaderContext = createContext<FilterHeaderIF>({
   filterHeaderParams: {
     startTime: moment().format('YYYY-MM-DD'),
     endTime: moment().format('YYYY-MM-DD'),
-    session_id: '',
-    uuid: ''
+    sessionId: '',
+    userId: ''
   },
   handleTimeChange: (dates, dateString: [string, string]) => {
     throw new Error('FilterHeaderContext not yet initialized.')
@@ -41,7 +41,7 @@ export const useFilterHeaderContext = () => {
 }
 
 export const FilterHeaderProvider = ({ children }) => {
-  const [filterHeaderParams, setFilterHeaderParams] = useState<filterHeaderParamsIF>(defaultFilterHeaderData)
+  const [filterHeaderParams, setFilterHeaderParams] = useState<FilterHeaderParams>(defaultFilterHeaderData)
 
   const handleTimeChange = useCallback((dates, dateString: [string, string]) => {
     setFilterHeaderParams(v => ({ ...v, startTime: dateString[0], endTime: dateString[1] }))

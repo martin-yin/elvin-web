@@ -32,7 +32,7 @@ const UserPage: FC = () => {
       key: 'device',
       render: (text: string, recode: UserIF.User) => {
         return (
-          <Tag color={recode.device === 'Pc' ? '#2db7f5' : recode.device === 'Android' ? '#87d068' : '#f50'}>
+          <Tag color={recode.device_type === 'Pc' ? '#2db7f5' : recode.device === 'Android' ? '#87d068' : '#f50'}>
             {recode.device} / {recode.device_type}
           </Tag>
         )
@@ -43,7 +43,7 @@ const UserPage: FC = () => {
       dataIndex: '操作系统',
       key: 'system',
       render: (text: string, recode: UserIF.User) => {
-        return <Tag color="green">{`${recode.os}:${recode.os_version}`}</Tag>
+        return <Tag color="green">{`${recode.os} ${recode.os_version}`}</Tag>
       }
     },
     {

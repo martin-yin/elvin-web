@@ -9,7 +9,7 @@ const FilterHeader: FC<any> = () => {
     <Card className="filter-header">
       <Space>
         <TimeRangPicker />
-        <FilterHeaderItem title="UUID" />
+        <FilterHeaderItem title="UserId" />
         <FilterHeaderItem title="SessionId" />
       </Space>
     </Card>

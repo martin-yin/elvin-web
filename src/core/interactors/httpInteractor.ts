@@ -1,3 +1,4 @@
+import { FilterHeaderParams } from '../../components/filterHeader/hook/useFilterHeaderInit'
 import { HttpIF } from '../../interface'
 import { Injectable } from '../decorator'
 import { HttpService, IHttpService } from '../services/httpService'
@@ -5,7 +6,7 @@ import { HttpService, IHttpService } from '../services/httpService'
 @Injectable([HttpService])
 export class HttpInteractor {
   constructor(private httpService: IHttpService) {}
-  async getHttpQuota(params: HttpIF.HttpParams): Promise<HttpIF.Quota> {
+  async getHttpQuota(params: FilterHeaderParams): Promise<HttpIF.Quota> {
     const data = await this.httpService.getHttpQuota(params)
     if (data) {
       data.success_rate = ((data.success_total / data.total) * 100).toFixed(2).toString()
@@ -13,17 +14,17 @@ export class HttpInteractor {
     return data
   }
 
-  async getHttps(params: HttpIF.HttpParams): Promise<HttpIF.Https> {
+  async getHttps(params: FilterHeaderParams): Promise<HttpIF.Https> {
     const data = await this.httpService.getHttps(params)
     return data
   }
 
-  async getHttpErrors(params: HttpIF.HttpParams): Promise<HttpIF.Https> {
+  async getHttpErrors(params: FilterHeaderParams): Promise<HttpIF.Https> {
     const data = await this.httpService.getHttpErrors(params)
     return data
   }
 
-  async getHttpStage(params: HttpIF.HttpParams): Promise<HttpIF.HttpConsumes> {
+  async getHttpStage(params: FilterHeaderParams): Promise<HttpIF.HttpConsumes> {
     const data = await this.httpService.getHttpStage(params)
     if (data) {
       const total = []

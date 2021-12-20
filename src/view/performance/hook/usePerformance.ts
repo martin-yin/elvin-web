@@ -1,15 +1,12 @@
-import moment from 'moment'
 import { useEffect, useState } from 'react'
+import { useFilterHeaderContext } from '../../../components/filterHeader/hook/useFilterHeaderInit'
 import { performanceInteractor } from '../../../core/interactors'
 import { PerformanceIF } from '../../../interface'
 
 const usePerformanceInit = () => {
   const [quota, setQuota] = useState<PerformanceIF.PerformanceQuota>()
-  const [performanceParams, setPerformanceParams] = useState<PerformanceIF.PerformanceParams>({
-    time_grain: 'minute',
-    start_time: moment().format('YYYY-MM-DD'),
-    end_time: moment().format('YYYY-MM-DD')
-  })
+  const { filterHeaderParams } = useFilterHeaderContext()
+
   const [stackConsumes, setStackConsumes] = useState<any>([])
   const [performances, setPerformances] = useState<PerformanceIF.Performances>([])
   const [performanceConsumes, setPerformanceConsumes] = useState<{
@@ -30,18 +27,18 @@ const usePerformanceInit = () => {
 
   useEffect(() => {
     ;(async () => {
-      const stackConsumes = await performanceInteractor.getPerformanceStack(performanceParams)
+      const stackConsumes = await performanceInteractor.getPerformanceStack(filterHeaderParams)
       setStackConsumes(stackConsumes)
-      const performanceConsumes = await performanceInteractor.getPerformanceStageTime(performanceParams)
+      const performanceConsumes = await performanceInteractor.getPerformanceStageTime(filterHeaderParams)
       setPerformanceConsumes(performanceConsumes)
-      const quota = await performanceInteractor.getQuotaData(performanceParams)
+      const quota = await performanceInteractor.getQuotaData(filterHeaderParams)
       setQuota(quota)
-      const performances = await performanceInteractor.getPerformancePages(performanceParams)
+      const performances = await performanceInteractor.getPerformancePages(filterHeaderParams)
       setPerformances(performances)
     })()
-  }, [])
+  }, [filterHeaderParams])
 
-  return { quota, stackConsumes, performanceConsumes, performances, performanceParams, setPerformanceParams }
+  return { quota, stackConsumes, performanceConsumes, performances }
 }
 
 export default usePerformanceInit

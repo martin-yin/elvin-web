@@ -28,8 +28,8 @@ export namespace UserIF {
   export interface UserParams {
     startTime: string
     endTime: string
-    session_id: string
-    uuid: string
+    sessionId: string
+    userId: string
   }
 
   export interface UserActionStatistic {

@@ -5,19 +5,22 @@ import { getJsErrors } from '../../request'
 import { Tag, Card, Table, Space } from 'antd'
 import { JsErrIF } from '../../interface/jsErr.interface'
 import { CloseCircleOutlined, ExclamationCircleOutlined, SyncOutlined } from '@ant-design/icons'
+import FilterHeader from '../../components/filterHeader/filterHeader'
+import { useFilterHeaderContext } from '../../components/filterHeader/hook/useFilterHeaderInit'
 
 const JsErrPage: FC = () => {
   const [jsErrs, setJsErrs] = useState<JsErrIF.JsErrs>([])
   const navigate = useNavigate()
+  const { filterHeaderParams } = useFilterHeaderContext()
 
   const initData = useCallback(async () => {
-    const result = await getJsErrors()
+    const result = await getJsErrors(filterHeaderParams)
     setJsErrs(result.data)
-  }, [])
+  }, [filterHeaderParams])
 
   useEffect(() => {
     initData()
-  }, [])
+  }, [filterHeaderParams])
 
   const columns = [
     {
@@ -55,18 +58,14 @@ const JsErrPage: FC = () => {
       )
     },
     {
-      title: '异常次数(今/总)',
+      title: '异常次数(总)',
       key: '',
-      render: (recode: JsErrIF.JsErr) => (
-        <p>
-          {recode.today}/{recode.total}
-        </p>
-      )
+      render: (recode: JsErrIF.JsErr) => <>{recode.total}</>
     },
     {
       title: '影响总数用户',
       key: 'error_user',
-      render: (recode: JsErrIF.JsErr) => <p>{recode.error_user}</p>
+      render: (recode: JsErrIF.JsErr) => <>{recode.error_user}</>
     },
     {
       title: '处理人',
@@ -88,9 +87,12 @@ const JsErrPage: FC = () => {
   ]
 
   return (
-    <Card>
-      <Table dataSource={jsErrs} columns={columns} rowKey="message" />
-    </Card>
+    <>
+      <FilterHeader />
+      <Card>
+        <Table dataSource={jsErrs} columns={columns} rowKey="message" />
+      </Card>
+    </>
   )
 }
 

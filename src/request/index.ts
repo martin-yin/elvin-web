@@ -1,10 +1,11 @@
 import axios from 'axios'
+import { FilterHeaderParams } from '../components/filterHeader/hook/useFilterHeaderInit'
 import { ResourcesIF } from '../interface'
 import { JsErrIF } from '../interface/jsErr.interface'
 
 import { request } from '../utils/request'
 
-export const getJsErrors = () => request<JsErrIF.JsErrs>('get', '/communal/jsErrors')
+export const getJsErrors = (param: FilterHeaderParams) => request<JsErrIF.JsErrs>('get', '/communal/jsErrors', param)
 
 export const getJsError = (param: { issue_id: number; error_id: number }) =>
   request<any>('get', `/communal/jsError`, param)
