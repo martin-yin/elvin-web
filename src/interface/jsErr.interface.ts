@@ -40,6 +40,7 @@ export namespace JsErrIF {
 
   export interface JsErrData {
     error_id: number
+    issue_id: number
     jsErr: JsErr
     visible: boolean
     stackFrames: Array<StackFrame>

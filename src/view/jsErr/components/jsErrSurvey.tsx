@@ -10,13 +10,13 @@ import { JsErrIF } from '../../../interface/jsErr.interface'
 import { useJsErrContext } from '../hook/useJsErrDetail'
 
 const JsErrSurvey = React.memo<{ jsErr: JsErrIF.JsErr }>(({ jsErr }) => {
-  const { handleChangeErrorId } = useJsErrContext()
+  const { handleChangeIssueId } = useJsErrContext()
   const changeIssue = async (id: number) => {
     if (id == 0) {
       message.warn('没有下一个问题了！')
       return
     }
-    handleChangeErrorId(id)
+    handleChangeIssueId(id)
   }
 
   const ErrorChangeButton = () => {

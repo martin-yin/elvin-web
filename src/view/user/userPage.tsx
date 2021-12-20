@@ -1,7 +1,6 @@
-import { Card, DatePicker, Input, Select, Space, Tag } from 'antd'
-import moment from 'moment'
+import { Card, Space, Tag } from 'antd'
 import React, { FC, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import FilterHeader from '../../components/filterHeader/filterHeader'
 import { useFilterHeaderContext } from '../../components/filterHeader/hook/useFilterHeaderInit'
 import TableData from '../../components/tableData/tableData'
@@ -21,34 +20,6 @@ const UserPage: FC = () => {
     })()
   }, [filterHeaderParams])
 
-  const tbDeviceRender = (recode: UserIF.User) => {
-    return (
-      <div>
-        {recode.device_type == 'Pc' ? (
-          <Tag color="#2db7f5">
-            {recode.device}/ {recode.device_type}
-          </Tag>
-        ) : (
-          ''
-        )}
-        {recode.os == 'Android' ? (
-          <Tag color="#87d068">
-            {recode.device}/ {recode.device_type}
-          </Tag>
-        ) : (
-          ''
-        )}
-        {recode.os == 'iOS' ? (
-          <Tag color="#f50">
-            {recode.device}/ {recode.device_type}
-          </Tag>
-        ) : (
-          ''
-        )}
-      </div>
-    )
-  }
-
   const columns = [
     {
       title: 'user_id',
@@ -59,18 +30,20 @@ const UserPage: FC = () => {
       title: '设备',
       dataIndex: 'device',
       key: 'device',
-      render: (text: string, recode: UserIF.User) => tbDeviceRender(recode)
+      render: (text: string, recode: UserIF.User) => {
+        return (
+          <Tag color={recode.device === 'Pc' ? '#2db7f5' : recode.device === 'Android' ? '#87d068' : '#f50'}>
+            {recode.device} / {recode.device_type}
+          </Tag>
+        )
+      }
     },
     {
       title: '操作系统',
       dataIndex: '操作系统',
       key: 'system',
       render: (text: string, recode: UserIF.User) => {
-        return (
-          <div>
-            <Tag color="green">{`${recode.os} ${recode.os_version}`}</Tag>
-          </div>
-        )
+        return <Tag color="green">{`${recode.os}:${recode.os_version}`}</Tag>
       }
     },
     {
@@ -78,7 +51,7 @@ const UserPage: FC = () => {
       dataIndex: 'browser',
       key: 'browser',
       render: (text: string, recode: UserIF.User) => {
-        return <div>{`${recode.browser} ${recode.browser_version}`}</div>
+        return <>{`${recode.browser} ${recode.browser_version}`}</>
       }
     },
     {
@@ -91,7 +64,7 @@ const UserPage: FC = () => {
       dataIndex: '位置',
       key: 'address',
       render: (text: string, recode: UserIF.User) => {
-        return <div>{`${recode.nation}${recode.province}${recode.city}${recode.district}`}</div>
+        return <>{`${recode.nation}${recode.province}${recode.city}${recode.district}`}</>
       }
     },
     {

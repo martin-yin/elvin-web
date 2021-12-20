@@ -1,5 +1,5 @@
 import { Card, Space } from 'antd'
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 import './index.less'
 import TimeRangPicker from './components/timeRangPicker'
 import FilterHeaderItem from './components/filterHeaderItem'

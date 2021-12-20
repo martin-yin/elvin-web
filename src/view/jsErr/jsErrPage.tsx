@@ -49,15 +49,6 @@ const JsErrPage: FC = () => {
     {
       title: '最后出现时间',
       render: (recode: JsErrIF.JsErr) => (
-        // <Tag
-        //   color="#f50"
-        //   icon={
-        //     <>
-        //       <FieldTimeOutlined />
-        //     </>
-        //   }
-        // >
-        // </Tag>
         <Tag icon={<ExclamationCircleOutlined />} color="warning">
           {moment(recode?.last_time).fromNow()}
         </Tag>

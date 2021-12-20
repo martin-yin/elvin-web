@@ -3,13 +3,9 @@ import React from 'react'
 import { CaretRightOutlined } from '@ant-design/icons'
 import { JsErrIF } from '../../../interface/jsErr.interface'
 import StackFrameItem from './stackFrameItem'
-import { useJsErrContext } from '../hook/useJsErrDetail'
 const { Panel } = Collapse
 
-const StackFramesRender = React.memo(() => {
-  const {
-    jsErrData: { stackFrames }
-  } = useJsErrContext()
+const StackFramesRender = React.memo<{ stackFrames: Array<JsErrIF.StackFrame> }>(({ stackFrames }) => {
   return (
     <>
       <h4>Js异常堆栈:</h4>

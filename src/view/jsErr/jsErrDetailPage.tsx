@@ -10,7 +10,7 @@ import './index.less'
 const JsErrDetailPage: FC = () => {
   const JsErrContextRender = () => {
     const {
-      jsErrData: { jsErr, visible }
+      jsErrData: { jsErr, visible, stackFrames }
     } = useJsErrContext()
     return (
       <>
@@ -19,7 +19,7 @@ const JsErrDetailPage: FC = () => {
             <Card>
               <JsErrSurvey jsErr={jsErr} />
               <Divider />
-              <StackFramesRender />
+              <StackFramesRender stackFrames={stackFrames} />
             </Card>
           </Col>
           <Col span={6}>

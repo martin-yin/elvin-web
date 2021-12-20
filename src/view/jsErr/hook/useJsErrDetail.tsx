@@ -7,6 +7,7 @@ import { getJsError } from '../../../request'
 const defaultJsErrData: JsErrIF.JsErrData = {
   jsErr: null,
   error_id: null,
+  issue_id: null,
   visible: false,
   stackFrames: [],
   stackFrame: {
@@ -21,7 +22,7 @@ export interface JsErrProviderState {
   handleOpenSourceMapModal: (item: JsErrIF.StackFrame, index: number) => void
   handleSetOriginSource: (sourceCode: JsErrIF.StackFrame['originSource'], index: number, stackFrames) => void
   handleCloseModal: () => void
-  handleChangeErrorId: (error_id: number) => void
+  handleChangeIssueId: (error_id: number, isssue_id: number) => void
 }
 
 export const JsErrContext = createContext<JsErrProviderState>({
@@ -35,7 +36,7 @@ export const JsErrContext = createContext<JsErrProviderState>({
   handleCloseModal() {
     throw new Error('JsErrContext not yet initialized.')
   },
-  handleChangeErrorId(error_id: number) {
+  handleChangeIssueId(error_id: number, isssue_id: number) {
     throw new Error('JsErrContext not yet initialized.')
   }
 })
@@ -70,10 +71,10 @@ export const JsErrorProvider = ({ children }) => {
     }))
   }, [])
 
-  const handleChangeErrorId = useCallback((error_id: number) => {
+  const handleChangeIssueId = useCallback((issue_id: number) => {
     setJsErrData(value => ({
       ...value,
-      error_id
+      issue_id
     }))
   }, [])
 
@@ -84,10 +85,10 @@ export const JsErrorProvider = ({ children }) => {
     }))
   }, [])
 
-  const initJsErrData = useCallback((error_id: number) => {
+  const initJsErrData = useCallback((error_id: number, issue_id) => {
     ;(async () => {
       const result = await getJsError({
-        issue_id: 0,
+        issue_id,
         error_id
       })
       setJsErrData(value => ({
@@ -100,8 +101,8 @@ export const JsErrorProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    initJsErrData(jsErrData.error_id)
-  }, [jsErrData.error_id])
+    initJsErrData(jsErrData.error_id, jsErrData.issue_id)
+  }, [jsErrData.error_id && jsErrData.issue_id])
 
   const value = useMemo(
     () => ({
@@ -109,9 +110,9 @@ export const JsErrorProvider = ({ children }) => {
       handleSetOriginSource,
       handleOpenSourceMapModal,
       handleCloseModal,
-      handleChangeErrorId
+      handleChangeIssueId
     }),
-    [jsErrData, handleSetOriginSource, handleOpenSourceMapModal, handleCloseModal, handleChangeErrorId]
+    [jsErrData, handleSetOriginSource, handleOpenSourceMapModal, handleCloseModal, handleChangeIssueId]
   )
   return <JsErrContext.Provider value={value}>{children}</JsErrContext.Provider>
 }
