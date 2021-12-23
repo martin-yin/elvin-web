@@ -9,11 +9,6 @@ const HeaderQuota: FC<{
 }> = ({ quotaTitleUnitKeys, quota }) => {
   return (
     <Card className="header-quota">
-      <p className="quota-tips">
-        <Tooltip title="今日数据指标">
-          <InfoCircleFilled style={{ fontSize: '16px', color: '#3399FF' }} />
-        </Tooltip>
-      </p>
       {quota ? (
         <>
           {quotaTitleUnitKeys.map((item: QuotaTitleUnitKey, index: number) => {
@@ -24,9 +19,7 @@ const HeaderQuota: FC<{
             )
           })}
         </>
-      ) : (
-        <> </>
-      )}
+      ) : null}
     </Card>
   )
 }

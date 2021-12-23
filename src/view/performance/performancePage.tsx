@@ -45,7 +45,7 @@ const PerformancePage: FC = () => {
       title: '加载类型',
       dataIndex: 'load_type',
       key: 'load_type',
-      render: (text: string) => <Tag color="#2db7f5">{text}</Tag>
+      render: (text: string) => <Tag color={text === 'reload' ? '#2db7f5' : '#87d068'}>{text}</Tag>
     },
     {
       title: '采样pv',

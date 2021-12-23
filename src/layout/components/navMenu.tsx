@@ -41,7 +41,7 @@ const NavMenu: FC<{
     <Menu>
       <Menu.Item key="user">修改信息</Menu.Item>
       <Menu.Item key="team">
-        <Link to="/dashboard/team">团队管理</Link>
+        <Link to="/system/team">团队管理</Link>
       </Menu.Item>
       <Menu.Item key="login">
         <Link to="/login">退出登录</Link>

@@ -16,10 +16,14 @@ export const RenderRouter: FC = () => {
       element: <LayoutPage />,
       children: [
         {
-          path: 'dashboard',
+          path: '',
+          element: <OutletLayout />,
+          children: [{ path: '', element: <RouteWrapper element={lazy(() => import('../view/home/homePage'))} /> }]
+        },
+        {
+          path: 'system',
           element: <OutletLayout />,
           children: [
-            { path: '', element: <RouteWrapper element={lazy(() => import('../view/home/homePage'))} /> },
             { path: 'project', element: <RouteWrapper element={lazy(() => import('../view/project/projectPage'))} /> },
             { path: 'team', element: <RouteWrapper element={lazy(() => import('../view/team/teamPage'))} /> }
           ]

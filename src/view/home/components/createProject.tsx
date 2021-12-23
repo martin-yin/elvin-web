@@ -62,7 +62,7 @@ const CreateProject: FC<CreateProjectProps> = ({ visible, onClose, onCreate, for
               <Button
                 type="dashed"
                 onClick={() => {
-                  navigate('/dashboard/team')
+                  navigate('/system/team')
                 }}
                 block
                 icon={<PlusOutlined />}

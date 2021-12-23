@@ -44,7 +44,7 @@ const ProjectPage: FC = () => {
   const del = async (id: number | any) => {
     const { code, msg } = await delProject(id)
     if (code == 200) {
-      navigate('/dashboard')
+      navigate('/')
       message.success(msg)
     }
   }

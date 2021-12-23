@@ -39,7 +39,7 @@ const HealthStatusItem: FC<HealthStatusItemProps> = ({ detail }) => {
         <div className="project-title-name flex-grow-1">{detail.project_name}</div>
         <div className="project-title-operation flex-grow-1">
           <Space size={20}>
-            <p onClick={() => projectToUrl('/dashboard/project', detail.monitor_id)}>
+            <p onClick={() => projectToUrl('/system/project', detail.monitor_id)}>
               <Tooltip placement="topLeft" title="修改配置">
                 <EditOutlined style={{ color: '#a3a5b0' }} />
               </Tooltip>

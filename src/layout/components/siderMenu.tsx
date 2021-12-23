@@ -18,7 +18,7 @@ interface MenuItem {
 const menus: Array<MenuItem> = [
   {
     key: '/',
-    path: '/dashboard',
+    path: '/',
     title: '首页',
     icon: <DashboardOutlined />,
     includes: ['project']
